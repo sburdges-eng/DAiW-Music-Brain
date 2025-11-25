@@ -489,7 +489,72 @@ def render_phrase_to_vault(
 
 
 # ==============================================================================
-# 7. CLI HANDLER (The "View" Layer) - Optional
+# 7. LYRIC MIRROR (Cut-up / Markov fragments)
+# ==============================================================================
+
+
+def generate_lyric_mirror(
+    phrase: str,
+    mood: str,
+    corpus_root: str = "./corpora",
+    n: int = 8,
+) -> List[str]:
+    """
+    Generate lyrical fragments from user phrase + mood-matched corpus.
+
+    Maps mood to corpus subdirectory:
+        grief, dissociation, nostalgia, tenderness → "emo"
+        rage, defiance, fear → "industrial"
+        others → "general"
+
+    Args:
+        phrase: The user's emotional text
+        mood: Detected mood/affect (from session)
+        corpus_root: Root directory containing corpus subdirs
+        n: Number of fragments to generate
+
+    Returns:
+        List of lyric-like phrases
+    """
+    from pathlib import Path
+
+    # Import lyrical mirror (optional - degrades gracefully)
+    try:
+        from music_brain.text.lyrical_mirror import generate_lyrical_fragments
+    except ImportError:
+        return []
+
+    mood = (mood or "").lower()
+
+    # Map mood to corpus subdirectory
+    if mood in ["grief", "dissociation", "nostalgia", "tenderness"]:
+        sub = "emo"
+    elif mood in ["rage", "defiance", "fear"]:
+        sub = "industrial"
+    elif mood in ["awe", "wonder"]:
+        sub = "ethereal"
+    else:
+        sub = "general"
+
+    corpus_dir = Path(corpus_root) / sub
+
+    # Gather corpus files if directory exists
+    corpus_paths = []
+    if corpus_dir.exists():
+        corpus_paths = list(corpus_dir.glob("*.txt"))
+
+    # Generate fragments
+    fragments = generate_lyrical_fragments(
+        session_text=phrase,
+        genre_corpus_paths=corpus_paths,
+        max_lines=n,
+    )
+
+    return fragments
+
+
+# ==============================================================================
+# 8. CLI HANDLER (The "View" Layer) - Optional
 # ==============================================================================
 
 

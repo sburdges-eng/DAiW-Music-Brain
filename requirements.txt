@@ -1,6 +1,7 @@
 # Core dependencies
 mido>=1.2.10          # MIDI file I/O
 numpy>=1.21.0         # Numerical operations
+markovify>=0.9.0      # Markov chain text generation (Lyric Mirror)
 
 # Optional audio analysis (install with: pip install daiw[audio])
 # librosa>=0.9.0      # Audio analysis

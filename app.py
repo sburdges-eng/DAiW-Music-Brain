@@ -12,6 +12,7 @@ import streamlit as st
 from music_brain.structure.comprehensive_engine import (
     TherapySession,
     render_plan_to_midi,
+    generate_lyric_mirror,
 )
 
 
@@ -103,6 +104,25 @@ def main() -> None:
                 )
         except OSError:
             st.error("MIDI file could not be read back from disk.")
+
+        # Lyric Mirror: generate fragments based on affect
+        st.markdown("---")
+        st.subheader("Lyric fragments")
+        st.caption("Markov-generated seeds from your words + mood-matched corpus.")
+
+        try:
+            fragments = generate_lyric_mirror(
+                phrase=user_text,
+                mood=affect,
+                n=6,
+            )
+            if fragments:
+                for frag in fragments:
+                    st.markdown(f"> *{frag}*")
+            else:
+                st.info("No corpus found for this mood. Add text files to ./corpora/")
+        except Exception as e:
+            st.warning(f"Lyric mirror unavailable: {e}")
 
 
 if __name__ == "__main__":
