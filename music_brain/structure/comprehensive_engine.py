@@ -17,6 +17,8 @@ import random
 from dataclasses import dataclass
 from typing import List, Dict, Optional
 
+import numpy as np
+
 # ==============================================================================
 # 1. AFFECT ANALYZER (Scored & Ranked)
 # ==============================================================================
@@ -149,24 +151,84 @@ class NoteEvent:
 # 3. TENSION CURVE (Song-Level Energy Shape)
 # ==============================================================================
 
-# Values are velocity multipliers:
-# [Intro, Verse, Chorus, Chorus, Bridge, Outro]
-TENSION_CURVE = [0.6, 0.8, 1.1, 1.1, 1.3, 0.7]
+# Section type → velocity multiplier
+SECTION_ENERGY = {
+    "i": 0.6,   # intro
+    "v": 0.75,  # verse
+    "c": 1.1,   # chorus
+    "b": 1.3,   # bridge (chaos peak)
+    "o": 0.5,   # outro
+}
+
+# Default pattern: intro-verse-verse-chorus-chorus-bridge-outro
+DEFAULT_PATTERN = "ivvccbo"
 
 
-def tension_multiplier(progress: float) -> float:
+def build_tension_curve(length_bars: int, pattern: str = DEFAULT_PATTERN) -> List[float]:
+    """
+    Build a per-bar tension curve with numpy smoothing.
+
+    Args:
+        length_bars: Total bars in the song
+        pattern: Section pattern string where each char maps to SECTION_ENERGY
+                 e.g., "ivvccbo" = intro-verse-verse-chorus-chorus-bridge-outro
+
+    Returns:
+        List of per-bar tension multipliers (smoothed).
+    """
+    if length_bars <= 0:
+        return [1.0]
+
+    pattern = pattern.lower()
+    pattern_len = len(pattern)
+
+    # Assign section energy for each bar
+    sections = []
+    for i in range(length_bars):
+        idx = int((i / length_bars) * pattern_len)
+        idx = min(pattern_len - 1, idx)
+        char = pattern[idx]
+        sections.append(SECTION_ENERGY.get(char, 1.0))
+
+    # Smooth with a 3-bar moving average so transitions aren't brick-step
+    arr = np.array(sections, dtype=float)
+    kernel = np.ones(3) / 3.0
+    smoothed = np.convolve(arr, kernel, mode="same")
+
+    return smoothed.tolist()
+
+
+def tension_multiplier(progress: float, curve: Optional[List[float]] = None) -> float:
     """
     Map 0.0–1.0 song progress to an energy multiplier.
-    Progress is (current_bar / total_bars).
-    """
-    if progress <= 0.0:
-        return TENSION_CURVE[0]
-    if progress >= 1.0:
-        return TENSION_CURVE[-1]
 
-    segment = int(progress * len(TENSION_CURVE))
-    idx = max(0, min(len(TENSION_CURVE) - 1, segment))
-    return TENSION_CURVE[idx]
+    Args:
+        progress: Song position as 0.0-1.0
+        curve: Optional pre-built tension curve. If None, uses default pattern.
+
+    Returns:
+        Energy multiplier for this position.
+    """
+    if curve is None:
+        # Fallback to simple 6-segment curve
+        fallback = [0.6, 0.75, 1.1, 1.1, 1.3, 0.5]
+        if progress <= 0.0:
+            return fallback[0]
+        if progress >= 1.0:
+            return fallback[-1]
+        idx = int(progress * len(fallback))
+        idx = max(0, min(len(fallback) - 1, idx))
+        return fallback[idx]
+
+    # Use provided curve
+    if progress <= 0.0:
+        return curve[0]
+    if progress >= 1.0:
+        return curve[-1]
+
+    idx = int(progress * len(curve))
+    idx = max(0, min(len(curve) - 1, idx))
+    return curve[idx]
 
 
 # ==============================================================================
@@ -392,6 +454,9 @@ def render_plan_to_midi(
     current_bar = 0
     total_bars = plan.length_bars
 
+    # Build per-bar tension curve (numpy-smoothed)
+    tension_curve = build_tension_curve(total_bars)
+
     while current_bar < total_bars:
         for parsed in parsed_chords:
             if current_bar >= total_bars:
@@ -408,10 +473,9 @@ def render_plan_to_midi(
             root_midi = 48 + parsed.root_num  # C3 as base
             duration_ticks = bar_ticks
 
-            # Apply tension curve: shape velocity by song progress
-            progress = current_bar / float(total_bars) if total_bars > 0 else 0.0
-            energy = tension_multiplier(progress)
-            base_vel = int(80 * energy)
+            # Get per-bar tension from pre-built curve
+            t = tension_curve[current_bar] if current_bar < len(tension_curve) else 1.0
+            base_vel = int(90 * t)
             base_vel = max(30, min(120, base_vel))  # Clamp to sane range
 
             for interval in intervals:

@@ -9,10 +9,13 @@ import tempfile
 
 import streamlit as st
 
+import pandas as pd
+
 from music_brain.structure.comprehensive_engine import (
     TherapySession,
     render_plan_to_midi,
     generate_lyric_mirror,
+    build_tension_curve,
 )
 
 
@@ -86,6 +89,21 @@ def main() -> None:
         st.write(f"- Length: **{plan.length_bars} bars**")
         st.write(f"- Progression: `{' - '.join(plan.chord_symbols)}`")
         st.write(f"- Complexity (chaos): `{plan.complexity:.2f}`")
+
+        # Visual dashboard: tension curve + metrics
+        st.markdown("---")
+        st.subheader("Energy over time")
+
+        tension = build_tension_curve(plan.length_bars)
+        st.line_chart(pd.DataFrame({"Tension": tension}), height=150)
+
+        col1, col2, col3 = st.columns(3)
+        with col1:
+            st.metric("Motivation", session.state.motivation_scale)
+        with col2:
+            st.metric("Chaos", f"{session.state.chaos_tolerance:.2f}")
+        with col3:
+            st.metric("Tempo", f"{plan.tempo_bpm} BPM")
 
         with st.spinner("Rendering MIDI..."):
             tmpdir = tempfile.mkdtemp(prefix="daiw_")
