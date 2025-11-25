@@ -16,6 +16,22 @@ NoteEvent is the canonical event structure. Anything outside Python
 import random
 from dataclasses import dataclass
 from typing import List, Dict, Optional
+from enum import Enum
+
+
+# ==============================================================================
+# 0. RULE-BREAKING ENUMS
+# ==============================================================================
+
+
+class ProductionRuleBreak(Enum):
+    """Production rules that can be intentionally broken for emotional effect."""
+    EXCESSIVE_MUD = "PRODUCTION_ExcessiveMud"
+    PITCH_IMPERFECTION = "PRODUCTION_PitchImperfection"
+    BURIED_VOCALS = "PRODUCTION_BuriedVocals"
+    ROOM_NOISE = "PRODUCTION_RoomNoise"
+    DISTORTION = "PRODUCTION_Distortion"
+    MONO_COLLAPSE = "PRODUCTION_MonoCollapse"
 
 # ==============================================================================
 # 1. AFFECT ANALYZER (Scored & Ranked)
@@ -119,6 +135,7 @@ class HarmonyPlan:
     harmonic_rhythm: str      # "1_chord_per_bar"
     mood_profile: str
     complexity: float         # 0.0 - 1.0 (chaos/complexity dial)
+    vulnerability: float = 0.5  # 0.0 - 1.0 (dynamic range/fragility)
     structure_type: str = "standard"  # "standard" | "climb" | "constant"
 
 
@@ -219,10 +236,10 @@ class TherapySession:
 
         return primary
 
-    def set_scales(self, motivation: int, chaos: float) -> None:
+    def set_scales(self, motivation: int, chaos_tolerance: float) -> None:
         """Set numeric dials derived from user answers."""
         self.state.motivation_scale = max(1, min(10, motivation))
-        self.state.chaos_tolerance = max(0.0, min(1.0, chaos))
+        self.state.chaos_tolerance = max(0.0, min(1.0, chaos_tolerance))
 
     def generate_plan(self) -> HarmonyPlan:
         """Factory that builds the HarmonyPlan based on TherapyState."""
@@ -288,6 +305,9 @@ class TherapySession:
         else:
             structure_type = "constant"    # flat loop / mantra
 
+        # 6. Vulnerability (inverse of motivation - lower confidence = higher vulnerability)
+        vulnerability = 1.0 - (self.state.motivation_scale / 10.0)
+
         return HarmonyPlan(
             root_note=root,
             mode=mode,
@@ -298,6 +318,7 @@ class TherapySession:
             harmonic_rhythm="1_chord_per_bar",
             mood_profile=primary,
             complexity=eff_complexity,
+            vulnerability=vulnerability,
             structure_type=structure_type,
         )
 
@@ -498,10 +519,10 @@ def run_cli() -> None:
     try:
         mot = int(input("\n[THERAPIST]: Motivation (1-10)? >> "))
         chaos_in = int(input("[THERAPIST]: Tolerance for Chaos (1-10)? >> "))
-        session.set_scales(mot, chaos_in / 10.0)
+        session.set_scales(motivation=mot, chaos_tolerance=chaos_in / 10.0)
     except ValueError:
         print("[SYSTEM]: Invalid input. Defaulting to safe values.")
-        session.set_scales(5, 0.3)
+        session.set_scales(motivation=5, chaos_tolerance=0.3)
 
     # 5. Strategy Injection
     if session.state.chaos_tolerance > 0.6:
