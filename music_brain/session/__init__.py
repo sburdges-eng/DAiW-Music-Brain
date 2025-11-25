@@ -1,13 +1,10 @@
 """
-Session - Song generation, teaching modules, and interactive tools.
+Session - Intent schema and teaching modules.
 
-Interactive teaching for music theory and production concepts.
-Interrogation-first songwriting assistance.
 Intent-based generation with rule-breaking support.
 """
 
 from music_brain.session.teaching import RuleBreakingTeacher
-from music_brain.session.interrogator import SongInterrogator
 from music_brain.session.intent_schema import (
     CompleteSongIntent,
     SongRoot,
@@ -32,8 +29,6 @@ from music_brain.session.intent_schema import (
 __all__ = [
     # Teaching
     "RuleBreakingTeacher",
-    # Interrogation
-    "SongInterrogator",
     # Intent Schema
     "CompleteSongIntent",
     "SongRoot",

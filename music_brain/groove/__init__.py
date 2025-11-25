@@ -1,17 +1,9 @@
 """
-Groove extraction and application module.
+Groove module - Drunken Drummer humanization engine.
 
-Extract timing/velocity patterns from MIDI files and apply them to other tracks.
-
-Includes:
-- GrooveTemplate extraction from existing MIDI
-- Genre-based groove templates
-- "Drunken Drummer" humanization engine for emotionally-driven processing
+Provides emotionally-driven MIDI humanization.
 """
 
-from music_brain.groove.extractor import extract_groove, GrooveTemplate
-from music_brain.groove.applicator import apply_groove, humanize
-from music_brain.groove.templates import get_genre_template, GENRE_TEMPLATES
 from music_brain.groove.groove_engine import (
     humanize_drums,
     humanize_midi_file,
@@ -22,27 +14,24 @@ from music_brain.groove.groove_engine import (
     list_presets,
     get_preset,
     settings_from_preset,
+    apply_groove,
 )
+from music_brain.groove.templates import get_genre_template, GENRE_TEMPLATES
 
 __all__ = [
-    # Extraction
-    "extract_groove",
-    "GrooveTemplate",
-    # Application
-    "apply_groove",
-    "humanize",
-    # Genre templates
-    "get_genre_template",
-    "GENRE_TEMPLATES",
     # Drunken Drummer humanization
     "humanize_drums",
     "humanize_midi_file",
     "GrooveSettings",
     "settings_from_intent",
     "quick_humanize",
+    "apply_groove",
     # Preset management
     "load_presets",
     "list_presets",
     "get_preset",
     "settings_from_preset",
+    # Genre templates
+    "get_genre_template",
+    "GENRE_TEMPLATES",
 ]
