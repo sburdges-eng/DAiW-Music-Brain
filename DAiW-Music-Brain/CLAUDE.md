@@ -270,6 +270,37 @@ Tests are organized by feature area:
 
 Run tests before committing any changes.
 
+## Development Workflow
+
+### Standard Cycle (Python)
+
+```
+Change code → Run tests → Run application
+```
+
+```bash
+# 1. Make changes to code
+# 2. Run tests
+pytest tests/ -v
+
+# 3. Run/verify application
+daiw <command>
+```
+
+### Standard Cycle (C++)
+
+```
+Change code → Run tests → Run application
+```
+
+```bash
+# 1. Make changes to code
+# 2. Build and run tests
+# 3. Run application
+```
+
+**Always follow this cycle when making changes.** Tests must pass before committing.
+
 ## Important Files
 
 | File | Purpose |
@@ -315,6 +346,16 @@ The `structure/` module is planned for integration with a **Comprehensive Engine
 - Session-aware progression recommendations
 - Integration between `structure/` analysis and `session/` intent system
 
+**Architecture Changes In Progress:**
+- **Affect → Mode mapping** — Refining emotional-to-musical-mode translations
+- **HarmonyPlan structure** — Restructuring harmony generation output
+- **New engines being added:**
+  - Groove engines (rhythm generation from feel)
+  - Tension curves (dynamic tension over time)
+  - Section markers (structural annotation)
+  - Lyric mirror (text-to-music alignment)
+  - Reference analysis (learn from existing tracks)
+
 **Integration Points:**
 - `structure/progression.py` → emotional diagnosis hooks
 - `structure/chord.py` → mood-based chord suggestions
@@ -324,6 +365,7 @@ The `structure/` module is planned for integration with a **Comprehensive Engine
 - Keep APIs stable for future Comprehensive Engine integration
 - Consider emotional context when adding chord analysis features
 - Document any therapy/wellness-related use cases discovered
+- Expect HarmonyPlan dataclass changes — keep dependent code loosely coupled
 
 ### Module Consolidation (Considered)
 
