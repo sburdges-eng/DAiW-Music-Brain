@@ -24,9 +24,11 @@ wheels/
 .installed.cfg
 *.egg
 
-# PyInstaller
+# PyInstaller (auto-generated files)
 *.manifest
-*.spec
+# Note: daiw.spec is tracked - it's our custom build config
+# Only ignore other auto-generated spec files
+*.auto.spec
 
 # Installer logs
 pip-log.txt
