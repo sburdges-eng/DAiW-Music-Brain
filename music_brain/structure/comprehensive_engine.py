@@ -297,13 +297,23 @@ class TherapySession:
 # ==============================================================================
 
 
-def render_plan_to_midi(plan: HarmonyPlan, output_path: str) -> str:
+def render_plan_to_midi(
+    plan: HarmonyPlan,
+    output_path: str,
+    vulnerability: float = 0.5
+) -> str:
     """
     Render a HarmonyPlan to a MIDI file using existing music_brain components:
 
     - music_brain.structure.progression.parse_progression_string
     - music_brain.structure.chord.CHORD_QUALITIES
     - music_brain.daw.logic.LogicProject, LOGIC_CHANNELS (if present)
+    - music_brain.groove.engine.apply_groove (V2 humanization)
+
+    Args:
+        plan: HarmonyPlan with chord symbols, tempo, length, complexity
+        output_path: Where to write the MIDI file
+        vulnerability: 0.0-1.0 controls dynamic range (fragility)
 
     Returns: path to the written MIDI file (or the intended path if degraded).
     """
@@ -317,6 +327,13 @@ def render_plan_to_midi(plan: HarmonyPlan, output_path: str) -> str:
         print(f"[SYSTEM]: MIDI bridge unavailable: {exc}")
         print(f"          Chords would have been: {plan.chord_symbols}")
         return output_path
+
+    # Import V2 groove engine (optional - degrades gracefully)
+    try:
+        from music_brain.groove.engine import apply_groove
+        groove_available = True
+    except ImportError:
+        groove_available = False
 
     # 1. Build LogicProject
     ts_nums = plan.time_signature.split("/")
@@ -367,10 +384,6 @@ def render_plan_to_midi(plan: HarmonyPlan, output_path: str) -> str:
             root_midi = 48 + parsed.root_num  # C3 as base
             duration_ticks = bar_ticks
 
-            # FUTURE GROOVE LAYER HOOK:
-            # Here we would modify start_tick and/or per-note offsets based on
-            # plan.complexity and any additional groove parameters.
-
             for interval in intervals:
                 note_events.append(
                     NoteEvent(
@@ -384,13 +397,22 @@ def render_plan_to_midi(plan: HarmonyPlan, output_path: str) -> str:
             start_tick += duration_ticks
             current_bar += 1
 
-    # 4. Add track & export
+    # 4. Convert to dicts for groove processing
+    notes_dicts = [ne.to_dict() for ne in note_events]
+
+    # 5. Apply V2 groove humanization
+    if groove_available:
+        notes_dicts = apply_groove(
+            notes_dicts,
+            complexity=plan.complexity,
+            vulnerability=vulnerability,
+        )
+
+    # 6. Add track & export
     try:
         channel = LOGIC_CHANNELS.get("keys", 2)
     except Exception:
         channel = 2
-
-    notes_dicts = [ne.to_dict() for ne in note_events]
 
     project.add_track(
         name="Harmony",
