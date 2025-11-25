@@ -7,6 +7,7 @@ Includes:
 - GrooveTemplate extraction from existing MIDI
 - Genre-based groove templates
 - "Drunken Drummer" humanization engine for emotionally-driven processing
+- Simple groove engine for note-level humanization
 """
 
 from music_brain.groove.extractor import extract_groove, GrooveTemplate
@@ -23,6 +24,8 @@ from music_brain.groove.groove_engine import (
     get_preset,
     settings_from_preset,
 )
+# Simple groove engine (core algorithm)
+from music_brain.groove.engine import apply_groove as apply_groove_simple
 
 __all__ = [
     # Extraction
@@ -34,7 +37,7 @@ __all__ = [
     # Genre templates
     "get_genre_template",
     "GENRE_TEMPLATES",
-    # Drunken Drummer humanization
+    # Drunken Drummer humanization (advanced)
     "humanize_drums",
     "humanize_midi_file",
     "GrooveSettings",
@@ -45,4 +48,6 @@ __all__ = [
     "list_presets",
     "get_preset",
     "settings_from_preset",
+    # Simple groove engine
+    "apply_groove_simple",
 ]

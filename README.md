@@ -19,10 +19,12 @@ This project is in **active development**. The current architecture centers on t
 |-----------|-------------|----------|
 | **TherapySession** | Affect analysis → mode/tempo/chord generation | `structure/comprehensive_engine.py` |
 | **HarmonyPlan** | Blueprint for generation (root, mode, tempo, bars, chords) | `structure/comprehensive_engine.py` |
-| **Groove Engine v2** | Drunken Drummer humanization (timing jitter, velocity shaping) | `groove/groove_engine.py` |
+| **Groove Engine** | Drunken Drummer humanization (Gaussian jitter, velocity shaping) | `groove/engine.py` |
+| **Groove Engine v2** | Advanced humanization with per-drum handling and presets | `groove/groove_engine.py` |
 | **Tension Curves** | Bar-wise dynamic tension multipliers | `structure/tension_curve.py` |
 | **LogicProject** | MIDI export with proper delta time calculation | `daw/logic.py` |
-| **Lyrical Mirror** | Markov/cut-up lyric fragment generation | `text/lyrical_mirror.py` |
+| **Lyric Mirror** | Markov/cut-up lyric fragment generation | `lyrics/engine.py` |
+| **Audio Refinery** | Sample processing (Industrial/Glitch, Tape Rot pipelines) | `audio_refinery.py` |
 | **Desktop App** | Streamlit UI + native window via pywebview | `app.py`, `launcher.py` |
 
 ### Partial / Legacy
@@ -349,6 +351,7 @@ DAiW-Music-Brain/
 ├── music_brain/              # Python package
 │   ├── __init__.py           # Public API exports (v0.3.0)
 │   ├── cli.py                # CLI entry point
+│   ├── audio_refinery.py     # Audio Refinery (Industrial/Tape Rot)
 │   │
 │   ├── structure/            # Core engine
 │   │   ├── comprehensive_engine.py  # TherapySession, HarmonyPlan
@@ -358,16 +361,20 @@ DAiW-Music-Brain/
 │   │   └── sections.py              # Section detection (partial)
 │   │
 │   ├── groove/               # Groove/humanization
-│   │   ├── groove_engine.py         # Drunken Drummer (v2)
+│   │   ├── engine.py                # Drunken Drummer (simple)
+│   │   ├── groove_engine.py         # Drunken Drummer (v2 advanced)
 │   │   ├── extractor.py             # Legacy template extraction
 │   │   ├── applicator.py            # Legacy template application
 │   │   └── templates.py             # Genre templates
 │   │
+│   ├── lyrics/               # Lyric generation
+│   │   └── engine.py                # Lyric Mirror (Markov/cut-up)
+│   │
 │   ├── daw/                  # DAW integration
 │   │   └── logic.py                 # LogicProject, MIDI export
 │   │
-│   ├── text/                 # Text/lyric processing
-│   │   └── lyrical_mirror.py        # Markov/cut-up fragments
+│   ├── text/                 # Legacy text processing
+│   │   └── lyrical_mirror.py        # (older implementation)
 │   │
 │   ├── audio/                # Audio analysis (requires librosa)
 │   │   ├── feel.py                  # Feel analysis
@@ -385,6 +392,7 @@ DAiW-Music-Brain/
 │   │   └── ppq.py
 │   │
 │   └── data/                 # JSON/YAML data files
+│       └── corpus/           # Lyric corpus for Markov generation
 │
 ├── vault/                    # Knowledge base (Obsidian-compatible)
 │
