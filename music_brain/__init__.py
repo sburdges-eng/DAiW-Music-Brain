@@ -29,6 +29,25 @@ from music_brain.structure.comprehensive_engine import (
 from music_brain.groove_engine import apply_groove as apply_groove_events
 from music_brain.text.lyrical_mirror import generate_lyrical_fragments
 
+# Configuration and exceptions
+from music_brain.config import (
+    get_audio_vault_path,
+    get_seed,
+    set_seeds,
+    GrooveConfig,
+    TensionConfig,
+    TherapyConfig,
+    MidiConfig,
+)
+from music_brain.exceptions import (
+    DAiWError,
+    GrooveEngineError,
+    StructureError,
+    TherapyError,
+    MidiError,
+    AudioVaultError,
+)
+
 __all__ = [
     # Groove (file-based)
     "extract_groove",
@@ -50,4 +69,19 @@ __all__ = [
     "render_plan_to_midi",
     # Text/Lyrical
     "generate_lyrical_fragments",
+    # Configuration
+    "get_audio_vault_path",
+    "get_seed",
+    "set_seeds",
+    "GrooveConfig",
+    "TensionConfig",
+    "TherapyConfig",
+    "MidiConfig",
+    # Exceptions
+    "DAiWError",
+    "GrooveEngineError",
+    "StructureError",
+    "TherapyError",
+    "MidiError",
+    "AudioVaultError",
 ]
