@@ -303,6 +303,34 @@ Run tests before committing any changes.
 2. Update `structure/progression.py` for diagnosis
 3. Add test cases to `tests/test_basic.py`
 
+## Future Integration / Rewrite Plans
+
+### Comprehensive Engine (Planned)
+
+The `structure/` module is planned for integration with a **Comprehensive Engine** for therapy-based music generation. This will bridge harmonic analysis with emotional/therapeutic workflows.
+
+**Planned Features:**
+- Therapy-based music generation workflows
+- Emotional mapping to harmonic structures
+- Session-aware progression recommendations
+- Integration between `structure/` analysis and `session/` intent system
+
+**Integration Points:**
+- `structure/progression.py` → emotional diagnosis hooks
+- `structure/chord.py` → mood-based chord suggestions
+- `session/intent_processor.py` → harmonic generation from emotional intent
+
+**When Working on Structure Module:**
+- Keep APIs stable for future Comprehensive Engine integration
+- Consider emotional context when adding chord analysis features
+- Document any therapy/wellness-related use cases discovered
+
+### Module Consolidation (Considered)
+
+Future refactoring may consolidate:
+- `session/` + `structure/` for unified emotion-to-harmony pipeline
+- `groove/` + `audio/` for comprehensive feel analysis
+
 ## Notes for AI Assistants
 
 1. **Respect the philosophy:** This tool is about making musicians braver, not replacing creativity
@@ -312,3 +340,4 @@ Run tests before committing any changes.
 5. **Follow Black formatting:** 100 char line limit
 6. **Data-driven design:** Large datasets go in `data/` as JSON/YAML
 7. **Document changes:** Update docstrings and vault documentation as needed
+8. **Future-proof structure/:** Keep Comprehensive Engine integration in mind
