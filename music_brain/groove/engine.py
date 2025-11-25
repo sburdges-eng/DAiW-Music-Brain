@@ -1,58 +1,68 @@
 # music_brain/groove/engine.py
+"""
+Groove Engine V2
+================
+Applies Gaussian jitter + velocity shaping to make MIDI feel human.
+"""
+
 import random
 from typing import List, Dict
 
-# Safety Constants (Logic Pro PPQ is usually 960; we use 480 baseline)
-SAFE_DRIFT_LIMIT = 40
+# Safety Constants (Logic Pro PPQ is usually 960, we run 480 here)
+SAFE_DRIFT_LIMIT = 40  # max ticks timing drift
 VELOCITY_MIN = 20
 VELOCITY_MAX = 120
 
 
-def apply_groove(notes: List[Dict], complexity: float, vulnerability: float) -> List[Dict]:
+def apply_groove(
+    notes: List[Dict],
+    complexity: float,
+    vulnerability: float,
+) -> List[Dict]:
     """
     Applies 'Humanization' via Gaussian jitter and probability masks.
 
     Args:
         notes: List of dicts
             {
-                "pitch": int,
-                "velocity": int,
-                "start_tick": int,
-                "duration_ticks": int
+                'pitch': int,
+                'velocity': int,
+                'start_tick': int,
+                'duration_ticks': int
             }
         complexity (0.0 - 1.0): Controls timing looseness and dropped notes (Chaos).
-        vulnerability (0.0 - 1.0): Controls dynamic range (Fragility).
+        vulnerability (0.0 - 1.0): Controls dynamic range and 'shyness' (Fragility).
     """
+    complexity = max(0.0, min(1.0, float(complexity)))
+    vulnerability = max(0.0, min(1.0, float(vulnerability)))
+
     processed_events: List[Dict] = []
 
-    # Timing Sigma: How 'drunk' is the drummer?
-    timing_sigma = max(0.0, min(1.0, complexity)) * 20.0
+    # Timing sigma: 0 → rigid, 1 → quite loose
+    timing_sigma = complexity * 20.0
 
-    # Velocity Base: Vulnerable = quiet/shy; Confident = loud
-    base_velocity = 90.0 - (max(0.0, min(1.0, vulnerability)) * 30.0)
+    # Base velocity: vulnerable → quieter
+    base_velocity = 90.0 - (vulnerability * 30.0)  # 90 → 60
 
-    # Velocity Variance: Vulnerable = erratic; Confident = consistent
+    # Velocity variability: vulnerable → more erratic
     vel_sigma = 5.0 + (vulnerability * 15.0)
 
     for note in notes:
-        # 1. CHAOS: Dropped Notes (Probability)
+        # Dropped notes at high chaos
         if complexity > 0.8 and random.random() > 0.8:
-            # Drop ~20% of notes at max chaos
             continue
 
-        # 2. Timing Jitter (Gaussian)
+        # Timing jitter
         if timing_sigma > 0:
-            jitter = int(random.gauss(0, timing_sigma))
+            jitter = int(random.gauss(0.0, timing_sigma))
             jitter = max(-SAFE_DRIFT_LIMIT, min(SAFE_DRIFT_LIMIT, jitter))
         else:
             jitter = 0
+        new_start = max(0, int(note["start_tick"]) + jitter)
 
-        new_start = max(0, int(note.get("start_tick", 0)) + jitter)
-
-        # 3. Velocity Humanization
-        current_vel = note.get("velocity", int(base_velocity))
-        target_vel = (current_vel + base_velocity) / 2.0
-
+        # Velocity humanization
+        current_vel = note.get("velocity", base_velocity)
+        target_vel = (float(current_vel) + base_velocity) / 2.0
         new_vel = int(random.gauss(target_vel, vel_sigma))
         new_vel = max(VELOCITY_MIN, min(VELOCITY_MAX, new_vel))
 

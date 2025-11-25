@@ -1,14 +1,20 @@
-# music_brain/daw/logic.py
 """
 Logic Pro Project Abstraction
+=============================
+
+Minimal MIDI project wrapper used by DAiW to export structured MIDI
+that imports cleanly into Logic / any DAW.
 """
+
 from dataclasses import dataclass, field
 from typing import List, Dict, Optional, Tuple
 import mido
 
+# Channel recommendations (0-based)
 LOGIC_CHANNELS = {
     "keys": 0,
     "bass": 1,
+    "pads": 2,
     "drums": 9,
 }
 
@@ -22,31 +28,41 @@ class LogicProject:
     tracks: List[Dict] = field(default_factory=list)
     key: str = "C Major"
 
-    def add_track(self, name: str, channel: int, instrument: Optional[str], notes: List[Dict]):
+    def add_track(
+        self,
+        name: str,
+        channel: int,
+        instrument: Optional[str],
+        notes: List[Dict],
+    ) -> None:
         """
-        Adds a track with notes.
+        Adds a track with note events (absolute tick times).
 
-        notes: list of dicts:
+        notes format:
             {
-                "pitch": int,
-                "velocity": int,
-                "start_tick": int,
-                "duration_ticks": int
+                'pitch': int (0-127),
+                'velocity': int (0-127),
+                'start_tick': int,
+                'duration_ticks': int
             }
         """
         self.tracks.append(
             {
                 "name": name,
-                "channel": int(channel),
+                "channel": channel,
                 "instrument": instrument,
                 "notes": notes,
             }
         )
 
     def export_midi(self, output_path: str) -> str:
+        """
+        Writes a type-1 MIDI file with tempo / time signature meta track
+        and one track per logical instrument.
+        """
         mid = mido.MidiFile(ticks_per_beat=self.ppq)
 
-        # Meta track
+        # Tempo / Time signature track
         meta_track = mido.MidiTrack()
         mid.tracks.append(meta_track)
 
@@ -60,38 +76,45 @@ class LogicProject:
                 time=0,
             )
         )
-        meta_track.append(mido.MetaMessage("track_name", name=self.name, time=0))
+        meta_track.append(
+            mido.MetaMessage("key_signature", key=self.key.lower(), time=0)
+        )
 
         # Instrument tracks
         for track_data in self.tracks:
             track = mido.MidiTrack()
             mid.tracks.append(track)
-            track.append(mido.MetaMessage("track_name", name=track_data["name"], time=0))
+            track.append(
+                mido.MetaMessage(
+                    "track_name",
+                    name=track_data["name"],
+                    time=0,
+                )
+            )
 
-            events = []
+            events: List[Dict] = []
             for note in track_data["notes"]:
-                start = int(note["start_tick"])
-                end = int(note["start_tick"] + note["duration_ticks"])
                 pitch = int(note["pitch"])
                 vel = max(0, min(127, int(note["velocity"])))
-                ch = int(track_data["channel"])
+                start = int(note["start_tick"])
+                end = start + int(note["duration_ticks"])
 
                 events.append(
                     {
                         "type": "note_on",
-                        "time": start,
                         "note": pitch,
                         "velocity": vel,
-                        "channel": ch,
+                        "time": start,
+                        "channel": track_data["channel"],
                     }
                 )
                 events.append(
                     {
                         "type": "note_off",
-                        "time": end,
                         "note": pitch,
                         "velocity": 0,
-                        "channel": ch,
+                        "time": end,
+                        "channel": track_data["channel"],
                     }
                 )
 

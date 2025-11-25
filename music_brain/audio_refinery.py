@@ -1,17 +1,17 @@
-# music_brain/audio_refinery.py
 """
 DAiW Audio Refinery
 ===================
-Batch processor to transform raw samples into the C2 Industrial Palette.
-Uses 'audiomentations' to apply stochastic DSP chains (glitch, distort, tape).
+Batch processor to transform raw samples into the C2 Industrial / LoFi palette.
 
-Usage:
-    python music_brain/audio_refinery.py
+Usage (from repo root):
+    python -m music_brain.audio_refinery
 """
 
 import os
-import numpy as np
+from typing import Optional
+
 import librosa
+import numpy as np
 import soundfile as sf
 from audiomentations import (
     Compose,
@@ -30,7 +30,7 @@ INPUT_DIR = "./audio_vault/raw"
 OUTPUT_DIR = "./audio_vault/refined"
 SAMPLE_RATE = 44100
 
-# Pipeline A: Cleaner (bass / foundation)
+# Pipelines
 pipe_clean = Compose(
     [
         Trim(top_db=20, p=1.0),
@@ -38,18 +38,18 @@ pipe_clean = Compose(
     ]
 )
 
-# Pipeline B: Industrial / Rage
 pipe_industrial = Compose(
     [
         Trim(top_db=20, p=1.0),
         Resample(min_sample_rate=8000, max_sample_rate=22050, p=0.5),
-        ClippingDistortion(min_percentile_threshold=0, max_percentile_threshold=20, p=0.8),
+        ClippingDistortion(
+            min_percentile_threshold=0, max_percentile_threshold=20, p=0.8
+        ),
         HighPassFilter(min_cutoff_freq=200, max_cutoff_freq=800, p=1.0),
         Normalize(p=1.0),
     ]
 )
 
-# Pipeline C: Rotting Tape (pads / textures)
 pipe_tape_rot = Compose(
     [
         Trim(top_db=30, p=1.0),
@@ -70,45 +70,74 @@ PIPELINE_MAP = {
 }
 
 
-def process_file(file_path: str, output_path: str, pipeline: Compose) -> None:
-    """Loads, processes, and saves a single audio file."""
+def _process_file(file_path: str, output_path: str, pipeline: Compose) -> None:
     try:
         y, _ = librosa.load(file_path, sr=SAMPLE_RATE, mono=True)
-        y_processed = pipeline(samples=y, sample_rate=SAMPLE_RATE)
-
+        y_proc = pipeline(samples=y, sample_rate=SAMPLE_RATE)
         os.makedirs(os.path.dirname(output_path), exist_ok=True)
-        sf.write(output_path, y_processed, SAMPLE_RATE)
+        sf.write(output_path, y_proc, SAMPLE_RATE)
         print(f"  [OK] {os.path.basename(file_path)}")
-    except Exception as exc:
-        print(f"  [ERR] Failed {file_path}: {exc}")
+    except Exception as e:
+        print(f"  [ERR] {file_path}: {e}")
 
 
-def run_refinery():
-    print("DAiW Audio Refinery")
+def refine_folder(
+    input_dir: str,
+    output_dir: str,
+    pipeline: Optional[Compose] = None,
+) -> None:
+    """
+    Generic folder → folder refinement with a specific pipeline.
+    """
+    if pipeline is None:
+        pipeline = pipe_clean
+
+    if not os.path.exists(input_dir):
+        print(f"❌ Input directory not found: {input_dir}")
+        return
+
+    for root, _, files in os.walk(input_dir):
+        for filename in files:
+            if not filename.lower().endswith((".wav", ".aiff", ".flac", ".mp3")):
+                continue
+
+            in_path = os.path.join(root, filename)
+            rel_path = os.path.relpath(in_path, input_dir)
+            out_path = os.path.join(output_dir, rel_path)
+            out_path = os.path.splitext(out_path)[0] + ".wav"
+
+            _process_file(in_path, out_path, pipeline)
+
+
+def run_refinery() -> None:
+    print("🏭 DAiW Audio Refinery")
     print(f"   Input : {INPUT_DIR}")
     print(f"   Output: {OUTPUT_DIR}")
 
     if not os.path.exists(INPUT_DIR):
-        print(f"Input directory not found: {INPUT_DIR}")
-        print("   Create it and drop your raw samples in subfolders.")
+        print(f"❌ Input directory not found: {INPUT_DIR}")
+        print("   Create it and dump your raw samples there.")
         return
 
     for root, _, files in os.walk(INPUT_DIR):
+        if not files:
+            continue
+
+        category = os.path.basename(root)
+        pipeline = PIPELINE_MAP.get(category, PIPELINE_MAP["default"])
+
         for filename in files:
-            if not filename.lower().endswith((".wav", ".mp3", ".aiff", ".flac")):
+            if not filename.lower().endswith((".wav", ".aiff", ".flac", ".mp3")):
                 continue
 
-            category = os.path.basename(root)
-            pipeline = PIPELINE_MAP.get(category, PIPELINE_MAP["default"])
+            in_path = os.path.join(root, filename)
+            rel_path = os.path.relpath(in_path, INPUT_DIR)
+            out_path = os.path.join(OUTPUT_DIR, rel_path)
+            out_path = os.path.splitext(out_path)[0] + ".wav"
 
-            input_path = os.path.join(root, filename)
-            rel_path = os.path.relpath(input_path, INPUT_DIR)
-            output_path = os.path.join(OUTPUT_DIR, rel_path)
-            output_path = os.path.splitext(output_path)[0] + ".wav"
+            _process_file(in_path, out_path, pipeline)
 
-            process_file(input_path, output_path, pipeline)
-
-    print("\nRefinery complete. Use 'refined' folder inside your DAW sampler.")
+    print("✅ Refinery complete. Use 'refined' folder in your sampler.")
 
 
 if __name__ == "__main__":
