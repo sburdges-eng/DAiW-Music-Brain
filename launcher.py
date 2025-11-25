@@ -1,10 +1,4 @@
 # launcher.py
-"""
-DAiW Native Desktop Launcher
-
-pywebview wrapper that makes the Streamlit app feel like a real desktop application.
-Handles server lifecycle and provides a native window without browser chrome.
-"""
 import os
 import sys
 import time
@@ -12,6 +6,8 @@ import socket
 import subprocess
 import urllib.request
 from contextlib import closing
+
+import webview
 
 APP_TITLE = "DAiW - Digital Audio Intimate Workstation"
 STREAMLIT_SCRIPT = "app.py"
@@ -72,22 +68,11 @@ def wait_for_server(url: str, timeout: int = 15) -> bool:
 
 
 def start_webview(url: str) -> None:
-    """Starts the native window."""
-    try:
-        import webview
-    except ImportError:
-        print("pywebview not installed. Install with: pip install pywebview")
-        print(f"Falling back to browser. Open: {url}")
-        import webbrowser
-        webbrowser.open(url)
-        input("Press Enter to stop the server...")
-        return
-
     webview.create_window(APP_TITLE, url, width=1000, height=800, resizable=True)
     webview.start()
 
 
-def main() -> None:
+def main():
     port = find_free_port()
     url = f"http://localhost:{port}"
 

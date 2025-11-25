@@ -1,25 +1,32 @@
-"""
-DAiW Comprehensive Engine
-=========================
-Integrates the Therapist (Phase 0/1), Constraints (Phase 2), and
-Direct MIDI Generation (Phase 3) into a single production pipeline.
-
-Logic Flow:
-1. TherapySession processes text -> AffectResult
-2. TherapySession generates HarmonyPlan (with mode/tempo/chords)
-3. render_plan_to_midi() converts Plan -> MIDI using music_brain.daw.logic
-
-NoteEvent is the canonical event structure. Anything outside Python
-(C++ plugin, OSC bridge) should speak in terms of NoteEvent fields.
-"""
-
+# music_brain/structure/comprehensive_engine.py
 import random
-from dataclasses import dataclass
-from typing import List, Dict, Optional
+from dataclasses import dataclass, field
+from typing import List, Dict, Optional, Any
 
-# ==============================================================================
-# 1. AFFECT ANALYZER (Scored & Ranked)
-# ==============================================================================
+from music_brain.daw.logic import LogicProject, LOGIC_CHANNELS
+from music_brain.groove.engine import apply_groove
+from music_brain.structure.tension import generate_tension_curve
+
+try:
+    from music_brain.structure.progression import parse_progression_string
+except ImportError:
+    # Fallback stub if progression parser isn't wired yet
+    def parse_progression_string(_: str):
+        return []
+
+
+try:
+    from music_brain.structure.chord import CHORD_QUALITIES
+except ImportError:
+    CHORD_QUALITIES = {
+        "maj": (0, 4, 7),
+        "min": (0, 3, 7),
+        "dim": (0, 3, 6),
+        "aug": (0, 4, 8),
+        "maj7": (0, 4, 7, 11),
+        "min7": (0, 3, 7, 10),
+        "7": (0, 4, 7, 10),
+    }
 
 
 @dataclass
@@ -27,227 +34,127 @@ class AffectResult:
     primary: str
     secondary: Optional[str]
     scores: Dict[str, float]
-    intensity: float  # 0.0 to 1.0
-
-
-class AffectAnalyzer:
-    """
-    Analyzes text for emotional content using weighted keywords.
-    Exposes raw scores for tie-breaking and nuance.
-    """
-
-    KEYWORDS = {
-        "grief": {"loss", "gone", "miss", "dead", "died", "funeral", "mourning", "never again", "empty"},
-        "rage": {"angry", "furious", "hate", "betrayed", "unfair", "revenge", "burn", "fight", "destroy"},
-        "awe": {"wonder", "beautiful", "infinite", "god", "universe", "transcend", "light", "vast"},
-        "nostalgia": {"remember", "used to", "childhood", "back when", "old days", "memory", "home"},
-        "fear": {"scared", "terrified", "panic", "can't breathe", "trapped", "anxious", "dread"},
-        "dissociation": {"numb", "nothing", "floating", "unreal", "detached", "fog", "grey", "wall"},
-        "defiance": {"won't", "refuse", "stand", "strong", "break", "free", "my own", "no more"},
-        "tenderness": {"soft", "gentle", "hold", "love", "kind", "care", "fragile", "warm"},
-        "confusion": {"why", "lost", "don't know", "spinning", "chaos", "strange", "question"},
-    }
-
-    def analyze(self, text: str) -> AffectResult:
-        if not text:
-            return AffectResult("neutral", None, {}, 0.0)
-
-        text = text.lower()
-        scores: Dict[str, float] = {k: 0.0 for k in self.KEYWORDS}
-
-        for affect, words in self.KEYWORDS.items():
-            for word in words:
-                if word in text:
-                    scores[affect] += 1.0
-
-        # Sort affects by score descending
-        sorted_affects = sorted(scores.items(), key=lambda x: x[1], reverse=True)
-
-        primary = sorted_affects[0][0] if sorted_affects[0][1] > 0 else "neutral"
-        secondary = (
-            sorted_affects[1][0]
-            if len(sorted_affects) > 1 and sorted_affects[1][1] > 0
-            else None
-        )
-
-        # Calculate intensity (simple saturation at 3 keywords)
-        intensity = min(1.0, sorted_affects[0][1] / 3.0) if sorted_affects[0][1] > 0 else 0.0
-
-        return AffectResult(
-            primary=primary,
-            secondary=secondary,
-            scores=scores,
-            intensity=intensity,
-        )
-
-
-# ==============================================================================
-# 2. DATA MODELS (Source of Truth)
-# ==============================================================================
+    intensity: float
 
 
 @dataclass
 class TherapyState:
-    """Single Source of Truth for the session state."""
-
-    # Narrative
     core_wound_name: str = ""
-    narrative_entity_name: str = ""
-
-    # Quantifiable
-    motivation_scale: int = 5        # 1-10
-    chaos_tolerance: float = 0.3     # 0.0 to 1.0
-
-    # Inferred
+    motivation_scale: int = 5
+    chaos_tolerance: float = 0.3
     affect_result: Optional[AffectResult] = None
     suggested_mode: str = "ionian"
 
 
 @dataclass
 class HarmonyPlan:
-    """
-    Complete blueprint for generation.
-    This is what a "brain" outputs and a renderer consumes.
-    """
-
-    root_note: str           # "C", "F#"
-    mode: str                # "ionian", "aeolian", "phrygian", etc.
+    root_note: str
+    mode: str
     tempo_bpm: int
-    time_signature: str      # "4/4"
+    time_signature: str
     length_bars: int
-    chord_symbols: List[str]  # ["Cm7", "Fm9"]
-    harmonic_rhythm: str      # "1_chord_per_bar"
+    chord_symbols: List[str]
+    harmonic_rhythm: str
     mood_profile: str
-    complexity: float         # 0.0 - 1.0 (chaos/complexity dial)
+    complexity: float
+    structure_type: str = "standard"
 
 
-@dataclass
-class NoteEvent:
-    """
-    Canonical note representation.
+class AffectAnalyzer:
+    KEYWORDS = {
+        "grief": {"loss", "gone", "miss", "dead", "died", "funeral", "empty", "heavy"},
+        "rage": {"angry", "furious", "hate", "betrayed", "burn", "fight", "destroy", "violent"},
+        "awe": {"wonder", "beautiful", "infinite", "god", "universe", "light", "vast"},
+        "nostalgia": {"remember", "used to", "childhood", "old days", "memory", "home"},
+        "fear": {"scared", "terrified", "panic", "trapped", "anxious", "dread", "dark"},
+        "dissociation": {"numb", "nothing", "floating", "unreal", "detached", "fog", "wall"},
+        "defiance": {"won't", "refuse", "stand", "strong", "break", "free", "no more"},
+        "confusion": {"why", "lost", "spinning", "chaos", "strange", "question"},
+    }
 
-    This is the API surface for anything that needs to talk to DAiW
-    at the MIDI layer (e.g. future C++ plugin, OSC bridge).
-    """
+    def analyze(self, text: str) -> AffectResult:
+        if not text:
+            return AffectResult("neutral", None, {}, 0.0)
 
-    pitch: int           # MIDI note number
-    velocity: int        # 0-127
-    start_tick: int      # position in ticks
-    duration_ticks: int  # length in ticks
+        lowered = text.lower()
+        scores = {k: 0.0 for k in self.KEYWORDS}
 
-    def to_dict(self) -> Dict[str, int]:
-        """Convert to the dict format used by LogicProject/add_track."""
-        return {
-            "pitch": self.pitch,
-            "velocity": self.velocity,
-            "start_tick": self.start_tick,
-            "duration_ticks": self.duration_ticks,
-        }
+        for affect, words in self.KEYWORDS.items():
+            for word in words:
+                if word in lowered:
+                    scores[affect] += 1.0
 
+        sorted_affects = sorted(scores.items(), key=lambda x: x[1], reverse=True)
+        top_affect, top_score = sorted_affects[0]
 
-# ==============================================================================
-# 3. OBLIQUE STRATEGIES (Tiered)
-# ==============================================================================
+        if top_score <= 0:
+            primary = "neutral"
+            secondary = None
+            intensity = 0.0
+        else:
+            primary = top_affect
+            secondary = sorted_affects[1][0] if len(sorted_affects) > 1 and sorted_affects[1][1] > 0 else None
+            intensity = min(1.0, top_score / 3.0)
 
-STRATEGIES_MILD = [
-    "Remove specifics and convert to ambiguities.",
-    "Work at a different speed.",
-    "Use fewer notes.",
-    "Repetition is a form of change.",
-    "What would your closest friend do?",
-]
-
-STRATEGIES_WILD = [
-    "Honor thy error as a hidden intention.",
-    "Use an unacceptable color.",
-    "Make a sudden, destructive unpredictable action.",
-    "Turn it upside down.",
-    "Disconnect from desire.",
-    "Abandon normal instruments.",
-]
-
-
-def get_strategy(tolerance: float) -> str:
-    """Selects a strategy based on chaos tolerance."""
-    if tolerance < 0.3:
-        return "Trust in the you of now."  # Safety strategy
-    elif tolerance < 0.7:
-        return random.choice(STRATEGIES_MILD)
-    else:
-        deck = STRATEGIES_MILD + (STRATEGIES_WILD * 2)
-        return random.choice(deck)
-
-
-# ==============================================================================
-# 4. THERAPY SESSION (Pure Logic)
-# ==============================================================================
+        return AffectResult(primary=primary, secondary=secondary, scores=scores, intensity=intensity)
 
 
 class TherapySession:
-    def __init__(self) -> None:
+    AFFECT_TO_MODE = {
+        "awe": "lydian",
+        "nostalgia": "dorian",
+        "rage": "phrygian",
+        "fear": "phrygian",
+        "dissociation": "locrian",
+        "grief": "aeolian",
+        "defiance": "mixolydian",
+        "confusion": "locrian",
+        "neutral": "ionian",
+    }
+
+    def __init__(self):
         self.state = TherapyState()
         self.analyzer = AffectAnalyzer()
-        self.AFFECT_TO_MODE: Dict[str, str] = {
-            "awe": "lydian",
-            "nostalgia": "dorian",
-            "rage": "phrygian",
-            "fear": "phrygian",
-            "dissociation": "locrian",
-            "grief": "aeolian",
-            "defiance": "mixolydian",
-            "tenderness": "ionian",
-            "confusion": "locrian",
-            "neutral": "ionian",
-        }
 
     def process_core_input(self, text: str) -> str:
         """Ingest the wound, analyze affect."""
         if not text.strip():
-            # Edge case handling: Empty input returns neutral state.
-            # "silence" is returned to caller to indicate lack of text,
-            # but internal state is safely set to Neutral/Ionian.
+            # Edge case: "silence" → neutral/ionian, but caller knows it's empty
             self.state.affect_result = AffectResult("neutral", None, {}, 0.0)
             self.state.suggested_mode = "ionian"
+            self.state.core_wound_name = ""
             return "silence"
 
         self.state.core_wound_name = text
-        self.state.affect_result = self.analyzer.analyze(text)
+        result = self.analyzer.analyze(text)
+        self.state.affect_result = result
+        self.state.suggested_mode = self.AFFECT_TO_MODE.get(result.primary, "ionian")
+        return result.primary
 
-        primary = self.state.affect_result.primary
-        self.state.suggested_mode = self.AFFECT_TO_MODE.get(primary, "ionian")
-
-        return primary
-
-    def set_scales(self, motivation: int, chaos: float) -> None:
-        """Set numeric dials derived from user answers."""
-        self.state.motivation_scale = max(1, min(10, motivation))
-        self.state.chaos_tolerance = max(0.0, min(1.0, chaos))
+    def set_scales(self, motivation: int, chaos: float):
+        self.state.motivation_scale = max(1, min(10, int(motivation)))
+        self.state.chaos_tolerance = max(0.0, min(1.0, float(chaos)))
 
     def generate_plan(self) -> HarmonyPlan:
-        """Factory that builds the HarmonyPlan based on TherapyState."""
+        """Builds HarmonyPlan based on current TherapyState."""
 
-        # Safety Guard
         if self.state.affect_result is None:
             self.state.affect_result = AffectResult("neutral", None, {}, 0.0)
 
         primary = self.state.affect_result.primary
 
-        # 1. Tempo Logic (Affect + Chaos)
+        # 1. Tempo Logic
         base_tempo = 100
         if primary in ["rage", "fear", "defiance"]:
             base_tempo = 130
         elif primary in ["grief", "dissociation"]:
             base_tempo = 70
-        elif primary in ["awe"]:
+        elif primary == "awe":
             base_tempo = 90
 
-        # Chaos modulates tempo (+/- 20bpm based on tolerance)
-        final_tempo = base_tempo + int((self.state.chaos_tolerance * 40) - 20)
+        final_tempo = base_tempo + int((self.state.chaos_tolerance * 40.0) - 20.0)
 
-        # 2. Length Logic (Derived from Motivation)
-        # Low motivation (1-3)  -> 16 bars (Quick sketch)
-        # Mid motivation (4-7)  -> 32 bars (Standard idea)
-        # High motivation (8-10) -> 64 bars (Full structure)
+        # 2. Length Logic (Motivation → bars)
         if self.state.motivation_scale <= 3:
             length = 16
         elif self.state.motivation_scale <= 7:
@@ -260,9 +167,9 @@ class TherapySession:
         if self.state.motivation_scale > 8:
             eff_complexity = min(1.0, eff_complexity + 0.1)
 
-        # 4. Chord Selection Logic (Placeholder for full graph traversal)
-        root = "C"
+        # 4. Chords by mode (placeholder mapping)
         mode = self.state.suggested_mode
+        root = "C"
 
         if mode == "locrian":
             chords = ["Cdim", "DbMaj7", "Ebm", "Cdim"]
@@ -276,8 +183,16 @@ class TherapySession:
             chords = ["Cm", "Ab", "Fm", "Cm"]
         elif mode == "dorian":
             chords = ["Cm", "F", "Gm", "Cm"]
-        else:  # Ionian/Neutral
+        else:
             chords = ["C", "Am", "F", "G"]
+
+        # 5. Structure type mapping
+        if primary in ["grief", "dissociation"]:
+            structure_type = "climb"
+        elif primary in ["rage", "defiance"]:
+            structure_type = "standard"
+        else:
+            structure_type = "constant"
 
         return HarmonyPlan(
             root_note=root,
@@ -289,182 +204,111 @@ class TherapySession:
             harmonic_rhythm="1_chord_per_bar",
             mood_profile=primary,
             complexity=eff_complexity,
+            structure_type=structure_type,
         )
 
 
-# ==============================================================================
-# 5. HARMONY -> MIDI BRIDGE (REAL INTEGRATION)
-# ==============================================================================
-
-
-def render_plan_to_midi(plan: HarmonyPlan, output_path: str) -> str:
+def render_plan_to_midi(plan: HarmonyPlan, output_path: str, vulnerability: float = 0.0) -> str:
     """
-    Render a HarmonyPlan to a MIDI file using existing music_brain components:
-
-    - music_brain.structure.progression.parse_progression_string
-    - music_brain.structure.chord.CHORD_QUALITIES
-    - music_brain.daw.logic.LogicProject, LOGIC_CHANNELS (if present)
-
-    Returns: path to the written MIDI file (or the intended path if degraded).
+    Plan -> chord parse -> raw notes (with bar-level tension) -> groove -> MIDI.
     """
-
-    try:
-        from music_brain.structure.progression import parse_progression_string
-        from music_brain.structure.chord import CHORD_QUALITIES
-        from music_brain.daw.logic import LogicProject, LOGIC_CHANNELS
-    except ImportError as exc:
-        # Degrade gracefully: no MIDI engine available
-        print(f"[SYSTEM]: MIDI bridge unavailable: {exc}")
-        print(f"          Chords would have been: {plan.chord_symbols}")
-        return output_path
-
-    # 1. Build LogicProject
-    ts_nums = plan.time_signature.split("/")
-    if len(ts_nums) != 2:
-        time_sig = (4, 4)
-    else:
-        try:
-            time_sig = (int(ts_nums[0]), int(ts_nums[1]))
-        except ValueError:
-            time_sig = (4, 4)
-
-    project = LogicProject(
-        name="DAiW_Session",
-        tempo_bpm=plan.tempo_bpm,
-        time_signature=time_sig,
-    )
+    project = LogicProject(name="DAiW_Session", tempo_bpm=plan.tempo_bpm, time_signature=(4, 4))
     project.key = f"{plan.root_note} {plan.mode}"
 
-    # 2. Parse chords using progression.py
+    # Parse chords
     progression_str = "-".join(plan.chord_symbols)
     parsed_chords = parse_progression_string(progression_str)
+    if not parsed_chords:
+        print("[DAIW] Chord parser returned empty. Aborting render.")
+        return output_path
 
-    # 3. Build NoteEvents from ParsedChord + CHORD_QUALITIES
     ppq = getattr(project, "ppq", 480)
-    beats_per_bar = time_sig[0]
-    bar_ticks = int(beats_per_bar * ppq)
-
-    note_events: List[NoteEvent] = []
-
-    # naive: one chord per bar, LOOPED to fill song length
-    start_tick = 0
-    current_bar = 0
+    bar_ticks = 4 * ppq
     total_bars = plan.length_bars
 
+    # Tension map
+    structure_type = getattr(plan, "structure_type", "standard")
+    tension_map = generate_tension_curve(total_bars, structure_type=structure_type)
+
+    raw_notes: List[Dict[str, int]] = []
+    current_bar = 0
+    start_tick = 0
+    base_complexity = plan.complexity
+
     while current_bar < total_bars:
+        idx = min(current_bar, len(tension_map) - 1)
+        tension_mult = float(tension_map[idx])
+
+        bar_base_velocity = 90.0 * tension_mult
+        bar_complexity = max(0.0, min(1.0, base_complexity * tension_mult))
+
         for parsed in parsed_chords:
             if current_bar >= total_bars:
                 break
 
-            quality = parsed.quality
+            quality = getattr(parsed, "quality", "maj")
             intervals = CHORD_QUALITIES.get(quality)
 
-            # degrade gracefully if quality isn't in the map
             if intervals is None:
                 base_quality = "min" if "m" in quality else "maj"
                 intervals = CHORD_QUALITIES.get(base_quality, (0, 4, 7))
 
-            root_midi = 48 + parsed.root_num  # C3 as base
+            root_midi = 48 + getattr(parsed, "root_num", 0)
             duration_ticks = bar_ticks
 
-            # FUTURE GROOVE LAYER HOOK:
-            # Here we would modify start_tick and/or per-note offsets based on
-            # plan.complexity and any additional groove parameters.
-
             for interval in intervals:
-                note_events.append(
-                    NoteEvent(
-                        pitch=root_midi + interval,
-                        velocity=80,
-                        start_tick=start_tick,
-                        duration_ticks=duration_ticks,
-                    )
+                vel = int(random.gauss(bar_base_velocity, 5.0))
+                vel = max(20, min(120, vel))
+                raw_notes.append(
+                    {
+                        "pitch": root_midi + interval,
+                        "velocity": vel,
+                        "start_tick": start_tick,
+                        "duration_ticks": duration_ticks,
+                    }
                 )
 
             start_tick += duration_ticks
             current_bar += 1
 
-    # 4. Add track & export
-    try:
-        channel = LOGIC_CHANNELS.get("keys", 2)
-    except Exception:
-        channel = 2
-
-    notes_dicts = [ne.to_dict() for ne in note_events]
-
-    project.add_track(
-        name="Harmony",
-        channel=channel,
-        instrument=None,
-        notes=notes_dicts,
+    humanized_notes = apply_groove(
+        raw_notes,
+        complexity=base_complexity,
+        vulnerability=vulnerability,
     )
 
+    channel = LOGIC_CHANNELS.get("keys", 0)
+    project.add_track(name="Harmony", channel=channel, instrument=None, notes=humanized_notes)
     midi_path = project.export_midi(output_path)
-    print(f"[SYSTEM]: MIDI written to {midi_path}")
+    print(f"[DAIW] MIDI written to {midi_path}")
     return midi_path
 
 
-# ==============================================================================
-# 6. CLI HANDLER (The "View" Layer) - Optional
-# ==============================================================================
-
-
-def run_cli() -> None:
-    """Simple terminal interface for debugging and quick use."""
+def run_cli():
     session = TherapySession()
-    print("--- DAiW THERAPY TERMINAL ---")
+    print("\n--- DAiW: Core Engine ---")
+    txt = input("What is hurting you? > ").strip()
 
-    # 1. Input Loop
-    while True:
-        text = input("[THERAPIST]: What is hurting you? >> ").strip()
-        if text:
-            break
-        print("[THERAPIST]: Silence is an answer, but I need words to build structure.")
+    mood = session.process_core_input(txt)
+    print(f"Detected mood: {mood} (mode: {session.state.suggested_mode})")
 
-    # 2. Process
-    affect = session.process_core_input(text)
-
-    # 3. Reflect (Mirroring)
-    if session.state.affect_result:
-        print(
-            f"\n[ANALYSIS]: Detected affect '{affect}' "
-            f"with intensity {session.state.affect_result.intensity:.2f}"
-        )
-        if session.state.affect_result.secondary:
-            print(
-                f"[ANALYSIS]: Underlying undertone: "
-                f"'{session.state.affect_result.secondary}'"
-            )
-
-    # 4. Scaling
     try:
-        mot = int(input("\n[THERAPIST]: Motivation (1-10)? >> "))
-        chaos_in = int(input("[THERAPIST]: Tolerance for Chaos (1-10)? >> "))
-        session.set_scales(mot, chaos_in / 10.0)
+        mot = int(input("Motivation (1-10)? > "))
+        chaos = int(input("Chaos (1-10)? > "))
     except ValueError:
-        print("[SYSTEM]: Invalid input. Defaulting to safe values.")
-        session.set_scales(5, 0.3)
+        print("Bad numeric input. Exiting.")
+        return
 
-    # 5. Strategy Injection
-    if session.state.chaos_tolerance > 0.6:
-        strat = get_strategy(session.state.chaos_tolerance)
-        print(f"\n[OBLIQUE STRATEGY]: {strat}")
-
-    # 6. Plan Generation
+    session.set_scales(motivation=mot, chaos=chaos / 10.0)
     plan = session.generate_plan()
+    print(
+        f"Plan → {plan.length_bars} bars, {plan.tempo_bpm} BPM, "
+        f"mode {plan.mode}, structure {plan.structure_type}"
+    )
 
-    # 7. Summary
-    print("\n" + "=" * 40)
-    print("GENERATION DIRECTIVE")
-    print("=" * 40)
-    print(f"Target Mode: {plan.root_note} {plan.mode}")
-    print(f"Tempo: {plan.tempo_bpm} BPM")
-    print(f"Length: {plan.length_bars} bars")
-    print(f"Progression: {' - '.join(plan.chord_symbols)}")
-
-    # 8. MIDI Export
-    output_path = "daiw_therapy_session.mid"
-    render_plan_to_midi(plan, output_path)
+    out = "daiw_output.mid"
+    render_plan_to_midi(plan, out, vulnerability=0.5)
+    print(f"Done. MIDI: {out}")
 
 
 if __name__ == "__main__":
