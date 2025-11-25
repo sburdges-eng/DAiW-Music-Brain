@@ -40,6 +40,9 @@ audio = [
 theory = [
     "music21>=7.0.0",
 ]
+lyrics = [
+    "markovify>=0.9.0",
+]
 dev = [
     "pytest>=7.0.0",
     "black>=22.0.0",
@@ -65,8 +68,10 @@ all = [
     "librosa>=0.9.0",
     "soundfile>=0.10.0",
     "music21>=7.0.0",
+    "markovify>=0.9.0",
     "streamlit>=1.28.0",
     "pywebview>=4.0.0",
+    "pandas>=1.3.0",
 ]
 
 [project.scripts]

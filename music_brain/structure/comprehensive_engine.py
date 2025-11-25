@@ -8,16 +8,58 @@ Logic Flow:
 1. TherapySession processes text -> AffectResult
 2. TherapySession generates HarmonyPlan (with mode/tempo/chords)
 3. render_plan_to_midi() converts Plan -> MIDI using music_brain.daw.logic
+4. render_phrase_to_vault() provides high-level API for full generation
 
 NoteEvent is the canonical event structure. Anything outside Python
 (C++ plugin, OSC bridge) should speak in terms of NoteEvent fields.
 """
 
+import re
 import random
+from pathlib import Path
 from dataclasses import dataclass
-from typing import List, Dict, Optional
+from typing import List, Dict, Optional, Tuple
 
 from music_brain.structure.tension import generate_tension_curve
+
+
+# ==============================================================================
+# OUTPUT DIRECTORY
+# ==============================================================================
+
+OUTPUT_DIR = Path.home() / "Music" / "AudioVault" / "output"
+
+
+# ==============================================================================
+# HELPER FUNCTIONS
+# ==============================================================================
+
+
+def slugify(text: str) -> str:
+    """Convert text to a safe filename."""
+    text = text.lower().strip()
+    text = re.sub(r"[^a-z0-9]+", "_", text)
+    return text.strip("_") or "untitled"
+
+
+def select_kit_for_mood(mood: str) -> str:
+    """
+    Select an appropriate kit based on detected mood.
+
+    Args:
+        mood: Primary affect from therapy session
+
+    Returns:
+        Kit name string
+    """
+    if mood in ["grief", "dissociation", "nostalgia"]:
+        return "LoFi_Bedroom_Kit"
+    elif mood in ["rage", "defiance", "fear"]:
+        return "Industrial_Glitch_Kit"
+    elif mood in ["awe", "tenderness"]:
+        return "Ambient_Drift_Kit"
+    else:
+        return "Standard_Kit"
 
 # ==============================================================================
 # 1. AFFECT ANALYZER (Scored & Ranked)
@@ -512,6 +554,91 @@ def run_cli() -> None:
     # 8. MIDI Export
     output_path = "daiw_therapy_session.mid"
     render_plan_to_midi(plan, output_path)
+
+
+# ==============================================================================
+# 7. HIGH-LEVEL API (render_phrase_to_vault)
+# ==============================================================================
+
+
+def render_phrase_to_vault(
+    phrase: str,
+    session: Optional[TherapySession] = None,
+    vulnerability: float = 0.5,
+    motivation: int = 5,
+    chaos: float = 0.5,
+) -> Tuple[str, str, HarmonyPlan, List[Dict]]:
+    """
+    High-level API to render emotional phrase directly to MIDI in the vault.
+
+    This combines:
+    1. Therapy session processing
+    2. Structure generation
+    3. MIDI rendering to AudioVault/output/
+
+    Args:
+        phrase: Emotional input text ("I feel broken")
+        session: Optional existing TherapySession (creates new if None)
+        vulnerability: Humanization factor 0.0-1.0
+        motivation: Motivation scale 1-10 (affects length)
+        chaos: Chaos tolerance 0.0-1.0 (affects complexity)
+
+    Returns:
+        Tuple of:
+        - path: Path to generated MIDI file
+        - kit: Recommended kit name
+        - plan: HarmonyPlan used for generation
+        - structure_map: Bar-by-bar structure parameters
+    """
+    # Import structure engine here to avoid circular imports
+    try:
+        from music_brain.structure.structure_engine import StructuralArchitect
+        HAS_ARCHITECT = True
+    except ImportError:
+        HAS_ARCHITECT = False
+
+    # Create or use session
+    if session is None:
+        session = TherapySession()
+
+    # Set scales if provided
+    session.set_scales(motivation, chaos)
+
+    # Process the phrase
+    session.process_core_input(phrase)
+
+    # Generate plan
+    plan = session.generate_plan()
+
+    # Select kit based on mood
+    kit = select_kit_for_mood(plan.mood_profile)
+
+    # Ensure output directory exists
+    OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
+
+    # Generate output path
+    output_path = str(OUTPUT_DIR / f"{slugify(phrase)}.mid")
+
+    # Generate structure map if architect available
+    structure_map: List[Dict] = []
+    if HAS_ARCHITECT:
+        architect = StructuralArchitect(plan.tempo_bpm)
+        # Select form based on mode/mood
+        if plan.mode in ["phrygian", "locrian"]:
+            form = "electronic_build"
+        elif plan.mode in ["aeolian", "dorian"]:
+            form = "ballad"
+        elif plan.mood_profile in ["rage", "defiance"]:
+            form = "punk_assault"
+        else:
+            form = "pop_standard"
+
+        structure_map = architect.generate_map(form, total_bars=plan.length_bars)
+
+    # Render to MIDI (uses existing render_plan_to_midi with tension curves)
+    midi_path = render_plan_to_midi(plan, output_path, vulnerability)
+
+    return midi_path, kit, plan, structure_map
 
 
 if __name__ == "__main__":

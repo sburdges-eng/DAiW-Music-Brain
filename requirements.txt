@@ -5,12 +5,18 @@ numpy>=1.21.0         # Numerical operations
 # Optional audio analysis (install with: pip install daiw[audio])
 # librosa>=0.9.0      # Audio analysis
 # soundfile>=0.10.0   # Audio file I/O
+# scipy>=1.7.0        # Signal processing
+# audiomentations>=0.30.0  # Audio augmentation
 
 # Optional music theory (install with: pip install daiw[theory])
 # music21>=7.0.0      # Advanced music theory
 
+# Optional lyrics generation (install with: pip install daiw[lyrics])
+# markovify>=0.9.0    # Markov chain text generation
+
 # Desktop UI dependencies (install with: pip install daiw[ui])
 # streamlit>=1.28.0   # Web UI framework
+# pandas>=1.3.0       # Data visualization
 
 # Native desktop app (install with: pip install daiw[desktop])
 # streamlit>=1.28.0   # Web UI framework
@@ -21,5 +27,7 @@ numpy>=1.21.0         # Numerical operations
 
 # Development dependencies (install with: pip install daiw[dev])
 # pytest>=7.0.0
+# pytest-mock>=3.0.0
 # black>=22.0.0
 # flake8>=4.0.0
+# mypy>=0.900
