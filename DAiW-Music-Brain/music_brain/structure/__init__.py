@@ -5,6 +5,11 @@ Analyze harmonic content, detect song sections, and work with
 chord progressions for reharmonization and diagnosis.
 
 Includes the Comprehensive Engine for therapy-based music generation.
+
+TODO: Future integration planned for:
+- Therapy-based music generation workflows
+- Emotional mapping to harmonic structures
+- Session-aware progression recommendations
 """
 
 from music_brain.structure.chord import (

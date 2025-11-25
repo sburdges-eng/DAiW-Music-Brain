@@ -8,9 +8,14 @@ Analyzes:
 - Dynamic range
 """
 
+from __future__ import annotations
+
 from dataclasses import dataclass, field
-from typing import List, Dict, Optional, Tuple
+from typing import List, Dict, Optional, Tuple, TYPE_CHECKING
 from pathlib import Path
+
+if TYPE_CHECKING:
+    import numpy as np
 
 # Optional imports for audio processing
 try:
