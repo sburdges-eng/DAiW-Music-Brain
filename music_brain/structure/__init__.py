@@ -1,15 +1,8 @@
 """
-Structure Analysis - Chord, section, and progression analysis.
+Structure Analysis - Chord, section, progression analysis, and comprehensive engine.
 
-Analyze harmonic content, detect song sections, and work with
-chord progressions for reharmonization and diagnosis.
-
-Includes the Comprehensive Engine for therapy-based music generation.
-
-TODO: Future integration planned for:
-- Therapy-based music generation workflows
-- Emotional mapping to harmonic structures
-- Session-aware progression recommendations
+Analyze harmonic content, detect song sections, work with
+chord progressions, and run the therapy-to-music pipeline.
 """
 
 from music_brain.structure.chord import (
@@ -29,16 +22,20 @@ from music_brain.structure.progression import (
     parse_progression_string,
 )
 from music_brain.structure.comprehensive_engine import (
-    # Core classes
-    AffectResult,
     AffectAnalyzer,
+    AffectResult,
+    TherapySession,
     TherapyState,
     HarmonyPlan,
-    TherapySession,
-    # Functions
-    get_strategy,
     render_plan_to_midi,
-    run_cli as run_therapy_cli,
+    run_cli,
+)
+from music_brain.structure.tension_curve import (
+    apply_tension_curve,
+    get_tension_curve,
+    list_tension_curves,
+    generate_curve_for_bars,
+    TENSION_CURVES,
 )
 
 __all__ = [
@@ -55,13 +52,18 @@ __all__ = [
     "diagnose_progression",
     "generate_reharmonizations",
     "parse_progression_string",
-    # Comprehensive Engine (Therapy)
-    "AffectResult",
+    # Comprehensive engine
     "AffectAnalyzer",
+    "AffectResult",
+    "TherapySession",
     "TherapyState",
     "HarmonyPlan",
-    "TherapySession",
-    "get_strategy",
     "render_plan_to_midi",
-    "run_therapy_cli",
+    "run_cli",
+    # Tension curves
+    "apply_tension_curve",
+    "get_tension_curve",
+    "list_tension_curves",
+    "generate_curve_for_bars",
+    "TENSION_CURVES",
 ]

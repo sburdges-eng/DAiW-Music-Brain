@@ -1,0 +1,373 @@
+# =================================================================
+# DAiW SONG INTENT SCHEMA
+# =================================================================
+# A structured approach to deep song interrogation.
+# Phases 0-2 progressively refine emotional intent into 
+# technical implementation.
+#
+# Philosophy: "Interrogate Before Generate"
+# =================================================================
+
+# ------------------------------------------------------------------
+# SCHEMA DEFINITIONS
+# ------------------------------------------------------------------
+
+schema_version: "1.0.0"
+schema_name: "DAiW Song Intent Schema"
+
+# ------------------------------------------------------------------
+# ENUM DEFINITIONS
+# ------------------------------------------------------------------
+
+enums:
+  
+  # Mood/Emotion Primaries
+  mood_primary_options:
+    - "Grief"
+    - "Joy"
+    - "Nervousness"
+    - "Defiance"
+    - "Liberation"
+    - "Longing"
+    - "Rage"
+    - "Acceptance"
+    - "Nostalgia"
+    - "Dissociation"
+    - "Triumphant Hope"
+    - "Bittersweet"
+    - "Melancholy"
+    - "Euphoria"
+    - "Desperation"
+    - "Serenity"
+    - "Confusion"
+    - "Determination"
+  
+  # Imagery Textures (inform sound design/mixing)
+  imagery_texture_options:
+    - "Sharp Edges"
+    - "Muffled"
+    - "Open/Vast"
+    - "Claustrophobic"
+    - "Hazy/Dreamy"
+    - "Crystalline"
+    - "Muddy/Thick"
+    - "Sparse/Empty"
+    - "Chaotic"
+    - "Flowing/Liquid"
+    - "Fractured"
+    - "Warm/Enveloping"
+    - "Cold/Distant"
+    - "Blinding Light"
+    - "Deep Shadow"
+  
+  # Vulnerability Scale
+  vulnerability_scale_options:
+    - "Low"      # Guarded, protective
+    - "Medium"   # Honest but controlled
+    - "High"     # Raw, exposed
+  
+  # Narrative Arc (structural implications)
+  narrative_arc_options:
+    - "Climb-to-Climax"      # Building intensity to peak
+    - "Slow Reveal"          # Gradual truth emergence
+    - "Repetitive Despair"   # Cycling, stuck pattern
+    - "Static Reflection"    # Meditative, unchanging
+    - "Sudden Shift"         # Dramatic pivot point
+    - "Descent"              # Progressive darkening
+    - "Rise and Fall"        # Full emotional cycle
+    - "Spiral"               # Intensifying repetition
+  
+  # Core Stakes
+  core_stakes_options:
+    - "Personal"             # Individual identity/future
+    - "Relational"           # Connection with others
+    - "Existential"          # Meaning/purpose
+    - "Survival"             # Life/safety
+    - "Creative"             # Artistic expression
+    - "Moral"                # Right/wrong
+  
+  # Genre Options
+  genre_options:
+    - "Cinematic Neo-Soul"
+    - "Lo-Fi Bedroom"
+    - "Industrial Pop"
+    - "Synthwave"
+    - "Confessional Acoustic"
+    - "Art Rock"
+    - "Indie Folk"
+    - "Post-Punk"
+    - "Chamber Pop"
+    - "Electronic"
+    - "Hip-Hop"
+    - "R&B"
+    - "Alternative"
+    - "Shoegaze"
+    - "Dream Pop"
+  
+  # Groove Feel
+  groove_feel_options:
+    - "Straight/Driving"
+    - "Laid Back"
+    - "Swung"
+    - "Syncopated"
+    - "Rubato/Free"
+    - "Mechanical"
+    - "Organic/Breathing"
+    - "Push-Pull"
+  
+  # ------------------------------------------------------------------
+  # RULE BREAKING ENUMS
+  # ------------------------------------------------------------------
+  
+  # Harmony Rule Breaking
+  harmony_rules_to_break:
+    HARMONY_AvoidTonicResolution:
+      description: "Resolve to IV or VI instead of I"
+      effect: "Unresolved, yearning feeling"
+      use_when: "Song shouldn't feel 'finished' or 'answered'"
+    
+    HARMONY_ParallelMotion:
+      description: "Use forbidden parallel 5ths/octaves"
+      effect: "Vintage, punk, or medieval sound"
+      use_when: "Defiance, raw power, or historical evocation"
+    
+    HARMONY_ModalInterchange:
+      description: "Borrow chord from unrelated key"
+      effect: "Unexpected color, emotional shift"
+      use_when: "Making emotions feel 'earned' or complex"
+    
+    HARMONY_TritoneSubstitution:
+      description: "Replace V7 with bII7"
+      effect: "Jazz sophistication, chromatic movement"
+      use_when: "Adding depth without cliché resolution"
+    
+    HARMONY_Polytonality:
+      description: "Stack chords from different keys"
+      effect: "Tension, complexity, disorientation"
+      use_when: "Representing internal conflict or chaos"
+    
+    HARMONY_UnresolvedDissonance:
+      description: "Leave 7ths, 9ths, tritones unresolved"
+      effect: "Lingering tension, incompleteness"
+      use_when: "Grief, longing, or open questions"
+  
+  # Rhythm Rule Breaking
+  rhythm_rules_to_break:
+    RHYTHM_ConstantDisplacement:
+      description: "Shift pattern one 16th note late/early"
+      effect: "Perpetually off-kilter, unsettling"
+      use_when: "Anxiety, instability, before a shift"
+    
+    RHYTHM_TempoFluctuation:
+      description: "Gradual ±5 BPM drift over phrase"
+      effect: "Organic breathing, tension/release"
+      use_when: "Human feel, emotional intensity"
+    
+    RHYTHM_MetricModulation:
+      description: "Temporarily change implied time signature"
+      effect: "Disorientation, complexity"
+      use_when: "Representing mental state change"
+    
+    RHYTHM_PolyrhythmicLayers:
+      description: "Layer conflicting rhythmic patterns"
+      effect: "Complexity, tension, richness"
+      use_when: "Multiple emotions simultaneously"
+    
+    RHYTHM_DroppedBeats:
+      description: "Remove expected beats/hits"
+      effect: "Surprise, space, emphasis"
+      use_when: "Creating impact through absence"
+  
+  # Arrangement Rule Breaking
+  arrangement_rules_to_break:
+    ARRANGEMENT_UnbalancedDynamics:
+      description: "Keep element too loud/quiet for standard"
+      effect: "Intentional imbalance, focus shift"
+      use_when: "Drawing attention or creating discomfort"
+    
+    ARRANGEMENT_StructuralMismatch:
+      description: "Use unexpected structure for genre"
+      effect: "Subverted expectations, uniqueness"
+      use_when: "Story requires non-standard form"
+    
+    ARRANGEMENT_BuriedVocals:
+      description: "Place vocals below instruments"
+      effect: "Intimacy, dissociation, texture"
+      use_when: "Vulnerability, dream states"
+    
+    ARRANGEMENT_ExtremeDynamicRange:
+      description: "Exceed normal dynamic limits"
+      effect: "Dramatic impact, contrast"
+      use_when: "Emotional crescendos, reveals"
+    
+    ARRANGEMENT_PrematureClimax:
+      description: "Put peak earlier than expected"
+      effect: "Subversion, reflection time"
+      use_when: "Aftermath is the point"
+  
+  # Production Rule Breaking
+  production_rules_to_break:
+    PRODUCTION_ExcessiveMud:
+      description: "Leave 200-400Hz buildup"
+      effect: "Weight, claustrophobia, heaviness"
+      use_when: "Trapped feelings, density"
+    
+    PRODUCTION_PitchImperfection:
+      description: "Leave natural pitch drift"
+      effect: "Emotional honesty, vulnerability"
+      use_when: "Raw emotional delivery"
+    
+    PRODUCTION_RoomNoise:
+      description: "Keep ambient room sound"
+      effect: "Authenticity, intimacy, place"
+      use_when: "Lo-fi aesthetic, presence"
+    
+    PRODUCTION_Distortion:
+      description: "Allow clipping/saturation"
+      effect: "Aggression, urgency, damage"
+      use_when: "Anger, intensity, decay"
+    
+    PRODUCTION_MonoCollapse:
+      description: "Intentionally narrow stereo field"
+      effect: "Claustrophobia, focus, intimacy"
+      use_when: "Internal monologue, pressure"
+
+# ------------------------------------------------------------------
+# TEMPLATE: EMPTY SONG INTENT
+# ------------------------------------------------------------------
+
+template:
+  
+  # PHASE 0: THE CORE WOUND/DESIRE (Deep Interrogation)
+  song_root:
+    core_event: ""           # The inciting moment/realization
+    core_resistance: ""      # What's holding you back from saying it
+    core_longing: ""         # What you ultimately want to feel
+    core_stakes: ""          # What's at risk (use core_stakes_options)
+    core_transformation: ""  # How you want to feel when song ends
+  
+  # PHASE 1: EMOTIONAL & INTENT (Validated by Phase 0)
+  song_intent:
+    mood_primary: ""                # Primary emotion (use mood_primary_options)
+    mood_secondary_tension: 0.5     # Tension level 0.0-1.0
+    imagery_texture: ""             # Visual/tactile quality (use imagery_texture_options)
+    vulnerability_scale: "Medium"   # Low/Medium/High
+    narrative_arc: ""               # Structural emotion (use narrative_arc_options)
+  
+  # PHASE 2: TECHNICAL CONSTRAINTS (Implementation of Intent)
+  song_technical_constraints:
+    technical_genre: ""             # Genre (use genre_options)
+    technical_tempo_range: [80, 120] # BPM range
+    technical_key: ""               # Musical key
+    technical_mode: ""              # major/minor/modal
+    technical_groove_feel: ""       # Feel (use groove_feel_options)
+    technical_rule_to_break: ""     # Rule to break intentionally
+    rule_breaking_justification: "" # WHY break this rule
+  
+  # SYSTEM DIRECTIVE (What DAiW should output)
+  system_directive:
+    output_target: ""               # What to generate
+    output_feedback_loop: ""        # Which modules to iterate on
+
+# ------------------------------------------------------------------
+# EXAMPLE: COMPLETE SONG INTENT
+# ------------------------------------------------------------------
+
+example_defiance_song:
+  
+  # PHASE 0: THE CORE WOUND/DESIRE
+  song_root:
+    core_event: "The moment I realized I had to choose my own path over my family's expectations."
+    core_resistance: "Fear of sounding selfish or too abrasive; wanting to soften the truth."
+    core_longing: "To feel completely free and fully justified in my independence."
+    core_stakes: "Personal"
+    core_transformation: "I want to feel stable and defiant when the song finishes."
+  
+  # PHASE 1: EMOTIONAL & INTENT
+  song_intent:
+    mood_primary: "Defiance and Liberation"
+    mood_secondary_tension: 0.8
+    imagery_texture: "A sudden, blinding light after being in the dark."
+    vulnerability_scale: "High"
+    narrative_arc: "Sudden Shift"
+  
+  # PHASE 2: TECHNICAL CONSTRAINTS
+  song_technical_constraints:
+    technical_genre: "Industrial Pop/Synthwave"
+    technical_tempo_range: [130, 140]
+    technical_key: "E minor"
+    technical_mode: "minor with Dorian color"
+    technical_groove_feel: "Straight/Driving"
+    technical_rule_to_break: "RHYTHM_ConstantDisplacement"
+    rule_breaking_justification: "To create an unsettling feeling of being perpetually 'off-kilter' before the 'Sudden Shift' in the structure."
+  
+  # SYSTEM DIRECTIVE
+  system_directive:
+    output_target: "Full Arrangement Sketch (Verse-Pre-Chorus-Chorus structure)"
+    output_feedback_loop: "Harmony and Rhythm"
+
+example_grief_song:
+  
+  # PHASE 0: THE CORE WOUND/DESIRE
+  song_root:
+    core_event: "Finding someone I loved after they chose to leave."
+    core_resistance: "Fear of making it about me; not wanting to seem like I'm seeking attention for trauma."
+    core_longing: "To process this without feeling like I'm exploiting the loss."
+    core_stakes: "Relational"
+    core_transformation: "I want to feel like the grief has been witnessed, held, and released into something beautiful."
+  
+  # PHASE 1: EMOTIONAL & INTENT
+  song_intent:
+    mood_primary: "Grief"
+    mood_secondary_tension: 0.3
+    imagery_texture: "Muffled, like hearing through water"
+    vulnerability_scale: "High"
+    narrative_arc: "Slow Reveal"
+  
+  # PHASE 2: TECHNICAL CONSTRAINTS
+  song_technical_constraints:
+    technical_genre: "Lo-Fi Bedroom/Confessional Acoustic"
+    technical_tempo_range: [70, 85]
+    technical_key: "F major"
+    technical_mode: "major with borrowed minor chords"
+    technical_groove_feel: "Organic/Breathing"
+    technical_rule_to_break: "HARMONY_ModalInterchange"
+    rule_breaking_justification: "The iv chord (Bbm) makes the hope feel earned and slightly bittersweet, never letting the listener fully settle."
+  
+  # SYSTEM DIRECTIVE
+  system_directive:
+    output_target: "Verse chord progression with misdirection structure"
+    output_feedback_loop: "Harmony and Arrangement"
+
+example_triumphant_hope:
+  
+  # PHASE 0: THE CORE WOUND/DESIRE
+  song_root:
+    core_event: "Surviving something I didn't think I could survive."
+    core_resistance: "Not wanting to seem like I'm gloating or dismissing the struggle."
+    core_longing: "To celebrate without guilt."
+    core_stakes: "Personal"
+    core_transformation: "I want to feel expansive and grateful."
+  
+  # PHASE 1: EMOTIONAL & INTENT
+  song_intent:
+    mood_primary: "Triumphant Hope"
+    mood_secondary_tension: 0.2
+    imagery_texture: "Open/Vast, like looking out over an ocean"
+    vulnerability_scale: "High"
+    narrative_arc: "Climb-to-Climax"
+  
+  # PHASE 2: TECHNICAL CONSTRAINTS
+  song_technical_constraints:
+    technical_genre: "Cinematic Neo-Soul"
+    technical_tempo_range: [95, 110]
+    technical_key: "D major"
+    technical_mode: "major with Lydian moments"
+    technical_groove_feel: "Laid Back"
+    technical_rule_to_break: "HARMONY_ModalInterchange"
+    rule_breaking_justification: "To make the hope feel earned and slightly bittersweet."
+  
+  # SYSTEM DIRECTIVE
+  system_directive:
+    output_target: "Full arrangement with dynamic build"
+    output_feedback_loop: "Harmony and Arrangement"
