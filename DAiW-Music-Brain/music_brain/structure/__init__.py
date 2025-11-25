@@ -29,11 +29,26 @@ from music_brain.structure.comprehensive_engine import (
     AffectAnalyzer,
     TherapyState,
     HarmonyPlan,
+    NoteEvent,
     TherapySession,
     # Functions
     get_strategy,
     render_plan_to_midi,
+    render_phrase_to_vault,
+    generate_lyric_mirror,
+    select_kit_for_mood,
+    build_tension_curve,
+    tension_multiplier,
     run_cli as run_therapy_cli,
+)
+from music_brain.structure.tension_curve import (
+    TENSION_CURVES,
+    TensionProfile,
+    get_tension_curve,
+    list_tension_curves,
+    apply_tension_curve,
+    apply_section_markers,
+    generate_curve_for_bars,
 )
 
 __all__ = [
@@ -55,8 +70,22 @@ __all__ = [
     "AffectAnalyzer",
     "TherapyState",
     "HarmonyPlan",
+    "NoteEvent",
     "TherapySession",
     "get_strategy",
     "render_plan_to_midi",
+    "render_phrase_to_vault",
+    "generate_lyric_mirror",
+    "select_kit_for_mood",
+    "build_tension_curve",
+    "tension_multiplier",
     "run_therapy_cli",
+    # Tension Curves (Standalone)
+    "TENSION_CURVES",
+    "TensionProfile",
+    "get_tension_curve",
+    "list_tension_curves",
+    "apply_tension_curve",
+    "apply_section_markers",
+    "generate_curve_for_bars",
 ]
