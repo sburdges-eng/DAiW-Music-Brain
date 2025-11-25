@@ -1,0 +1,260 @@
+{
+  "metadata": {
+    "name": "Song Intent Examples",
+    "version": "1.0.0",
+    "description": "Complete examples of the three-phase song intent schema",
+    "schema_reference": "song_intent_schema.yaml"
+  },
+  
+  "examples": {
+    "triumphant_hope": {
+      "title": "Triumphant Hope Example",
+      "description": "A song about surviving and celebrating without guilt",
+      
+      "song_root": {
+        "core_event": "Surviving something I didn't think I could survive.",
+        "core_resistance": "Not wanting to seem like I'm gloating or dismissing the struggle.",
+        "core_longing": "To celebrate without guilt.",
+        "core_stakes": "Personal",
+        "core_transformation": "I want to feel expansive and grateful."
+      },
+      
+      "song_intent": {
+        "mood_primary": "Triumphant Hope",
+        "mood_secondary_tension": 0.2,
+        "imagery_texture": "Open/Vast, like looking out over an ocean",
+        "vulnerability_scale": "High",
+        "narrative_arc": "Climb-to-Climax"
+      },
+      
+      "song_technical_constraints": {
+        "technical_genre": "Cinematic Neo-Soul",
+        "technical_tempo_range": [95, 110],
+        "technical_key": "D major",
+        "technical_mode": "major with Lydian moments",
+        "technical_groove_feel": "Laid Back",
+        "technical_rule_to_break": "HARMONY_ModalInterchange",
+        "rule_breaking_justification": "To make the hope feel earned and slightly bittersweet."
+      },
+      
+      "system_directive": {
+        "output_target": "Full arrangement with dynamic build",
+        "output_feedback_loop": "Harmony and Arrangement"
+      },
+      
+      "expected_output": {
+        "progression": "D - A - Bm - G with bVI (Bb) at emotional peak",
+        "groove": "Laid back neo-soul pocket, slight swing",
+        "arrangement": "Build from intimate to expansive",
+        "production": "Wide stereo field, open highs, room to breathe"
+      }
+    },
+    
+    "defiance_liberation": {
+      "title": "Defiance and Liberation Example",
+      "description": "Choosing your own path over expectations",
+      
+      "song_root": {
+        "core_event": "The moment I realized I had to choose my own path over my family's expectations.",
+        "core_resistance": "Fear of sounding selfish or too abrasive; wanting to soften the truth.",
+        "core_longing": "To feel completely free and fully justified in my independence.",
+        "core_stakes": "Personal (my future identity is at stake)",
+        "core_transformation": "I want to feel stable and defiant when the song finishes."
+      },
+      
+      "song_intent": {
+        "mood_primary": "Defiance and Liberation",
+        "mood_secondary_tension": 0.8,
+        "imagery_texture": "A sudden, blinding light after being in the dark.",
+        "vulnerability_scale": "High",
+        "narrative_arc": "Sudden Shift"
+      },
+      
+      "song_technical_constraints": {
+        "technical_genre": "Industrial Pop/Synthwave",
+        "technical_tempo_range": [130, 140],
+        "technical_key": "E minor",
+        "technical_mode": "minor with Dorian color",
+        "technical_groove_feel": "Straight/Driving",
+        "technical_rule_to_break": "RHYTHM_ConstantDisplacement",
+        "rule_breaking_justification": "To create an unsettling feeling of being perpetually 'off-kilter' before the 'Sudden Shift' in the structure."
+      },
+      
+      "system_directive": {
+        "output_target": "Full Arrangement Sketch (Verse-Pre-Chorus-Chorus structure)",
+        "output_feedback_loop": "Harmony and Rhythm"
+      },
+      
+      "expected_output": {
+        "progression": "Em - C - G - D with Cmaj (Dorian IV) for hope",
+        "groove": "Driving, relentless, but slightly displaced for tension",
+        "arrangement": "Constrained verses, explosive shift to liberation",
+        "production": "Industrial textures, then sudden clarity at shift"
+      }
+    },
+    
+    "grief_misdirection": {
+      "title": "Grief with Misdirection Example",
+      "description": "A song where every line sounds like falling in love until the reveal",
+      
+      "song_root": {
+        "core_event": "Finding someone I loved after they chose to leave.",
+        "core_resistance": "Fear of making it about me; not wanting to exploit the loss.",
+        "core_longing": "To process this without feeling like I'm seeking attention for trauma.",
+        "core_stakes": "Relational",
+        "core_transformation": "I want to feel like the grief has been witnessed, held, and released into something beautiful."
+      },
+      
+      "song_intent": {
+        "mood_primary": "Grief",
+        "mood_secondary_tension": 0.3,
+        "imagery_texture": "Muffled, like hearing through water",
+        "vulnerability_scale": "High",
+        "narrative_arc": "Slow Reveal"
+      },
+      
+      "song_technical_constraints": {
+        "technical_genre": "Lo-Fi Bedroom/Confessional Acoustic",
+        "technical_tempo_range": [70, 85],
+        "technical_key": "F major",
+        "technical_mode": "major with borrowed minor chords",
+        "technical_groove_feel": "Organic/Breathing",
+        "technical_rule_to_break": "HARMONY_ModalInterchange",
+        "rule_breaking_justification": "The iv chord (Bbm) makes the hope feel earned and slightly bittersweet, never letting the listener fully settle."
+      },
+      
+      "system_directive": {
+        "output_target": "Verse chord progression with misdirection structure",
+        "output_feedback_loop": "Harmony and Arrangement"
+      },
+      
+      "expected_output": {
+        "progression": "F - C - Am - Dm in verses, F - C - Bbm - F at reveal",
+        "groove": "Rubato-friendly, breathing, imperfect timing",
+        "arrangement": "Love song structure until final verse reveals truth",
+        "production": "Intimate, room sound, pitch imperfections preserved"
+      }
+    },
+    
+    "dissociation": {
+      "title": "Dissociation Example",
+      "description": "Processing trauma through emotional distance",
+      
+      "song_root": {
+        "core_event": "The moment reality stopped feeling real.",
+        "core_resistance": "Fear of sounding crazy or being misunderstood.",
+        "core_longing": "To feel connected to my own experience again.",
+        "core_stakes": "Personal",
+        "core_transformation": "I want to feel present, even if that means feeling pain."
+      },
+      
+      "song_intent": {
+        "mood_primary": "Dissociation",
+        "mood_secondary_tension": 0.4,
+        "imagery_texture": "Underwater, muffled, edges blurred",
+        "vulnerability_scale": "Medium",
+        "narrative_arc": "Static Reflection"
+      },
+      
+      "song_technical_constraints": {
+        "technical_genre": "Dream Pop/Shoegaze",
+        "technical_tempo_range": [75, 90],
+        "technical_key": "A major",
+        "technical_mode": "major with bVII borrowing",
+        "technical_groove_feel": "Rubato/Free",
+        "technical_rule_to_break": "PRODUCTION_BuriedVocals",
+        "rule_breaking_justification": "Vocals buried in texture mirrors the feeling of being disconnected from your own voice and experience."
+      },
+      
+      "system_directive": {
+        "output_target": "Textural wash with buried vocal",
+        "output_feedback_loop": "Production"
+      },
+      
+      "expected_output": {
+        "progression": "Amaj7 - G - D - A (bVII creates floating sensation)",
+        "groove": "Minimal, pulse uncertain, rubato",
+        "arrangement": "Static, repetitive, hypnotic",
+        "production": "Heavy reverb, vocals behind instruments, blurred transients"
+      }
+    },
+    
+    "anger_catharsis": {
+      "title": "Anger and Catharsis Example",
+      "description": "Releasing rage in a controlled explosion",
+      
+      "song_root": {
+        "core_event": "Being betrayed by someone I trusted completely.",
+        "core_resistance": "Fear of being 'too much' or scaring people.",
+        "core_longing": "To express the full depth of this rage and be done with it.",
+        "core_stakes": "Relational",
+        "core_transformation": "I want to feel emptied out and at peace when this is over."
+      },
+      
+      "song_intent": {
+        "mood_primary": "Rage",
+        "mood_secondary_tension": 0.95,
+        "imagery_texture": "Sharp edges, breaking glass, red vision",
+        "vulnerability_scale": "Low",
+        "narrative_arc": "Climb-to-Climax"
+      },
+      
+      "song_technical_constraints": {
+        "technical_genre": "Post-Punk/Industrial",
+        "technical_tempo_range": [140, 160],
+        "technical_key": "D minor",
+        "technical_mode": "minor",
+        "technical_groove_feel": "Straight/Driving",
+        "technical_rule_to_break": "HARMONY_ParallelMotion",
+        "rule_breaking_justification": "Power chord parallel motion creates the wall of sound that anger needs - no delicacy, pure force."
+      },
+      
+      "system_directive": {
+        "output_target": "Full arrangement with cathartic peak",
+        "output_feedback_loop": "Harmony and Arrangement"
+      },
+      
+      "expected_output": {
+        "progression": "Dm5 - Bb5 - C5 - A5 (pure parallel power chords)",
+        "groove": "Relentless, pushing forward, no laid back feel",
+        "arrangement": "Build and build, explosive release, then sudden quiet",
+        "production": "Distortion, clipping at peaks, extreme dynamics"
+      }
+    }
+  },
+  
+  "rule_breaking_lookup": {
+    "HARMONY_AvoidTonicResolution": {
+      "emotions": ["longing", "grief", "uncertainty", "unfinished"],
+      "example_use": "End on IV chord for unresolved yearning"
+    },
+    "HARMONY_ParallelMotion": {
+      "emotions": ["anger", "power", "defiance", "punk"],
+      "example_use": "Power chord progressions for wall of sound"
+    },
+    "HARMONY_ModalInterchange": {
+      "emotions": ["bittersweet", "nostalgia", "hope", "complex"],
+      "example_use": "Bbm (iv) in F major for earned sadness"
+    },
+    "RHYTHM_ConstantDisplacement": {
+      "emotions": ["anxiety", "unease", "instability"],
+      "example_use": "Shift all hits late to create perpetual tension"
+    },
+    "RHYTHM_TempoFluctuation": {
+      "emotions": ["intimacy", "vulnerability", "human"],
+      "example_use": "Gradual BPM drift for organic breathing"
+    },
+    "PRODUCTION_BuriedVocals": {
+      "emotions": ["dissociation", "intimacy", "dreams"],
+      "example_use": "Vocals behind instruments for disconnection"
+    },
+    "PRODUCTION_PitchImperfection": {
+      "emotions": ["vulnerability", "honesty", "rawness"],
+      "example_use": "No pitch correction for emotional truth"
+    },
+    "ARRANGEMENT_StructuralMismatch": {
+      "emotions": ["unconventional", "story-driven"],
+      "example_use": "Through-composed when genre expects verse-chorus"
+    }
+  }
+}
