@@ -17,6 +17,8 @@ import random
 from dataclasses import dataclass
 from typing import List, Dict, Optional
 
+from music_brain.structure.tension import generate_tension_curve
+
 # ==============================================================================
 # 1. AFFECT ANALYZER (Scored & Ranked)
 # ==============================================================================
@@ -119,6 +121,7 @@ class HarmonyPlan:
     harmonic_rhythm: str      # "1_chord_per_bar"
     mood_profile: str
     complexity: float         # 0.0 - 1.0 (chaos/complexity dial)
+    structure_type: str = "standard"  # "standard" | "climb" | "constant"
 
 
 @dataclass
@@ -279,6 +282,14 @@ class TherapySession:
         else:  # Ionian/Neutral
             chords = ["C", "Am", "F", "G"]
 
+        # 5. Mood → structure_type
+        if primary in ["grief", "dissociation"]:
+            structure_type = "climb"       # slow drowning build
+        elif primary in ["rage", "defiance"]:
+            structure_type = "standard"    # verse/chorus punches
+        else:
+            structure_type = "constant"    # flat loop / mantra
+
         return HarmonyPlan(
             root_note=root,
             mode=mode,
@@ -289,6 +300,7 @@ class TherapySession:
             harmonic_rhythm="1_chord_per_bar",
             mood_profile=primary,
             complexity=eff_complexity,
+            structure_type=structure_type,
         )
 
 
@@ -297,13 +309,24 @@ class TherapySession:
 # ==============================================================================
 
 
-def render_plan_to_midi(plan: HarmonyPlan, output_path: str) -> str:
+def render_plan_to_midi(plan: HarmonyPlan, output_path: str, vulnerability: float = 0.0) -> str:
     """
     Render a HarmonyPlan to a MIDI file using existing music_brain components:
 
     - music_brain.structure.progression.parse_progression_string
     - music_brain.structure.chord.CHORD_QUALITIES
     - music_brain.daw.logic.LogicProject, LOGIC_CHANNELS (if present)
+
+    Now with tension curve support for emotional contour:
+    - Verse bars: ~0.6-0.7 x velocity -> softer, more tentative
+    - Chorus bars: ~1.1 x velocity -> louder, more direct
+    - Bridge bars: 1.2-1.5 x velocity -> peak energy
+    - Outro: 0.5 x velocity -> collapse
+
+    Args:
+        plan: HarmonyPlan with structure_type for tension curve selection
+        output_path: Path to write MIDI file
+        vulnerability: Optional humanization factor (0.0-1.0)
 
     Returns: path to the written MIDI file (or the intended path if degraded).
     """
@@ -339,27 +362,51 @@ def render_plan_to_midi(plan: HarmonyPlan, output_path: str) -> str:
     progression_str = "-".join(plan.chord_symbols)
     parsed_chords = parse_progression_string(progression_str)
 
-    # 3. Build NoteEvents from ParsedChord + CHORD_QUALITIES
+    if not parsed_chords:
+        print("[SYSTEM]: Chord parser returned empty; aborting render.")
+        return output_path
+
+    # 3. Setup timing and tension curve
     ppq = getattr(project, "ppq", 480)
     beats_per_bar = time_sig[0]
     bar_ticks = int(beats_per_bar * ppq)
+    total_bars = plan.length_bars
+
+    # Generate tension curve based on structure_type
+    structure_type = getattr(plan, "structure_type", None)
+    if structure_type is None:
+        # Fallback if plan is old/legacy
+        if plan.mode in ["phrygian", "locrian"]:
+            structure_type = "climb"
+        else:
+            structure_type = "standard"
+
+    tension_map = generate_tension_curve(total_bars, structure_type=structure_type)
 
     note_events: List[NoteEvent] = []
+    base_velocity = 90.0
+    base_complexity = plan.complexity
 
-    # naive: one chord per bar, LOOPED to fill song length
+    # 4. Main render loop with tension-modulated velocity
     start_tick = 0
     current_bar = 0
-    total_bars = plan.length_bars
 
     while current_bar < total_bars:
         for parsed in parsed_chords:
             if current_bar >= total_bars:
                 break
 
+            # Per-bar tension multiplier
+            idx = min(current_bar, len(tension_map) - 1)
+            tension_mult = float(tension_map[idx])
+
+            # Per-bar base velocity modulated by tension
+            bar_base_velocity = base_velocity * tension_mult
+
             quality = parsed.quality
             intervals = CHORD_QUALITIES.get(quality)
 
-            # degrade gracefully if quality isn't in the map
+            # Degrade gracefully if quality isn't in the map
             if intervals is None:
                 base_quality = "min" if "m" in quality else "maj"
                 intervals = CHORD_QUALITIES.get(base_quality, (0, 4, 7))
@@ -367,15 +414,15 @@ def render_plan_to_midi(plan: HarmonyPlan, output_path: str) -> str:
             root_midi = 48 + parsed.root_num  # C3 as base
             duration_ticks = bar_ticks
 
-            # FUTURE GROOVE LAYER HOOK:
-            # Here we would modify start_tick and/or per-note offsets based on
-            # plan.complexity and any additional groove parameters.
-
             for interval in intervals:
+                # Apply slight velocity variation for humanization
+                vel = int(random.gauss(bar_base_velocity, 5))
+                vel = max(20, min(120, vel))
+
                 note_events.append(
                     NoteEvent(
                         pitch=root_midi + interval,
-                        velocity=80,
+                        velocity=vel,
                         start_tick=start_tick,
                         duration_ticks=duration_ticks,
                     )
@@ -384,7 +431,7 @@ def render_plan_to_midi(plan: HarmonyPlan, output_path: str) -> str:
             start_tick += duration_ticks
             current_bar += 1
 
-    # 4. Add track & export
+    # 5. Add track & export
     try:
         channel = LOGIC_CHANNELS.get("keys", 2)
     except Exception:

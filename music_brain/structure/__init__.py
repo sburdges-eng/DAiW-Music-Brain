@@ -37,6 +37,7 @@ from music_brain.structure.tension_curve import (
     generate_curve_for_bars,
     TENSION_CURVES,
 )
+from music_brain.structure.tension import generate_tension_curve
 
 __all__ = [
     # Chord analysis
@@ -65,5 +66,6 @@ __all__ = [
     "get_tension_curve",
     "list_tension_curves",
     "generate_curve_for_bars",
+    "generate_tension_curve",
     "TENSION_CURVES",
 ]
