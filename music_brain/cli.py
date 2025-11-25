@@ -4,16 +4,23 @@ DAiW CLI - Command line interface for Music Brain toolkit
 Usage:
     daiw extract <midi_file>                    Extract groove from MIDI
     daiw apply --genre <genre> <midi_file>      Apply groove template
+    daiw humanize <midi_file> [options]         Apply drum humanization (Drunken Drummer)
     daiw analyze --chords <midi_file>           Analyze chord progression
     daiw diagnose <progression>                 Diagnose harmonic issues
     daiw reharm <progression> [--style <style>] Generate reharmonizations
     daiw teach <topic>                          Interactive teaching mode
-    
+
     daiw intent new [--title <title>]           Create new intent template
     daiw intent process <file>                  Generate elements from intent
     daiw intent suggest <emotion>               Suggest rules to break
     daiw intent list                            List all rule-breaking options
     daiw intent validate <file>                 Validate intent file
+
+Humanization Styles:
+    tight   - Minimal drift, confident (complexity=0.1, vulnerability=0.2)
+    natural - Human feel, balanced (complexity=0.4, vulnerability=0.5)
+    loose   - Relaxed, laid back (complexity=0.6, vulnerability=0.6)
+    drunk   - Maximum chaos, fragile (complexity=0.9, vulnerability=0.8)
 """
 
 import argparse
@@ -26,6 +33,15 @@ from typing import Optional
 def get_groove_module():
     from music_brain.groove import extract_groove, apply_groove
     return extract_groove, apply_groove
+
+
+def get_humanize_module():
+    from music_brain.groove import (
+        humanize_midi_file, GrooveSettings, settings_from_intent, quick_humanize,
+        list_presets, settings_from_preset, get_preset
+    )
+    return (humanize_midi_file, GrooveSettings, settings_from_intent, quick_humanize,
+            list_presets, settings_from_preset, get_preset)
 
 def get_structure_module():
     from music_brain.structure import analyze_chords, detect_sections
@@ -76,18 +92,100 @@ def cmd_extract(args):
 def cmd_apply(args):
     """Apply groove template to MIDI file."""
     _, apply_groove = get_groove_module()
-    
+
     midi_path = Path(args.midi_file)
     if not midi_path.exists():
         print(f"Error: File not found: {midi_path}")
         return 1
-    
+
     print(f"Applying {args.genre} groove to: {midi_path}")
-    
+
     output_path = args.output or f"{midi_path.stem}_grooved.mid"
     apply_groove(str(midi_path), genre=args.genre, output=output_path, intensity=args.intensity)
-    
+
     print(f"Output saved to: {output_path}")
+    return 0
+
+
+def cmd_humanize(args):
+    """Apply drum humanization to MIDI file."""
+    (humanize_midi_file, GrooveSettings, settings_from_intent, quick_humanize,
+     list_presets, settings_from_preset, get_preset) = get_humanize_module()
+
+    # Handle list-presets subcommand
+    if hasattr(args, 'list_presets') and args.list_presets:
+        presets = list_presets()
+        print("\n=== Available Humanization Presets ===\n")
+        for preset_name in sorted(presets):
+            preset_data = get_preset(preset_name)
+            desc = preset_data.get("description", "No description")
+            groove = preset_data.get("groove_settings", {})
+            c = groove.get("complexity", 0.5)
+            v = groove.get("vulnerability", 0.5)
+            print(f"  {preset_name}")
+            print(f"    {desc}")
+            print(f"    complexity={c:.2f}, vulnerability={v:.2f}")
+            print()
+        return 0
+
+    midi_path = Path(args.midi_file)
+    if not midi_path.exists():
+        print(f"Error: File not found: {midi_path}")
+        return 1
+
+    # Determine humanization approach
+    if args.preset:
+        # Load from preset
+        try:
+            settings = settings_from_preset(args.preset)
+            preset_data = get_preset(args.preset)
+            complexity = settings.complexity
+            vulnerability = settings.vulnerability
+            print(f"Humanizing drums with '{args.preset}' preset: {midi_path}")
+            print(f"  ({preset_data.get('description', '')})")
+        except ValueError as e:
+            print(f"Error: {e}")
+            return 1
+    elif args.style:
+        # Quick style preset
+        print(f"Humanizing drums with '{args.style}' style: {midi_path}")
+        complexity_map = {
+            "tight": (0.1, 0.2),
+            "natural": (0.4, 0.5),
+            "loose": (0.6, 0.6),
+            "drunk": (0.9, 0.8),
+        }
+        complexity, vulnerability = complexity_map.get(args.style, (0.4, 0.5))
+        settings = GrooveSettings(complexity=complexity, vulnerability=vulnerability)
+    else:
+        # Manual complexity/vulnerability
+        complexity = args.complexity
+        vulnerability = args.vulnerability
+        print(f"Humanizing drums (complexity={complexity:.2f}, vulnerability={vulnerability:.2f}): {midi_path}")
+        settings = GrooveSettings(complexity=complexity, vulnerability=vulnerability)
+
+    # Apply optional overrides
+    if args.no_ghost_notes:
+        settings.enable_ghost_notes = False
+
+    output_path = args.output or f"{midi_path.stem}_humanized.mid"
+
+    result_path = humanize_midi_file(
+        input_path=str(midi_path),
+        output_path=output_path,
+        complexity=complexity,
+        vulnerability=vulnerability,
+        drum_channel=args.channel,
+        settings=settings,
+        seed=args.seed,
+    )
+
+    print(f"\n=== Drum Humanization Applied ===")
+    print(f"  Complexity:    {complexity:.2f} (timing chaos)")
+    print(f"  Vulnerability: {vulnerability:.2f} (dynamic fragility)")
+    print(f"  Ghost notes:   {'enabled' if settings.enable_ghost_notes else 'disabled'}")
+    print(f"  Output:        {result_path}")
+
     return 0
 
 
@@ -411,13 +509,35 @@ def main():
     # Apply command
     apply_parser = subparsers.add_parser('apply', help='Apply groove template')
     apply_parser.add_argument('midi_file', help='MIDI file to process')
-    apply_parser.add_argument('-g', '--genre', default='funk', 
+    apply_parser.add_argument('-g', '--genre', default='funk',
                               choices=['funk', 'jazz', 'rock', 'hiphop', 'edm', 'latin'],
                               help='Genre groove template')
     apply_parser.add_argument('-o', '--output', help='Output MIDI file')
     apply_parser.add_argument('-i', '--intensity', type=float, default=0.5,
                               help='Groove intensity 0.0-1.0')
-    
+
+    # Humanize command (Drunken Drummer)
+    humanize_parser = subparsers.add_parser('humanize', help='Apply drum humanization (Drunken Drummer)')
+    humanize_parser.add_argument('midi_file', nargs='?', help='MIDI file to humanize')
+    humanize_parser.add_argument('-o', '--output', help='Output MIDI file')
+    humanize_parser.add_argument('-p', '--preset',
+                                 help='Emotional preset (use --list-presets to see options)')
+    humanize_parser.add_argument('-s', '--style',
+                                 choices=['tight', 'natural', 'loose', 'drunk'],
+                                 help='Quick style preset')
+    humanize_parser.add_argument('-c', '--complexity', type=float, default=0.5,
+                                 help='Timing chaos 0.0-1.0 (ignored if --style/--preset used)')
+    humanize_parser.add_argument('-v', '--vulnerability', type=float, default=0.5,
+                                 help='Dynamic fragility 0.0-1.0 (ignored if --style/--preset used)')
+    humanize_parser.add_argument('--channel', type=int, default=9,
+                                 help='MIDI drum channel (default: 9, i.e. channel 10)')
+    humanize_parser.add_argument('--no-ghost-notes', action='store_true',
+                                 help='Disable ghost note generation')
+    humanize_parser.add_argument('--seed', type=int,
+                                 help='Random seed for reproducibility')
+    humanize_parser.add_argument('--list-presets', action='store_true',
+                                 help='List available emotional presets')
+
     # Analyze command
     analyze_parser = subparsers.add_parser('analyze', help='Analyze MIDI file')
     analyze_parser.add_argument('midi_file', help='MIDI file to analyze')
@@ -477,6 +597,7 @@ def main():
     commands = {
         'extract': cmd_extract,
         'apply': cmd_apply,
+        'humanize': cmd_humanize,
         'analyze': cmd_analyze,
         'diagnose': cmd_diagnose,
         'reharm': cmd_reharm,
