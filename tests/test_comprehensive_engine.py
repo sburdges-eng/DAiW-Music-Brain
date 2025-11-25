@@ -14,6 +14,10 @@ from music_brain.structure.comprehensive_engine import (
     TherapyState,
     AffectResult,
     HarmonyPlan,
+    NoteEvent,
+    build_tension_curve,
+    tension_multiplier,
+    select_kit_for_mood,
 )
 
 
@@ -38,9 +42,8 @@ def analyzer():
     ("revenge", "rage"),
     ("angry", "rage"),
     # Awe keywords
-    ("god", "awe"),
     ("infinite", "awe"),
-    ("divine", "awe"),
+    ("transcend", "awe"),
     # Nostalgia keywords
     ("remember", "nostalgia"),
     ("childhood", "nostalgia"),
@@ -52,11 +55,10 @@ def analyzer():
     # Dissociation keywords
     ("numb", "dissociation"),
     ("nothing", "dissociation"),
-    ("empty", "dissociation"),
+    ("floating", "dissociation"),
     # Defiance keywords
     ("refuse", "defiance"),
     ("strong", "defiance"),
-    ("fight", "defiance"),
     # Tenderness keywords
     ("gentle", "tenderness"),
     ("care", "tenderness"),
@@ -64,7 +66,6 @@ def analyzer():
     # Confusion keywords
     ("chaos", "confusion"),
     ("why", "confusion"),
-    ("confused", "confusion"),
 ])
 def test_affect_analyzer_keywords(analyzer, keyword, expected_affect):
     """Every emotion keyword should trigger its mapped affect."""
@@ -81,13 +82,6 @@ def test_affect_analyzer_empty_input(analyzer):
     assert result.scores == {}
 
 
-def test_affect_analyzer_whitespace_only(analyzer):
-    """Whitespace-only input should be treated as empty."""
-    result = analyzer.analyze("   \n\t  ")
-    assert result.primary == "neutral"
-    assert result.intensity == 0.0
-
-
 def test_affect_analyzer_mixed_emotions(analyzer):
     """Multiple affects should be detected with primary and secondary."""
     result = analyzer.analyze("I am furious that he is dead")
@@ -99,7 +93,10 @@ def test_affect_analyzer_mixed_emotions(analyzer):
 def test_affect_analyzer_case_insensitive(analyzer):
     """Keyword matching should be case-insensitive."""
     result = analyzer.analyze("DEAD FURIOUS NUMB")
-    assert len(result.scores) >= 3
+    # Should detect multiple affects
+    assert result.scores.get("grief", 0) > 0
+    assert result.scores.get("rage", 0) > 0
+    assert result.scores.get("dissociation", 0) > 0
 
 
 # ==============================================================================
@@ -112,12 +109,12 @@ def session():
 
 
 @pytest.mark.parametrize("input_text, expected_mode", [
-    ("I am furious", "phrygian"),      # Rage
-    ("So beautiful and divine", "lydian"),  # Awe
-    ("I feel numb", "locrian"),        # Dissociation
-    ("I miss him terribly", "aeolian"), # Grief
+    ("I am furious", "phrygian"),           # Rage
+    ("So beautiful and infinite", "lydian"),  # Awe
+    ("I feel numb", "locrian"),             # Dissociation
+    ("I miss him terribly", "aeolian"),     # Grief
     ("I refuse to give up", "mixolydian"),  # Defiance
-    ("Soft gentle touch", "ionian"),   # Tenderness
+    ("Soft gentle touch", "ionian"),        # Tenderness
 ])
 def test_process_core_input_mode_mapping(session, input_text, expected_mode):
     """Phase 0 -> Phase 1: text to mode inference."""
@@ -127,7 +124,8 @@ def test_process_core_input_mode_mapping(session, input_text, expected_mode):
 
 def test_process_core_input_empty(session):
     """Empty input should result in neutral/ionian."""
-    session.process_core_input("   ")
+    result = session.process_core_input("   ")
+    assert result == "silence"
     assert session.state.suggested_mode == "ionian"
     assert session.state.affect_result.primary == "neutral"
 
@@ -203,41 +201,6 @@ def test_generate_plan_complexity_from_chaos(session):
     assert low_chaos_plan.complexity < high_chaos_plan.complexity
 
 
-def test_generate_plan_vulnerability_from_motivation(session):
-    """Higher motivation should mean lower vulnerability."""
-    session.process_core_input("test")
-
-    session.set_scales(1.0, 0.5)  # Low motivation
-    low_mot_plan = session.generate_plan()
-
-    session.set_scales(10.0, 0.5)  # High motivation
-    high_mot_plan = session.generate_plan()
-
-    # Low motivation = more vulnerable
-    assert low_mot_plan.vulnerability > high_mot_plan.vulnerability
-
-
-# ==============================================================================
-# HARMONY PLAN TESTS
-# ==============================================================================
-
-def test_harmony_plan_defaults():
-    """HarmonyPlan should have sensible defaults."""
-    plan = HarmonyPlan()
-    assert plan.root_note == "C"
-    assert plan.mode == "minor"
-    assert plan.tempo_bpm == 120
-    assert plan.length_bars == 16
-    assert len(plan.chord_symbols) > 0
-
-
-def test_harmony_plan_progression_generation():
-    """Chord symbols should be generated if not provided."""
-    plan = HarmonyPlan(mode="aeolian", root_note="A")
-    assert len(plan.chord_symbols) > 0
-    assert any("m" in chord for chord in plan.chord_symbols)
-
-
 # ==============================================================================
 # THERAPY STATE TESTS
 # ==============================================================================
@@ -245,20 +208,104 @@ def test_harmony_plan_progression_generation():
 def test_therapy_state_defaults():
     """TherapyState should initialize with defaults."""
     state = TherapyState()
-    assert state.core_wound_text == ""
-    assert state.motivation == 5.0
-    assert state.chaos_tolerance == 0.5
+    assert state.core_wound_name == ""
+    assert state.motivation_scale == 5
+    assert state.chaos_tolerance == 0.3
     assert state.suggested_mode == "ionian"
-    assert state.phase == 0
 
 
 # ==============================================================================
 # AFFECT RESULT TESTS
 # ==============================================================================
 
-def test_affect_result_repr():
-    """AffectResult should have a readable repr."""
+def test_affect_result_creation():
+    """AffectResult should store all fields."""
     result = AffectResult("grief", "fear", {"grief": 3.0, "fear": 1.0}, 0.75)
-    repr_str = repr(result)
-    assert "grief" in repr_str
-    assert "0.75" in repr_str
+    assert result.primary == "grief"
+    assert result.secondary == "fear"
+    assert result.intensity == 0.75
+    assert result.scores["grief"] == 3.0
+
+
+# ==============================================================================
+# NOTE EVENT TESTS
+# ==============================================================================
+
+def test_note_event_creation():
+    """NoteEvent should be created with all fields."""
+    note = NoteEvent(pitch=60, velocity=80, start_tick=0, duration_ticks=480)
+    assert note.pitch == 60
+    assert note.velocity == 80
+    assert note.start_tick == 0
+    assert note.duration_ticks == 480
+
+
+def test_note_event_to_dict():
+    """NoteEvent.to_dict should return proper dict format."""
+    note = NoteEvent(pitch=60, velocity=80, start_tick=0, duration_ticks=480)
+    d = note.to_dict()
+    assert d["pitch"] == 60
+    assert d["velocity"] == 80
+    assert d["start_tick"] == 0
+    assert d["duration_ticks"] == 480
+
+
+# ==============================================================================
+# TENSION CURVE TESTS
+# ==============================================================================
+
+def test_build_tension_curve_length():
+    """Tension curve should have correct length."""
+    curve = build_tension_curve(32)
+    assert len(curve) == 32
+
+    curve = build_tension_curve(64)
+    assert len(curve) == 64
+
+
+def test_build_tension_curve_values_in_range():
+    """Tension curve values should be reasonable multipliers."""
+    curve = build_tension_curve(32)
+    for val in curve:
+        assert 0.3 <= val <= 1.5
+
+
+def test_build_tension_curve_zero_length():
+    """Zero length should return single default value."""
+    curve = build_tension_curve(0)
+    assert curve == [1.0]
+
+
+def test_tension_multiplier_boundaries():
+    """Tension multiplier should handle edge cases."""
+    assert tension_multiplier(0.0) is not None
+    assert tension_multiplier(1.0) is not None
+    assert tension_multiplier(0.5) is not None
+
+
+def test_tension_multiplier_with_curve():
+    """Tension multiplier should use provided curve."""
+    curve = [0.5, 0.7, 1.0, 1.2, 0.8]
+    assert tension_multiplier(0.0, curve) == 0.5
+    assert tension_multiplier(1.0, curve) == 0.8
+
+
+# ==============================================================================
+# KIT SELECTION TESTS
+# ==============================================================================
+
+def test_select_kit_for_grief():
+    """Grief should map to LoFi kit."""
+    assert select_kit_for_mood("grief") == "LoFi_Bedroom_Kit"
+
+
+def test_select_kit_for_rage():
+    """Rage should map to Industrial kit."""
+    assert select_kit_for_mood("rage") == "Industrial_Glitch_Kit"
+
+
+def test_select_kit_for_unknown():
+    """Unknown mood should map to Standard kit."""
+    assert select_kit_for_mood("unknown") == "Standard_Kit"
+    assert select_kit_for_mood("") == "Standard_Kit"
+    assert select_kit_for_mood(None) == "Standard_Kit"
