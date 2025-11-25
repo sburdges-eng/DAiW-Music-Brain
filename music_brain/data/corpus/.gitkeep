@@ -1,0 +1,10 @@
+# This directory contains text corpus files for lyrical mirror generation.
+# Add .txt files here to expand the lyrical vocabulary.
+#
+# Example files:
+# - blues_lyrics.txt
+# - folk_lyrics.txt
+# - poetry.txt
+#
+# The lyrical_mirror module will automatically load all .txt files
+# from this directory when generating fragments.
