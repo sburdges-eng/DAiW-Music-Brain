@@ -1,11 +1,54 @@
 # DAiW - Digital Audio Intelligent Workstation
 
 > A Python toolkit for music production intelligence: groove extraction, chord analysis, arrangement generation, and AI-assisted songwriting.
-> 
+>
 > **Philosophy: "Interrogate Before Generate"** — The tool shouldn't finish art for people. It should make them braver.
 
 [![Python 3.9+](https://img.shields.io/badge/python-3.9+-blue.svg)](https://www.python.org/downloads/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
+---
+
+## Status: Alpha (v0.3.0)
+
+This project is in **active development**. The current architecture centers on the **TherapySession** engine rather than the originally planned YAML-based intent pipeline.
+
+### Working
+
+| Component | Description | Location |
+|-----------|-------------|----------|
+| **TherapySession** | Affect analysis → mode/tempo/chord generation | `structure/comprehensive_engine.py` |
+| **HarmonyPlan** | Blueprint for generation (root, mode, tempo, bars, chords) | `structure/comprehensive_engine.py` |
+| **Groove Engine v2** | Drunken Drummer humanization (timing jitter, velocity shaping) | `groove/groove_engine.py` |
+| **Tension Curves** | Bar-wise dynamic tension multipliers | `structure/tension_curve.py` |
+| **LogicProject** | MIDI export with proper delta time calculation | `daw/logic.py` |
+| **Lyrical Mirror** | Markov/cut-up lyric fragment generation | `text/lyrical_mirror.py` |
+| **Desktop App** | Streamlit UI + native window via pywebview | `app.py`, `launcher.py` |
+
+### Partial / Legacy
+
+| Component | Status | Notes |
+|-----------|--------|-------|
+| Full CLI commands | Partial | Many commands exist but not all fully tested |
+| Intent YAML pipeline | Legacy | Three-phase schema exists; `TherapySession` is the current interface |
+| Teaching module | Legacy | `session/teaching.py` exists but not actively maintained |
+| Groove extractor/applicator | Legacy | Template-based system in `groove/extractor.py`, `applicator.py` |
+| Sections detection | Partial | `structure/sections.py` exists separately from main engine |
+| Audio feel analysis | Partial | Requires optional `librosa` dependency |
+
+### Primary Interface
+
+The recommended interface for this alpha is the **Desktop App**:
+
+```bash
+# Option 1: Streamlit in browser
+streamlit run app.py
+
+# Option 2: Native window (requires pywebview)
+python launcher.py
+```
+
+---
 
 ## Overview
 
@@ -29,51 +72,91 @@ pip install -e .
 
 ## Quick Start
 
-### Intent-Based Song Generation (New!)
+### Desktop App (Recommended)
+
+The primary interface is the Streamlit desktop app:
 
 ```bash
-# Create a new song intent template
-daiw intent new --title "My Song" --output my_intent.json
+# Install with UI dependencies
+pip install -e ".[ui]"
 
-# Edit the JSON to fill in your emotional intent...
+# Run in browser
+streamlit run app.py
 
-# Process intent to generate musical elements
-daiw intent process my_intent.json
-
-# Get suggestions for rules to break
-daiw intent suggest grief
-
-# List all rule-breaking options
-daiw intent list
+# Or with native window (requires pywebview)
+pip install -e ".[desktop]"
+python launcher.py
 ```
 
-### Command Line Interface
-
-```bash
-# Extract groove from a MIDI file
-daiw extract drums.mid
-
-# Apply genre groove template
-daiw apply --genre funk track.mid
-
-# Analyze chord progression
-daiw analyze --chords song.mid
-
-# Diagnose harmonic issues
-daiw diagnose "F-C-Am-Dm"
-
-# Generate reharmonizations
-daiw reharm "F-C-Am-Dm" --style jazz
-
-# Interactive teaching mode
-daiw teach rulebreaking
-```
-
-### Python API
+### Python API (Current Engine)
 
 ```python
-from music_brain.groove import extract_groove, apply_groove
-from music_brain.structure import analyze_chords
+from music_brain.structure.comprehensive_engine import (
+    TherapySession,
+    HarmonyPlan,
+    render_plan_to_midi,
+)
+
+# Create a therapy session
+session = TherapySession()
+
+# Process emotional input → affect analysis
+affect = session.process_core_input("I feel dead inside because I chose safety over freedom")
+# Returns: "dissociation" (detected primary affect)
+
+# Set motivation and chaos tolerance
+session.set_scales(motivation=7, chaos=0.5)
+
+# Generate harmony plan
+plan = session.generate_plan()
+# Returns HarmonyPlan with:
+#   - root_note: "C"
+#   - mode: "locrian" (mapped from dissociation)
+#   - tempo_bpm: 100
+#   - length_bars: 32
+#   - chord_symbols: ["Cdim", "DbMaj7", "Ebm", "Cdim"]
+
+# Render to MIDI
+render_plan_to_midi(plan, "output.mid")
+```
+
+### Groove Humanization
+
+```python
+from music_brain.groove.groove_engine import apply_groove, GrooveSettings
+
+# Humanize note events with "Drunken Drummer" algorithm
+events = [{"start_tick": 0, "velocity": 80, "pitch": 36}, ...]
+humanized = apply_groove(
+    events,
+    complexity=0.6,      # Timing chaos (0.0-1.0)
+    vulnerability=0.5,   # Dynamic fragility (0.0-1.0)
+)
+```
+
+### CLI (Partial)
+
+```bash
+# Humanize drum MIDI (working)
+daiw humanize drums.mid --style natural
+
+# Diagnose harmonic issues (working)
+daiw diagnose "F-C-Am-Dm"
+
+# Other commands exist but may not be fully tested
+daiw --help
+```
+
+---
+
+### Legacy: Intent-Based Generation
+
+> **Note:** The three-phase intent system exists in the codebase but `TherapySession` is the current primary interface.
+
+<details>
+<summary>Click to expand legacy intent API</summary>
+
+```python
 from music_brain.session import (
     CompleteSongIntent, SongRoot, SongIntent, TechnicalConstraints,
     suggest_rule_break
@@ -103,10 +186,102 @@ intent = CompleteSongIntent(
 
 # Process intent to generate elements
 result = process_intent(intent)
-print(result['harmony'].chords)  # ['F', 'C', 'Bbm', 'F']
 ```
 
-## The Intent Schema
+</details>
+
+## Current Engine (v0.3.x)
+
+### TherapySession
+
+The core engine processes emotional text and generates a `HarmonyPlan`:
+
+```python
+session = TherapySession()
+affect = session.process_core_input(text)  # Returns: "grief", "rage", "awe", etc.
+session.set_scales(motivation, chaos)
+plan = session.generate_plan()
+```
+
+**Affect → Mode Mapping:**
+
+| Affect | Mode | Typical Tempo |
+|--------|------|---------------|
+| grief | aeolian | 70 BPM |
+| rage | phrygian | 130 BPM |
+| awe | lydian | 90 BPM |
+| nostalgia | dorian | 100 BPM |
+| dissociation | locrian | 100 BPM |
+| defiance | mixolydian | 130 BPM |
+| tenderness | ionian | 100 BPM |
+
+**Motivation → Length:**
+
+| Motivation | Length |
+|------------|--------|
+| 1-3 | 16 bars |
+| 4-7 | 32 bars |
+| 8-10 | 64 bars |
+
+### HarmonyPlan Fields
+
+```python
+@dataclass
+class HarmonyPlan:
+    root_note: str           # "C", "F#"
+    mode: str                # "ionian", "aeolian", "phrygian", etc.
+    tempo_bpm: int
+    time_signature: str      # "4/4"
+    length_bars: int
+    chord_symbols: List[str] # ["Cm7", "Fm9"]
+    harmonic_rhythm: str     # "1_chord_per_bar"
+    mood_profile: str
+    complexity: float        # 0.0 - 1.0
+```
+
+### Groove Engine v2
+
+The "Drunken Drummer" algorithm applies psychoacoustically-informed humanization:
+
+```python
+from music_brain.groove.groove_engine import apply_groove
+
+humanized = apply_groove(
+    events,
+    complexity=0.6,      # Timing chaos: off-grid, occasional dropouts
+    vulnerability=0.5,   # Dynamic range: wider variance, softer
+    ppq=480,
+)
+```
+
+- **Gaussian timing jitter** (not uniform) - sounds more human
+- **SAFE_DRIFT_LIMIT** prevents notes from drifting too far
+- **Velocity shaping** based on vulnerability
+- **Per-drum protection** - kicks/snares less likely to drop out
+
+### Tension Curves
+
+Apply bar-wise tension multipliers for dynamic "breathing":
+
+```python
+from music_brain.structure.tension_curve import (
+    apply_tension_curve, generate_curve_for_bars
+)
+
+curve = generate_curve_for_bars(32, "verse_chorus")
+events = apply_tension_curve(events, bar_ticks, curve)
+```
+
+Presets: `verse_chorus`, `slow_build`, `catharsis`, `descent`, `spiral`, `static`
+
+---
+
+## Legacy: Intent Schema
+
+> **Note:** The three-phase intent system is a design target. Current implementation uses `TherapySession`.
+
+<details>
+<summary>Click to expand intent schema documentation</summary>
 
 ### Three-Phase Deep Interrogation
 
@@ -130,7 +305,99 @@ print(result['harmony'].chords)  # ['F', 'C', 'Bbm', 'F']
 - `technical_rule_to_break` — Intentional rule violation
 - `rule_breaking_justification` — WHY break this rule
 
-## Rule-Breaking Categories
+</details>
+
+## Desktop Application
+
+DAiW includes a native desktop application:
+
+| File | Purpose |
+|------|---------|
+| `app.py` | Streamlit UI - the main interface |
+| `launcher.py` | Native window wrapper using pywebview |
+| `daiw.spec` | PyInstaller configuration for building executables |
+
+### Running
+
+```bash
+# Development (browser)
+streamlit run app.py
+
+# Native window
+python launcher.py
+```
+
+### Building Standalone Executable
+
+```bash
+pip install -e ".[build]"
+pyinstaller daiw.spec --clean --noconfirm
+
+# Output: dist/DAiW/DAiW (Linux), dist/DAiW.app (macOS), dist/DAiW/DAiW.exe (Windows)
+```
+
+---
+
+## Project Structure
+
+```
+DAiW-Music-Brain/
+├── app.py                    # Streamlit UI (main interface)
+├── launcher.py               # Native window wrapper (pywebview)
+├── daiw.spec                 # PyInstaller build config
+│
+├── music_brain/              # Python package
+│   ├── __init__.py           # Public API exports (v0.3.0)
+│   ├── cli.py                # CLI entry point
+│   │
+│   ├── structure/            # Core engine
+│   │   ├── comprehensive_engine.py  # TherapySession, HarmonyPlan
+│   │   ├── tension_curve.py         # Dynamic tension curves
+│   │   ├── chord.py                 # Chord parsing
+│   │   ├── progression.py           # Progression analysis
+│   │   └── sections.py              # Section detection (partial)
+│   │
+│   ├── groove/               # Groove/humanization
+│   │   ├── groove_engine.py         # Drunken Drummer (v2)
+│   │   ├── extractor.py             # Legacy template extraction
+│   │   ├── applicator.py            # Legacy template application
+│   │   └── templates.py             # Genre templates
+│   │
+│   ├── daw/                  # DAW integration
+│   │   └── logic.py                 # LogicProject, MIDI export
+│   │
+│   ├── text/                 # Text/lyric processing
+│   │   └── lyrical_mirror.py        # Markov/cut-up fragments
+│   │
+│   ├── audio/                # Audio analysis (requires librosa)
+│   │   ├── feel.py                  # Feel analysis
+│   │   └── reference_dna.py         # Reference track analysis
+│   │
+│   ├── session/              # Legacy intent system
+│   │   ├── intent_schema.py         # Three-phase schema
+│   │   ├── intent_processor.py      # Intent processing
+│   │   ├── teaching.py              # Teaching module
+│   │   └── interrogator.py          # Interrogator
+│   │
+│   ├── utils/                # Utilities
+│   │   ├── midi_io.py
+│   │   ├── instruments.py
+│   │   └── ppq.py
+│   │
+│   └── data/                 # JSON/YAML data files
+│
+├── vault/                    # Knowledge base (Obsidian-compatible)
+│
+└── tests/                    # Test suite
+    ├── test_comprehensive_engine.py
+    ├── test_groove_engine.py
+    └── ...
+```
+
+---
+
+<details>
+<summary>Legacy: Rule-Breaking Categories</summary>
 
 ### Harmony
 | Rule | Effect | Use When |
@@ -151,59 +418,29 @@ print(result['harmony'].chords)  # ['F', 'C', 'Bbm', 'F']
 | `PRODUCTION_BuriedVocals` | Dissociation, texture | Dreams, distance |
 | `PRODUCTION_PitchImperfection` | Emotional honesty | Raw vulnerability |
 
-## Project Structure
-
-```
-DAiW-Music-Brain/
-├── music_brain/              # Python analysis package
-│   ├── groove/               # Groove extraction & application
-│   ├── structure/            # Chord, section, progression analysis
-│   ├── audio/                # Audio feel analysis
-│   ├── session/              # Intent schema, teaching, interrogator
-│   │   ├── intent_schema.py  # Three-phase intent system
-│   │   ├── intent_processor.py # Rule-breaking execution
-│   │   ├── teaching.py       # Interactive lessons
-│   │   └── interrogator.py   # Song interrogation
-│   ├── utils/                # MIDI I/O, instruments, PPQ
-│   ├── daw/                  # DAW integration
-│   └── data/                 # JSON datasets
-│       ├── song_intent_schema.yaml
-│       ├── song_intent_examples.json
-│       └── genre_pocket_maps.json
-│
-├── vault/                    # Knowledge base (Obsidian-compatible)
-│   └── Songwriting_Guides/
-│       ├── song_intent_schema.md
-│       ├── rule_breaking_practical.md
-│       └── rule_breaking_masterpieces.md
-│
-└── tests/                    # Test suite
-```
+</details>
 
 ## Features
 
-### Intent-Based Generation
-- Deep interrogation before technical decisions
-- Emotion-to-music mapping
-- Intentional rule-breaking with justification
-- Phase validation for completeness
+### Current (v0.3.x)
 
-### Groove Analysis
-- Extract timing deviations (swing, push/pull)
-- Velocity contours and accent patterns
-- Genre-specific templates
-- Cross-DAW PPQ normalization
+- **Affect-based generation** - Text → mode/tempo/chord mapping via `TherapySession`
+- **MIDI export** - Full MIDI rendering via `LogicProject`
+- **Drum humanization** - "Drunken Drummer" algorithm with Gaussian jitter
+- **Tension curves** - Bar-wise dynamic shaping (verse_chorus, catharsis, etc.)
+- **Lyrical fragments** - Markov/cut-up text generation
 
-### Chord & Harmony
-- Roman numeral analysis
-- Borrowed chord detection
-- Modal interchange identification
-- Reharmonization suggestions
+### Partial
 
-### Teaching Module
-- Interactive lessons on rule-breaking
-- Emotion-specific technique suggestions
-- Production philosophy guidance
+- **CLI commands** - `humanize`, `diagnose` working; others exist but not fully tested
+- **Chord analysis** - Basic progression parsing and diagnosis
+- **Section detection** - Exists but separate from main engine
+
+### Legacy/Planned
+
+- **Three-phase intent schema** - Design exists in codebase
+- **Teaching module** - Exists but not actively maintained
+- **Template-based groove** - Legacy extractor/applicator
 
 ## Requirements
 
@@ -211,9 +448,12 @@ DAiW-Music-Brain/
 - mido (MIDI I/O)
 - numpy (numerical analysis)
 
-Optional:
+**Optional:**
+- streamlit (web UI)
+- pywebview (native window)
 - librosa (audio analysis)
 - music21 (advanced theory)
+- markovify (lyric generation)
 
 ## License
 
