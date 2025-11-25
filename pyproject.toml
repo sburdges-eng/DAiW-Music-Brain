@@ -33,9 +33,21 @@ dependencies = [
 ]
 
 [project.optional-dependencies]
+# Audio analysis (spectral, tempo, key detection)
 audio = [
     "librosa>=0.9.0",
     "soundfile>=0.10.0",
+    "scipy>=1.7.0",
+    "audioread>=2.1.0",
+    "resampy>=0.4.0",
+]
+# Audio sample processing and manipulation
+samples = [
+    "pydub>=0.25.0",
+    "scipy>=1.7.0",
+    "soundfile>=0.10.0",
+    "audiomentations>=0.30.0",
+    "pedalboard>=0.7.0",
 ]
 theory = [
     "music21>=7.0.0",
@@ -67,6 +79,12 @@ build = [
 all = [
     "librosa>=0.9.0",
     "soundfile>=0.10.0",
+    "scipy>=1.7.0",
+    "audioread>=2.1.0",
+    "resampy>=0.4.0",
+    "pydub>=0.25.0",
+    "audiomentations>=0.30.0",
+    "pedalboard>=0.7.0",
     "music21>=7.0.0",
     "markovify>=0.9.0",
     "streamlit>=1.28.0",
