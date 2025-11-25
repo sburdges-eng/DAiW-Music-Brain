@@ -55,7 +55,10 @@ DAiW-Music-Brain/
 ├── vault/                    # Obsidian-compatible knowledge base
 │   ├── Songwriting_Guides/   # Rule-breaking guides
 │   ├── Theory_Reference/     # Music theory documentation
-│   ├── Production_Workflows/ # DAW techniques
+│   ├── Production_Workflows/ # DAW techniques + C++ architecture
+│   │   ├── cpp_audio_architecture.md  # Brain/Body hybrid model
+│   │   ├── juce_getting_started.md    # JUCE plugin development
+│   │   └── osc_bridge_python_cpp.md   # OSC communication protocol
 │   └── Templates/            # Task templates
 ├── tests/                    # Test suite
 │   └── test_basic.py         # Import & feature tests
@@ -372,6 +375,32 @@ The `structure/` module is planned for integration with a **Comprehensive Engine
 Future refactoring may consolidate:
 - `session/` + `structure/` for unified emotion-to-harmony pipeline
 - `groove/` + `audio/` for comprehensive feel analysis
+
+### C++ Audio Engine (Future)
+
+DAiW will evolve into a **hybrid Python/C++ architecture**:
+
+| Component | Language | Role |
+|-----------|----------|------|
+| **Brain** | Python | Therapy logic, NLP, harmony generation, intent processing |
+| **Body** | C++ (JUCE) | Real-time audio, plugin UI, DAW integration |
+
+**Why C++ is needed for audio:**
+- Python's Garbage Collector causes 5-20ms pauses (audio needs <3ms response)
+- Python's GIL blocks multi-threading (audio needs dedicated thread)
+- C++ is 50-100x faster for sample-by-sample math
+
+**The connection:** OSC (Open Sound Control) bridges Python Brain ↔ C++ Body
+
+**Documentation:**
+- `vault/Production_Workflows/cpp_audio_architecture.md` — Full architecture overview
+- `vault/Production_Workflows/juce_getting_started.md` — JUCE setup guide
+- `vault/Production_Workflows/osc_bridge_python_cpp.md` — OSC communication protocol
+
+**Development strategy:**
+1. **Now:** Keep building Python Brain (perfect for logic/AI)
+2. **Soon:** Learn JUCE basics, build passthrough plugin
+3. **Later:** Add OSC bridge, connect Python to C++ plugin
 
 ## Notes for AI Assistants
 
