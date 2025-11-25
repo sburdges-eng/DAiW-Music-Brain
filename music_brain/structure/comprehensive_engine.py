@@ -146,7 +146,31 @@ class NoteEvent:
 
 
 # ==============================================================================
-# 3. OBLIQUE STRATEGIES (Tiered)
+# 3. TENSION CURVE (Song-Level Energy Shape)
+# ==============================================================================
+
+# Values are velocity multipliers:
+# [Intro, Verse, Chorus, Chorus, Bridge, Outro]
+TENSION_CURVE = [0.6, 0.8, 1.1, 1.1, 1.3, 0.7]
+
+
+def tension_multiplier(progress: float) -> float:
+    """
+    Map 0.0–1.0 song progress to an energy multiplier.
+    Progress is (current_bar / total_bars).
+    """
+    if progress <= 0.0:
+        return TENSION_CURVE[0]
+    if progress >= 1.0:
+        return TENSION_CURVE[-1]
+
+    segment = int(progress * len(TENSION_CURVE))
+    idx = max(0, min(len(TENSION_CURVE) - 1, segment))
+    return TENSION_CURVE[idx]
+
+
+# ==============================================================================
+# 4. OBLIQUE STRATEGIES (Tiered)
 # ==============================================================================
 
 STRATEGIES_MILD = [
@@ -179,7 +203,7 @@ def get_strategy(tolerance: float) -> str:
 
 
 # ==============================================================================
-# 4. THERAPY SESSION (Pure Logic)
+# 5. THERAPY SESSION (Pure Logic)
 # ==============================================================================
 
 
@@ -293,7 +317,7 @@ class TherapySession:
 
 
 # ==============================================================================
-# 5. HARMONY -> MIDI BRIDGE (REAL INTEGRATION)
+# 6. HARMONY -> MIDI BRIDGE (REAL INTEGRATION)
 # ==============================================================================
 
 
@@ -356,14 +380,14 @@ def render_plan_to_midi(
     progression_str = "-".join(plan.chord_symbols)
     parsed_chords = parse_progression_string(progression_str)
 
-    # 3. Build NoteEvents from ParsedChord + CHORD_QUALITIES
+    # 3. Build NoteEvents from ParsedChord + CHORD_QUALITIES (with Tension Curve)
     ppq = getattr(project, "ppq", 480)
     beats_per_bar = time_sig[0]
     bar_ticks = int(beats_per_bar * ppq)
 
     note_events: List[NoteEvent] = []
 
-    # naive: one chord per bar, LOOPED to fill song length
+    # One chord per bar, LOOPED to fill song length
     start_tick = 0
     current_bar = 0
     total_bars = plan.length_bars
@@ -384,11 +408,17 @@ def render_plan_to_midi(
             root_midi = 48 + parsed.root_num  # C3 as base
             duration_ticks = bar_ticks
 
+            # Apply tension curve: shape velocity by song progress
+            progress = current_bar / float(total_bars) if total_bars > 0 else 0.0
+            energy = tension_multiplier(progress)
+            base_vel = int(80 * energy)
+            base_vel = max(30, min(120, base_vel))  # Clamp to sane range
+
             for interval in intervals:
                 note_events.append(
                     NoteEvent(
                         pitch=root_midi + interval,
-                        velocity=80,
+                        velocity=base_vel,
                         start_tick=start_tick,
                         duration_ticks=duration_ticks,
                     )
@@ -427,7 +457,7 @@ def render_plan_to_midi(
 
 
 # ==============================================================================
-# 6. VAULT INTEGRATION (One-shot phrase → MIDI in AudioVault)
+# 7. VAULT INTEGRATION (One-shot phrase → MIDI in AudioVault)
 # ==============================================================================
 
 
@@ -554,7 +584,34 @@ def generate_lyric_mirror(
 
 
 # ==============================================================================
-# 8. CLI HANDLER (The "View" Layer) - Optional
+# 8. KIT SELECTION (Mood → Sample Kit)
+# ==============================================================================
+
+
+def select_kit_for_mood(mood: str) -> str:
+    """
+    Map detected mood to a suggested drum kit name.
+
+    Args:
+        mood: Detected affect (grief, rage, etc.)
+
+    Returns:
+        Kit name string (for use with audio_vault.kit_loader)
+    """
+    mood = (mood or "").lower()
+    if mood in ["grief", "dissociation", "broken"]:
+        return "LoFi_Bedroom_Kit"
+    if mood in ["rage", "defiance", "fear"]:
+        return "Industrial_Glitch_Kit"
+    if mood in ["awe", "tenderness"]:
+        return "Ambient_Kit"
+    if mood in ["nostalgia"]:
+        return "Vinyl_Kit"
+    return "Standard_Kit"
+
+
+# ==============================================================================
+# 9. CLI HANDLER (The "View" Layer) - Optional
 # ==============================================================================
 
 
