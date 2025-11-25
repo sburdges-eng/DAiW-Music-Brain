@@ -9,6 +9,16 @@ numpy>=1.21.0         # Numerical operations
 # Optional music theory (install with: pip install daiw[theory])
 # music21>=7.0.0      # Advanced music theory
 
+# Desktop UI dependencies (install with: pip install daiw[ui])
+# streamlit>=1.28.0   # Web UI framework
+
+# Native desktop app (install with: pip install daiw[desktop])
+# streamlit>=1.28.0   # Web UI framework
+# pywebview>=4.0.0    # Native window wrapper
+
+# Build tools for standalone executable (install with: pip install daiw[build])
+# pyinstaller>=6.0.0  # Executable packaging
+
 # Development dependencies (install with: pip install daiw[dev])
 # pytest>=7.0.0
 # black>=22.0.0
