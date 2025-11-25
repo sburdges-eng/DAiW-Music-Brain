@@ -161,7 +161,7 @@ def analyze_feel(
 
 
 def _estimate_tempo_confidence(
-    onset_env: np.ndarray,
+    onset_env,  # np.ndarray when numpy available
     tempo: float,
     sr: int,
     hop_length: int,
@@ -190,7 +190,7 @@ def _estimate_tempo_confidence(
     return float(confidence)
 
 
-def _estimate_swing(beat_times: np.ndarray) -> float:
+def _estimate_swing(beat_times) -> float:  # np.ndarray when numpy available
     """
     Estimate swing amount from beat times.
     
@@ -231,7 +231,7 @@ def _estimate_swing(beat_times: np.ndarray) -> float:
     return float(swing)
 
 
-def _estimate_groove_regularity(beat_times: np.ndarray) -> float:
+def _estimate_groove_regularity(beat_times) -> float:  # np.ndarray when numpy available
     """
     Estimate how regular/consistent the groove is.
     
