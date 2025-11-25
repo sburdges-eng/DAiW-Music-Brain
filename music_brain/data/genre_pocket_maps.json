@@ -1,0 +1,168 @@
+{
+  "metadata": {
+    "name": "Genre Pocket Maps",
+    "version": "1.0.0",
+    "description": "Timing characteristics and groove parameters by genre",
+    "units": {
+      "timing": "milliseconds deviation from grid",
+      "swing": "0.0 (straight) to 1.0 (triplet)",
+      "velocity": "0-127 MIDI velocity"
+    }
+  },
+  
+  "genres": {
+    "funk": {
+      "description": "Deep pocket, emphasis on 2 and 4",
+      "tempo_range": [90, 120],
+      "swing": 0.15,
+      "pocket_depth": "deep",
+      "characteristics": {
+        "kick": {"timing_offset_ms": 0, "velocity_range": [100, 120]},
+        "snare": {"timing_offset_ms": 12, "velocity_range": [95, 115]},
+        "hihat": {"timing_offset_ms": -5, "velocity_range": [50, 80]},
+        "ghost_notes": true,
+        "ghost_velocity": [25, 45]
+      },
+      "reference_artists": ["James Brown", "Bootsy Collins", "Vulfpeck"]
+    },
+    
+    "jazz_swing": {
+      "description": "Classic triplet swing feel",
+      "tempo_range": [100, 200],
+      "swing": 0.67,
+      "pocket_depth": "moderate",
+      "characteristics": {
+        "ride": {"timing_offset_ms": 0, "velocity_range": [60, 90]},
+        "snare_comping": {"timing_offset_ms": 5, "velocity_range": [40, 70]},
+        "bass_walk": {"timing_offset_ms": 3, "velocity_range": [70, 95]}
+      },
+      "reference_artists": ["Art Blakey", "Elvin Jones", "Tony Williams"]
+    },
+    
+    "rock": {
+      "description": "Straight feel with strong backbeat",
+      "tempo_range": [100, 140],
+      "swing": 0.0,
+      "pocket_depth": "pushed",
+      "characteristics": {
+        "kick": {"timing_offset_ms": -3, "velocity_range": [110, 127]},
+        "snare": {"timing_offset_ms": -2, "velocity_range": [115, 127]},
+        "hihat": {"timing_offset_ms": -5, "velocity_range": [70, 100]},
+        "ghost_notes": false
+      },
+      "reference_artists": ["Led Zeppelin", "AC/DC", "Foo Fighters"]
+    },
+    
+    "hiphop": {
+      "description": "Deep laid-back pocket with ghost notes",
+      "tempo_range": [75, 100],
+      "swing": 0.25,
+      "pocket_depth": "very_deep",
+      "characteristics": {
+        "kick": {"timing_offset_ms": 0, "velocity_range": [110, 127]},
+        "snare": {"timing_offset_ms": 20, "velocity_range": [100, 120]},
+        "hihat": {"timing_offset_ms": 10, "velocity_range": [40, 70]},
+        "ghost_notes": true,
+        "ghost_velocity": [20, 40]
+      },
+      "reference_artists": ["J Dilla", "9th Wonder", "Madlib"]
+    },
+    
+    "neo_soul": {
+      "description": "Organic feel with subtle swing",
+      "tempo_range": [70, 95],
+      "swing": 0.35,
+      "pocket_depth": "deep",
+      "characteristics": {
+        "kick": {"timing_offset_ms": 5, "velocity_range": [80, 110]},
+        "snare": {"timing_offset_ms": 15, "velocity_range": [70, 100]},
+        "hihat": {"timing_offset_ms": 8, "velocity_range": [35, 65]},
+        "ghost_notes": true,
+        "ghost_velocity": [15, 35]
+      },
+      "reference_artists": ["D'Angelo", "Erykah Badu", "Anderson .Paak"]
+    },
+    
+    "edm": {
+      "description": "Machine-tight with subtle humanization",
+      "tempo_range": [120, 150],
+      "swing": 0.0,
+      "pocket_depth": "grid",
+      "characteristics": {
+        "kick": {"timing_offset_ms": 0, "velocity_range": [120, 127]},
+        "snare": {"timing_offset_ms": 0, "velocity_range": [115, 127]},
+        "hihat": {"timing_offset_ms": 0, "velocity_range": [90, 110]},
+        "ghost_notes": false
+      },
+      "reference_artists": ["Deadmau5", "Disclosure", "Flume"]
+    },
+    
+    "blues": {
+      "description": "12/8 shuffle with expressive dynamics",
+      "tempo_range": [70, 120],
+      "swing": 0.60,
+      "pocket_depth": "moderate",
+      "characteristics": {
+        "kick": {"timing_offset_ms": 0, "velocity_range": [85, 110]},
+        "snare": {"timing_offset_ms": 10, "velocity_range": [75, 105]},
+        "hihat": {"timing_offset_ms": 5, "velocity_range": [50, 80]},
+        "shuffle": true
+      },
+      "reference_artists": ["Stevie Ray Vaughan", "BB King", "John Mayer"]
+    },
+    
+    "latin": {
+      "description": "Clave-based syncopation",
+      "tempo_range": [90, 130],
+      "swing": 0.1,
+      "pocket_depth": "syncopated",
+      "characteristics": {
+        "clave_pattern": "3-2",
+        "kick": {"timing_offset_ms": 0, "velocity_range": [90, 115]},
+        "snare": {"timing_offset_ms": 5, "velocity_range": [80, 105]},
+        "congas": {"timing_offset_ms": 3, "velocity_range": [60, 95]}
+      },
+      "reference_artists": ["Tito Puente", "Buena Vista Social Club"]
+    },
+    
+    "bedroom_lofi": {
+      "description": "Intentionally imperfect, organic feel",
+      "tempo_range": [70, 95],
+      "swing": 0.35,
+      "pocket_depth": "inconsistent",
+      "characteristics": {
+        "kick": {"timing_offset_ms": [-10, 20], "velocity_range": [70, 100]},
+        "snare": {"timing_offset_ms": [5, 35], "velocity_range": [60, 95]},
+        "hihat": {"timing_offset_ms": [-15, 25], "velocity_range": [30, 60]},
+        "ghost_notes": true,
+        "intentional_drift": true
+      },
+      "reference_artists": ["Mac DeMarco", "Clairo", "Boy Pablo"]
+    },
+    
+    "confessional_acoustic": {
+      "description": "Intimate, rubato-friendly",
+      "tempo_range": [70, 100],
+      "swing": 0.2,
+      "pocket_depth": "flexible",
+      "characteristics": {
+        "tempo_drift": true,
+        "velocity_expression": "high",
+        "quantization": "minimal",
+        "rubato_sections": true
+      },
+      "reference_artists": ["Elliott Smith", "Phoebe Bridgers", "Bright Eyes"]
+    }
+  },
+  
+  "pocket_depth_definitions": {
+    "grid": "Exactly on the beat, machine-like",
+    "pushed": "Slightly ahead of the beat, creates urgency",
+    "moderate": "Natural feel, slight variations",
+    "deep": "Laid back, behind the beat",
+    "very_deep": "Significantly behind, heavy pocket",
+    "syncopated": "Off-beat emphasis, clave-based",
+    "inconsistent": "Intentionally variable, lo-fi aesthetic",
+    "flexible": "Changes with emotional content"
+  }
+}
