@@ -427,7 +427,69 @@ def render_plan_to_midi(
 
 
 # ==============================================================================
-# 6. CLI HANDLER (The "View" Layer) - Optional
+# 6. VAULT INTEGRATION (One-shot phrase → MIDI in AudioVault)
+# ==============================================================================
+
+
+def render_phrase_to_vault(
+    phrase: str,
+    session: Optional[TherapySession] = None,
+    motivation: int = 7,
+    chaos: float = 0.5,
+    vulnerability: float = 0.5,
+) -> str:
+    """
+    One-shot convenience function: phrase → analyzed → MIDI in AudioVault/output.
+
+    Args:
+        phrase: The emotional text to process ("I feel broken")
+        session: Optional existing TherapySession (creates new if None)
+        motivation: 1-10 scale (used if session is None or not configured)
+        chaos: 0.0-1.0 chaos tolerance
+        vulnerability: 0.0-1.0 controls dynamic range
+
+    Returns:
+        Path to the generated MIDI file in AudioVault/output.
+    """
+    import re
+    from datetime import datetime
+
+    # Try to import vault config (optional - falls back to local dir)
+    try:
+        from music_brain.audio_vault.config import OUTPUT_DIR
+        output_dir = OUTPUT_DIR
+    except ImportError:
+        from pathlib import Path
+        output_dir = Path(".")
+
+    # Create or use session
+    if session is None:
+        session = TherapySession()
+        session.set_scales(motivation, chaos)
+
+    # Process the phrase
+    affect = session.process_core_input(phrase)
+
+    # Generate plan
+    plan = session.generate_plan()
+
+    # Build filename from phrase + timestamp
+    # Clean the phrase for filename: lowercase, underscores, truncate
+    clean_phrase = re.sub(r'[^a-z0-9]+', '_', phrase.lower())[:30].strip('_')
+    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+    filename = f"daiw_{clean_phrase}_{timestamp}.mid"
+
+    output_path = str(output_dir / filename)
+
+    # Render
+    midi_path = render_plan_to_midi(plan, output_path, vulnerability=vulnerability)
+
+    print(f"[VAULT]: Phrase '{phrase[:40]}...' → {affect} → {midi_path}")
+    return midi_path
+
+
+# ==============================================================================
+# 7. CLI HANDLER (The "View" Layer) - Optional
 # ==============================================================================
 
 
