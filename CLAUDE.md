@@ -69,6 +69,9 @@ DAiW-Music-Brain/
 ├── examples/                # Example files
 │   └── midi/                # Example MIDI files
 ├── docs/                    # Documentation
+├── app.py                   # Streamlit UI application
+├── launcher.py              # Native desktop app launcher (pywebview)
+├── daiw.spec                # PyInstaller build configuration
 ├── pyproject.toml           # Package configuration
 ├── setup.py                 # Legacy setup
 └── requirements.txt         # Core dependencies
@@ -124,12 +127,18 @@ pip install -e .
 pip install -e ".[dev]"      # pytest, black, flake8, mypy
 pip install -e ".[audio]"    # librosa, soundfile
 pip install -e ".[theory]"   # music21
+pip install -e ".[ui]"       # streamlit (web UI only)
+pip install -e ".[desktop]"  # streamlit + pywebview (native app)
+pip install -e ".[build]"    # + pyinstaller (build executables)
 pip install -e ".[all]"      # Everything
 ```
 
 ### Dependencies
 - **Core**: `mido>=1.2.10`, `numpy>=1.21.0`
 - **Dev**: `pytest>=7.0.0`, `black>=22.0.0`, `flake8>=4.0.0`, `mypy>=0.900`
+- **UI**: `streamlit>=1.28.0`
+- **Desktop**: `streamlit`, `pywebview>=4.0.0`
+- **Build**: `pyinstaller>=6.0.0`
 - **Optional**: `librosa`, `soundfile`, `music21`
 
 ### Python Version
@@ -186,6 +195,63 @@ daiw intent validate my_intent.json       # Validate intent file
 # Teaching
 daiw teach rulebreaking                   # Interactive teaching mode
 ```
+
+---
+
+## Desktop Application
+
+DAiW includes a native desktop application that provides a graphical interface without requiring a browser.
+
+### Running the UI
+
+```bash
+# Option 1: Streamlit in browser (development)
+streamlit run app.py
+
+# Option 2: Native window (requires pywebview)
+python launcher.py
+
+# Option 3: After building executable
+./dist/DAiW/DAiW        # Linux
+./dist/DAiW/DAiW.exe    # Windows
+open dist/DAiW.app      # macOS
+```
+
+### Building Standalone Executable
+
+```bash
+# Install build dependencies
+pip install -e ".[build]"
+
+# Build the application
+pyinstaller daiw.spec --clean --noconfirm
+
+# Output location
+# Linux/Windows: dist/DAiW/DAiW (or DAiW.exe)
+# macOS: dist/DAiW.app
+```
+
+### Desktop Architecture
+
+| File | Purpose |
+|------|---------|
+| `app.py` | Streamlit UI - the actual interface |
+| `launcher.py` | Native window wrapper using pywebview |
+| `daiw.spec` | PyInstaller configuration for building executables |
+
+The launcher:
+1. Finds a free port
+2. Starts Streamlit server in background
+3. Opens a native window (no browser chrome)
+4. Cleans up server when window closes
+
+### Troubleshooting Builds
+
+If the built app opens and immediately closes:
+1. Edit `daiw.spec`: change `console=False` to `console=True`
+2. Rebuild: `pyinstaller daiw.spec --clean --noconfirm`
+3. Run from terminal to see error messages
+4. Add missing modules to `hiddenimports` list in spec file
 
 ---
 

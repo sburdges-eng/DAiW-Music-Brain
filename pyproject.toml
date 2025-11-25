@@ -46,14 +46,34 @@ dev = [
     "flake8>=4.0.0",
     "mypy>=0.900",
 ]
+# Desktop UI dependencies
+ui = [
+    "streamlit>=1.28.0",
+]
+# Native desktop app wrapper
+desktop = [
+    "streamlit>=1.28.0",
+    "pywebview>=4.0.0",
+]
+# Build tools for creating standalone executables
+build = [
+    "streamlit>=1.28.0",
+    "pywebview>=4.0.0",
+    "pyinstaller>=6.0.0",
+]
 all = [
     "librosa>=0.9.0",
     "soundfile>=0.10.0",
     "music21>=7.0.0",
+    "streamlit>=1.28.0",
+    "pywebview>=4.0.0",
 ]
 
 [project.scripts]
 daiw = "music_brain.cli:main"
+
+[project.gui-scripts]
+daiw-desktop = "launcher:main"
 
 [project.urls]
 Homepage = "https://github.com/yourusername/DAiW-Music-Brain"

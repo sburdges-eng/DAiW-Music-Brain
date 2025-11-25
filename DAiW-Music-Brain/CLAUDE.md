@@ -59,6 +59,7 @@ DAiW-Music-Brain/
 │   │   ├── cpp_audio_architecture.md  # Brain/Body hybrid model
 │   │   ├── juce_getting_started.md    # JUCE plugin development
 │   │   └── osc_bridge_python_cpp.md   # OSC communication protocol
+│   ├── Production_Workflows/ # DAW techniques
 │   └── Templates/            # Task templates
 ├── tests/                    # Test suite
 │   └── test_basic.py         # Import & feature tests
@@ -274,6 +275,15 @@ get_texture_production("Ethereal")
 suggest_full_palette("grief")
 # → affect_mapping + suggested_rules + texture_options with production settings
 ```
+
+The system supports 21 intentional rule breaks across 4 categories:
+
+- **Harmony:** `HarmonyRuleBreak` (6 options)
+- **Rhythm:** `RhythmRuleBreak` (5 options)
+- **Arrangement:** `ArrangementRuleBreak` (5 options)
+- **Production:** `ProductionRuleBreak` (5 options)
+
+Each rule break requires emotional justification.
 
 ### Genre Groove Templates
 
