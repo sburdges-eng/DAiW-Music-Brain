@@ -55,6 +55,107 @@ class ProductionRuleBreak(Enum):
     ROOM_NOISE = "PRODUCTION_RoomNoise"
     DISTORTION = "PRODUCTION_Distortion"
     MONO_COLLAPSE = "PRODUCTION_MonoCollapse"
+    LO_FI_DEGRADATION = "PRODUCTION_LoFiDegradation"
+    SILENCE_AS_INSTRUMENT = "PRODUCTION_SilenceAsInstrument"
+    CLIPPING_PEAKS = "PRODUCTION_ClippingPeaks"
+
+
+class MelodyRuleBreak(Enum):
+    """Melody rules to intentionally break."""
+    AVOID_RESOLUTION = "MELODY_AvoidResolution"
+    EXCESSIVE_REPETITION = "MELODY_ExcessiveRepetition"
+    ANGULAR_INTERVALS = "MELODY_AngularIntervals"
+    ANTI_CLIMAX = "MELODY_AntiClimax"
+    MONOTONE_DRONE = "MELODY_MonotoneDrone"
+    FRAGMENTED_PHRASES = "MELODY_FragmentedPhrases"
+
+
+class TextureRuleBreak(Enum):
+    """Texture rules to intentionally break."""
+    FREQUENCY_MASKING = "TEXTURE_FrequencyMasking"
+    SPARSE_EMPTINESS = "TEXTURE_SparseEmptiness"
+    DENSE_WALL = "TEXTURE_DenseWall"
+    CONFLICTING_TIMBRES = "TEXTURE_ConflictingTimbres"
+    SINGLE_ELEMENT_FOCUS = "TEXTURE_SingleElementFocus"
+    TIMBRAL_DRIFT = "TEXTURE_TimbralDrift"
+
+
+class TemporalRuleBreak(Enum):
+    """Temporal/time rules to intentionally break."""
+    EXTENDED_INTRO = "TEMPORAL_ExtendedIntro"
+    ABRUPT_ENDING = "TEMPORAL_AbruptEnding"
+    TIME_STRETCH = "TEMPORAL_TimeStretch"
+    LOOP_HYPNOSIS = "TEMPORAL_LoopHypnosis"
+    BREATH_PAUSES = "TEMPORAL_BreathPauses"
+    ACCELERANDO_DECAY = "TEMPORAL_AccelerandoDecay"
+
+
+# =================================================================
+# ENUMS: Musical Concept Mappings
+# =================================================================
+
+class AffectState(Enum):
+    """Emotional states with musical parameter mappings."""
+    GRIEF = "grief"
+    LONGING = "longing"
+    DEFIANCE = "defiance"
+    HOPE = "hope"
+    RAGE = "rage"
+    TENDERNESS = "tenderness"
+    ANXIETY = "anxiety"
+    EUPHORIA = "euphoria"
+    MELANCHOLY = "melancholy"
+    NOSTALGIA = "nostalgia"
+    CATHARSIS = "catharsis"
+    DISSOCIATION = "dissociation"
+    DETERMINATION = "determination"
+    SURRENDER = "surrender"
+
+
+class TextureType(Enum):
+    """Sonic texture categories."""
+    ETHEREAL = "Ethereal"           # Airy, spacious, reverberant
+    INTIMATE = "Intimate"           # Close, dry, personal
+    MASSIVE = "Massive"             # Full, layered, powerful
+    SKELETAL = "Skeletal"           # Minimal, exposed, fragile
+    LUSH = "Lush"                   # Rich, warm, enveloping
+    HARSH = "Harsh"                 # Aggressive, abrasive, cutting
+    MURKY = "Murky"                 # Dark, unclear, submerged
+    CRYSTALLINE = "Crystalline"     # Clear, precise, bright
+
+
+class TensionProfile(Enum):
+    """How tension evolves over the song."""
+    CONSTANT_HIGH = "Constant High"         # Relentless intensity
+    CONSTANT_LOW = "Constant Low"           # Meditative calm
+    BUILD_RELEASE = "Build and Release"     # Classic arc
+    SAWTOOTH = "Sawtooth"                   # Repeated build-drops
+    INVERSE = "Inverse"                     # Start high, end low
+    PLATEAU = "Plateau"                     # Build to sustained level
+    CHAOTIC = "Chaotic"                     # Unpredictable shifts
+    SLOW_BURN = "Slow Burn"                 # Gradual accumulation
+
+
+class DensityLevel(Enum):
+    """Arrangement density."""
+    SOLO = "Solo"               # Single voice/instrument
+    DUO = "Duo"                 # Two elements in conversation
+    SPARSE = "Sparse"           # Few elements, lots of space
+    MODERATE = "Moderate"       # Balanced arrangement
+    FULL = "Full"               # Complete band/ensemble
+    DENSE = "Dense"             # Layered, complex
+    OVERWHELMING = "Overwhelming"  # Intentionally too much
+
+
+class ModalColor(Enum):
+    """Mode with emotional associations."""
+    IONIAN = "Ionian"           # Bright, happy, resolved
+    DORIAN = "Dorian"           # Minor but hopeful, jazzy
+    PHRYGIAN = "Phrygian"       # Dark, Spanish, exotic
+    LYDIAN = "Lydian"           # Dreamy, floating, ethereal
+    MIXOLYDIAN = "Mixolydian"   # Bluesy, earthy, unresolved
+    AEOLIAN = "Aeolian"         # Natural minor, sad, serious
+    LOCRIAN = "Locrian"         # Unstable, tense, rare
 
 
 class VulnerabilityScale(Enum):
@@ -235,6 +336,226 @@ RULE_BREAKING_EFFECTS = {
         "effect": "Claustrophobia, focus, intimacy",
         "use_when": "Internal monologue, pressure",
         "example_emotions": ["pressure", "focus", "isolation"],
+    },
+    "PRODUCTION_LoFiDegradation": {
+        "description": "Add tape hiss, bit crush, sample rate reduction",
+        "effect": "Nostalgia, memory, distance from reality",
+        "use_when": "Representing the past, unreliable memory",
+        "example_emotions": ["nostalgia", "memory", "dissociation"],
+    },
+    "PRODUCTION_SilenceAsInstrument": {
+        "description": "Use dramatic silence/dropouts mid-phrase",
+        "effect": "Shock, breath, emphasis through absence",
+        "use_when": "Creating impact, letting words land",
+        "example_emotions": ["shock", "contemplation", "weight"],
+    },
+    "PRODUCTION_ClippingPeaks": {
+        "description": "Allow transients to clip intentionally",
+        "effect": "Urgency, damage, rawness",
+        "use_when": "Anger, desperation, breaking point",
+        "example_emotions": ["rage", "desperation", "breaking"],
+    },
+
+    # Melody
+    "MELODY_AvoidResolution": {
+        "description": "End phrases on non-tonic tones",
+        "effect": "Incompleteness, searching, yearning",
+        "use_when": "Questions without answers",
+        "example_emotions": ["longing", "uncertainty", "searching"],
+    },
+    "MELODY_ExcessiveRepetition": {
+        "description": "Repeat melodic cell obsessively",
+        "effect": "Hypnotic, obsessive, ritualistic",
+        "use_when": "Spiral thoughts, inability to move on",
+        "example_emotions": ["obsession", "anxiety", "ritual"],
+    },
+    "MELODY_AngularIntervals": {
+        "description": "Use wide, awkward interval leaps",
+        "effect": "Discomfort, unease, otherness",
+        "use_when": "Alienation, confusion, discord",
+        "example_emotions": ["alienation", "confusion", "discord"],
+    },
+    "MELODY_AntiClimax": {
+        "description": "Build up then resolve downward/weakly",
+        "effect": "Disappointment, deflation, anticlimax",
+        "use_when": "Failed expectations, letting go",
+        "example_emotions": ["disappointment", "resignation", "deflation"],
+    },
+    "MELODY_MonotoneDrone": {
+        "description": "Minimal melodic movement, near-monotone",
+        "effect": "Numbness, dissociation, meditation",
+        "use_when": "Emotional shutdown, trance states",
+        "example_emotions": ["numbness", "dissociation", "meditation"],
+    },
+    "MELODY_FragmentedPhrases": {
+        "description": "Break melody into disconnected fragments",
+        "effect": "Fractured thought, interrupted speech",
+        "use_when": "Difficulty expressing, trauma",
+        "example_emotions": ["trauma", "confusion", "fragmentation"],
+    },
+
+    # Texture
+    "TEXTURE_FrequencyMasking": {
+        "description": "Let elements fight for same frequencies",
+        "effect": "Crowded, competitive, overwhelming",
+        "use_when": "Internal voices, crowded thoughts",
+        "example_emotions": ["overwhelm", "conflict", "noise"],
+    },
+    "TEXTURE_SparseEmptiness": {
+        "description": "Extreme space between elements",
+        "effect": "Isolation, exposure, vulnerability",
+        "use_when": "Loneliness, nakedness",
+        "example_emotions": ["isolation", "vulnerability", "exposure"],
+    },
+    "TEXTURE_DenseWall": {
+        "description": "Stack elements into undifferentiated mass",
+        "effect": "Overwhelming force, loss of self",
+        "use_when": "Catharsis, surrender, being swept away",
+        "example_emotions": ["catharsis", "surrender", "power"],
+    },
+    "TEXTURE_ConflictingTimbres": {
+        "description": "Combine timbres that traditionally clash",
+        "effect": "Dissonance, wrongness, tension",
+        "use_when": "Things that don't belong together",
+        "example_emotions": ["conflict", "dissonance", "wrongness"],
+    },
+    "TEXTURE_SingleElementFocus": {
+        "description": "Strip away all but one element",
+        "effect": "Stark truth, nowhere to hide",
+        "use_when": "Confession, revelation",
+        "example_emotions": ["honesty", "revelation", "nakedness"],
+    },
+    "TEXTURE_TimbralDrift": {
+        "description": "Gradually morph timbre over time",
+        "effect": "Transformation, unease, evolution",
+        "use_when": "Change, metamorphosis",
+        "example_emotions": ["transformation", "unease", "evolution"],
+    },
+
+    # Temporal
+    "TEMPORAL_ExtendedIntro": {
+        "description": "Unusually long intro before main content",
+        "effect": "Anticipation, world-building, patience test",
+        "use_when": "Setting scene, building dread",
+        "example_emotions": ["anticipation", "dread", "patience"],
+    },
+    "TEMPORAL_AbruptEnding": {
+        "description": "End suddenly without resolution",
+        "effect": "Shock, incompleteness, cut-off",
+        "use_when": "Sudden loss, unexpected ending",
+        "example_emotions": ["shock", "loss", "abruptness"],
+    },
+    "TEMPORAL_TimeStretch": {
+        "description": "Stretch or compress time perception",
+        "effect": "Altered reality, time distortion",
+        "use_when": "Dream states, altered consciousness",
+        "example_emotions": ["dissociation", "dream", "unreality"],
+    },
+    "TEMPORAL_LoopHypnosis": {
+        "description": "Loop beyond comfortable repetition",
+        "effect": "Hypnotic, meditative, obsessive",
+        "use_when": "Trance, circular thoughts",
+        "example_emotions": ["trance", "obsession", "meditation"],
+    },
+    "TEMPORAL_BreathPauses": {
+        "description": "Insert pauses like held breath",
+        "effect": "Tension, anticipation, human feel",
+        "use_when": "Before revelation, gathering courage",
+        "example_emotions": ["anticipation", "courage", "hesitation"],
+    },
+    "TEMPORAL_AccelerandoDecay": {
+        "description": "Speed up then decay/fall apart",
+        "effect": "Panic, collapse, exhaustion",
+        "use_when": "Overwhelm, breaking point, surrender",
+        "example_emotions": ["panic", "exhaustion", "surrender"],
+    },
+}
+
+
+# =================================================================
+# AFFECT → MODE MAPPING
+# =================================================================
+
+AFFECT_MODE_MAP = {
+    # Maps emotional states to suggested musical modes
+    "grief": {"modes": ["Aeolian", "Phrygian"], "tempo_range": (50, 80), "density": "Sparse"},
+    "longing": {"modes": ["Dorian", "Mixolydian"], "tempo_range": (60, 90), "density": "Sparse"},
+    "defiance": {"modes": ["Phrygian", "Locrian"], "tempo_range": (100, 140), "density": "Full"},
+    "hope": {"modes": ["Ionian", "Lydian"], "tempo_range": (90, 120), "density": "Moderate"},
+    "rage": {"modes": ["Phrygian", "Locrian"], "tempo_range": (120, 180), "density": "Dense"},
+    "tenderness": {"modes": ["Ionian", "Lydian"], "tempo_range": (60, 85), "density": "Sparse"},
+    "anxiety": {"modes": ["Locrian", "Phrygian"], "tempo_range": (90, 130), "density": "Moderate"},
+    "euphoria": {"modes": ["Ionian", "Lydian"], "tempo_range": (120, 150), "density": "Full"},
+    "melancholy": {"modes": ["Aeolian", "Dorian"], "tempo_range": (60, 90), "density": "Sparse"},
+    "nostalgia": {"modes": ["Mixolydian", "Dorian"], "tempo_range": (70, 100), "density": "Moderate"},
+    "catharsis": {"modes": ["Aeolian", "Phrygian"], "tempo_range": (80, 130), "density": "Dense"},
+    "dissociation": {"modes": ["Lydian", "Locrian"], "tempo_range": (60, 90), "density": "Sparse"},
+    "determination": {"modes": ["Ionian", "Mixolydian"], "tempo_range": (100, 130), "density": "Full"},
+    "surrender": {"modes": ["Aeolian", "Dorian"], "tempo_range": (50, 75), "density": "Sparse"},
+}
+
+
+# =================================================================
+# TEXTURE → PRODUCTION MAPPING
+# =================================================================
+
+TEXTURE_PRODUCTION_MAP = {
+    # Maps texture types to suggested production characteristics
+    "Ethereal": {
+        "reverb": "long",
+        "delay": "ambient",
+        "eq_character": "air",
+        "stereo_width": "wide",
+        "compression": "light",
+    },
+    "Intimate": {
+        "reverb": "none/room",
+        "delay": "none/subtle",
+        "eq_character": "presence",
+        "stereo_width": "narrow",
+        "compression": "moderate",
+    },
+    "Massive": {
+        "reverb": "medium-large",
+        "delay": "rhythmic",
+        "eq_character": "full",
+        "stereo_width": "wide",
+        "compression": "heavy",
+    },
+    "Skeletal": {
+        "reverb": "none/room",
+        "delay": "none",
+        "eq_character": "thin",
+        "stereo_width": "mono/narrow",
+        "compression": "none",
+    },
+    "Lush": {
+        "reverb": "medium-long",
+        "delay": "modulated",
+        "eq_character": "warm",
+        "stereo_width": "wide",
+        "compression": "glue",
+    },
+    "Harsh": {
+        "reverb": "short/none",
+        "delay": "none",
+        "eq_character": "bright/cutting",
+        "stereo_width": "variable",
+        "compression": "aggressive",
+    },
+    "Murky": {
+        "reverb": "dark",
+        "delay": "degraded",
+        "eq_character": "muddy",
+        "stereo_width": "mono",
+        "compression": "squashed",
+    },
+    "Crystalline": {
+        "reverb": "short/bright",
+        "delay": "clean",
+        "eq_character": "bright/clear",
+        "stereo_width": "precise",
+        "compression": "light",
     },
 }
 
@@ -487,4 +808,82 @@ def list_all_rules() -> Dict[str, List[str]]:
         "Rhythm": [e.value for e in RhythmRuleBreak],
         "Arrangement": [e.value for e in ArrangementRuleBreak],
         "Production": [e.value for e in ProductionRuleBreak],
+        "Melody": [e.value for e in MelodyRuleBreak],
+        "Texture": [e.value for e in TextureRuleBreak],
+        "Temporal": [e.value for e in TemporalRuleBreak],
     }
+
+
+def get_affect_mapping(emotion: str) -> Optional[Dict]:
+    """
+    Get musical parameter suggestions for an emotional state.
+
+    Args:
+        emotion: The target emotion (grief, hope, etc.)
+
+    Returns:
+        Dict with modes, tempo_range, density suggestions or None if not found
+    """
+    return AFFECT_MODE_MAP.get(emotion.lower())
+
+
+def get_texture_production(texture: str) -> Optional[Dict]:
+    """
+    Get production parameter suggestions for a texture type.
+
+    Args:
+        texture: The target texture (Ethereal, Intimate, etc.)
+
+    Returns:
+        Dict with reverb, delay, eq, stereo, compression suggestions or None
+    """
+    return TEXTURE_PRODUCTION_MAP.get(texture)
+
+
+def suggest_full_palette(emotion: str) -> Dict:
+    """
+    Get a complete musical palette suggestion for an emotion.
+
+    Combines affect mapping, rule suggestions, and texture recommendations.
+
+    Args:
+        emotion: Target emotion
+
+    Returns:
+        Dict with modes, tempo, density, suggested_rules, texture recommendations
+    """
+    result = {
+        "emotion": emotion,
+        "affect_mapping": get_affect_mapping(emotion),
+        "suggested_rules": suggest_rule_break(emotion),
+        "texture_options": [],
+    }
+
+    # Suggest textures based on emotion
+    emotion_texture_map = {
+        "grief": ["Murky", "Skeletal", "Ethereal"],
+        "longing": ["Ethereal", "Intimate", "Lush"],
+        "defiance": ["Harsh", "Massive", "Crystalline"],
+        "hope": ["Ethereal", "Lush", "Crystalline"],
+        "rage": ["Harsh", "Dense", "Massive"],
+        "tenderness": ["Intimate", "Lush", "Ethereal"],
+        "anxiety": ["Harsh", "Skeletal", "Murky"],
+        "euphoria": ["Massive", "Lush", "Crystalline"],
+        "melancholy": ["Murky", "Ethereal", "Intimate"],
+        "nostalgia": ["Murky", "Intimate", "Lush"],
+        "catharsis": ["Massive", "Dense", "Ethereal"],
+        "dissociation": ["Ethereal", "Murky", "Skeletal"],
+        "determination": ["Massive", "Crystalline", "Full"],
+        "surrender": ["Ethereal", "Skeletal", "Intimate"],
+    }
+
+    textures = emotion_texture_map.get(emotion.lower(), [])
+    for tex in textures:
+        prod = get_texture_production(tex)
+        if prod:
+            result["texture_options"].append({
+                "texture": tex,
+                "production": prod,
+            })
+
+    return result

@@ -229,14 +229,51 @@ The core innovation of DAiW is the intent-based approach to song generation:
 
 ### Rule-Breaking Categories
 
-The system supports 21 intentional rule breaks across 4 categories:
+The system supports **45 intentional rule breaks** across **7 categories**:
 
-- **Harmony:** `HarmonyRuleBreak` (6 options)
-- **Rhythm:** `RhythmRuleBreak` (5 options)
-- **Arrangement:** `ArrangementRuleBreak` (5 options)
-- **Production:** `ProductionRuleBreak` (5 options)
+- **Harmony:** `HarmonyRuleBreak` (6 options) — Modal interchange, parallel motion, unresolved dissonance
+- **Rhythm:** `RhythmRuleBreak` (5 options) — Displacement, tempo fluctuation, polyrhythm
+- **Arrangement:** `ArrangementRuleBreak` (5 options) — Buried vocals, dynamic extremes
+- **Production:** `ProductionRuleBreak` (8 options) — Lo-fi, silence, clipping, mud
+- **Melody:** `MelodyRuleBreak` (6 options) — Fragmentation, monotone, anti-climax
+- **Texture:** `TextureRuleBreak` (6 options) — Frequency masking, timbral drift, walls of sound
+- **Temporal:** `TemporalRuleBreak` (6 options) — Extended intro, abrupt ending, loop hypnosis
 
 Each rule break requires emotional justification.
+
+### Musical Concept Mappings
+
+New enums for comprehensive music generation:
+
+- **AffectState** (14 emotions) — grief, longing, defiance, hope, rage, etc.
+- **TextureType** (8 types) — Ethereal, Intimate, Massive, Skeletal, etc.
+- **TensionProfile** (8 profiles) — Build-release, sawtooth, slow burn, etc.
+- **DensityLevel** (7 levels) — Solo through overwhelming
+- **ModalColor** (7 modes) — With emotional associations
+
+### Affect → Mode Mapping
+
+`AFFECT_MODE_MAP` provides musical suggestions per emotion:
+```python
+get_affect_mapping("grief")
+# → {"modes": ["Aeolian", "Phrygian"], "tempo_range": (50, 80), "density": "Sparse"}
+```
+
+### Texture → Production Mapping
+
+`TEXTURE_PRODUCTION_MAP` provides production suggestions per texture:
+```python
+get_texture_production("Ethereal")
+# → {"reverb": "long", "delay": "ambient", "stereo_width": "wide", ...}
+```
+
+### Full Palette Suggestions
+
+`suggest_full_palette(emotion)` combines all mappings:
+```python
+suggest_full_palette("grief")
+# → affect_mapping + suggested_rules + texture_options with production settings
+```
 
 ### Genre Groove Templates
 
