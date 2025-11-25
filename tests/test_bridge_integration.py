@@ -52,6 +52,7 @@ def mock_plan_major():
 # RENDER BRIDGE TESTS (with mocks)
 # ==============================================================================
 
+@patch("music_brain.structure.comprehensive_engine.MIDO_AVAILABLE", True)
 @patch("music_brain.daw.logic.LogicProject")
 @patch("music_brain.structure.progression.parse_progression_string")
 def test_render_bridge_success(mock_parse, MockLogicProject, mock_plan):
@@ -92,6 +93,7 @@ def test_render_bridge_success(mock_parse, MockLogicProject, mock_plan):
     assert len(first_call_kwargs["notes"]) > 0
 
 
+@patch("music_brain.structure.comprehensive_engine.MIDO_AVAILABLE", True)
 @patch("music_brain.daw.logic.LogicProject")
 @patch("music_brain.structure.progression.parse_progression_string")
 def test_render_bridge_creates_guide_tones(mock_parse, MockLogicProject, mock_plan):
@@ -114,6 +116,7 @@ def test_render_bridge_creates_guide_tones(mock_parse, MockLogicProject, mock_pl
     assert "Guide Tones" in track_names
 
 
+@patch("music_brain.structure.comprehensive_engine.MIDO_AVAILABLE", True)
 @patch("music_brain.daw.logic.LogicProject")
 @patch("music_brain.structure.progression.parse_progression_string")
 def test_render_bridge_no_guide_tones_when_disabled(mock_parse, MockLogicProject, mock_plan):
