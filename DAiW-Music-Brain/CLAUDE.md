@@ -390,17 +390,69 @@ DAiW will evolve into a **hybrid Python/C++ architecture**:
 - Python's GIL blocks multi-threading (audio needs dedicated thread)
 - C++ is 50-100x faster for sample-by-sample math
 
+**Why Python is needed for logic (don't port prematurely):**
+- Text processing: `text.split()` vs 3 days writing a string splitter in C++
+- UI prototyping: `st.slider()` vs weeks fighting JUCE lookAndFeel
+- Math: `numpy` + `random` vs raw math functions or dependency hell
+
 **The connection:** OSC (Open Sound Control) bridges Python Brain ↔ C++ Body
 
 **Documentation:**
 - `vault/Production_Workflows/cpp_audio_architecture.md` — Full architecture overview
 - `vault/Production_Workflows/juce_getting_started.md` — JUCE setup guide
 - `vault/Production_Workflows/osc_bridge_python_cpp.md` — OSC communication protocol
+- `vault/Production_Workflows/hybrid_development_roadmap.md` — Phased development plan
 
-**Development strategy:**
-1. **Now:** Keep building Python Brain (perfect for logic/AI)
-2. **Soon:** Learn JUCE basics, build passthrough plugin
-3. **Later:** Add OSC bridge, connect Python to C++ plugin
+### Phased Development Roadmap
+
+**Phase 1: Stabilize the Brain (Python-only)** ← CURRENT
+- Freeze API: `generate_session(text, motivation, chaos, vulnerability) -> HarmonyPlan`
+- Ensure callable programmatically (no CLI/UI dependency)
+- Return serializable structure:
+  ```python
+  {
+    "tempo": int,
+    "key": str,
+    "time_sig": tuple,
+    "notes": [{"pitch": int, "start_ms": float, "duration_ms": float, "velocity": int}]
+  }
+  ```
+
+**Phase 2: Python OSC Server**
+- Create `brain_server.py`:
+  - Listens on `/daiw/generate`
+  - Calls `generate_session(...)`
+  - Responds on `/daiw/result`
+- Test with Python OSC client (no C++ needed yet)
+
+**Phase 3: JUCE Plugin Skeleton**
+- Build basic plugin that:
+  - Passes audio through unchanged
+  - Has placeholder UI (text area, Generate button, Chaos knob)
+  - Outputs fixed MIDI pattern
+- Verify: builds as AU/VST3, shows in Logic
+
+**Phase 4: Wire OSC Bridge**
+- JUCE sends `/daiw/generate` with parameters
+- Python brain processes, returns notes
+- JUCE deserializes into `MidiBuffer`
+- **DAiW is now: C++ frontend in Logic + Python brain outside + OSC nervous system**
+
+### What Gets Ported to C++ (Eventually)
+
+**Port later (if real-time needed):**
+- Groove/humanization (real-time humanization on live MIDI)
+- Subset of Harmony logic (play pad → get DAiW chords in real-time)
+
+**Never port:**
+- NLP / "what hurts you" therapy logic
+- Lyric mirror
+- High-level affect analysis
+
+**When porting:**
+- Take stable, tested math from Python
+- Re-implement as small, deterministic C++ functions
+- Leave heavy logic in Python where it belongs
 
 ## Notes for AI Assistants
 
