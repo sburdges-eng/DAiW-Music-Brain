@@ -1,0 +1,193 @@
+{
+  "lofi_depression": {
+    "description": "Intentionally imperfect, lo-fi bedroom feel for melancholic content",
+    "therapy_state": {
+      "mood_primary": "Grief",
+      "vulnerability_scale": "High",
+      "groove_feel": "Laid Back"
+    },
+    "groove_settings": {
+      "complexity": 0.4,
+      "vulnerability": 0.8,
+      "kick_timing_mult": 0.3,
+      "snare_timing_mult": 0.9,
+      "hihat_timing_mult": 1.3,
+      "enable_ghost_notes": true,
+      "ghost_note_probability": 0.2,
+      "ghost_note_velocity_mult": 0.35
+    },
+    "suggested_genre_template": "bedroom_lofi"
+  },
+
+  "anxious_driving": {
+    "description": "Tight but slightly off, creates unease and forward momentum",
+    "therapy_state": {
+      "mood_primary": "Anxiety",
+      "vulnerability_scale": "Medium",
+      "groove_feel": "Straight/Driving"
+    },
+    "groove_settings": {
+      "complexity": 0.25,
+      "vulnerability": 0.4,
+      "kick_timing_mult": 0.2,
+      "snare_timing_mult": 0.3,
+      "hihat_timing_mult": 0.8,
+      "enable_ghost_notes": false
+    },
+    "suggested_genre_template": "rock"
+  },
+
+  "defiant_punk": {
+    "description": "Raw, aggressive, intentionally sloppy but powerful",
+    "therapy_state": {
+      "mood_primary": "Defiance",
+      "vulnerability_scale": "Low",
+      "groove_feel": "Push-Pull"
+    },
+    "groove_settings": {
+      "complexity": 0.7,
+      "vulnerability": 0.2,
+      "kick_timing_mult": 0.6,
+      "snare_timing_mult": 0.5,
+      "hihat_timing_mult": 1.0,
+      "enable_ghost_notes": false,
+      "velocity_range_override": [60, 127]
+    },
+    "suggested_genre_template": "rock"
+  },
+
+  "intimate_vulnerability": {
+    "description": "Fragile, breathing, highly dynamic for confessional content",
+    "therapy_state": {
+      "mood_primary": "Vulnerability",
+      "vulnerability_scale": "High",
+      "groove_feel": "Organic/Breathing"
+    },
+    "groove_settings": {
+      "complexity": 0.5,
+      "vulnerability": 0.9,
+      "kick_timing_mult": 0.4,
+      "snare_timing_mult": 0.7,
+      "hihat_timing_mult": 1.1,
+      "enable_ghost_notes": true,
+      "ghost_note_probability": 0.25,
+      "ghost_note_velocity_mult": 0.3
+    },
+    "suggested_genre_template": "bedroom_lofi"
+  },
+
+  "nostalgic_swing": {
+    "description": "Warm, slightly behind the beat, vintage feel",
+    "therapy_state": {
+      "mood_primary": "Nostalgia",
+      "vulnerability_scale": "Medium",
+      "groove_feel": "Swung"
+    },
+    "groove_settings": {
+      "complexity": 0.45,
+      "vulnerability": 0.55,
+      "kick_timing_mult": 0.5,
+      "snare_timing_mult": 0.8,
+      "hihat_timing_mult": 1.0,
+      "enable_ghost_notes": true,
+      "ghost_note_probability": 0.15
+    },
+    "suggested_genre_template": "jazz"
+  },
+
+  "hiphop_pocket": {
+    "description": "Deep laid-back pocket with ghost notes, confident but relaxed",
+    "therapy_state": {
+      "mood_primary": "Confidence",
+      "vulnerability_scale": "Low",
+      "groove_feel": "Laid Back"
+    },
+    "groove_settings": {
+      "complexity": 0.55,
+      "vulnerability": 0.3,
+      "kick_timing_mult": 0.3,
+      "snare_timing_mult": 0.6,
+      "hihat_timing_mult": 1.2,
+      "enable_ghost_notes": true,
+      "ghost_note_probability": 0.18,
+      "ghost_note_velocity_mult": 0.4
+    },
+    "suggested_genre_template": "hiphop"
+  },
+
+  "mechanical_dissociation": {
+    "description": "Almost robotic but slightly off, disconnected feel",
+    "therapy_state": {
+      "mood_primary": "Dissociation",
+      "vulnerability_scale": "Low",
+      "groove_feel": "Mechanical"
+    },
+    "groove_settings": {
+      "complexity": 0.08,
+      "vulnerability": 0.15,
+      "kick_timing_mult": 0.1,
+      "snare_timing_mult": 0.1,
+      "hihat_timing_mult": 0.15,
+      "enable_ghost_notes": false
+    },
+    "suggested_genre_template": "edm"
+  },
+
+  "chaotic_breakdown": {
+    "description": "Maximum chaos for emotional breakdown sections",
+    "therapy_state": {
+      "mood_primary": "Chaos",
+      "vulnerability_scale": "High",
+      "groove_feel": "Rubato/Free"
+    },
+    "groove_settings": {
+      "complexity": 0.95,
+      "vulnerability": 0.85,
+      "kick_timing_mult": 0.8,
+      "snare_timing_mult": 0.9,
+      "hihat_timing_mult": 1.5,
+      "enable_ghost_notes": true,
+      "ghost_note_probability": 0.3,
+      "ghost_note_velocity_mult": 0.45
+    },
+    "suggested_genre_template": "bedroom_lofi"
+  },
+
+  "tight_controlled": {
+    "description": "Tight and controlled but not robotic, professional feel",
+    "therapy_state": {
+      "mood_primary": "Determination",
+      "vulnerability_scale": "Low",
+      "groove_feel": "Straight/Driving"
+    },
+    "groove_settings": {
+      "complexity": 0.15,
+      "vulnerability": 0.2,
+      "kick_timing_mult": 0.3,
+      "snare_timing_mult": 0.4,
+      "hihat_timing_mult": 0.6,
+      "enable_ghost_notes": false
+    },
+    "suggested_genre_template": "rock"
+  },
+
+  "funk_pocket": {
+    "description": "Deep funk pocket with confident dynamics",
+    "therapy_state": {
+      "mood_primary": "Joy",
+      "vulnerability_scale": "Low",
+      "groove_feel": "Syncopated"
+    },
+    "groove_settings": {
+      "complexity": 0.35,
+      "vulnerability": 0.25,
+      "kick_timing_mult": 0.4,
+      "snare_timing_mult": 0.5,
+      "hihat_timing_mult": 0.8,
+      "enable_ghost_notes": true,
+      "ghost_note_probability": 0.12,
+      "ghost_note_velocity_mult": 0.5
+    },
+    "suggested_genre_template": "funk"
+  }
+}
