@@ -1,0 +1,64 @@
+{
+  "project": {
+    "name": "DAiW-Music-Brain",
+    "description": "Digital Audio intelligent Workstation - Music production AI toolkit",
+    "version": "0.3.0-alpha"
+  },
+  "philosophy": {
+    "core": "Interrogate Before Generate",
+    "principle": "Emotional intent drives technical decisions, never the reverse",
+    "imperfection": "Human imperfection is valued - lo-fi, pitch drift, room noise are features, not bugs"
+  },
+  "codeStyle": {
+    "formatter": "black",
+    "lineLength": 100,
+    "linter": ["flake8", "mypy"],
+    "typeHints": true
+  },
+  "testing": {
+    "framework": "pytest",
+    "testDir": "tests/",
+    "runCommand": "pytest tests/ -v"
+  },
+  "structure": {
+    "mainPackage": "music_brain",
+    "entryPoints": {
+      "cli": "music_brain/cli.py",
+      "ui": "app.py",
+      "desktop": "launcher.py"
+    },
+    "coreEngines": {
+      "comprehensive": "music_brain/structure/comprehensive_engine.py",
+      "groove": "music_brain/groove/engine.py",
+      "tension": "music_brain/structure/tension.py",
+      "lyrics": "music_brain/lyrics/engine.py",
+      "audio": "music_brain/audio_refinery.py",
+      "daw": "music_brain/daw/logic.py"
+    }
+  },
+  "dataFlow": {
+    "pipeline": "TherapySession → HarmonyPlan → render_plan_to_midi",
+    "affectMapping": {
+      "grief": "aeolian",
+      "rage": "phrygian",
+      "awe": "lydian",
+      "nostalgia": "dorian",
+      "fear": "phrygian",
+      "dissociation": "locrian",
+      "defiance": "mixolydian",
+      "confusion": "locrian"
+    }
+  },
+  "dependencies": {
+    "core": ["mido", "numpy"],
+    "audio": ["librosa", "soundfile", "audiomentations"],
+    "theory": ["music21"],
+    "ui": ["streamlit", "pywebview"],
+    "dev": ["pytest", "black", "flake8", "mypy"]
+  },
+  "conventions": {
+    "ruleBreaking": "Every rule break requires emotional justification",
+    "phaseOrder": "Phase 0 (wound) → Phase 1 (emotion) → Phase 2 (technical)",
+    "teaching": "Educate and empower, don't just generate"
+  }
+}

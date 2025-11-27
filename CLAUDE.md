@@ -6,7 +6,9 @@
 
 **"Interrogate Before Generate"** - The tool shouldn't finish art for people. It should make them braver.
 
-This is a Python toolkit for music production intelligence. The core philosophy is that emotional/creative intent should drive technical decisions, not the other way around. The three-phase "Song Intent Schema" ensures artists explore what they *need* to say before choosing technical parameters.
+**"Imperfection is Intentional"** - Lo-fi, pitch drift, timing jitter, room noise are **features, not bugs**. Human feel > mechanical precision.
+
+This is a Python toolkit for music production intelligence using **Python/music21/librosa**. The core philosophy is that emotional/creative intent should drive technical decisions, not the other way around. The three-phase "Song Intent Schema" ensures artists explore what they *need* to say before choosing technical parameters.
 
 ---
 
@@ -111,6 +113,57 @@ Rules are broken **intentionally** based on emotional justification:
 | **Rhythm** | `RHYTHM_ConstantDisplacement`, `RHYTHM_TempoFluctuation` | Anxiety, organic breathing |
 | **Arrangement** | `ARRANGEMENT_BuriedVocals`, `ARRANGEMENT_ExtremeDynamicRange` | Dissociation, dramatic impact |
 | **Production** | `PRODUCTION_PitchImperfection`, `PRODUCTION_ExcessiveMud` | Emotional honesty, claustrophobia |
+
+---
+
+## Core Engines (v0.3.0)
+
+The DAiW pipeline flows through these canonical engines:
+
+### TherapySession → HarmonyPlan → MIDI
+```
+User Input → TherapySession.process_core_input() → AffectResult
+                    ↓
+          TherapySession.generate_plan() → HarmonyPlan
+                    ↓
+          render_plan_to_midi() → MIDI file with humanization
+```
+
+### Engine Files
+
+| Engine | File | Purpose |
+|--------|------|---------|
+| **Comprehensive** | `structure/comprehensive_engine.py` | TherapySession, HarmonyPlan, affect→mode mapping |
+| **Groove** | `groove/engine.py` | Gaussian jitter, velocity shaping (Drunken Drummer) |
+| **Tension** | `structure/tension.py` | Bar-level intensity curves (climb/standard/constant) |
+| **Lyrics** | `lyrics/engine.py` | Markov chain text generation (LyricMirror) |
+| **Audio** | `audio_refinery.py` | Sample processing pipelines (clean/industrial/tape_rot) |
+| **DAW** | `daw/logic.py` | LogicProject MIDI export wrapper |
+
+### Affect → Mode Mapping
+```python
+AFFECT_TO_MODE = {
+    "grief": "aeolian",
+    "rage": "phrygian",
+    "awe": "lydian",
+    "nostalgia": "dorian",
+    "fear": "phrygian",
+    "dissociation": "locrian",
+    "defiance": "mixolydian",
+    "confusion": "locrian",
+    "neutral": "ionian",
+}
+```
+
+### Groove Engine Parameters
+- `complexity` (0.0-1.0): Timing looseness, note dropout probability
+- `vulnerability` (0.0-1.0): Dynamics softness, velocity variance
+- `SAFE_DRIFT_LIMIT = 40`: Max timing jitter in ticks
+
+### Tension Curve Types
+- `"climb"`: Linear build from 0.6 → 1.4 (post-rock style)
+- `"standard"`: Verse/Chorus/Bridge shaped dynamics
+- `"constant"`: Flat line for loops/techno
 
 ---
 

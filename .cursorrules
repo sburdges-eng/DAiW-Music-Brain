@@ -1,0 +1,110 @@
+# DAiW-Music-Brain Cursor Rules
+# Music Production AI - Python/music21/librosa
+
+## Core Philosophy
+"Interrogate Before Generate" - The tool shouldn't finish art for people. It should make them braver.
+
+## Golden Rule
+**Imperfection is intentional.** Lo-fi, pitch drift, timing jitter, room noise - these are features, not bugs. Human feel > mechanical precision.
+
+## Project Context
+- Python music production toolkit (v0.3.0-alpha)
+- Core: mido, numpy, librosa, music21
+- UI: Streamlit + pywebview desktop wrapper
+- Testing: pytest
+
+## Code Style
+- Formatter: black (100 char line length)
+- Type hints: always
+- Linters: flake8, mypy
+
+## Key Patterns
+
+### Affect → Mode Mapping
+```python
+AFFECT_TO_MODE = {
+    "grief": "aeolian",
+    "rage": "phrygian",
+    "awe": "lydian",
+    "nostalgia": "dorian",
+    "fear": "phrygian",
+    "dissociation": "locrian",
+    "defiance": "mixolydian",
+}
+```
+
+### Data Flow
+```
+TherapySession → HarmonyPlan → render_plan_to_midi
+     ↓                ↓              ↓
+  Affect      Mode/Tempo/Bars    MIDI + Groove
+```
+
+### Groove Engine (Humanization)
+- `complexity` (0-1): timing looseness, note dropout
+- `vulnerability` (0-1): dynamics softness, velocity variance
+- `SAFE_DRIFT_LIMIT = 40` ticks max jitter
+
+### Tension Curves
+- "climb": linear build (0.6 → 1.4)
+- "standard": verse/chorus shaped
+- "constant": flat (loop/techno)
+
+## File Organization
+```
+music_brain/
+├── structure/
+│   ├── comprehensive_engine.py  # TherapySession, HarmonyPlan
+│   ├── tension.py               # generate_tension_curve()
+│   └── progression.py           # Chord parsing
+├── groove/
+│   └── engine.py                # apply_groove() - Drunken Drummer
+├── lyrics/
+│   └── engine.py                # LyricMirror (Markov)
+├── daw/
+│   └── logic.py                 # LogicProject MIDI export
+└── audio_refinery.py            # Sample processing pipelines
+```
+
+## When Writing Code
+
+### DO:
+- Ask "why" before "what" (emotional intent first)
+- Add Gaussian jitter to humanize timing
+- Let vulnerability affect velocity (softer = more exposed)
+- Use dataclasses for structured data
+- Keep CLI startup fast (lazy imports)
+
+### DON'T:
+- Generate without understanding the emotional intent
+- Quantize to perfect grid (add feel)
+- Over-engineer - keep solutions simple
+- Add features beyond what was asked
+
+## Rule-Breaking Categories
+Rules are broken **intentionally** with emotional justification:
+
+| Category | Example | Effect |
+|----------|---------|--------|
+| Harmony | Avoid tonic resolution | Unresolved yearning |
+| Rhythm | Tempo fluctuation | Organic breathing |
+| Arrangement | Buried vocals | Dissociation |
+| Production | Pitch imperfection | Emotional honesty |
+
+## Three-Phase System
+1. **Phase 0**: Core Wound (what hurts?)
+2. **Phase 1**: Emotional Intent (what to feel?)
+3. **Phase 2**: Technical Constraints (how to implement?)
+
+Phase 0 must come first. No technical decisions without emotional clarity.
+
+## Testing
+```bash
+pytest tests/ -v
+pytest tests/test_smoke.py  # Quick sanity check
+```
+
+## Remember
+> "The audience doesn't hear 'borrowed from Dorian.' They hear 'that part made me cry.'"
+
+Technical implementation serves emotional expression. Never the reverse.
