@@ -42,6 +42,7 @@ def mock_plan_major():
         time_signature="4/4",
         length_bars=8,
         chord_symbols=["G", "C", "D", "G"],
+        harmonic_rhythm="1_chord_per_bar",
         mood_profile="tenderness",
         complexity=0.3,
         vulnerability=0.7,

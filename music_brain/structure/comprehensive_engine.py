@@ -14,6 +14,7 @@ NoteEvent is the canonical event structure. Anything outside Python
 """
 
 import random
+import re
 from dataclasses import dataclass
 from typing import List, Dict, Optional
 
@@ -37,15 +38,15 @@ class AffectAnalyzer:
     """
 
     KEYWORDS = {
-        "grief": {"loss", "gone", "miss", "dead", "died", "funeral", "mourning", "never again", "empty"},
-        "rage": {"angry", "furious", "hate", "betrayed", "unfair", "revenge", "burn", "fight", "destroy"},
-        "awe": {"wonder", "beautiful", "infinite", "god", "universe", "transcend", "light", "vast"},
+        "grief": {"loss", "gone", "miss", "dead", "died", "funeral", "mourning", "never again"},
+        "rage": {"angry", "furious", "hate", "betrayed", "unfair", "revenge", "burn", "destroy"},
+        "awe": {"wonder", "beautiful", "infinite", "god", "divine", "universe", "transcend", "light", "vast"},
         "nostalgia": {"remember", "used to", "childhood", "back when", "old days", "memory", "home"},
         "fear": {"scared", "terrified", "panic", "can't breathe", "trapped", "anxious", "dread"},
-        "dissociation": {"numb", "nothing", "floating", "unreal", "detached", "fog", "grey", "wall"},
-        "defiance": {"won't", "refuse", "stand", "strong", "break", "free", "my own", "no more"},
+        "dissociation": {"numb", "nothing", "empty", "floating", "unreal", "detached", "fog", "grey", "wall"},
+        "defiance": {"won't", "refuse", "stand", "strong", "fight", "break", "free", "my own", "no more"},
         "tenderness": {"soft", "gentle", "hold", "love", "kind", "care", "fragile", "warm"},
-        "confusion": {"why", "lost", "don't know", "spinning", "chaos", "strange", "question"},
+        "confusion": {"why", "lost", "confused", "don't know", "spinning", "chaos", "strange", "question"},
     }
 
     def analyze(self, text: str) -> AffectResult:
@@ -57,7 +58,10 @@ class AffectAnalyzer:
 
         for affect, words in self.KEYWORDS.items():
             for word in words:
-                if word in text:
+                # Use word boundary matching to avoid false positives
+                # (e.g., "used to" matching inside "confused today")
+                pattern = r'\b' + re.escape(word) + r'\b'
+                if re.search(pattern, text):
                     scores[affect] += 1.0
 
         # Sort affects by score descending
@@ -92,15 +96,20 @@ class TherapyState:
 
     # Narrative
     core_wound_name: str = ""
+    core_wound_text: str = ""         # Alias for compatibility
     narrative_entity_name: str = ""
 
     # Quantifiable
-    motivation_scale: int = 5        # 1-10
-    chaos_tolerance: float = 0.3     # 0.0 to 1.0
+    motivation_scale: int = 5         # 1-10 (integer scale)
+    motivation: float = 5.0           # 1.0-10.0 (float for finer control)
+    chaos_tolerance: float = 0.5      # 0.0 to 1.0
 
     # Inferred
     affect_result: Optional[AffectResult] = None
     suggested_mode: str = "ionian"
+
+    # Phase tracking
+    phase: int = 0                    # 0=Core, 1=Emotional, 2=Technical
 
 
 @dataclass
@@ -110,15 +119,40 @@ class HarmonyPlan:
     This is what a "brain" outputs and a renderer consumes.
     """
 
-    root_note: str           # "C", "F#"
-    mode: str                # "ionian", "aeolian", "phrygian", etc.
-    tempo_bpm: int
-    time_signature: str      # "4/4"
-    length_bars: int
-    chord_symbols: List[str]  # ["Cm7", "Fm9"]
-    harmonic_rhythm: str      # "1_chord_per_bar"
-    mood_profile: str
-    complexity: float         # 0.0 - 1.0 (chaos/complexity dial)
+    root_note: str = "C"              # "C", "F#"
+    mode: str = "minor"               # "ionian", "aeolian", "phrygian", etc.
+    tempo_bpm: int = 120
+    time_signature: str = "4/4"       # "4/4"
+    length_bars: int = 16
+    chord_symbols: List[str] = None   # ["Cm7", "Fm9"]
+    harmonic_rhythm: str = "1_chord_per_bar"  # "1_chord_per_bar"
+    mood_profile: str = "neutral"
+    complexity: float = 0.5           # 0.0 - 1.0 (chaos/complexity dial)
+    vulnerability: float = 0.5        # 0.0 - 1.0 (emotional exposure level)
+
+    def __post_init__(self):
+        """Generate default chord_symbols based on mode if not provided."""
+        if self.chord_symbols is None:
+            self.chord_symbols = self._generate_default_chords()
+
+    def _generate_default_chords(self) -> List[str]:
+        """Generate default chord progression based on mode and root note."""
+        root = self.root_note
+
+        # Mode-based chord progressions
+        mode_progressions = {
+            "minor": [f"{root}m", f"{root}m/G", "Ab", f"{root}m"],
+            "aeolian": [f"{root}m", "Ab", "Fm", f"{root}m"],
+            "ionian": [root, f"{root}m", "F", "G"],
+            "major": [root, "Am", "F", "G"],
+            "dorian": [f"{root}m", "F", "Gm", f"{root}m"],
+            "phrygian": [f"{root}m", "Db", "Bbm", f"{root}m"],
+            "lydian": [root, "D", "Bm", root],
+            "mixolydian": [root, "Bb", "F", root],
+            "locrian": [f"{root}dim", "DbMaj7", "Ebm", f"{root}dim"],
+        }
+
+        return mode_progressions.get(self.mode, [root, "Am", "F", "G"])
 
 
 @dataclass
@@ -218,10 +252,12 @@ class TherapySession:
 
         return primary
 
-    def set_scales(self, motivation: int, chaos: float) -> None:
+    def set_scales(self, motivation: float, chaos_tolerance: float) -> None:
         """Set numeric dials derived from user answers."""
-        self.state.motivation_scale = max(1, min(10, motivation))
-        self.state.chaos_tolerance = max(0.0, min(1.0, chaos))
+        clamped_motivation = max(1.0, min(10.0, float(motivation)))
+        self.state.motivation_scale = int(clamped_motivation)
+        self.state.motivation = clamped_motivation
+        self.state.chaos_tolerance = max(0.0, min(1.0, chaos_tolerance))
 
     def generate_plan(self) -> HarmonyPlan:
         """Factory that builds the HarmonyPlan based on TherapyState."""
@@ -260,7 +296,12 @@ class TherapySession:
         if self.state.motivation_scale > 8:
             eff_complexity = min(1.0, eff_complexity + 0.1)
 
-        # 4. Chord Selection Logic (Placeholder for full graph traversal)
+        # 4. Vulnerability (inverse of motivation: low motivation = high vulnerability)
+        # Maps motivation 1-10 to vulnerability 1.0-0.0
+        vulnerability = 1.0 - ((self.state.motivation - 1.0) / 9.0)
+        vulnerability = max(0.0, min(1.0, vulnerability))
+
+        # 5. Chord Selection Logic (Placeholder for full graph traversal)
         root = "C"
         mode = self.state.suggested_mode
 
@@ -289,6 +330,7 @@ class TherapySession:
             harmonic_rhythm="1_chord_per_bar",
             mood_profile=primary,
             complexity=eff_complexity,
+            vulnerability=vulnerability,
         )
 
 
