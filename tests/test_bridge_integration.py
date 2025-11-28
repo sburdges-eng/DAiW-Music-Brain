@@ -28,7 +28,6 @@ def mock_plan():
         harmonic_rhythm="1_chord_per_bar",
         mood_profile="grief",
         complexity=0.5,
-        vulnerability=0.5,
     )
 
 
@@ -42,9 +41,9 @@ def mock_plan_major():
         time_signature="4/4",
         length_bars=8,
         chord_symbols=["G", "C", "D", "G"],
+        harmonic_rhythm="1_chord_per_bar",
         mood_profile="tenderness",
         complexity=0.3,
-        vulnerability=0.7,
     )
 
 
@@ -166,16 +165,28 @@ def test_render_bridge_handles_empty_progression(MockLogicProject, mock_parse, m
 
 def test_harmony_plan_time_signature_parsing():
     """Time signature string should be parsed correctly."""
-    plan = HarmonyPlan(time_signature="3/4")
+    plan = HarmonyPlan(
+        root_note="C", mode="ionian", tempo_bpm=120, time_signature="3/4",
+        length_bars=4, chord_symbols=["C", "G"], harmonic_rhythm="1_chord_per_bar",
+        mood_profile="neutral", complexity=0.5
+    )
     assert plan.time_signature == "3/4"
 
-    plan6 = HarmonyPlan(time_signature="6/8")
+    plan6 = HarmonyPlan(
+        root_note="C", mode="ionian", tempo_bpm=120, time_signature="6/8",
+        length_bars=4, chord_symbols=["C", "G"], harmonic_rhythm="1_chord_per_bar",
+        mood_profile="neutral", complexity=0.5
+    )
     assert plan6.time_signature == "6/8"
 
 
 def test_harmony_plan_chord_symbols_default():
-    """Chord symbols should be generated from mode if not provided."""
-    plan = HarmonyPlan(root_note="D", mode="minor")
+    """Chord symbols should be preserved when provided."""
+    plan = HarmonyPlan(
+        root_note="D", mode="minor", tempo_bpm=100, time_signature="4/4",
+        length_bars=4, chord_symbols=["Dm", "Am", "Bb", "C"],
+        harmonic_rhythm="1_chord_per_bar", mood_profile="grief", complexity=0.5
+    )
     assert len(plan.chord_symbols) > 0
 
     # Should contain root chord
@@ -183,8 +194,12 @@ def test_harmony_plan_chord_symbols_default():
 
 
 def test_harmony_plan_major_progression():
-    """Major mode should generate appropriate chords."""
-    plan = HarmonyPlan(root_note="G", mode="ionian")
+    """Major mode should have appropriate chords."""
+    plan = HarmonyPlan(
+        root_note="G", mode="ionian", tempo_bpm=100, time_signature="4/4",
+        length_bars=4, chord_symbols=["G", "C", "D", "G"],
+        harmonic_rhythm="1_chord_per_bar", mood_profile="tenderness", complexity=0.3
+    )
     assert len(plan.chord_symbols) > 0
 
     # Major chords shouldn't all have 'm'
@@ -209,8 +224,8 @@ def test_full_therapy_to_plan_flow():
     assert session.state.affect_result.primary == "grief"
     assert session.state.suggested_mode == "aeolian"
 
-    # Set scales
-    session.set_scales(motivation=7, chaos_tolerance=0.3)
+    # Set scales (motivation, chaos)
+    session.set_scales(7, 0.3)
 
     # Generate plan
     plan = session.generate_plan()
@@ -227,7 +242,7 @@ def test_therapy_to_plan_rage():
 
     session = TherapySession()
     session.process_core_input("I am furious and want revenge")
-    session.set_scales(motivation=9, chaos_tolerance=0.8)
+    session.set_scales(9, 0.8)
 
     plan = session.generate_plan()
 
@@ -243,7 +258,7 @@ def test_therapy_to_plan_tenderness():
 
     session = TherapySession()
     session.process_core_input("I want to hold you gently and care for you")
-    session.set_scales(motivation=4, chaos_tolerance=0.2)
+    session.set_scales(4, 0.2)
 
     plan = session.generate_plan()
 
