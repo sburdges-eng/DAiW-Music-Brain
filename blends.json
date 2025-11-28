@@ -1,0 +1,830 @@
+{
+  "metadata": {
+    "description": "Emotional blend zones - combinations of base emotions creating complex states",
+    "version": "1.0.0",
+    "blend_count": 97,
+    "note": "Blends follow Plutchik's wheel adjacencies plus common therapeutic combinations"
+  },
+  "dyadic_blends": {
+    "primary_dyads": {
+      "description": "Adjacent emotions on Plutchik's wheel",
+      "blends": [
+        {
+          "id": "B001",
+          "name": "optimism",
+          "components": ["HAPPY", "SURPRISE"],
+          "ratio": [0.6, 0.4],
+          "description": "Anticipation of positive outcomes with pleasant surprise",
+          "synonyms": {
+            "1_subtle": ["hopeful", "upbeat", "positive"],
+            "2_mild": ["optimistic", "encouraged", "buoyant"],
+            "3_moderate": ["enthusiastically hopeful", "brightly anticipating", "eagerly expecting"],
+            "4_strong": ["radiantly optimistic", "boundlessly hopeful", "irrepressibly positive"],
+            "5_intense": ["explosively optimistic", "overwhelmingly hopeful", "transcendently positive"],
+            "6_overwhelming": ["cosmically optimistic", "infinitely hopeful", "divinely positive"]
+          }
+        },
+        {
+          "id": "B002",
+          "name": "love",
+          "components": ["HAPPY", "FEAR"],
+          "ratio": [0.7, 0.3],
+          "description": "Joy with vulnerability - the exposure of caring deeply",
+          "synonyms": {
+            "1_subtle": ["fond", "caring", "attached"],
+            "2_mild": ["loving", "devoted", "tender"],
+            "3_moderate": ["deeply loving", "profoundly devoted", "utterly tender"],
+            "4_strong": ["completely in love", "absolutely devoted", "totally surrendered"],
+            "5_intense": ["overwhelmingly in love", "consumingly devoted", "transcendently bonded"],
+            "6_overwhelming": ["infinitely loving", "cosmically devoted", "eternally bonded"]
+          }
+        },
+        {
+          "id": "B003",
+          "name": "guilt",
+          "components": ["SAD", "FEAR"],
+          "ratio": [0.5, 0.5],
+          "description": "Sorrow combined with fear of consequences or judgment",
+          "synonyms": {
+            "1_subtle": ["sorry", "regretful", "remorseful"],
+            "2_mild": ["guilty", "ashamed", "contrite"],
+            "3_moderate": ["deeply guilty", "profoundly ashamed", "utterly contrite"],
+            "4_strong": ["completely guilty", "absolutely ashamed", "totally remorseful"],
+            "5_intense": ["overwhelmingly guilty", "consumingly ashamed", "devastatingly remorseful"],
+            "6_overwhelming": ["infinitely guilty", "cosmically ashamed", "eternally remorseful"]
+          }
+        },
+        {
+          "id": "B004",
+          "name": "desperation",
+          "components": ["SAD", "ANGRY"],
+          "ratio": [0.5, 0.5],
+          "description": "Grief mixed with frustrated fighting energy",
+          "synonyms": {
+            "1_subtle": ["struggling", "straining", "grasping"],
+            "2_mild": ["desperate", "frantic", "urgent"],
+            "3_moderate": ["deeply desperate", "profoundly frantic", "utterly urgent"],
+            "4_strong": ["completely desperate", "absolutely frantic", "totally wild"],
+            "5_intense": ["overwhelmingly desperate", "consumingly frantic", "explosively urgent"],
+            "6_overwhelming": ["infinitely desperate", "cosmically frantic", "transcendently wild"]
+          }
+        },
+        {
+          "id": "B005",
+          "name": "outrage",
+          "components": ["ANGRY", "SURPRISE"],
+          "ratio": [0.6, 0.4],
+          "description": "Anger triggered by shocking violation",
+          "synonyms": {
+            "1_subtle": ["indignant", "affronted", "shocked"],
+            "2_mild": ["outraged", "scandalized", "incensed"],
+            "3_moderate": ["deeply outraged", "profoundly scandalized", "utterly incensed"],
+            "4_strong": ["completely outraged", "absolutely scandalized", "totally infuriated"],
+            "5_intense": ["explosively outraged", "volcanically scandalized", "nuclear infuriation"],
+            "6_overwhelming": ["infinitely outraged", "cosmically scandalized", "transcendently infuriated"]
+          }
+        },
+        {
+          "id": "B006",
+          "name": "awe",
+          "components": ["SURPRISE", "FEAR"],
+          "ratio": [0.5, 0.5],
+          "description": "Wonder mixed with sense of overwhelming power",
+          "synonyms": {
+            "1_subtle": ["impressed", "moved", "struck"],
+            "2_mild": ["awed", "reverent", "humbled"],
+            "3_moderate": ["deeply awed", "profoundly reverent", "utterly humbled"],
+            "4_strong": ["completely awed", "absolutely reverent", "totally overwhelmed"],
+            "5_intense": ["explosively awed", "transcendently reverent", "cosmically humbled"],
+            "6_overwhelming": ["infinitely awed", "divinely reverent", "eternally humbled"]
+          }
+        },
+        {
+          "id": "B007",
+          "name": "contempt",
+          "components": ["ANGRY", "DISGUST"],
+          "ratio": [0.5, 0.5],
+          "description": "Hostility mixed with revulsion",
+          "synonyms": {
+            "1_subtle": ["dismissive", "disdainful", "scornful"],
+            "2_mild": ["contemptuous", "sneering", "derisive"],
+            "3_moderate": ["deeply contemptuous", "profoundly sneering", "utterly derisive"],
+            "4_strong": ["completely contemptuous", "absolutely sneering", "totally scornful"],
+            "5_intense": ["explosively contemptuous", "volcanically sneering", "nuclear scorn"],
+            "6_overwhelming": ["infinitely contemptuous", "cosmically sneering", "transcendent loathing"]
+          }
+        },
+        {
+          "id": "B008",
+          "name": "remorse",
+          "components": ["SAD", "DISGUST"],
+          "ratio": [0.6, 0.4],
+          "description": "Grief mixed with self-disgust",
+          "synonyms": {
+            "1_subtle": ["regretful", "sorry", "repentant"],
+            "2_mild": ["remorseful", "contrite", "penitent"],
+            "3_moderate": ["deeply remorseful", "profoundly contrite", "utterly penitent"],
+            "4_strong": ["completely remorseful", "absolutely contrite", "totally penitent"],
+            "5_intense": ["overwhelmingly remorseful", "consumingly contrite", "devastatingly penitent"],
+            "6_overwhelming": ["infinitely remorseful", "cosmically contrite", "eternally penitent"]
+          }
+        }
+      ]
+    },
+    "secondary_dyads": {
+      "description": "Emotions with one degree of separation",
+      "blends": [
+        {
+          "id": "B009",
+          "name": "delight",
+          "components": ["HAPPY", "SURPRISE"],
+          "ratio": [0.7, 0.3],
+          "description": "Joy amplified by pleasant unexpectedness",
+          "synonyms": {
+            "1_subtle": ["pleased", "charmed", "tickled"],
+            "2_mild": ["delighted", "thrilled", "enchanted"],
+            "3_moderate": ["deeply delighted", "profoundly thrilled", "utterly enchanted"],
+            "4_strong": ["completely delighted", "absolutely thrilled", "totally enchanted"],
+            "5_intense": ["explosively delighted", "overwhelmingly thrilled", "transcendently enchanted"],
+            "6_overwhelming": ["infinitely delighted", "cosmically thrilled", "divinely enchanted"]
+          }
+        },
+        {
+          "id": "B010",
+          "name": "sentimentality",
+          "components": ["HAPPY", "SAD"],
+          "ratio": [0.5, 0.5],
+          "description": "Bittersweet mixture of joy and sorrow",
+          "synonyms": {
+            "1_subtle": ["touched", "moved", "affected"],
+            "2_mild": ["sentimental", "nostalgic", "wistful"],
+            "3_moderate": ["deeply sentimental", "profoundly nostalgic", "utterly wistful"],
+            "4_strong": ["completely sentimental", "absolutely nostalgic", "totally bittersweet"],
+            "5_intense": ["overwhelmingly sentimental", "consumingly nostalgic", "transcendently wistful"],
+            "6_overwhelming": ["infinitely sentimental", "cosmically nostalgic", "eternally bittersweet"]
+          }
+        },
+        {
+          "id": "B011",
+          "name": "envy",
+          "components": ["SAD", "ANGRY"],
+          "ratio": [0.4, 0.6],
+          "description": "Grief over lacking what others have, with resentment",
+          "synonyms": {
+            "1_subtle": ["wanting", "wishing", "desiring"],
+            "2_mild": ["envious", "jealous", "covetous"],
+            "3_moderate": ["deeply envious", "profoundly jealous", "utterly covetous"],
+            "4_strong": ["completely envious", "absolutely jealous", "totally consumed"],
+            "5_intense": ["explosively envious", "overwhelmingly jealous", "devastatingly covetous"],
+            "6_overwhelming": ["infinitely envious", "cosmically jealous", "transcendently covetous"]
+          }
+        },
+        {
+          "id": "B012",
+          "name": "schadenfreude",
+          "components": ["HAPPY", "ANGRY"],
+          "ratio": [0.5, 0.5],
+          "description": "Pleasure derived from others' misfortune",
+          "synonyms": {
+            "1_subtle": ["satisfied", "pleased", "gratified"],
+            "2_mild": ["schadenfreude", "gloating", "smug"],
+            "3_moderate": ["deeply gloating", "profoundly smug", "utterly satisfied"],
+            "4_strong": ["completely gloating", "absolutely smug", "totally triumphant"],
+            "5_intense": ["explosively gloating", "overwhelmingly smug", "devastatingly triumphant"],
+            "6_overwhelming": ["infinitely gloating", "cosmically smug", "transcendently triumphant"]
+          }
+        },
+        {
+          "id": "B013",
+          "name": "horror",
+          "components": ["FEAR", "DISGUST"],
+          "ratio": [0.5, 0.5],
+          "description": "Terror mixed with revulsion",
+          "synonyms": {
+            "1_subtle": ["disturbed", "unsettled", "troubled"],
+            "2_mild": ["horrified", "appalled", "aghast"],
+            "3_moderate": ["deeply horrified", "profoundly appalled", "utterly aghast"],
+            "4_strong": ["completely horrified", "absolutely appalled", "totally traumatized"],
+            "5_intense": ["explosively horrified", "overwhelmingly appalled", "devastatingly traumatized"],
+            "6_overwhelming": ["infinitely horrified", "cosmically appalled", "transcendently traumatized"]
+          }
+        },
+        {
+          "id": "B014",
+          "name": "morbid_curiosity",
+          "components": ["SURPRISE", "DISGUST"],
+          "ratio": [0.5, 0.5],
+          "description": "Fascination with the repulsive",
+          "synonyms": {
+            "1_subtle": ["curious", "intrigued", "drawn"],
+            "2_mild": ["morbidly curious", "fascinated-repulsed", "compelled"],
+            "3_moderate": ["deeply morbidly curious", "profoundly fascinated-repulsed", "utterly compelled"],
+            "4_strong": ["completely morbidly curious", "absolutely fascinated-repulsed", "totally drawn"],
+            "5_intense": ["explosively morbidly curious", "overwhelmingly fascinated-repulsed", "irresistibly compelled"],
+            "6_overwhelming": ["infinitely morbidly curious", "cosmically fascinated-repulsed", "transcendently compelled"]
+          }
+        }
+      ]
+    },
+    "tertiary_dyads": {
+      "description": "Opposite emotions blending",
+      "blends": [
+        {
+          "id": "B015",
+          "name": "ambivalence",
+          "components": ["HAPPY", "SAD"],
+          "ratio": [0.5, 0.5],
+          "description": "Equal pull toward joy and sorrow",
+          "synonyms": {
+            "1_subtle": ["mixed", "torn", "uncertain"],
+            "2_mild": ["ambivalent", "conflicted", "divided"],
+            "3_moderate": ["deeply ambivalent", "profoundly conflicted", "utterly divided"],
+            "4_strong": ["completely ambivalent", "absolutely conflicted", "totally torn"],
+            "5_intense": ["explosively ambivalent", "overwhelmingly conflicted", "devastatingly divided"],
+            "6_overwhelming": ["infinitely ambivalent", "cosmically conflicted", "transcendently divided"]
+          }
+        },
+        {
+          "id": "B016",
+          "name": "bitter_triumph",
+          "components": ["HAPPY", "ANGRY"],
+          "ratio": [0.4, 0.6],
+          "description": "Victory tainted by resentment",
+          "synonyms": {
+            "1_subtle": ["vindicated", "proven right", "justified"],
+            "2_mild": ["bitterly triumphant", "resentfully victorious", "vengefully satisfied"],
+            "3_moderate": ["deeply bitterly triumphant", "profoundly resentfully victorious", "utterly vengefully satisfied"],
+            "4_strong": ["completely bitterly triumphant", "absolutely resentfully victorious", "totally vengefully satisfied"],
+            "5_intense": ["explosively bitterly triumphant", "overwhelmingly vengefully satisfied", "devastating vindication"],
+            "6_overwhelming": ["infinitely bitter triumph", "cosmic vengeful satisfaction", "transcendent vindication"]
+          }
+        },
+        {
+          "id": "B017",
+          "name": "panic",
+          "components": ["FEAR", "SURPRISE"],
+          "ratio": [0.6, 0.4],
+          "description": "Terror triggered by sudden shock",
+          "synonyms": {
+            "1_subtle": ["startled", "alarmed", "shaken"],
+            "2_mild": ["panicked", "frantic", "hysterical"],
+            "3_moderate": ["deeply panicked", "profoundly frantic", "utterly hysterical"],
+            "4_strong": ["completely panicked", "absolutely frantic", "totally unhinged"],
+            "5_intense": ["explosively panicked", "overwhelmingly frantic", "devastatingly hysterical"],
+            "6_overwhelming": ["infinitely panicked", "cosmically frantic", "transcendently unhinged"]
+          }
+        },
+        {
+          "id": "B018",
+          "name": "mortification",
+          "components": ["FEAR", "DISGUST"],
+          "ratio": [0.5, 0.5],
+          "description": "Fear of judgment combined with self-disgust",
+          "synonyms": {
+            "1_subtle": ["embarrassed", "self-conscious", "uncomfortable"],
+            "2_mild": ["mortified", "humiliated", "ashamed"],
+            "3_moderate": ["deeply mortified", "profoundly humiliated", "utterly ashamed"],
+            "4_strong": ["completely mortified", "absolutely humiliated", "totally disgraced"],
+            "5_intense": ["explosively mortified", "overwhelmingly humiliated", "devastatingly disgraced"],
+            "6_overwhelming": ["infinitely mortified", "cosmically humiliated", "transcendently disgraced"]
+          }
+        }
+      ]
+    }
+  },
+  "triadic_blends": {
+    "description": "Three-emotion combinations creating complex states",
+    "blends": [
+      {
+        "id": "B019",
+        "name": "existential_dread",
+        "components": ["SAD", "FEAR", "SURPRISE"],
+        "ratio": [0.4, 0.4, 0.2],
+        "description": "Grief, terror, and disorientation facing existence",
+        "synonyms": {
+          "1_subtle": ["questioning", "uncertain", "unsettled"],
+          "2_mild": ["existentially anxious", "meaningfully troubled", "philosophically disturbed"],
+          "3_moderate": ["deeply existentially troubled", "profoundly meaninglessly anxious", "utterly cosmically disturbed"],
+          "4_strong": ["completely existentially anguished", "absolutely meaninglessly terrified", "totally cosmically lost"],
+          "5_intense": ["explosively existentially anguished", "overwhelmingly meaninglessly terrified", "devastatingly cosmically lost"],
+          "6_overwhelming": ["infinitely existentially anguished", "cosmically meaninglessly terrified", "transcendently lost in void"]
+        }
+      },
+      {
+        "id": "B020",
+        "name": "betrayal",
+        "components": ["SAD", "ANGRY", "SURPRISE"],
+        "ratio": [0.35, 0.35, 0.3],
+        "description": "Grief and rage triggered by shocking disloyalty",
+        "synonyms": {
+          "1_subtle": ["let down", "disappointed", "hurt"],
+          "2_mild": ["betrayed", "backstabbed", "double-crossed"],
+          "3_moderate": ["deeply betrayed", "profoundly backstabbed", "utterly double-crossed"],
+          "4_strong": ["completely betrayed", "absolutely backstabbed", "totally violated"],
+          "5_intense": ["explosively betrayed", "overwhelmingly backstabbed", "devastatingly violated"],
+          "6_overwhelming": ["infinitely betrayed", "cosmically backstabbed", "transcendently violated"]
+        }
+      },
+      {
+        "id": "B021",
+        "name": "overwhelmed_gratitude",
+        "components": ["HAPPY", "SURPRISE", "SAD"],
+        "ratio": [0.5, 0.3, 0.2],
+        "description": "Joy and wonder mixed with tears of being moved",
+        "synonyms": {
+          "1_subtle": ["touched", "grateful", "moved"],
+          "2_mild": ["overwhelmingly grateful", "tearfully happy", "deeply moved"],
+          "3_moderate": ["profoundly overwhelmingly grateful", "utterly tearfully happy", "completely moved"],
+          "4_strong": ["totally overwhelmingly grateful", "absolutely tearfully happy", "transcendently moved"],
+          "5_intense": ["explosively grateful", "overwhelmingly tearful", "devastatingly moved"],
+          "6_overwhelming": ["infinitely grateful", "cosmically tearful", "divinely moved"]
+        }
+      },
+      {
+        "id": "B022",
+        "name": "tormented_longing",
+        "components": ["SAD", "HAPPY", "FEAR"],
+        "ratio": [0.4, 0.3, 0.3],
+        "description": "Painful desire mixed with hope and vulnerability",
+        "synonyms": {
+          "1_subtle": ["yearning", "wanting", "hoping"],
+          "2_mild": ["longingly tormented", "painfully wanting", "vulnerably hoping"],
+          "3_moderate": ["deeply longingly tormented", "profoundly painfully wanting", "utterly vulnerably hoping"],
+          "4_strong": ["completely longingly tormented", "absolutely painfully wanting", "totally vulnerably hoping"],
+          "5_intense": ["explosively longingly tormented", "overwhelmingly painfully wanting", "devastatingly vulnerably hoping"],
+          "6_overwhelming": ["infinitely longingly tormented", "cosmically painfully wanting", "transcendently vulnerably hoping"]
+        }
+      },
+      {
+        "id": "B023",
+        "name": "traumatic_shame",
+        "components": ["FEAR", "SAD", "DISGUST"],
+        "ratio": [0.35, 0.35, 0.3],
+        "description": "Terror and grief mixed with self-revulsion",
+        "synonyms": {
+          "1_subtle": ["ashamed", "embarrassed", "regretful"],
+          "2_mild": ["traumatically ashamed", "deeply humiliated", "painfully disgusted"],
+          "3_moderate": ["profoundly traumatically ashamed", "utterly deeply humiliated", "completely painfully disgusted"],
+          "4_strong": ["totally traumatically ashamed", "absolutely deeply humiliated", "wholly painfully disgusted"],
+          "5_intense": ["explosively traumatically ashamed", "overwhelmingly deeply humiliated", "devastatingly disgusted"],
+          "6_overwhelming": ["infinitely traumatically ashamed", "cosmically humiliated", "transcendently self-disgusted"]
+        }
+      },
+      {
+        "id": "B024",
+        "name": "righteous_fury",
+        "components": ["ANGRY", "SURPRISE", "DISGUST"],
+        "ratio": [0.5, 0.25, 0.25],
+        "description": "Rage at shocking moral violation",
+        "synonyms": {
+          "1_subtle": ["indignant", "offended", "bothered"],
+          "2_mild": ["righteously furious", "morally outraged", "ethically incensed"],
+          "3_moderate": ["deeply righteously furious", "profoundly morally outraged", "utterly ethically incensed"],
+          "4_strong": ["completely righteously furious", "absolutely morally outraged", "totally ethically incensed"],
+          "5_intense": ["explosively righteously furious", "overwhelmingly morally outraged", "devastatingly ethically incensed"],
+          "6_overwhelming": ["infinitely righteously furious", "cosmically morally outraged", "divinely ethically incensed"]
+        }
+      },
+      {
+        "id": "B025",
+        "name": "manic_elation",
+        "components": ["HAPPY", "SURPRISE", "FEAR"],
+        "ratio": [0.5, 0.3, 0.2],
+        "description": "Extreme joy with disorienting intensity",
+        "synonyms": {
+          "1_subtle": ["excited", "energized", "buzzing"],
+          "2_mild": ["manically elated", "intensely high", "overwhelmingly up"],
+          "3_moderate": ["deeply manically elated", "profoundly intensely high", "utterly overwhelmingly up"],
+          "4_strong": ["completely manically elated", "absolutely intensely high", "totally overwhelmingly up"],
+          "5_intense": ["explosively manically elated", "volcanically intensely high", "devastatingly overwhelmingly up"],
+          "6_overwhelming": ["infinitely manically elated", "cosmically intensely high", "transcendently overwhelmingly up"]
+        }
+      },
+      {
+        "id": "B026",
+        "name": "protective_rage",
+        "components": ["ANGRY", "FEAR", "HAPPY"],
+        "ratio": [0.5, 0.3, 0.2],
+        "description": "Fury in defense of loved ones",
+        "synonyms": {
+          "1_subtle": ["protective", "defensive", "guarding"],
+          "2_mild": ["protectively enraged", "defensively furious", "guardingly angry"],
+          "3_moderate": ["deeply protectively enraged", "profoundly defensively furious", "utterly guardingly angry"],
+          "4_strong": ["completely protectively enraged", "absolutely defensively furious", "totally guardingly angry"],
+          "5_intense": ["explosively protectively enraged", "overwhelmingly defensively furious", "devastatingly guardingly angry"],
+          "6_overwhelming": ["infinitely protectively enraged", "cosmically defensively furious", "transcendently guardingly fierce"]
+        }
+      }
+    ]
+  },
+  "therapeutic_blends": {
+    "description": "Complex states commonly encountered in therapy",
+    "blends": [
+      {
+        "id": "B027",
+        "name": "grief_with_relief",
+        "components": ["SAD", "HAPPY"],
+        "ratio": [0.6, 0.4],
+        "description": "Mourning mixed with gratitude suffering has ended",
+        "synonyms": {
+          "1_subtle": ["relieved sadness", "grateful grief", "peaceful sorrow"],
+          "2_mild": ["bittersweetly mourning", "gratefully grieving", "peacefully sad"],
+          "3_moderate": ["deeply bittersweetly mourning", "profoundly gratefully grieving", "utterly peacefully sad"],
+          "4_strong": ["completely bittersweetly mourning", "absolutely gratefully grieving", "totally peacefully sad"],
+          "5_intense": ["overwhelmingly bittersweetly mourning", "consumingly gratefully grieving", "devastatingly peacefully sad"],
+          "6_overwhelming": ["infinitely bittersweetly mourning", "cosmically gratefully grieving", "transcendently peacefully sad"]
+        }
+      },
+      {
+        "id": "B028",
+        "name": "anxious_excitement",
+        "components": ["FEAR", "HAPPY"],
+        "ratio": [0.5, 0.5],
+        "description": "Nervous anticipation of good things",
+        "synonyms": {
+          "1_subtle": ["nervous excitement", "jittery anticipation", "edgy hopefulness"],
+          "2_mild": ["anxiously excited", "nervously eager", "tensely hopeful"],
+          "3_moderate": ["deeply anxiously excited", "profoundly nervously eager", "utterly tensely hopeful"],
+          "4_strong": ["completely anxiously excited", "absolutely nervously eager", "totally tensely hopeful"],
+          "5_intense": ["explosively anxiously excited", "overwhelmingly nervously eager", "devastatingly tensely hopeful"],
+          "6_overwhelming": ["infinitely anxiously excited", "cosmically nervously eager", "transcendently tensely hopeful"]
+        }
+      },
+      {
+        "id": "B029",
+        "name": "nostalgic_melancholy",
+        "components": ["SAD", "HAPPY", "SURPRISE"],
+        "ratio": [0.5, 0.3, 0.2],
+        "description": "Bittersweet longing for the past",
+        "synonyms": {
+          "1_subtle": ["wistful", "reminiscent", "reflective"],
+          "2_mild": ["nostalgically melancholic", "bittersweetly longing", "achingly remembering"],
+          "3_moderate": ["deeply nostalgically melancholic", "profoundly bittersweetly longing", "utterly achingly remembering"],
+          "4_strong": ["completely nostalgically melancholic", "absolutely bittersweetly longing", "totally achingly remembering"],
+          "5_intense": ["overwhelmingly nostalgically melancholic", "consumingly bittersweetly longing", "devastatingly achingly remembering"],
+          "6_overwhelming": ["infinitely nostalgically melancholic", "cosmically bittersweetly longing", "eternally achingly remembering"]
+        }
+      },
+      {
+        "id": "B030",
+        "name": "imposter_syndrome",
+        "components": ["FEAR", "HAPPY", "DISGUST"],
+        "ratio": [0.4, 0.3, 0.3],
+        "description": "Success tainted by fear of exposure and self-doubt",
+        "synonyms": {
+          "1_subtle": ["doubting success", "undeserving feeling", "fraudulent sense"],
+          "2_mild": ["imposter feeling", "fraudulent success", "undeserving achievement"],
+          "3_moderate": ["deep imposter syndrome", "profound fraudulent feeling", "utter undeserving sense"],
+          "4_strong": ["complete imposter syndrome", "absolute fraudulent feeling", "total undeserving sense"],
+          "5_intense": ["explosive imposter syndrome", "overwhelming fraudulent feeling", "devastating undeserving sense"],
+          "6_overwhelming": ["infinite imposter syndrome", "cosmic fraudulent feeling", "transcendent undeserving sense"]
+        }
+      },
+      {
+        "id": "B031",
+        "name": "anticipatory_grief",
+        "components": ["SAD", "FEAR", "HAPPY"],
+        "ratio": [0.4, 0.4, 0.2],
+        "description": "Mourning before loss occurs",
+        "synonyms": {
+          "1_subtle": ["pre-grieving", "expecting loss", "dreading goodbye"],
+          "2_mild": ["anticipatorily grieving", "pre-emptively mourning", "proactively sad"],
+          "3_moderate": ["deeply anticipatorily grieving", "profoundly pre-emptively mourning", "utterly proactively sad"],
+          "4_strong": ["completely anticipatorily grieving", "absolutely pre-emptively mourning", "totally proactively sad"],
+          "5_intense": ["overwhelmingly anticipatorily grieving", "consumingly pre-emptively mourning", "devastatingly proactively sad"],
+          "6_overwhelming": ["infinitely anticipatorily grieving", "cosmically pre-emptively mourning", "transcendently proactively sad"]
+        }
+      },
+      {
+        "id": "B032",
+        "name": "survivor_guilt",
+        "components": ["SAD", "FEAR", "DISGUST"],
+        "ratio": [0.4, 0.3, 0.3],
+        "description": "Shame and grief at surviving when others didn't",
+        "synonyms": {
+          "1_subtle": ["guilty survival", "undeserving life", "shameful continuation"],
+          "2_mild": ["survivor guilt", "living shame", "continuation regret"],
+          "3_moderate": ["deep survivor guilt", "profound living shame", "utter continuation regret"],
+          "4_strong": ["complete survivor guilt", "absolute living shame", "total continuation regret"],
+          "5_intense": ["overwhelming survivor guilt", "consuming living shame", "devastating continuation regret"],
+          "6_overwhelming": ["infinite survivor guilt", "cosmic living shame", "transcendent continuation torment"]
+        }
+      },
+      {
+        "id": "B033",
+        "name": "learned_helplessness",
+        "components": ["SAD", "FEAR", "DISGUST"],
+        "ratio": [0.35, 0.35, 0.3],
+        "description": "Resignation from repeated failure",
+        "synonyms": {
+          "1_subtle": ["giving up", "accepting defeat", "surrendering"],
+          "2_mild": ["helplessly resigned", "defeatedly accepting", "surrenderingly passive"],
+          "3_moderate": ["deeply helplessly resigned", "profoundly defeatedly accepting", "utterly surrenderingly passive"],
+          "4_strong": ["completely helplessly resigned", "absolutely defeatedly accepting", "totally surrenderingly passive"],
+          "5_intense": ["overwhelmingly helplessly resigned", "consumingly defeatedly accepting", "devastatingly surrenderingly passive"],
+          "6_overwhelming": ["infinitely helplessly resigned", "cosmically defeatedly accepting", "transcendently passive"]
+        }
+      },
+      {
+        "id": "B034",
+        "name": "complex_ptsd_freeze",
+        "components": ["FEAR", "SAD", "SURPRISE"],
+        "ratio": [0.4, 0.35, 0.25],
+        "description": "Traumatic paralysis with grief and disorientation",
+        "synonyms": {
+          "1_subtle": ["stuck", "frozen", "numb"],
+          "2_mild": ["traumatically frozen", "grief-paralyzed", "shock-stuck"],
+          "3_moderate": ["deeply traumatically frozen", "profoundly grief-paralyzed", "utterly shock-stuck"],
+          "4_strong": ["completely traumatically frozen", "absolutely grief-paralyzed", "totally shock-stuck"],
+          "5_intense": ["overwhelmingly traumatically frozen", "consumingly grief-paralyzed", "devastatingly shock-stuck"],
+          "6_overwhelming": ["infinitely traumatically frozen", "cosmically grief-paralyzed", "transcendently dissociated"]
+        }
+      },
+      {
+        "id": "B035",
+        "name": "defensive_anger",
+        "components": ["ANGRY", "FEAR", "SAD"],
+        "ratio": [0.5, 0.3, 0.2],
+        "description": "Rage covering vulnerability",
+        "synonyms": {
+          "1_subtle": ["protective anger", "guarding rage", "shielding fury"],
+          "2_mild": ["defensively angry", "protectively furious", "guardingly enraged"],
+          "3_moderate": ["deeply defensively angry", "profoundly protectively furious", "utterly guardingly enraged"],
+          "4_strong": ["completely defensively angry", "absolutely protectively furious", "totally guardingly enraged"],
+          "5_intense": ["explosively defensively angry", "overwhelmingly protectively furious", "devastatingly guardingly enraged"],
+          "6_overwhelming": ["infinitely defensively angry", "cosmically protectively furious", "transcendently guardingly fierce"]
+        }
+      },
+      {
+        "id": "B036",
+        "name": "abandonment_terror",
+        "components": ["FEAR", "SAD", "ANGRY"],
+        "ratio": [0.4, 0.35, 0.25],
+        "description": "Terror of being left mixed with grief and rage",
+        "synonyms": {
+          "1_subtle": ["fear of leaving", "dread of abandonment", "anxiety about rejection"],
+          "2_mild": ["abandonment terror", "leaving panic", "rejection horror"],
+          "3_moderate": ["deep abandonment terror", "profound leaving panic", "utter rejection horror"],
+          "4_strong": ["complete abandonment terror", "absolute leaving panic", "total rejection horror"],
+          "5_intense": ["overwhelming abandonment terror", "consuming leaving panic", "devastating rejection horror"],
+          "6_overwhelming": ["infinite abandonment terror", "cosmic leaving panic", "transcendent rejection horror"]
+        }
+      },
+      {
+        "id": "B037",
+        "name": "attachment_anxiety",
+        "components": ["FEAR", "HAPPY", "SAD"],
+        "ratio": [0.4, 0.35, 0.25],
+        "description": "Love mixed with fear of loss",
+        "synonyms": {
+          "1_subtle": ["clingy", "needy", "dependent"],
+          "2_mild": ["attachment anxious", "connection worried", "bond fearful"],
+          "3_moderate": ["deeply attachment anxious", "profoundly connection worried", "utterly bond fearful"],
+          "4_strong": ["completely attachment anxious", "absolutely connection worried", "totally bond fearful"],
+          "5_intense": ["overwhelmingly attachment anxious", "consumingly connection worried", "devastatingly bond fearful"],
+          "6_overwhelming": ["infinitely attachment anxious", "cosmically connection worried", "transcendently bond terrified"]
+        }
+      },
+      {
+        "id": "B038",
+        "name": "emotional_flashback",
+        "components": ["FEAR", "SAD", "SURPRISE"],
+        "ratio": [0.4, 0.35, 0.25],
+        "description": "Sudden return of past emotional pain",
+        "synonyms": {
+          "1_subtle": ["triggered", "reminded", "thrown back"],
+          "2_mild": ["emotionally flashing back", "past-invaded", "memory-struck"],
+          "3_moderate": ["deeply emotionally flashing back", "profoundly past-invaded", "utterly memory-struck"],
+          "4_strong": ["completely emotionally flashing back", "absolutely past-invaded", "totally memory-consumed"],
+          "5_intense": ["overwhelmingly emotionally flashing back", "consumingly past-invaded", "devastatingly memory-consumed"],
+          "6_overwhelming": ["infinitely emotionally flashing back", "cosmically past-invaded", "transcendently memory-consumed"]
+        }
+      }
+    ]
+  },
+  "musical_blends": {
+    "description": "States particularly relevant to music therapy",
+    "blends": [
+      {
+        "id": "B039",
+        "name": "catharsis",
+        "components": ["SAD", "HAPPY", "SURPRISE"],
+        "ratio": [0.35, 0.35, 0.3],
+        "description": "Emotional release and relief",
+        "synonyms": {
+          "1_subtle": ["releasing", "letting go", "freeing"],
+          "2_mild": ["cathartic", "purging", "cleansing"],
+          "3_moderate": ["deeply cathartic", "profoundly purging", "utterly cleansing"],
+          "4_strong": ["completely cathartic", "absolutely purging", "totally cleansing"],
+          "5_intense": ["overwhelmingly cathartic", "consumingly purging", "devastatingly cleansing"],
+          "6_overwhelming": ["infinitely cathartic", "cosmically purging", "transcendently cleansing"]
+        }
+      },
+      {
+        "id": "B040",
+        "name": "transcendence",
+        "components": ["HAPPY", "SURPRISE", "FEAR"],
+        "ratio": [0.4, 0.35, 0.25],
+        "description": "Rising above ordinary experience",
+        "synonyms": {
+          "1_subtle": ["elevated", "uplifted", "raised"],
+          "2_mild": ["transcendent", "otherworldly", "sublime"],
+          "3_moderate": ["deeply transcendent", "profoundly otherworldly", "utterly sublime"],
+          "4_strong": ["completely transcendent", "absolutely otherworldly", "totally sublime"],
+          "5_intense": ["overwhelmingly transcendent", "consumingly otherworldly", "devastatingly sublime"],
+          "6_overwhelming": ["infinitely transcendent", "cosmically otherworldly", "divinely sublime"]
+        }
+      },
+      {
+        "id": "B041",
+        "name": "flow_state",
+        "components": ["HAPPY", "SURPRISE", "FEAR"],
+        "ratio": [0.5, 0.3, 0.2],
+        "description": "Complete absorption in activity",
+        "synonyms": {
+          "1_subtle": ["focused", "absorbed", "engaged"],
+          "2_mild": ["in flow", "zone state", "deeply absorbed"],
+          "3_moderate": ["profound flow", "deep zone", "utter absorption"],
+          "4_strong": ["complete flow", "absolute zone", "total absorption"],
+          "5_intense": ["overwhelming flow", "consuming zone", "devastating absorption"],
+          "6_overwhelming": ["infinite flow", "cosmic zone", "transcendent absorption"]
+        }
+      },
+      {
+        "id": "B042",
+        "name": "chills_frisson",
+        "components": ["HAPPY", "SURPRISE", "FEAR"],
+        "ratio": [0.4, 0.35, 0.25],
+        "description": "Musical shivers from beauty",
+        "synonyms": {
+          "1_subtle": ["tingling", "shivering", "goosebumps"],
+          "2_mild": ["frisson", "chills", "aesthetic shivers"],
+          "3_moderate": ["deep frisson", "profound chills", "utter aesthetic shivers"],
+          "4_strong": ["complete frisson", "absolute chills", "total aesthetic shivers"],
+          "5_intense": ["overwhelming frisson", "consuming chills", "devastating aesthetic shivers"],
+          "6_overwhelming": ["infinite frisson", "cosmic chills", "transcendent aesthetic ecstasy"]
+        }
+      },
+      {
+        "id": "B043",
+        "name": "sublime_terror",
+        "components": ["FEAR", "HAPPY", "SURPRISE"],
+        "ratio": [0.4, 0.35, 0.25],
+        "description": "Awe at overwhelming beauty",
+        "synonyms": {
+          "1_subtle": ["awed", "struck", "moved"],
+          "2_mild": ["sublimely terrified", "beautifully overwhelmed", "awesomely struck"],
+          "3_moderate": ["deeply sublimely terrified", "profoundly beautifully overwhelmed", "utterly awesomely struck"],
+          "4_strong": ["completely sublimely terrified", "absolutely beautifully overwhelmed", "totally awesomely struck"],
+          "5_intense": ["overwhelmingly sublimely terrified", "consumingly beautifully overwhelmed", "devastatingly awesomely struck"],
+          "6_overwhelming": ["infinitely sublimely terrified", "cosmically beautifully overwhelmed", "transcendently awesomely struck"]
+        }
+      },
+      {
+        "id": "B044",
+        "name": "melancholic_beauty",
+        "components": ["SAD", "HAPPY", "SURPRISE"],
+        "ratio": [0.5, 0.3, 0.2],
+        "description": "Finding beauty in sadness",
+        "synonyms": {
+          "1_subtle": ["poignant", "touching", "moving"],
+          "2_mild": ["melancholically beautiful", "sadly gorgeous", "sorrowfully lovely"],
+          "3_moderate": ["deeply melancholically beautiful", "profoundly sadly gorgeous", "utterly sorrowfully lovely"],
+          "4_strong": ["completely melancholically beautiful", "absolutely sadly gorgeous", "totally sorrowfully lovely"],
+          "5_intense": ["overwhelmingly melancholically beautiful", "consumingly sadly gorgeous", "devastatingly sorrowfully lovely"],
+          "6_overwhelming": ["infinitely melancholically beautiful", "cosmically sadly gorgeous", "transcendently sorrowfully lovely"]
+        }
+      },
+      {
+        "id": "B045",
+        "name": "bittersweet_nostalgia",
+        "components": ["HAPPY", "SAD", "SURPRISE"],
+        "ratio": [0.4, 0.4, 0.2],
+        "description": "Memory of happiness tinged with loss",
+        "synonyms": {
+          "1_subtle": ["wistful", "reminiscent", "memory-touched"],
+          "2_mild": ["bittersweetly nostalgic", "happily sad", "joyfully mourning"],
+          "3_moderate": ["deeply bittersweetly nostalgic", "profoundly happily sad", "utterly joyfully mourning"],
+          "4_strong": ["completely bittersweetly nostalgic", "absolutely happily sad", "totally joyfully mourning"],
+          "5_intense": ["overwhelmingly bittersweetly nostalgic", "consumingly happily sad", "devastatingly joyfully mourning"],
+          "6_overwhelming": ["infinitely bittersweetly nostalgic", "cosmically happily sad", "eternally joyfully mourning"]
+        }
+      },
+      {
+        "id": "B046",
+        "name": "empathic_resonance",
+        "components": ["HAPPY", "SAD", "FEAR"],
+        "ratio": [0.35, 0.35, 0.3],
+        "description": "Feeling another's emotions through music",
+        "synonyms": {
+          "1_subtle": ["connected", "attuned", "resonant"],
+          "2_mild": ["empathically resonant", "emotionally connected", "feelingly attuned"],
+          "3_moderate": ["deeply empathically resonant", "profoundly emotionally connected", "utterly feelingly attuned"],
+          "4_strong": ["completely empathically resonant", "absolutely emotionally connected", "totally feelingly attuned"],
+          "5_intense": ["overwhelmingly empathically resonant", "consumingly emotionally connected", "devastatingly feelingly attuned"],
+          "6_overwhelming": ["infinitely empathically resonant", "cosmically emotionally connected", "transcendently feelingly attuned"]
+        }
+      }
+    ]
+  },
+  "situational_blends": {
+    "description": "Context-specific emotional combinations",
+    "blends": [
+      {
+        "id": "B047",
+        "name": "stage_fright",
+        "components": ["FEAR", "HAPPY", "SURPRISE"],
+        "ratio": [0.5, 0.25, 0.25],
+        "description": "Performance anxiety with excitement",
+        "synonyms": {
+          "1_subtle": ["nervous", "jittery", "keyed up"],
+          "2_mild": ["stage frightened", "performance anxious", "spotlight nervous"],
+          "3_moderate": ["deeply stage frightened", "profoundly performance anxious", "utterly spotlight nervous"],
+          "4_strong": ["completely stage frightened", "absolutely performance anxious", "totally spotlight terrified"],
+          "5_intense": ["overwhelmingly stage frightened", "consumingly performance anxious", "devastatingly spotlight terrified"],
+          "6_overwhelming": ["infinitely stage frightened", "cosmically performance anxious", "transcendently spotlight terrified"]
+        }
+      },
+      {
+        "id": "B048",
+        "name": "creative_frustration",
+        "components": ["ANGRY", "SAD", "SURPRISE"],
+        "ratio": [0.5, 0.3, 0.2],
+        "description": "Artistic block with emotional investment",
+        "synonyms": {
+          "1_subtle": ["stuck", "blocked", "stalled"],
+          "2_mild": ["creatively frustrated", "artistically blocked", "expressively stuck"],
+          "3_moderate": ["deeply creatively frustrated", "profoundly artistically blocked", "utterly expressively stuck"],
+          "4_strong": ["completely creatively frustrated", "absolutely artistically blocked", "totally expressively stuck"],
+          "5_intense": ["overwhelmingly creatively frustrated", "consumingly artistically blocked", "devastatingly expressively stuck"],
+          "6_overwhelming": ["infinitely creatively frustrated", "cosmically artistically blocked", "transcendently expressively stuck"]
+        }
+      },
+      {
+        "id": "B049",
+        "name": "creative_breakthrough",
+        "components": ["HAPPY", "SURPRISE", "FEAR"],
+        "ratio": [0.5, 0.3, 0.2],
+        "description": "Sudden artistic insight with wonder",
+        "synonyms": {
+          "1_subtle": ["inspired", "unlocked", "opened"],
+          "2_mild": ["creatively breaking through", "artistically unlocked", "expressively opened"],
+          "3_moderate": ["deeply creatively breaking through", "profoundly artistically unlocked", "utterly expressively opened"],
+          "4_strong": ["completely creatively breaking through", "absolutely artistically unlocked", "totally expressively opened"],
+          "5_intense": ["overwhelmingly creatively breaking through", "consumingly artistically unlocked", "devastatingly expressively opened"],
+          "6_overwhelming": ["infinitely creatively breaking through", "cosmically artistically unlocked", "transcendently expressively opened"]
+        }
+      },
+      {
+        "id": "B050",
+        "name": "homecoming",
+        "components": ["HAPPY", "SAD", "SURPRISE"],
+        "ratio": [0.5, 0.3, 0.2],
+        "description": "Joy of return mixed with recognition of change",
+        "synonyms": {
+          "1_subtle": ["returning", "coming back", "arriving home"],
+          "2_mild": ["homecoming", "returning joy", "arrival warmth"],
+          "3_moderate": ["deep homecoming", "profound returning joy", "utter arrival warmth"],
+          "4_strong": ["complete homecoming", "absolute returning joy", "total arrival warmth"],
+          "5_intense": ["overwhelming homecoming", "consuming returning joy", "devastating arrival warmth"],
+          "6_overwhelming": ["infinite homecoming", "cosmic returning joy", "transcendent arrival warmth"]
+        }
+      }
+    ]
+  },
+  "intensity_modifiers": {
+    "description": "Factors that affect blend intensity",
+    "modifiers": [
+      {
+        "name": "recent_trigger",
+        "effect": "+1 tier",
+        "description": "Event just occurred"
+      },
+      {
+        "name": "chronic_state",
+        "effect": "-1 tier surface, +1 tier depth",
+        "description": "Long-standing condition shows less but runs deeper"
+      },
+      {
+        "name": "suppressed",
+        "effect": "-2 tier expression, unchanged internal",
+        "description": "Actively held back"
+      },
+      {
+        "name": "triggered_memory",
+        "effect": "+2 tier sudden onset",
+        "description": "Past experience activated"
+      },
+      {
+        "name": "physical_exhaustion",
+        "effect": "+1 tier negative, -1 tier positive",
+        "description": "Body state affecting emotion"
+      },
+      {
+        "name": "social_context",
+        "effect": "variable expression",
+        "description": "Audience affects display intensity"
+      }
+    ]
+  }
+}

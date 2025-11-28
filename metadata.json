@@ -1,0 +1,149 @@
+{
+  "schema_version": "1.0.0",
+  "name": "DAiW Emotion Thesaurus",
+  "description": "Comprehensive 6×6×6 emotion taxonomy with intensity tiers for music therapy applications",
+  "created": "2024",
+  "framework": "DAiW-Music-Brain",
+  
+  "structure": {
+    "hierarchy": {
+      "level_1": "Base Emotions (6)",
+      "level_2": "Sub-Emotions (6 per base = 36 total)",
+      "level_3": "Sub-Sub-Emotions (6 per sub = 216 total)",
+      "intensity_tiers": "6 per sub-sub-emotion (1296 intensity nodes)",
+      "synonyms_per_tier": "3-5 words/phrases"
+    },
+    "total_nodes": 216,
+    "total_intensity_tiers": 1296,
+    "blend_zones": 50
+  },
+  
+  "base_emotions": [
+    {
+      "id": "I",
+      "name": "HAPPY",
+      "file": "happy.json",
+      "valence": "positive",
+      "sub_emotion_count": 6
+    },
+    {
+      "id": "II",
+      "name": "SAD",
+      "file": "sad.json",
+      "valence": "negative",
+      "sub_emotion_count": 6
+    },
+    {
+      "id": "III",
+      "name": "ANGRY",
+      "file": "angry.json",
+      "valence": "negative",
+      "sub_emotion_count": 6
+    },
+    {
+      "id": "IV",
+      "name": "FEAR",
+      "file": "fear.json",
+      "valence": "negative",
+      "sub_emotion_count": 6
+    },
+    {
+      "id": "V",
+      "name": "SURPRISE",
+      "file": "surprise.json",
+      "valence": "mixed",
+      "sub_emotion_count": 6
+    },
+    {
+      "id": "VI",
+      "name": "DISGUST",
+      "file": "disgust.json",
+      "valence": "negative",
+      "sub_emotion_count": 6
+    }
+  ],
+  
+  "theoretical_foundations": {
+    "primary_models": [
+      "Ekman Basic Emotions",
+      "Plutchik Emotion Wheel",
+      "Russell Circumplex Model"
+    ],
+    "music_specific": [
+      "GEMS (Geneva Emotional Music Scale)",
+      "Juslin BRECVEMA Model"
+    ],
+    "therapeutic": [
+      "Affect Regulation Theory",
+      "Polyvagal Theory",
+      "DBT Emotion Regulation"
+    ]
+  },
+  
+  "intensity_tier_definitions": {
+    "1_subtle": {
+      "label": "Subtle",
+      "description": "Barely perceptible, background feeling",
+      "arousal_modifier": 0.1,
+      "typical_duration": "fleeting"
+    },
+    "2_mild": {
+      "label": "Mild",
+      "description": "Noticeable but easily managed",
+      "arousal_modifier": 0.3,
+      "typical_duration": "minutes"
+    },
+    "3_moderate": {
+      "label": "Moderate",
+      "description": "Clearly felt, influences behavior",
+      "arousal_modifier": 0.5,
+      "typical_duration": "extended"
+    },
+    "4_strong": {
+      "label": "Strong",
+      "description": "Powerful, hard to ignore",
+      "arousal_modifier": 0.7,
+      "typical_duration": "sustained"
+    },
+    "5_intense": {
+      "label": "Intense",
+      "description": "Overwhelming, dominates experience",
+      "arousal_modifier": 0.9,
+      "typical_duration": "acute episodes"
+    },
+    "6_overwhelming": {
+      "label": "Overwhelming",
+      "description": "All-consuming, transcendent",
+      "arousal_modifier": 1.0,
+      "typical_duration": "peak moments"
+    }
+  },
+  
+  "usage_notes": {
+    "interrogation": "Use during emotional interrogation phase to identify and validate user's emotional state",
+    "translation": "Map identified emotions to musical parameters (tempo, key, harmony, texture)",
+    "validation": "Reflect identified emotions back to user for confirmation before generation",
+    "blending": "Most real emotional states are blends - check blends.json for common combinations"
+  },
+  
+  "musical_mapping_hints": {
+    "valence_to_mode": {
+      "positive": "major modes, lydian",
+      "negative": "minor modes, phrygian, locrian",
+      "mixed": "modal mixture, borrowed chords"
+    },
+    "arousal_to_tempo": {
+      "low": "40-70 BPM",
+      "medium": "70-120 BPM",
+      "high": "120-180+ BPM"
+    },
+    "intensity_to_dynamics": {
+      "subtle": "pp-p",
+      "mild": "p-mp",
+      "moderate": "mp-mf",
+      "strong": "mf-f",
+      "intense": "f-ff",
+      "overwhelming": "ff-fff with dynamic contrast"
+    }
+  }
+}

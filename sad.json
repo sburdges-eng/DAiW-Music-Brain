@@ -1,0 +1,483 @@
+{
+  "id": "II",
+  "name": "SAD",
+  "description": "Negative emotional states characterized by loss, disappointment, and low energy",
+  "valence": "negative",
+  "arousal_range": [0.1, 0.5],
+  "sub_emotions": {
+    "GRIEF": {
+      "id": "IIi",
+      "description": "Deep sorrow from significant loss",
+      "arousal_bias": 0.3,
+      "sub_sub_emotions": {
+        "bereaved": {
+          "id": "IIia",
+          "description": "Mourning the death of someone close",
+          "intensity_tiers": {
+            "1_subtle": ["saddened", "touched by loss", "missing"],
+            "2_mild": ["bereaved", "mourning", "grieving"],
+            "3_moderate": ["deeply grieving", "in mourning", "heartbroken"],
+            "4_strong": ["devastated", "shattered", "inconsolable"],
+            "5_intense": ["utterly destroyed", "soul-crushed", "obliterated by grief"],
+            "6_overwhelming": ["consumed by grief", "lost in mourning", "drowning in sorrow"]
+          }
+        },
+        "mournful": {
+          "id": "IIib",
+          "description": "Feeling or expressing sorrow",
+          "intensity_tiers": {
+            "1_subtle": ["sad", "down", "blue"],
+            "2_mild": ["mournful", "sorrowful", "lamenting"],
+            "3_moderate": ["deeply sad", "heavy-hearted", "weeping"],
+            "4_strong": ["wailing", "keening", "sobbing"],
+            "5_intense": ["wracked with sorrow", "drowning in tears", "consumed by mourning"],
+            "6_overwhelming": ["infinite sorrow", "cosmic grief", "eternal mourning"]
+          }
+        },
+        "heartbroken": {
+          "id": "IIic",
+          "description": "Emotional pain from lost love or relationship",
+          "intensity_tiers": {
+            "1_subtle": ["hurt", "wounded", "stung"],
+            "2_mild": ["heartbroken", "brokenhearted", "heartsick"],
+            "3_moderate": ["crushed", "devastated", "destroyed"],
+            "4_strong": ["shattered", "annihilated", "eviscerated"],
+            "5_intense": ["soul-destroyed", "utterly broken", "emotionally decimated"],
+            "6_overwhelming": ["beyond repair", "eternally shattered", "cosmic heartbreak"]
+          }
+        },
+        "anguished": {
+          "id": "IIid",
+          "description": "Severe mental suffering",
+          "intensity_tiers": {
+            "1_subtle": ["troubled", "distressed", "upset"],
+            "2_mild": ["anguished", "tormented", "afflicted"],
+            "3_moderate": ["racked", "tortured", "agonized"],
+            "4_strong": ["writhing", "convulsed", "torn apart"],
+            "5_intense": ["utterly anguished", "completely tormented", "absolutely tortured"],
+            "6_overwhelming": ["infinite anguish", "cosmic torment", "eternal agony"]
+          }
+        },
+        "bereft": {
+          "id": "IIie",
+          "description": "Deprived of something valued",
+          "intensity_tiers": {
+            "1_subtle": ["lacking", "without", "deprived"],
+            "2_mild": ["bereft", "stripped", "robbed"],
+            "3_moderate": ["emptied", "hollowed", "gutted"],
+            "4_strong": ["completely bereft", "utterly stripped", "wholly deprived"],
+            "5_intense": ["absolutely emptied", "totally hollowed", "cosmic void"],
+            "6_overwhelming": ["infinite emptiness", "eternal void", "complete annihilation"]
+          }
+        },
+        "nostalgic": {
+          "id": "IIif",
+          "description": "Bittersweet longing for the past",
+          "intensity_tiers": {
+            "1_subtle": ["reminiscent", "wistful", "reflective"],
+            "2_mild": ["nostalgic", "longing", "yearning"],
+            "3_moderate": ["deeply nostalgic", "achingly wistful", "profoundly longing"],
+            "4_strong": ["consumed by nostalgia", "lost in memories", "aching for the past"],
+            "5_intense": ["overwhelmed by longing", "drowning in memories", "utterly wistful"],
+            "6_overwhelming": ["infinite nostalgia", "cosmic longing", "eternal yearning"]
+          }
+        }
+      }
+    },
+    "DESPAIR": {
+      "id": "IIj",
+      "description": "Complete loss of hope",
+      "arousal_bias": 0.2,
+      "sub_sub_emotions": {
+        "hopeless": {
+          "id": "IIja",
+          "description": "Without hope for improvement",
+          "intensity_tiers": {
+            "1_subtle": ["discouraged", "doubtful", "uncertain"],
+            "2_mild": ["hopeless", "despairing", "pessimistic"],
+            "3_moderate": ["deeply hopeless", "utterly despairing", "profoundly pessimistic"],
+            "4_strong": ["completely without hope", "absolutely despairing", "totally defeated"],
+            "5_intense": ["soul-crushing hopelessness", "infinite despair", "cosmic defeat"],
+            "6_overwhelming": ["eternal hopelessness", "absolute void", "transcendent despair"]
+          }
+        },
+        "defeated": {
+          "id": "IIjb",
+          "description": "Overcome and unable to continue",
+          "intensity_tiers": {
+            "1_subtle": ["beaten", "bested", "outdone"],
+            "2_mild": ["defeated", "conquered", "overcome"],
+            "3_moderate": ["crushed", "vanquished", "routed"],
+            "4_strong": ["utterly defeated", "completely crushed", "totally annihilated"],
+            "5_intense": ["obliterated", "decimated", "absolutely destroyed"],
+            "6_overwhelming": ["cosmic defeat", "infinite destruction", "eternal annihilation"]
+          }
+        },
+        "helpless": {
+          "id": "IIjc",
+          "description": "Unable to help oneself or change circumstances",
+          "intensity_tiers": {
+            "1_subtle": ["stuck", "trapped", "limited"],
+            "2_mild": ["helpless", "powerless", "defenseless"],
+            "3_moderate": ["completely helpless", "utterly powerless", "wholly defenseless"],
+            "4_strong": ["paralyzed", "immobilized", "incapacitated"],
+            "5_intense": ["totally incapable", "absolutely impotent", "completely paralyzed"],
+            "6_overwhelming": ["infinite helplessness", "cosmic powerlessness", "eternal imprisonment"]
+          }
+        },
+        "worthless": {
+          "id": "IIjd",
+          "description": "Feeling of no value or importance",
+          "intensity_tiers": {
+            "1_subtle": ["unimportant", "insignificant", "small"],
+            "2_mild": ["worthless", "valueless", "useless"],
+            "3_moderate": ["deeply worthless", "profoundly useless", "utterly insignificant"],
+            "4_strong": ["completely worthless", "absolutely valueless", "totally useless"],
+            "5_intense": ["cosmic insignificance", "infinite worthlessness", "utter nothingness"],
+            "6_overwhelming": ["less than nothing", "void of all value", "eternal worthlessness"]
+          }
+        },
+        "desolate": {
+          "id": "IIje",
+          "description": "Bleak emptiness and abandonment",
+          "intensity_tiers": {
+            "1_subtle": ["lonely", "isolated", "alone"],
+            "2_mild": ["desolate", "barren", "forsaken"],
+            "3_moderate": ["utterly desolate", "completely barren", "wholly forsaken"],
+            "4_strong": ["wasteland inside", "emotional desert", "soul-empty"],
+            "5_intense": ["infinite desolation", "cosmic emptiness", "absolute void"],
+            "6_overwhelming": ["eternal wasteland", "transcendent emptiness", "complete annihilation"]
+          }
+        },
+        "resigned": {
+          "id": "IIjf",
+          "description": "Accepting something undesirable as inevitable",
+          "intensity_tiers": {
+            "1_subtle": ["accepting", "yielding", "giving in"],
+            "2_mild": ["resigned", "submissive", "acquiescent"],
+            "3_moderate": ["deeply resigned", "utterly submissive", "completely accepting"],
+            "4_strong": ["totally surrendered", "absolutely yielded", "wholly given up"],
+            "5_intense": ["infinite resignation", "cosmic surrender", "complete capitulation"],
+            "6_overwhelming": ["eternal acceptance", "transcendent surrender", "absolute resignation"]
+          }
+        }
+      }
+    },
+    "LONELINESS": {
+      "id": "IIk",
+      "description": "Distress from isolation or lack of connection",
+      "arousal_bias": 0.3,
+      "sub_sub_emotions": {
+        "isolated": {
+          "id": "IIka",
+          "description": "Cut off from others",
+          "intensity_tiers": {
+            "1_subtle": ["apart", "separate", "distant"],
+            "2_mild": ["isolated", "detached", "removed"],
+            "3_moderate": ["completely isolated", "utterly detached", "wholly removed"],
+            "4_strong": ["totally cut off", "absolutely separated", "entirely alone"],
+            "5_intense": ["infinite isolation", "cosmic separation", "utter solitude"],
+            "6_overwhelming": ["eternal isolation", "transcendent aloneness", "complete severance"]
+          }
+        },
+        "abandoned": {
+          "id": "IIkb",
+          "description": "Left behind by those who should care",
+          "intensity_tiers": {
+            "1_subtle": ["left", "forgotten", "overlooked"],
+            "2_mild": ["abandoned", "deserted", "forsaken"],
+            "3_moderate": ["completely abandoned", "utterly deserted", "wholly forsaken"],
+            "4_strong": ["totally cast aside", "absolutely discarded", "entirely rejected"],
+            "5_intense": ["infinite abandonment", "cosmic rejection", "utter desertion"],
+            "6_overwhelming": ["eternally abandoned", "transcendent rejection", "complete forsaking"]
+          }
+        },
+        "alienated": {
+          "id": "IIkc",
+          "description": "Feeling foreign or not belonging",
+          "intensity_tiers": {
+            "1_subtle": ["different", "outsider", "other"],
+            "2_mild": ["alienated", "estranged", "outcast"],
+            "3_moderate": ["deeply alienated", "profoundly estranged", "utterly outcast"],
+            "4_strong": ["completely alienated", "absolutely estranged", "totally rejected"],
+            "5_intense": ["infinite alienation", "cosmic otherness", "utter strangeness"],
+            "6_overwhelming": ["eternally alien", "transcendent estrangement", "complete otherness"]
+          }
+        },
+        "disconnected": {
+          "id": "IIkd",
+          "description": "Lacking meaningful bonds",
+          "intensity_tiers": {
+            "1_subtle": ["distant", "remote", "apart"],
+            "2_mild": ["disconnected", "unattached", "unlinked"],
+            "3_moderate": ["deeply disconnected", "profoundly unattached", "utterly apart"],
+            "4_strong": ["completely severed", "absolutely cut off", "totally isolated"],
+            "5_intense": ["infinite disconnection", "cosmic severance", "utter separation"],
+            "6_overwhelming": ["eternally disconnected", "transcendent isolation", "complete void"]
+          }
+        },
+        "homesick": {
+          "id": "IIke",
+          "description": "Longing for familiar place or people",
+          "intensity_tiers": {
+            "1_subtle": ["missing home", "wanting familiarity", "longing"],
+            "2_mild": ["homesick", "pining", "yearning"],
+            "3_moderate": ["deeply homesick", "profoundly pining", "achingly yearning"],
+            "4_strong": ["utterly homesick", "consumed by longing", "desperate for home"],
+            "5_intense": ["infinite homesickness", "cosmic longing", "overwhelming yearning"],
+            "6_overwhelming": ["eternally displaced", "transcendent longing", "absolute yearning"]
+          }
+        },
+        "misunderstood": {
+          "id": "IIkf",
+          "description": "Feeling incorrectly perceived by others",
+          "intensity_tiers": {
+            "1_subtle": ["unclear", "misjudged", "misread"],
+            "2_mild": ["misunderstood", "misjudged", "misperceived"],
+            "3_moderate": ["deeply misunderstood", "profoundly misjudged", "utterly misperceived"],
+            "4_strong": ["completely misunderstood", "absolutely misjudged", "totally invisible"],
+            "5_intense": ["infinite misunderstanding", "cosmic invisibility", "utter unknowing"],
+            "6_overwhelming": ["eternally misunderstood", "transcendent invisibility", "complete erasure"]
+          }
+        }
+      }
+    },
+    "DISAPPOINTMENT": {
+      "id": "IIl",
+      "description": "Sadness from unmet expectations",
+      "arousal_bias": 0.4,
+      "sub_sub_emotions": {
+        "let_down": {
+          "id": "IIla",
+          "description": "Failed by someone or something trusted",
+          "intensity_tiers": {
+            "1_subtle": ["disappointed", "let down", "failed"],
+            "2_mild": ["betrayed expectations", "dismayed", "disheartened"],
+            "3_moderate": ["deeply let down", "profoundly disappointed", "utterly failed"],
+            "4_strong": ["completely betrayed", "absolutely dismayed", "totally crushed"],
+            "5_intense": ["infinite disappointment", "cosmic betrayal", "utter devastation"],
+            "6_overwhelming": ["eternally let down", "transcendent failure", "complete collapse"]
+          }
+        },
+        "disillusioned": {
+          "id": "IIlb",
+          "description": "Loss of idealistic beliefs",
+          "intensity_tiers": {
+            "1_subtle": ["doubting", "questioning", "uncertain"],
+            "2_mild": ["disillusioned", "disenchanted", "disheartened"],
+            "3_moderate": ["deeply disillusioned", "profoundly disenchanted", "utterly disheartened"],
+            "4_strong": ["completely disillusioned", "absolutely disenchanted", "totally cynical"],
+            "5_intense": ["infinite disillusionment", "cosmic disenchantment", "utter cynicism"],
+            "6_overwhelming": ["eternally disillusioned", "transcendent disenchantment", "complete loss of faith"]
+          }
+        },
+        "dissatisfied": {
+          "id": "IIlc",
+          "description": "Not content with results",
+          "intensity_tiers": {
+            "1_subtle": ["unsatisfied", "unfulfilled", "wanting"],
+            "2_mild": ["dissatisfied", "displeased", "discontent"],
+            "3_moderate": ["deeply dissatisfied", "profoundly displeased", "utterly discontent"],
+            "4_strong": ["completely dissatisfied", "absolutely displeased", "totally unfulfilled"],
+            "5_intense": ["infinite dissatisfaction", "cosmic discontent", "utter displeasure"],
+            "6_overwhelming": ["eternally dissatisfied", "transcendent discontent", "complete unfulfillment"]
+          }
+        },
+        "deflated": {
+          "id": "IIld",
+          "description": "Sudden loss of confidence or enthusiasm",
+          "intensity_tiers": {
+            "1_subtle": ["dampened", "subdued", "diminished"],
+            "2_mild": ["deflated", "discouraged", "disheartened"],
+            "3_moderate": ["deeply deflated", "profoundly discouraged", "utterly disheartened"],
+            "4_strong": ["completely deflated", "absolutely discouraged", "totally crushed"],
+            "5_intense": ["infinite deflation", "cosmic discouragement", "utter collapse"],
+            "6_overwhelming": ["eternally deflated", "transcendent discouragement", "complete implosion"]
+          }
+        },
+        "unfulfilled": {
+          "id": "IIle",
+          "description": "Lacking purpose or meaning",
+          "intensity_tiers": {
+            "1_subtle": ["empty", "incomplete", "lacking"],
+            "2_mild": ["unfulfilled", "unsatisfied", "wanting"],
+            "3_moderate": ["deeply unfulfilled", "profoundly unsatisfied", "utterly wanting"],
+            "4_strong": ["completely unfulfilled", "absolutely unsatisfied", "totally empty"],
+            "5_intense": ["infinite emptiness", "cosmic unfulfillment", "utter void"],
+            "6_overwhelming": ["eternally unfulfilled", "transcendent emptiness", "complete meaninglessness"]
+          }
+        },
+        "regretful": {
+          "id": "IIlf",
+          "description": "Wishing past choices were different",
+          "intensity_tiers": {
+            "1_subtle": ["sorry", "remorseful", "rueful"],
+            "2_mild": ["regretful", "penitent", "contrite"],
+            "3_moderate": ["deeply regretful", "profoundly remorseful", "utterly sorry"],
+            "4_strong": ["completely regretful", "absolutely remorseful", "totally penitent"],
+            "5_intense": ["infinite regret", "cosmic remorse", "utter contrition"],
+            "6_overwhelming": ["eternally regretful", "transcendent remorse", "complete self-condemnation"]
+          }
+        }
+      }
+    },
+    "MELANCHOLY": {
+      "id": "IIm",
+      "description": "Pensive sadness with no obvious cause",
+      "arousal_bias": 0.2,
+      "sub_sub_emotions": {
+        "wistful": {
+          "id": "IIma",
+          "description": "Gently sad longing",
+          "intensity_tiers": {
+            "1_subtle": ["thoughtful", "reflective", "pensive"],
+            "2_mild": ["wistful", "longing", "yearning"],
+            "3_moderate": ["deeply wistful", "profoundly longing", "achingly yearning"],
+            "4_strong": ["utterly wistful", "completely longing", "overwhelmingly yearning"],
+            "5_intense": ["infinite wistfulness", "cosmic longing", "transcendent yearning"],
+            "6_overwhelming": ["eternally wistful", "boundless longing", "absolute yearning"]
+          }
+        },
+        "pensive": {
+          "id": "IImb",
+          "description": "Deep in sad thought",
+          "intensity_tiers": {
+            "1_subtle": ["thoughtful", "reflective", "contemplative"],
+            "2_mild": ["pensive", "meditative", "brooding"],
+            "3_moderate": ["deeply pensive", "profoundly contemplative", "utterly brooding"],
+            "4_strong": ["completely absorbed", "absolutely meditative", "totally introspective"],
+            "5_intense": ["infinite contemplation", "cosmic reflection", "transcendent brooding"],
+            "6_overwhelming": ["eternally pensive", "boundless introspection", "absolute meditation"]
+          }
+        },
+        "somber": {
+          "id": "IImc",
+          "description": "Serious and subdued",
+          "intensity_tiers": {
+            "1_subtle": ["serious", "grave", "sober"],
+            "2_mild": ["somber", "solemn", "subdued"],
+            "3_moderate": ["deeply somber", "profoundly solemn", "utterly subdued"],
+            "4_strong": ["completely somber", "absolutely solemn", "totally grave"],
+            "5_intense": ["infinite somberness", "cosmic solemnity", "transcendent gravity"],
+            "6_overwhelming": ["eternally somber", "boundless solemnity", "absolute gravity"]
+          }
+        },
+        "heavy_hearted": {
+          "id": "IImd",
+          "description": "Weighted down by sadness",
+          "intensity_tiers": {
+            "1_subtle": ["burdened", "weighted", "laden"],
+            "2_mild": ["heavy-hearted", "oppressed", "encumbered"],
+            "3_moderate": ["deeply burdened", "profoundly weighted", "utterly laden"],
+            "4_strong": ["completely crushed", "absolutely oppressed", "totally overwhelmed"],
+            "5_intense": ["infinite heaviness", "cosmic burden", "transcendent weight"],
+            "6_overwhelming": ["eternally burdened", "boundless heaviness", "absolute crushing weight"]
+          }
+        },
+        "gloomy": {
+          "id": "IIme",
+          "description": "Dark and pessimistic mood",
+          "intensity_tiers": {
+            "1_subtle": ["dim", "cloudy", "overcast"],
+            "2_mild": ["gloomy", "dark", "dreary"],
+            "3_moderate": ["deeply gloomy", "profoundly dark", "utterly dreary"],
+            "4_strong": ["completely gloomy", "absolutely dark", "totally bleak"],
+            "5_intense": ["infinite gloom", "cosmic darkness", "transcendent bleakness"],
+            "6_overwhelming": ["eternally gloomy", "boundless darkness", "absolute void"]
+          }
+        },
+        "listless": {
+          "id": "IImf",
+          "description": "Lacking energy or enthusiasm",
+          "intensity_tiers": {
+            "1_subtle": ["tired", "weary", "drained"],
+            "2_mild": ["listless", "lethargic", "languid"],
+            "3_moderate": ["deeply listless", "profoundly lethargic", "utterly languid"],
+            "4_strong": ["completely drained", "absolutely exhausted", "totally depleted"],
+            "5_intense": ["infinite weariness", "cosmic exhaustion", "transcendent depletion"],
+            "6_overwhelming": ["eternally listless", "boundless lethargy", "absolute emptiness"]
+          }
+        }
+      }
+    },
+    "HURT": {
+      "id": "IIn",
+      "description": "Emotional pain from others' actions",
+      "arousal_bias": 0.4,
+      "sub_sub_emotions": {
+        "wounded": {
+          "id": "IIna",
+          "description": "Injured by words or actions",
+          "intensity_tiers": {
+            "1_subtle": ["stung", "pricked", "nicked"],
+            "2_mild": ["wounded", "hurt", "injured"],
+            "3_moderate": ["deeply wounded", "profoundly hurt", "utterly injured"],
+            "4_strong": ["completely wounded", "absolutely hurt", "totally damaged"],
+            "5_intense": ["infinite pain", "cosmic wounding", "transcendent injury"],
+            "6_overwhelming": ["eternally wounded", "boundless hurt", "absolute devastation"]
+          }
+        },
+        "betrayed": {
+          "id": "IInb",
+          "description": "Trust broken by someone close",
+          "intensity_tiers": {
+            "1_subtle": ["let down", "disappointed", "failed"],
+            "2_mild": ["betrayed", "double-crossed", "backstabbed"],
+            "3_moderate": ["deeply betrayed", "profoundly deceived", "utterly backstabbed"],
+            "4_strong": ["completely betrayed", "absolutely violated", "totally treacherous"],
+            "5_intense": ["infinite betrayal", "cosmic treachery", "transcendent violation"],
+            "6_overwhelming": ["eternally betrayed", "boundless treachery", "absolute devastation"]
+          }
+        },
+        "rejected": {
+          "id": "IInc",
+          "description": "Refused or dismissed",
+          "intensity_tiers": {
+            "1_subtle": ["declined", "refused", "turned away"],
+            "2_mild": ["rejected", "rebuffed", "spurned"],
+            "3_moderate": ["deeply rejected", "profoundly spurned", "utterly refused"],
+            "4_strong": ["completely rejected", "absolutely spurned", "totally dismissed"],
+            "5_intense": ["infinite rejection", "cosmic dismissal", "transcendent spurning"],
+            "6_overwhelming": ["eternally rejected", "boundless dismissal", "absolute exclusion"]
+          }
+        },
+        "humiliated": {
+          "id": "IInd",
+          "description": "Stripped of dignity",
+          "intensity_tiers": {
+            "1_subtle": ["embarrassed", "awkward", "uncomfortable"],
+            "2_mild": ["humiliated", "shamed", "mortified"],
+            "3_moderate": ["deeply humiliated", "profoundly shamed", "utterly mortified"],
+            "4_strong": ["completely humiliated", "absolutely degraded", "totally disgraced"],
+            "5_intense": ["infinite humiliation", "cosmic shame", "transcendent disgrace"],
+            "6_overwhelming": ["eternally humiliated", "boundless shame", "absolute degradation"]
+          }
+        },
+        "neglected": {
+          "id": "IIne",
+          "description": "Ignored or not given proper attention",
+          "intensity_tiers": {
+            "1_subtle": ["overlooked", "ignored", "forgotten"],
+            "2_mild": ["neglected", "disregarded", "slighted"],
+            "3_moderate": ["deeply neglected", "profoundly ignored", "utterly forgotten"],
+            "4_strong": ["completely neglected", "absolutely disregarded", "totally invisible"],
+            "5_intense": ["infinite neglect", "cosmic invisibility", "transcendent abandonment"],
+            "6_overwhelming": ["eternally neglected", "boundless invisibility", "absolute erasure"]
+          }
+        },
+        "offended": {
+          "id": "IInf",
+          "description": "Resentful from perceived insult",
+          "intensity_tiers": {
+            "1_subtle": ["annoyed", "bothered", "irked"],
+            "2_mild": ["offended", "insulted", "affronted"],
+            "3_moderate": ["deeply offended", "profoundly insulted", "utterly affronted"],
+            "4_strong": ["completely offended", "absolutely outraged", "totally incensed"],
+            "5_intense": ["infinite offense", "cosmic insult", "transcendent outrage"],
+            "6_overwhelming": ["eternally offended", "boundless outrage", "absolute affront"]
+          }
+        }
+      }
+    }
+  }
+}
