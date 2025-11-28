@@ -27,6 +27,12 @@ from music_brain.session.intent_schema import (
     validate_intent,
     list_all_rules,
     RULE_BREAKING_EFFECTS,
+    collect_phase1_interactive,
+    validate_phase1,
+    load_schema_options,
+    collect_phase2_interactive,
+    validate_phase2,
+    suggest_phase2_from_phase1,
 )
 
 __all__ = [
@@ -55,4 +61,12 @@ __all__ = [
     "validate_intent",
     "list_all_rules",
     "RULE_BREAKING_EFFECTS",
+    # Phase 1 utilities
+    "collect_phase1_interactive",
+    "validate_phase1",
+    "load_schema_options",
+    # Phase 2 utilities
+    "collect_phase2_interactive",
+    "validate_phase2",
+    "suggest_phase2_from_phase1",
 ]

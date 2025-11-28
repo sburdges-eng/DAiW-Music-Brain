@@ -1,0 +1,399 @@
+{
+  "schema_version": "1.0.0",
+  "schema_name": "iDAW Vernacular Translation Database",
+  "description": "Maps casual music descriptions to technical parameters for the iDAW intent engine",
+  
+  "vernacular_to_technical": {
+    
+    "rhythmic_onomatopoeia": {
+      "boots_and_cats": {
+        "meaning": "Basic 4/4 beat",
+        "translation": {"kick": [1, 3], "hihat": [2, 4]},
+        "idaw_params": {"groove.pattern": "four_on_floor"}
+      },
+      "untz": {
+        "meaning": "Techno/EDM kick pattern",
+        "translation": {"kick": "every_beat", "time_sig": "4/4"},
+        "idaw_params": {"groove.pattern": "four_on_floor", "tempo_range": [120, 140]}
+      },
+      "boom_bap": {
+        "meaning": "Hip-hop groove",
+        "translation": {"kick": 1, "snare": "2-and_or_3"},
+        "idaw_params": {"groove.pattern": "boom_bap"}
+      },
+      "chugga": {
+        "meaning": "Palm-muted power chords",
+        "translation": {"technique": "muted_eighths", "genre": "metal"},
+        "idaw_params": {"groove.feel": "chug", "muting": true}
+      },
+      "brr": {
+        "meaning": "Trap hi-hat rolls",
+        "translation": {"hihat_subdivision": 32},
+        "idaw_params": {"hihat.subdivision": 32, "pattern": "trap_roll"}
+      }
+    },
+    
+    "timbre_texture": {
+      "fat": {
+        "meaning": "Full low-mid frequencies",
+        "translation": {"eq_boost": "100-300Hz", "saturation": "light"},
+        "idaw_params": {"eq.low_mid": "+3dB", "saturation": "light"}
+      },
+      "thin": {
+        "meaning": "Lacking low frequencies",
+        "translation": {"eq_cut": "below_200Hz"},
+        "idaw_params": {"eq.low": "-6dB"}
+      },
+      "muddy": {
+        "meaning": "Cluttered low-mids",
+        "translation": {"problem_freq": "200-500Hz"},
+        "idaw_params": {"eq.problem": "mud", "target": "200-500Hz"}
+      },
+      "crispy": {
+        "meaning": "Pleasant high-frequency presence",
+        "translation": {"eq_boost": "8-12kHz", "distortion": "light"},
+        "idaw_params": {"eq.presence": "+2dB", "dist": "light_saturation"}
+      },
+      "warm": {
+        "meaning": "Analog-like, reduced harshness",
+        "translation": {"high_rolloff": "gentle", "saturation": "tape"},
+        "idaw_params": {"character": "analog", "warmth": 0.7}
+      },
+      "bright": {
+        "meaning": "Emphasized high frequencies",
+        "translation": {"eq_boost": "5kHz+"},
+        "idaw_params": {"eq.high": "+3dB"}
+      },
+      "dark": {
+        "meaning": "Subdued high frequencies",
+        "translation": {"high_rolloff": "significant"},
+        "idaw_params": {"eq.high": "-4dB", "character": "dark"}
+      },
+      "punchy": {
+        "meaning": "Strong transient attack",
+        "translation": {"compression": "fast_attack_then_release"},
+        "idaw_params": {"comp.attack": "fast", "punch": "high"}
+      },
+      "scooped": {
+        "meaning": "Reduced midrange (metal tone)",
+        "translation": {"eq_cut": "500Hz-2kHz"},
+        "idaw_params": {"eq.mid": "-6dB"}
+      },
+      "honky": {
+        "meaning": "Unpleasant nasal midrange",
+        "translation": {"problem_freq": "800Hz-1.2kHz"},
+        "idaw_params": {"eq.problem": "honk", "target": "800-1200Hz"}
+      },
+      "boxy": {
+        "meaning": "Cardboard-like midrange",
+        "translation": {"problem_freq": "300-600Hz"},
+        "idaw_params": {"eq.problem": "box", "target": "300-600Hz"}
+      },
+      "glassy": {
+        "meaning": "Clear, crystalline highs",
+        "translation": {"high_eq": "clean", "distortion": "none"},
+        "idaw_params": {"eq.high_shelf": "+2dB", "dist": "none"}
+      },
+      "airy": {
+        "meaning": "Sense of space in highs",
+        "translation": {"eq_boost": "12kHz+"},
+        "idaw_params": {"eq.air": "+3dB", "target": "12kHz+"}
+      }
+    },
+    
+    "groove_feel": {
+      "laid_back": {
+        "meaning": "Behind the beat",
+        "translation": {"timing_offset_ms": "5-30", "direction": "late"},
+        "idaw_params": {"groove.pocket": "behind", "offset_ms": 15}
+      },
+      "on_top": {
+        "meaning": "Ahead of the beat",
+        "translation": {"timing_offset_ms": "-5 to -15"},
+        "idaw_params": {"groove.pocket": "ahead", "offset_ms": -10}
+      },
+      "in_the_pocket": {
+        "meaning": "Perfect groove lock",
+        "translation": {"timing": "tight_or_intentional_swing"},
+        "idaw_params": {"groove.pocket": "locked"}
+      },
+      "swung": {
+        "meaning": "Triplet-based timing",
+        "translation": {"swing_ratio": "60-67%"},
+        "idaw_params": {"groove.swing": 0.62}
+      },
+      "straight": {
+        "meaning": "Even note divisions",
+        "translation": {"swing_ratio": "50%"},
+        "idaw_params": {"groove.swing": 0.5}
+      },
+      "tight": {
+        "meaning": "Precise timing",
+        "translation": {"quantize": "high"},
+        "idaw_params": {"groove.tightness": 0.95}
+      },
+      "loose": {
+        "meaning": "Human timing variation",
+        "translation": {"quantize": "low"},
+        "idaw_params": {"groove.humanize": 0.4}
+      },
+      "breathing": {
+        "meaning": "Organic tempo variation",
+        "translation": {"tempo": "rubato"},
+        "idaw_params": {"tempo.rubato": true}
+      }
+    },
+    
+    "mix_production": {
+      "glue": {
+        "meaning": "Cohesive mix",
+        "translation": {"bus_compression": true, "shared_reverb": true},
+        "idaw_params": {"bus_comp": true, "shared_space": true}
+      },
+      "separation": {
+        "meaning": "Each element distinct",
+        "translation": {"eq_carving": true, "wide_panning": true},
+        "idaw_params": {"eq.carve": true, "stereo.spread": "wide"}
+      },
+      "in_your_face": {
+        "meaning": "Aggressive, forward",
+        "translation": {"reverb": "minimal", "compression": "heavy"},
+        "idaw_params": {"space": "dry", "aggression": 0.8}
+      },
+      "lush": {
+        "meaning": "Rich, layered texture",
+        "translation": {"layers": "many", "effects": ["reverb", "chorus"]},
+        "idaw_params": {"layers": "many", "fx": ["reverb", "chorus"]}
+      },
+      "lo_fi": {
+        "meaning": "Degraded, vintage quality",
+        "translation": {"bitcrush": true, "vinyl_noise": true, "tape_wobble": true},
+        "idaw_params": {"character": "lo-fi", "degradation": 0.6}
+      },
+      "wet": {
+        "meaning": "Heavy effects",
+        "translation": {"fx_mix": "60%+"},
+        "idaw_params": {"fx.mix": 0.6}
+      },
+      "dry": {
+        "meaning": "No/minimal effects",
+        "translation": {"fx_mix": "10%"},
+        "idaw_params": {"fx.mix": 0.1}
+      }
+    }
+  },
+  
+  "meme_theory_to_formal": {
+    "mario_cadence": {
+      "progression": "bVI-bVII-I",
+      "formal_name": "Double Plagal Cadence",
+      "emotional_tags": ["triumphant", "heroic", "video_game", "epic"],
+      "idaw_params": {"progression.type": "mario_cadence"}
+    },
+    "creep_progression": {
+      "progression": "I-III-IV-iv",
+      "formal_name": "Modal Interchange with III and iv",
+      "emotional_tags": ["yearning", "bittersweet", "90s_alt"],
+      "idaw_params": {"rule_break": "HARMONY_ModalInterchange"},
+      "example": "Radiohead - Creep (G-B-C-Cm)"
+    },
+    "axis_of_awesome": {
+      "progression": "I-V-vi-IV",
+      "formal_name": "Axis Progression",
+      "emotional_tags": ["universal", "pop", "accessible"],
+      "idaw_params": {"progression.type": "axis"}
+    },
+    "andalusian_cadence": {
+      "progression": "i-bVII-bVI-V",
+      "formal_name": "Phrygian-influenced Descent",
+      "emotional_tags": ["spanish", "dramatic", "flamenco"],
+      "idaw_params": {"progression.type": "andalusian"}
+    },
+    "doo_wop_changes": {
+      "progression": "I-vi-IV-V",
+      "formal_name": "50s Progression",
+      "emotional_tags": ["nostalgic", "innocent", "retro"],
+      "idaw_params": {"progression.type": "doo_wop"}
+    },
+    "truck_driver_modulation": {
+      "technique": "Direct modulation up half or whole step",
+      "formal_name": "Direct Modulation",
+      "emotional_tags": ["cheap_energy", "dramatic", "pop"],
+      "idaw_params": {"modulation.type": "truck_driver"},
+      "note": "Often considered a cliche"
+    }
+  },
+  
+  "rule_breaking_database": {
+    "HARMONY_ParallelMotion": {
+      "rule_violated": "Parallel perfect fifths/octaves forbidden",
+      "emotions": ["power", "defiance", "medieval", "unity", "punk"],
+      "technique": "Move voices in parallel P5 or P8",
+      "examples": [
+        {"artist": "Beethoven", "piece": "Symphony 6 Storm", "detail": "Violin/viola P5 motion"},
+        {"artist": "Debussy", "piece": "La Cathédrale engloutie", "detail": "Planing entire triads"},
+        {"artist": "All rock/metal", "piece": "Power chords", "detail": "Root + P5 parallel"}
+      ],
+      "why_it_works": "Context shift - rules for vocal polyphony don't apply to guitars/piano"
+    },
+    "HARMONY_ModalInterchange": {
+      "rule_violated": "Stay within diatonic chords",
+      "emotions": ["bittersweet", "nostalgia", "hope", "complex", "earned_joy"],
+      "technique": "Borrow chords from parallel mode",
+      "examples": [
+        {"artist": "Beatles", "piece": "Norwegian Wood", "detail": "bVII in major (E-D-E)"},
+        {"artist": "Radiohead", "piece": "Creep", "detail": "I-III-IV-iv (G-B-C-Cm)"}
+      ],
+      "why_it_works": "Creates 'happy-to-sad' emotional ambiguity"
+    },
+    "HARMONY_UnresolvedDissonance": {
+      "rule_violated": "Dissonances must resolve by step",
+      "emotions": ["tension", "anxiety", "commentary", "unfinished"],
+      "technique": "Leave tendency tones unresolved",
+      "examples": [
+        {"artist": "Monk", "piece": "'Round Midnight", "detail": "Semitone clusters never resolve"},
+        {"artist": "Monk", "piece": "Various", "detail": "Notes semitone below 'correct' note"}
+      ],
+      "why_it_works": "'Wrong notes' make sense because they're meaningfully wrong"
+    },
+    "HARMONY_TritoneSubstitution": {
+      "rule_violated": "Tritone must resolve",
+      "emotions": ["sophisticated", "chromatic", "jazz"],
+      "technique": "Replace V7 with bII7 (tritone away)",
+      "examples": [
+        {"artist": "Jazz standards", "piece": "Various", "detail": "G7→Db7→C"}
+      ],
+      "why_it_works": "Both chords share same tritone, creates chromatic bass"
+    },
+    "HARMONY_Polytonality": {
+      "rule_violated": "Maintain single tonal center",
+      "emotions": ["chaos", "duality", "primal", "permanent_tension"],
+      "technique": "Superimpose triads from different keys",
+      "examples": [
+        {"artist": "Stravinsky", "piece": "Rite of Spring", "detail": "Eb7 + E major simultaneously"},
+        {"artist": "Stravinsky", "piece": "Petrushka", "detail": "C major + F# major (tritone apart)"}
+      ],
+      "why_it_works": "Neither key 'wins' - represents duality or chaos"
+    },
+    "RHYTHM_MeterAmbiguity": {
+      "rule_violated": "Maintain consistent meter",
+      "emotions": ["floating", "unsettled", "dreamlike", "chaotic"],
+      "technique": "Obscure or constantly shift meter",
+      "examples": [
+        {"artist": "Stravinsky", "piece": "Sacrificial Dance", "detail": "2/16, 3/16, 5/16, 7/8 alternating"},
+        {"artist": "Radiohead", "piece": "Pyramid Song", "detail": "Meter resists classification"}
+      ],
+      "why_it_works": "Impossible to predict accent pattern"
+    },
+    "RHYTHM_ConstantDisplacement": {
+      "rule_violated": "Cross-rhythms should resolve to main pulse",
+      "emotions": ["anxiety", "unease", "instability"],
+      "technique": "Shift all hits late consistently",
+      "examples": [],
+      "why_it_works": "Creates perpetual tension"
+    },
+    "RHYTHM_TempoFluctuation": {
+      "rule_violated": "Maintain consistent tempo",
+      "emotions": ["intimacy", "vulnerability", "human", "organic"],
+      "technique": "Gradual BPM drift (rubato)",
+      "examples": [],
+      "why_it_works": "Feels like human breathing rather than machine"
+    },
+    "STRUCTURE_NonResolution": {
+      "rule_violated": "Pieces should resolve to tonic",
+      "emotions": ["longing", "grief", "unfinished", "yearning"],
+      "technique": "End on non-tonic chord (IV, vi, ii)",
+      "examples": [
+        {"artist": "Chopin", "piece": "Prelude E minor Op.28/4", "detail": "Enharmonic spelling creates ambiguity"},
+        {"artist": "Radiohead", "piece": "Many songs", "detail": "Double-tonic complex - neither key wins"}
+      ],
+      "why_it_works": "Silence becomes 'negative action' - intention NOT to resolve"
+    },
+    "PRODUCTION_BuriedVocals": {
+      "rule_violated": "Vocals should be upfront and clear",
+      "emotions": ["dissociation", "intimacy", "distance", "dreams"],
+      "technique": "Mix vocals behind instruments",
+      "examples": [
+        {"artist": "Shoegaze genre", "piece": "Various", "detail": "Vocals as texture not focus"}
+      ],
+      "why_it_works": "Creates emotional distance or dreamlike state"
+    },
+    "PRODUCTION_PitchImperfection": {
+      "rule_violated": "Vocals should be in tune",
+      "emotions": ["vulnerability", "honesty", "rawness"],
+      "technique": "No pitch correction, embrace wobble",
+      "examples": [
+        {"artist": "Lo-fi bedroom genre", "piece": "Various", "detail": "Imperfection as authenticity"}
+      ],
+      "why_it_works": "Imperfection signals emotional truth over technical prowess"
+    }
+  },
+  
+  "mode_character_map": {
+    "lydian": {
+      "meme_name": "Simpsons theme mode",
+      "character": ["bright", "floating", "magical", "wonder"],
+      "use_cases": ["sci-fi", "wonder", "otherworldly"]
+    },
+    "dorian": {
+      "meme_name": "Sadboy mode",
+      "character": ["minor_but_hopeful", "melancholic_soul"],
+      "use_cases": ["soul", "r&b", "hopeful_sad"]
+    },
+    "phrygian": {
+      "meme_name": "Evil villain mode",
+      "character": ["dark", "exotic", "tense"],
+      "use_cases": ["metal", "flamenco", "tension"]
+    },
+    "ionian": {
+      "meme_name": "Generic happy",
+      "character": ["stable", "resolved", "bright"],
+      "use_cases": ["pop", "country", "straightforward_happy"]
+    },
+    "aeolian": {
+      "meme_name": "Basic sad",
+      "character": ["sad", "resigned"],
+      "use_cases": ["ballads", "emo", "straightforward_sad"]
+    },
+    "melodic_minor": {
+      "meme_name": "Jazzy minor",
+      "character": ["sophisticated", "tense"],
+      "use_cases": ["jazz", "neo-soul"]
+    },
+    "locrian": {
+      "meme_name": "Spooky mode",
+      "character": ["unstable", "eerie"],
+      "use_cases": ["horror", "avant-garde"]
+    }
+  },
+  
+  "meta_patterns": {
+    "why_rule_breaking_works": [
+      {
+        "pattern": "Context Shift",
+        "explanation": "Rules designed for polyphonic vocal music don't apply to distorted guitars or impressionistic piano",
+        "example": "Power chords = parallel 5ths, but work because distortion creates unified sound"
+      },
+      {
+        "pattern": "Intentional Signification",
+        "explanation": "'Wrong' notes work because they're meaningfully wrong",
+        "example": "Monk's clusters create commentary on harmonic expectations"
+      },
+      {
+        "pattern": "Historical Reclamation",
+        "explanation": "Breaking rules evokes earlier musical eras",
+        "example": "Parallel 5ths evoke medieval organum; polytonality evokes pre-tonal chaos"
+      },
+      {
+        "pattern": "Emotional Authenticity",
+        "explanation": "Ambiguity and non-resolution better express complex emotional states than clean resolution",
+        "example": "Radiohead's floating tonic creates unresolved emotional state"
+      },
+      {
+        "pattern": "Timbral Considerations",
+        "explanation": "Distortion, sustain, and electronic processing change which intervals work",
+        "example": "P5s stay clear with distortion while 3rds create mud"
+      }
+    ]
+  }
+}

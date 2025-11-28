@@ -1,0 +1,563 @@
+{
+  "_description": "Genre Pocket Maps - Default timing relationships by genre",
+  "_version": "1.0",
+  "_units": {
+    "offset": "ticks at 480 PPQ (negative = ahead, positive = behind)",
+    "swing": "percentage (50 = straight, 66 = triplet feel)",
+    "velocity_range": "[min, max] typical range"
+  },
+  
+  "hiphop": {
+    "name": "Hip-Hop / Boom Bap",
+    "bpm_range": [85, 100],
+    "swing": {
+      "overall": 58,
+      "hihat": 60,
+      "snare": 55
+    },
+    "push_pull": {
+      "kick": {
+        "offset": 0,
+        "description": "On grid - anchor"
+      },
+      "snare": {
+        "offset": 15,
+        "description": "Behind the beat - the pocket"
+      },
+      "hihat": {
+        "offset": -5,
+        "description": "Slightly ahead - drives forward"
+      },
+      "bass": {
+        "offset": 12,
+        "description": "With snare, behind kick"
+      }
+    },
+    "velocity": {
+      "kick": [90, 115],
+      "snare": [95, 120],
+      "hihat": [50, 100],
+      "bass": [85, 105]
+    },
+    "stagger": {
+      "snare_behind_kick": 15,
+      "bass_behind_kick": 12,
+      "hihat_ahead_snare": -20
+    },
+    "notes": "The laid-back snare is essential. Ghost notes on snare common."
+  },
+  
+  "trap": {
+    "name": "Trap",
+    "bpm_range": [130, 170],
+    "swing": {
+      "overall": 52,
+      "hihat": 50,
+      "snare": 50
+    },
+    "push_pull": {
+      "kick": {
+        "offset": 0,
+        "description": "On grid"
+      },
+      "snare": {
+        "offset": 5,
+        "description": "Slightly behind or on grid"
+      },
+      "hihat": {
+        "offset": 0,
+        "description": "Tight to grid, rolls are straight"
+      },
+      "808": {
+        "offset": 0,
+        "description": "Locked with kick"
+      }
+    },
+    "velocity": {
+      "kick": [100, 127],
+      "snare": [100, 127],
+      "hihat": [40, 110],
+      "808": [90, 120]
+    },
+    "stagger": {
+      "808_with_kick": 0,
+      "hihat_rolls_straight": 0
+    },
+    "notes": "Straight 16ths on hats, velocity creates movement. Hi-hat rolls accelerate."
+  },
+  
+  "rnb": {
+    "name": "R&B / Neo-Soul",
+    "bpm_range": [65, 95],
+    "swing": {
+      "overall": 62,
+      "hihat": 64,
+      "keys": 58
+    },
+    "push_pull": {
+      "kick": {
+        "offset": 0,
+        "description": "Anchor"
+      },
+      "snare": {
+        "offset": 20,
+        "description": "Heavily behind - deep pocket"
+      },
+      "hihat": {
+        "offset": 5,
+        "description": "Slightly behind, lazy feel"
+      },
+      "bass": {
+        "offset": 18,
+        "description": "With snare"
+      },
+      "keys": {
+        "offset": 8,
+        "description": "Slightly behind, relaxed"
+      }
+    },
+    "velocity": {
+      "kick": [80, 105],
+      "snare": [85, 110],
+      "hihat": [45, 90],
+      "bass": [75, 100],
+      "keys": [55, 95]
+    },
+    "stagger": {
+      "snare_behind_kick": 20,
+      "bass_follows_snare": 18,
+      "keys_relaxed": 8
+    },
+    "notes": "Everything sits back. Heavy swing. Ghost notes everywhere."
+  },
+  
+  "funk": {
+    "name": "Funk",
+    "bpm_range": [95, 120],
+    "swing": {
+      "overall": 54,
+      "hihat": 55,
+      "guitar": 52
+    },
+    "push_pull": {
+      "kick": {
+        "offset": -3,
+        "description": "Slightly ahead - driving"
+      },
+      "snare": {
+        "offset": 0,
+        "description": "On the grid - the crack"
+      },
+      "hihat": {
+        "offset": -5,
+        "description": "Ahead - pushes forward"
+      },
+      "bass": {
+        "offset": -2,
+        "description": "Tight with kick, slightly ahead"
+      },
+      "guitar": {
+        "offset": 0,
+        "description": "On grid, staccato"
+      }
+    },
+    "velocity": {
+      "kick": [85, 115],
+      "snare": [70, 120],
+      "hihat": [50, 105],
+      "bass": [80, 110],
+      "guitar": [75, 115]
+    },
+    "stagger": {
+      "kick_ahead": -3,
+      "hihat_drives": -5,
+      "snare_anchors": 0
+    },
+    "notes": "Tight and driving. Ghost notes on snare critical. Syncopation king."
+  },
+  
+  "jazz": {
+    "name": "Jazz (Swing)",
+    "bpm_range": [120, 200],
+    "swing": {
+      "overall": 66,
+      "ride": 66,
+      "bass": 62
+    },
+    "push_pull": {
+      "kick": {
+        "offset": 5,
+        "description": "Loose, conversational"
+      },
+      "snare": {
+        "offset": 8,
+        "description": "Relaxed"
+      },
+      "ride": {
+        "offset": 0,
+        "description": "Leads the time"
+      },
+      "bass": {
+        "offset": 3,
+        "description": "Walking, slightly behind ride"
+      },
+      "piano": {
+        "offset": 10,
+        "description": "Behind, conversational"
+      }
+    },
+    "velocity": {
+      "kick": [50, 90],
+      "snare": [40, 100],
+      "ride": [55, 95],
+      "bass": [65, 95],
+      "piano": [45, 100]
+    },
+    "stagger": {
+      "piano_behind_ride": 10,
+      "bass_behind_ride": 3,
+      "conversational_feel": "variable"
+    },
+    "notes": "Triplet swing feel. Everything floats. Ride cymbal leads."
+  },
+  
+  "rock": {
+    "name": "Rock",
+    "bpm_range": [100, 140],
+    "swing": {
+      "overall": 50,
+      "hihat": 51,
+      "guitars": 50
+    },
+    "push_pull": {
+      "kick": {
+        "offset": 0,
+        "description": "On grid - foundation"
+      },
+      "snare": {
+        "offset": 0,
+        "description": "On grid - tight"
+      },
+      "hihat": {
+        "offset": -3,
+        "description": "Slightly ahead - drive"
+      },
+      "bass": {
+        "offset": 0,
+        "description": "Locked with kick"
+      },
+      "guitar": {
+        "offset": -5,
+        "description": "Can push ahead for energy"
+      }
+    },
+    "velocity": {
+      "kick": [95, 120],
+      "snare": [100, 127],
+      "hihat": [70, 110],
+      "bass": [90, 115],
+      "guitar": [85, 120]
+    },
+    "stagger": {
+      "bass_with_kick": 0,
+      "guitars_can_push": -5
+    },
+    "notes": "Tight and straight. Power from volume and attack, not swing."
+  },
+  
+  "metal": {
+    "name": "Metal",
+    "bpm_range": [120, 220],
+    "swing": {
+      "overall": 50,
+      "double_kick": 50,
+      "guitars": 50
+    },
+    "push_pull": {
+      "kick": {
+        "offset": 0,
+        "description": "Tight to grid - precision"
+      },
+      "snare": {
+        "offset": 0,
+        "description": "On grid"
+      },
+      "hihat": {
+        "offset": 0,
+        "description": "Locked"
+      },
+      "bass": {
+        "offset": 0,
+        "description": "Locked with kick"
+      },
+      "guitar": {
+        "offset": 0,
+        "description": "Tight, palm muted precision"
+      }
+    },
+    "velocity": {
+      "kick": [105, 127],
+      "snare": [110, 127],
+      "hihat": [80, 115],
+      "bass": [100, 120],
+      "guitar": [95, 127]
+    },
+    "stagger": {
+      "everything_locked": 0
+    },
+    "notes": "Machine-tight. Quantized. Power from precision and volume."
+  },
+  
+  "reggae": {
+    "name": "Reggae / Dub",
+    "bpm_range": [70, 90],
+    "swing": {
+      "overall": 55,
+      "hihat": 58,
+      "guitar": 54
+    },
+    "push_pull": {
+      "kick": {
+        "offset": 0,
+        "description": "On beat 3 typically"
+      },
+      "snare": {
+        "offset": 5,
+        "description": "On beat 3, rim click common"
+      },
+      "hihat": {
+        "offset": 8,
+        "description": "Behind - lazy feel"
+      },
+      "bass": {
+        "offset": 10,
+        "description": "Behind the beat - deep pocket"
+      },
+      "guitar": {
+        "offset": 0,
+        "description": "Off-beat skank - on the 'and'"
+      }
+    },
+    "velocity": {
+      "kick": [75, 100],
+      "snare": [60, 90],
+      "hihat": [50, 85],
+      "bass": [80, 105],
+      "guitar": [65, 95]
+    },
+    "stagger": {
+      "bass_deep_pocket": 10,
+      "everything_relaxed": 5
+    },
+    "notes": "One drop feel. Guitar on off-beats. Bass leads melodically."
+  },
+  
+  "house": {
+    "name": "House",
+    "bpm_range": [120, 130],
+    "swing": {
+      "overall": 54,
+      "hihat": 56,
+      "bass": 50
+    },
+    "push_pull": {
+      "kick": {
+        "offset": 0,
+        "description": "Four on the floor - anchor"
+      },
+      "clap": {
+        "offset": 3,
+        "description": "Slightly behind for groove"
+      },
+      "hihat": {
+        "offset": -3,
+        "description": "Slightly ahead - drives"
+      },
+      "bass": {
+        "offset": 0,
+        "description": "Locked with kick"
+      }
+    },
+    "velocity": {
+      "kick": [100, 120],
+      "clap": [95, 115],
+      "hihat": [60, 100],
+      "bass": [90, 115]
+    },
+    "stagger": {
+      "hihat_drives": -3,
+      "clap_sits_back": 3
+    },
+    "notes": "Four-on-the-floor. Swing in hats creates groove."
+  },
+  
+  "techno": {
+    "name": "Techno",
+    "bpm_range": [125, 145],
+    "swing": {
+      "overall": 50,
+      "hihat": 52,
+      "percussion": 51
+    },
+    "push_pull": {
+      "kick": {
+        "offset": 0,
+        "description": "Tight to grid"
+      },
+      "clap": {
+        "offset": 0,
+        "description": "On grid"
+      },
+      "hihat": {
+        "offset": 0,
+        "description": "Tight, mechanical"
+      },
+      "bass": {
+        "offset": 0,
+        "description": "Locked"
+      }
+    },
+    "velocity": {
+      "kick": [105, 125],
+      "clap": [100, 120],
+      "hihat": [55, 95],
+      "bass": [95, 118]
+    },
+    "stagger": {
+      "everything_tight": 0
+    },
+    "notes": "Mechanical, hypnotic. Groove from repetition, not swing."
+  },
+  
+  "lofi": {
+    "name": "Lo-Fi Hip-Hop",
+    "bpm_range": [70, 90],
+    "swing": {
+      "overall": 62,
+      "hihat": 65,
+      "keys": 60
+    },
+    "push_pull": {
+      "kick": {
+        "offset": 5,
+        "description": "Slightly behind"
+      },
+      "snare": {
+        "offset": 20,
+        "description": "Way behind - lazy pocket"
+      },
+      "hihat": {
+        "offset": 10,
+        "description": "Behind - lazy"
+      },
+      "bass": {
+        "offset": 15,
+        "description": "Behind with snare"
+      },
+      "keys": {
+        "offset": 12,
+        "description": "Relaxed"
+      }
+    },
+    "velocity": {
+      "kick": [70, 95],
+      "snare": [75, 100],
+      "hihat": [40, 80],
+      "bass": [65, 90],
+      "keys": [50, 85]
+    },
+    "stagger": {
+      "everything_behind": 10,
+      "snare_extra_lazy": 20
+    },
+    "notes": "Everything behind the beat. Heavy swing. Muffled, warm."
+  },
+  
+  "gospel": {
+    "name": "Gospel / Contemporary Gospel",
+    "bpm_range": [70, 130],
+    "swing": {
+      "overall": 60,
+      "hihat": 62,
+      "organ": 58
+    },
+    "push_pull": {
+      "kick": {
+        "offset": 0,
+        "description": "Foundation"
+      },
+      "snare": {
+        "offset": 10,
+        "description": "Behind - pocket"
+      },
+      "hihat": {
+        "offset": 5,
+        "description": "Relaxed"
+      },
+      "bass": {
+        "offset": 8,
+        "description": "With snare pocket"
+      },
+      "organ": {
+        "offset": 5,
+        "description": "Laid back"
+      }
+    },
+    "velocity": {
+      "kick": [85, 115],
+      "snare": [80, 120],
+      "hihat": [50, 100],
+      "bass": [75, 105],
+      "organ": [60, 100]
+    },
+    "stagger": {
+      "snare_pocket": 10,
+      "everything_grooving": 5
+    },
+    "notes": "Heavy swing, pocket feel. Lots of fills and expression."
+  },
+  
+  "country": {
+    "name": "Country",
+    "bpm_range": [100, 140],
+    "swing": {
+      "overall": 52,
+      "hihat": 54,
+      "guitar": 50
+    },
+    "push_pull": {
+      "kick": {
+        "offset": 0,
+        "description": "On grid"
+      },
+      "snare": {
+        "offset": 0,
+        "description": "On grid - train beat"
+      },
+      "hihat": {
+        "offset": -2,
+        "description": "Slightly ahead"
+      },
+      "bass": {
+        "offset": 0,
+        "description": "With kick"
+      },
+      "guitar": {
+        "offset": 0,
+        "description": "Strumming on grid"
+      }
+    },
+    "velocity": {
+      "kick": [85, 110],
+      "snare": [90, 115],
+      "hihat": [60, 100],
+      "bass": [80, 105],
+      "guitar": [70, 110]
+    },
+    "stagger": {
+      "everything_tight": 0,
+      "train_beat": "snare ghost notes"
+    },
+    "notes": "Train beat feel. Ghost notes between main snare hits."
+  }
+}

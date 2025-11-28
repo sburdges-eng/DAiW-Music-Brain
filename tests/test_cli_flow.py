@@ -155,14 +155,14 @@ def test_therapy_session_scale_bounds():
     session = TherapySession()
 
     # Out of bounds values should be clamped
-    session.set_scales(motivation=-5, chaos_tolerance=2.0)
+    session.set_scales(-5, 2.0)
 
-    assert session.state.motivation == 1.0  # Clamped to min
+    assert session.state.motivation_scale == 1  # Clamped to min
     assert session.state.chaos_tolerance == 1.0  # Clamped to max
 
-    session.set_scales(motivation=100, chaos_tolerance=-1.0)
+    session.set_scales(100, -1.0)
 
-    assert session.state.motivation == 10.0  # Clamped to max
+    assert session.state.motivation_scale == 10  # Clamped to max
     assert session.state.chaos_tolerance == 0.0  # Clamped to min
 
 

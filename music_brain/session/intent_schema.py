@@ -15,6 +15,12 @@ from enum import Enum
 import json
 from pathlib import Path
 
+try:
+    import yaml
+    HAS_YAML = True
+except ImportError:
+    HAS_YAML = False
+
 
 # =================================================================
 # ENUMS: Rule Breaking Categories
@@ -782,16 +788,13 @@ def validate_intent(intent: CompleteSongIntent) -> List[str]:
     if not intent.song_root.core_longing:
         issues.append("Phase 0: Missing core_longing - what do you want to feel?")
     
-    # Phase 1 checks
-    if not intent.song_intent.mood_primary:
-        issues.append("Phase 1: Missing mood_primary - what's the main emotion?")
-    if intent.song_intent.mood_secondary_tension < 0 or intent.song_intent.mood_secondary_tension > 1:
-        issues.append("Phase 1: mood_secondary_tension should be 0.0-1.0")
+    # Phase 1 checks (use enhanced validation)
+    phase1_issues = validate_phase1(intent.song_intent)
+    issues.extend(phase1_issues)
     
-    # Phase 2 checks
-    if intent.technical_constraints.technical_rule_to_break:
-        if not intent.technical_constraints.rule_breaking_justification:
-            issues.append("Phase 2: Rule to break specified without justification - WHY break this rule?")
+    # Phase 2 checks (use enhanced validation)
+    phase2_issues = validate_phase2(intent.technical_constraints)
+    issues.extend(phase2_issues)
     
     # Consistency checks
     if intent.song_intent.vulnerability_scale == "High":
@@ -887,3 +890,672 @@ def suggest_full_palette(emotion: str) -> Dict:
             })
 
     return result
+
+
+def load_schema_options() -> Dict[str, List[str]]:
+    """
+    Load enum options from song_intent_schema.yaml.
+    
+    Returns:
+        Dict mapping option names to lists of valid values
+    """
+    schema_path = Path(__file__).parent.parent / "data" / "song_intent_schema.yaml"
+    
+    if not HAS_YAML:
+        # Fallback to hardcoded values if PyYAML not available
+        return _get_fallback_options()
+    
+    try:
+        with open(schema_path, 'r') as f:
+            data = yaml.safe_load(f)
+        
+        enums = data.get("enums", {})
+        return {
+            "mood_primary": enums.get("mood_primary_options", []),
+            "imagery_texture": enums.get("imagery_texture_options", []),
+            "vulnerability_scale": enums.get("vulnerability_scale_options", []),
+            "narrative_arc": enums.get("narrative_arc_options", []),
+            "core_stakes": enums.get("core_stakes_options", []),
+            "genre": enums.get("genre_options", []),
+            "groove_feel": enums.get("groove_feel_options", []),
+        }
+    except Exception as e:
+        # Fallback to hardcoded values if YAML can't be loaded
+        return _get_fallback_options()
+
+
+def _get_fallback_options() -> Dict[str, List[str]]:
+    """Fallback options if YAML can't be loaded."""
+    return {
+        "mood_primary": ["Grief", "Joy", "Defiance", "Longing", "Rage", "Nostalgia", "Melancholy", "Euphoria", "Desperation", "Serenity", "Confusion", "Determination", "Bittersweet", "Triumphant Hope", "Dissociation", "Acceptance", "Liberation", "Nervousness"],
+        "imagery_texture": ["Sharp Edges", "Muffled", "Open/Vast", "Claustrophobic", "Hazy/Dreamy", "Crystalline", "Muddy/Thick", "Sparse/Empty", "Chaotic", "Flowing/Liquid", "Fractured", "Warm/Enveloping", "Cold/Distant", "Blinding Light", "Deep Shadow"],
+        "vulnerability_scale": ["Low", "Medium", "High"],
+        "narrative_arc": ["Climb-to-Climax", "Slow Reveal", "Repetitive Despair", "Static Reflection", "Sudden Shift", "Descent", "Rise and Fall", "Spiral"],
+        "core_stakes": ["Personal", "Relational", "Existential", "Survival", "Creative", "Moral"],
+        "genre": ["Cinematic Neo-Soul", "Lo-Fi Bedroom", "Industrial Pop", "Synthwave", "Confessional Acoustic", "Art Rock", "Indie Folk", "Post-Punk", "Chamber Pop", "Electronic", "Hip-Hop", "R&B", "Alternative", "Shoegaze", "Dream Pop"],
+        "groove_feel": ["Straight/Driving", "Laid Back", "Swung", "Syncopated", "Rubato/Free", "Mechanical", "Organic/Breathing", "Push-Pull"],
+    }
+
+
+def collect_phase1_interactive(song_root: Optional[SongRoot] = None) -> SongIntent:
+    """
+    Interactively collect Phase 1 (Emotional Intent) data from user.
+    
+    Args:
+        song_root: Optional Phase 0 data to inform questions
+    
+    Returns:
+        SongIntent with collected data
+    """
+    options = load_schema_options()
+    
+    print("\n" + "=" * 60)
+    print("PHASE 1: EMOTIONAL & INTENT")
+    print("=" * 60)
+    print("\nValidated by Phase 0, guides all technical decisions.\n")
+    
+    # Mood Primary
+    print("1. PRIMARY EMOTION")
+    print("   What's the dominant emotion?")
+    if options["mood_primary"]:
+        print(f"   Options: {', '.join(options['mood_primary'][:10])}...")
+        print("   (You can type your own or choose from the list)")
+    mood_primary = input("   > ").strip()
+    if not mood_primary:
+        mood_primary = "[Primary emotion]"
+    
+    # Secondary Tension
+    print("\n2. SECONDARY TENSION (0.0 - 1.0)")
+    print("   Internal conflict level:")
+    print("   0.0 = calm, resolved")
+    print("   0.5 = balanced tension")
+    print("   1.0 = anxious, high tension")
+    while True:
+        try:
+            tension_input = input("   > ").strip()
+            if not tension_input:
+                mood_secondary_tension = 0.5
+                break
+            mood_secondary_tension = float(tension_input)
+            if 0.0 <= mood_secondary_tension <= 1.0:
+                break
+            else:
+                print("   Please enter a value between 0.0 and 1.0")
+        except ValueError:
+            print("   Please enter a number between 0.0 and 1.0")
+    
+    # Imagery Texture
+    print("\n3. IMAGERY TEXTURE")
+    print("   Visual/tactile quality - how should this song FEEL?")
+    if options["imagery_texture"]:
+        print("   Options:")
+        for i, opt in enumerate(options["imagery_texture"], 1):
+            print(f"   {i}. {opt}")
+        print("   (You can type your own or choose from the list)")
+    imagery_texture = input("   > ").strip()
+    if not imagery_texture:
+        imagery_texture = "[Visual/tactile quality]"
+    
+    # Vulnerability Scale
+    print("\n4. VULNERABILITY SCALE")
+    print("   How exposed should this song be?")
+    if options["vulnerability_scale"]:
+        for i, opt in enumerate(options["vulnerability_scale"], 1):
+            desc = {
+                "Low": "Guarded, protective",
+                "Medium": "Honest but controlled",
+                "High": "Raw, exposed"
+            }.get(opt, "")
+            print(f"   {i}. {opt} - {desc}")
+    while True:
+        vuln_input = input("   > ").strip()
+        if not vuln_input:
+            vulnerability_scale = "Medium"
+            break
+        vuln_lower = vuln_input.lower()
+        if vuln_lower in ["low", "medium", "high"]:
+            vulnerability_scale = vuln_input.capitalize()
+            break
+        elif vuln_input in options["vulnerability_scale"]:
+            vulnerability_scale = vuln_input
+            break
+        else:
+            print("   Please enter: Low, Medium, or High")
+    
+    # Narrative Arc
+    print("\n5. NARRATIVE ARC")
+    print("   How should the emotion evolve structurally?")
+    if options["narrative_arc"]:
+        print("   Options:")
+        for i, opt in enumerate(options["narrative_arc"], 1):
+            print(f"   {i}. {opt}")
+        print("   (You can type your own or choose from the list)")
+    narrative_arc = input("   > ").strip()
+    if not narrative_arc:
+        narrative_arc = "Climb-to-Climax"
+    
+    print("\n" + "=" * 60)
+    print("Phase 1 Complete!")
+    print("=" * 60 + "\n")
+    
+    return SongIntent(
+        mood_primary=mood_primary,
+        mood_secondary_tension=mood_secondary_tension,
+        imagery_texture=imagery_texture,
+        vulnerability_scale=vulnerability_scale,
+        narrative_arc=narrative_arc,
+    )
+
+
+def validate_phase1(song_intent: SongIntent) -> List[str]:
+    """
+    Validate Phase 1 fields against schema options.
+    
+    Returns list of validation issues (empty = valid).
+    """
+    issues = []
+    options = load_schema_options()
+    
+    # Validate mood_primary
+    if not song_intent.mood_primary or song_intent.mood_primary.startswith("["):
+        issues.append("Phase 1: mood_primary is required")
+    elif options["mood_primary"] and song_intent.mood_primary not in options["mood_primary"]:
+        # Warn but don't fail - allow custom emotions
+        pass
+    
+    # Validate mood_secondary_tension
+    if not (0.0 <= song_intent.mood_secondary_tension <= 1.0):
+        issues.append("Phase 1: mood_secondary_tension must be between 0.0 and 1.0")
+    
+    # Validate imagery_texture
+    if not song_intent.imagery_texture or song_intent.imagery_texture.startswith("["):
+        issues.append("Phase 1: imagery_texture is required")
+    
+    # Validate vulnerability_scale
+    if song_intent.vulnerability_scale not in options["vulnerability_scale"]:
+        issues.append(f"Phase 1: vulnerability_scale must be one of {options['vulnerability_scale']}")
+    
+    # Validate narrative_arc
+    if not song_intent.narrative_arc or song_intent.narrative_arc.startswith("["):
+        issues.append("Phase 1: narrative_arc is required")
+    
+    return issues
+
+
+# =================================================================
+# PHASE 2 HELPER FUNCTIONS
+# =================================================================
+
+# Note names for key validation
+NOTE_NAMES_SHARP = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B']
+NOTE_NAMES_FLAT = ['C', 'Db', 'D', 'Eb', 'E', 'F', 'Gb', 'G', 'Ab', 'A', 'Bb', 'B']
+ALL_NOTE_NAMES = set(NOTE_NAMES_SHARP + NOTE_NAMES_FLAT)
+
+# Valid mode names
+VALID_MODES = {
+    'major', 'minor', 'ionian', 'dorian', 'phrygian', 
+    'lydian', 'mixolydian', 'aeolian', 'locrian'
+}
+
+
+def suggest_phase2_from_phase1(song_intent: SongIntent) -> Dict:
+    """
+    Suggest Phase 2 technical constraints based on Phase 1 emotional intent.
+    
+    Uses Phase 1 data to suggest appropriate technical parameters.
+    
+    Args:
+        song_intent: Phase 1 SongIntent data
+    
+    Returns:
+        Dict with suggested values for Phase 2 fields
+    """
+    suggestions = {
+        "technical_genre": "",
+        "technical_tempo_range": (80, 120),
+        "technical_key": "",
+        "technical_mode": "",
+        "technical_groove_feel": "",
+        "technical_rule_to_break": "",
+        "rule_breaking_justification": "",
+    }
+    
+    # Get affect mapping from mood_primary
+    if song_intent.mood_primary:
+        affect = get_affect_mapping(song_intent.mood_primary.lower())
+        if affect:
+            # Suggest tempo range from affect mapping
+            if "tempo_range" in affect:
+                suggestions["technical_tempo_range"] = affect["tempo_range"]
+            
+            # Suggest mode from affect mapping
+            if "modes" in affect and affect["modes"]:
+                # Use first suggested mode
+                mode_name = affect["modes"][0].lower()
+                # Convert to common format
+                if mode_name == "ionian":
+                    suggestions["technical_mode"] = "major"
+                elif mode_name == "aeolian":
+                    suggestions["technical_mode"] = "minor"
+                else:
+                    suggestions["technical_mode"] = mode_name.capitalize()
+    
+    # Suggest rule to break from emotion
+    if song_intent.mood_primary:
+        rule_suggestions = suggest_rule_break(song_intent.mood_primary)
+        if rule_suggestions:
+            suggestions["technical_rule_to_break"] = rule_suggestions[0]["rule"]
+    
+    # Suggest genre/groove from imagery texture
+    if song_intent.imagery_texture:
+        # Map texture to genre suggestions
+        texture_genre_map = {
+            "Muffled": "Lo-Fi Bedroom",
+            "Open/Vast": "Cinematic Neo-Soul",
+            "Sharp Edges": "Industrial Pop",
+            "Hazy/Dreamy": "Dream Pop",
+            "Crystalline": "Shoegaze",
+            "Muddy/Thick": "Post-Punk",
+            "Sparse/Empty": "Confessional Acoustic",
+            "Warm/Enveloping": "Chamber Pop",
+            "Cold/Distant": "Synthwave",
+        }
+        for texture_key, genre in texture_genre_map.items():
+            if texture_key.lower() in song_intent.imagery_texture.lower():
+                suggestions["technical_genre"] = genre
+                break
+    
+    # Suggest groove feel from narrative arc
+    arc_groove_map = {
+        "Climb-to-Climax": "Straight/Driving",
+        "Slow Reveal": "Organic/Breathing",
+        "Repetitive Despair": "Mechanical",
+        "Static Reflection": "Rubato/Free",
+        "Sudden Shift": "Push-Pull",
+        "Descent": "Laid Back",
+        "Rise and Fall": "Swung",
+        "Spiral": "Syncopated",
+    }
+    if song_intent.narrative_arc:
+        for arc_key, groove in arc_groove_map.items():
+            if arc_key.lower() in song_intent.narrative_arc.lower():
+                suggestions["technical_groove_feel"] = groove
+                break
+    
+    return suggestions
+
+
+def validate_key(key: str) -> Tuple[bool, Optional[str]]:
+    """
+    Validate musical key format.
+    
+    Accepts formats like "C", "C#", "F minor", "E major", "Db", etc.
+    
+    Args:
+        key: Key string to validate
+    
+    Returns:
+        Tuple of (is_valid, error_message)
+    """
+    if not key or not key.strip():
+        return (False, "Key cannot be empty")
+    
+    key = key.strip()
+    
+    # Check if it's in format "Note" or "Note mode"
+    parts = key.split()
+    
+    if len(parts) == 1:
+        # Just note name
+        note_part = parts[0]
+    elif len(parts) == 2:
+        # Note and mode (e.g., "C minor", "F# major")
+        note_part = parts[0]
+        mode_part = parts[1].lower()
+        if mode_part not in ["major", "minor"]:
+            return (False, f"Mode '{mode_part}' not recognized. Use 'major' or 'minor'")
+    else:
+        return (False, "Key format should be 'Note' or 'Note mode' (e.g., 'C' or 'F minor')")
+    
+    # Validate note name
+    if note_part not in ALL_NOTE_NAMES:
+        return (False, f"Note '{note_part}' not recognized. Use standard note names like C, C#, Db, etc.")
+    
+    return (True, None)
+
+
+def validate_mode(mode: str) -> Tuple[bool, Optional[str]]:
+    """
+    Validate mode format.
+    
+    Accepts: major, minor, and modal names (Dorian, Phrygian, Lydian, 
+    Mixolydian, Aeolian, Locrian, Ionian). Case-insensitive.
+    
+    Args:
+        mode: Mode string to validate
+    
+    Returns:
+        Tuple of (is_valid, error_message)
+    """
+    if not mode or not mode.strip():
+        return (False, "Mode cannot be empty")
+    
+    mode_lower = mode.strip().lower()
+    
+    if mode_lower not in VALID_MODES:
+        return (False, f"Mode '{mode}' not recognized. Valid modes: {', '.join(sorted(VALID_MODES))}")
+    
+    return (True, None)
+
+
+def suggest_key_from_mode(mode: str) -> List[str]:
+    """
+    Suggest common keys for a given mode.
+    
+    Args:
+        mode: Mode name (major, minor, Dorian, etc.)
+    
+    Returns:
+        List of suggested key names
+    """
+    mode_lower = mode.lower()
+    
+    # Common keys for different modes
+    if mode_lower in ["major", "ionian", "lydian", "mixolydian"]:
+        # Bright keys work well
+        return ["C", "G", "D", "F", "A"]
+    elif mode_lower in ["minor", "aeolian", "dorian", "phrygian"]:
+        # Darker keys
+        return ["A", "E", "D", "G", "C"]
+    elif mode_lower == "locrian":
+        # Locrian is rare, suggest less common keys
+        return ["B", "F#", "C#"]
+    else:
+        # Default suggestions
+        return ["C", "G", "D", "F", "A", "E"]
+
+
+def collect_phase2_interactive(
+    song_intent: Optional[SongIntent] = None, 
+    song_root: Optional[SongRoot] = None
+) -> TechnicalConstraints:
+    """
+    Interactively collect Phase 2 (Technical Constraints) data from user.
+    
+    Args:
+        song_intent: Optional Phase 1 data to inform suggestions
+        song_root: Optional Phase 0 data for context
+    
+    Returns:
+        TechnicalConstraints with collected data
+    """
+    options = load_schema_options()
+    
+    print("\n" + "=" * 60)
+    print("PHASE 2: TECHNICAL CONSTRAINTS")
+    print("=" * 60)
+    print("\nImplementation of intent into concrete musical decisions.\n")
+    
+    # Show suggestions from Phase 1 if available
+    suggestions = {}
+    if song_intent:
+        suggestions = suggest_phase2_from_phase1(song_intent)
+        print("💡 Suggestions based on Phase 1:")
+        if suggestions.get("technical_tempo_range"):
+            print(f"   Tempo: {suggestions['technical_tempo_range'][0]}-{suggestions['technical_tempo_range'][1]} BPM")
+        if suggestions.get("technical_mode"):
+            print(f"   Mode: {suggestions['technical_mode']}")
+        if suggestions.get("technical_genre"):
+            print(f"   Genre: {suggestions['technical_genre']}")
+        if suggestions.get("technical_groove_feel"):
+            print(f"   Groove: {suggestions['technical_groove_feel']}")
+        if suggestions.get("technical_rule_to_break"):
+            print(f"   Rule to break: {suggestions['technical_rule_to_break']}")
+        print()
+    
+    # 1. Genre
+    print("1. GENRE")
+    print("   What genre/style should this song be?")
+    if options["genre"]:
+        print("   Options:")
+        for i, genre in enumerate(options["genre"], 1):
+            print(f"   {i}. {genre}")
+        print("   (You can type your own or choose from the list)")
+    genre_input = input("   > ").strip()
+    if not genre_input:
+        technical_genre = suggestions.get("technical_genre", "[Genre]")
+    else:
+        technical_genre = genre_input
+    
+    # 2. Tempo Range
+    print("\n2. TEMPO RANGE (BPM)")
+    print("   Enter minimum and maximum BPM (e.g., 80 120)")
+    if suggestions.get("technical_tempo_range"):
+        print(f"   Suggested: {suggestions['technical_tempo_range'][0]}-{suggestions['technical_tempo_range'][1]} BPM")
+    while True:
+        tempo_input = input("   > ").strip()
+        if not tempo_input:
+            if suggestions.get("technical_tempo_range"):
+                technical_tempo_range = suggestions["technical_tempo_range"]
+                break
+            technical_tempo_range = (80, 120)
+            break
+        
+        try:
+            parts = tempo_input.split()
+            if len(parts) == 2:
+                low = int(parts[0])
+                high = int(parts[1])
+                if 40 <= low <= 240 and 40 <= high <= 240:
+                    if low < high:
+                        technical_tempo_range = (low, high)
+                        break
+                    else:
+                        print("   Minimum must be less than maximum")
+                else:
+                    print("   BPM must be between 40 and 240")
+            else:
+                print("   Please enter two numbers: min max")
+        except ValueError:
+            print("   Please enter valid numbers")
+    
+    # 3. Mode
+    print("\n3. MODE")
+    print("   What mode? (major, minor, Dorian, Lydian, etc.)")
+    print("   Valid modes: major, minor, Ionian, Dorian, Phrygian, Lydian, Mixolydian, Aeolian, Locrian")
+    if suggestions.get("technical_mode"):
+        print(f"   Suggested: {suggestions['technical_mode']}")
+    while True:
+        mode_input = input("   > ").strip()
+        if not mode_input:
+            if suggestions.get("technical_mode"):
+                technical_mode = suggestions["technical_mode"]
+                break
+            technical_mode = "major"
+            break
+        
+        is_valid, error = validate_mode(mode_input)
+        if is_valid:
+            technical_mode = mode_input
+            break
+        else:
+            print(f"   {error}")
+    
+    # 4. Key
+    print("\n4. KEY")
+    print("   What key? (e.g., C, F#, E minor, Db major)")
+    key_suggestions = suggest_key_from_mode(technical_mode)
+    if key_suggestions:
+        print(f"   Suggested keys for {technical_mode}: {', '.join(key_suggestions[:5])}")
+    while True:
+        key_input = input("   > ").strip()
+        if not key_input:
+            technical_key = key_suggestions[0] if key_suggestions else "C"
+            break
+        
+        is_valid, error = validate_key(key_input)
+        if is_valid:
+            technical_key = key_input
+            break
+        else:
+            print(f"   {error}")
+    
+    # 5. Groove Feel
+    print("\n5. GROOVE FEEL")
+    print("   What rhythmic feel?")
+    if options["groove_feel"]:
+        print("   Options:")
+        for i, opt in enumerate(options["groove_feel"], 1):
+            marker = " ← suggested" if suggestions and suggestions.get("technical_groove_feel") == opt else ""
+            print(f"   {i}. {opt}{marker}")
+    groove_input = input("   > ").strip()
+    if not groove_input:
+        technical_groove_feel = suggestions.get("technical_groove_feel", "") if suggestions else ""
+    elif groove_input.isdigit() and options["groove_feel"]:
+        idx = int(groove_input) - 1
+        if 0 <= idx < len(options["groove_feel"]):
+            technical_groove_feel = options["groove_feel"][idx]
+        else:
+            technical_groove_feel = groove_input
+    else:
+        technical_groove_feel = groove_input
+    
+    # 6. Rule to Break
+    print("\n6. RULE TO BREAK")
+    print("   What musical rule should be intentionally broken? (Optional)")
+    print("   Type 'list' to see all categories, or 'skip' to skip")
+    if suggestions and suggestions.get("technical_rule_to_break"):
+        rule_info = get_rule_breaking_info(suggestions['technical_rule_to_break'])
+        if rule_info:
+            print(f"   Suggested: {suggestions['technical_rule_to_break']}")
+            print(f"      {rule_info.get('description', '')}")
+            print(f"      Effect: {rule_info.get('effect', '')}")
+    
+    # Show suggestions from Phase 1
+    if song_intent and song_intent.mood_primary:
+        rule_suggestions = suggest_rule_break(song_intent.mood_primary)
+        if rule_suggestions:
+            print("   Suggested rules for your emotion:")
+            for i, rule in enumerate(rule_suggestions[:3], 1):
+                print(f"   {i}. {rule['rule']} - {rule['effect']}")
+    
+    print("   Type 'list' to see all available rules")
+    rule_input = input("   > ").strip()
+    
+    if rule_input.lower() == "list":
+        all_rules = list_all_rules()
+        print("\n   Available rules to break:")
+        for category, rules in all_rules.items():
+            print(f"\n   {category}:")
+            for rule in rules:
+                rule_info = get_rule_breaking_info(rule)
+                if rule_info:
+                    print(f"     - {rule}: {rule_info['effect']}")
+        print()
+        rule_input = input("   Enter rule to break (or press Enter to skip): ").strip()
+    
+    technical_rule_to_break = rule_input if rule_input else ""
+    
+    # 7. Justification (required if rule selected)
+    rule_breaking_justification = ""
+    if technical_rule_to_break:
+        print("\n7. RULE BREAKING JUSTIFICATION")
+        print("   WHY break this rule? What emotional effect does it serve?")
+        rule_info = get_rule_breaking_info(technical_rule_to_break)
+        if rule_info:
+            print(f"   Rule: {rule_info['description']}")
+            print(f"   Effect: {rule_info['effect']}")
+            print(f"   Use when: {rule_info['use_when']}")
+        while True:
+            justification_input = input("   > ").strip()
+            if justification_input:
+                rule_breaking_justification = justification_input
+                break
+            else:
+                print("   Justification is required when a rule is selected. Please explain WHY.")
+    
+    print("\n" + "=" * 60)
+    print("Phase 2 Complete!")
+    print("=" * 60 + "\n")
+    
+    return TechnicalConstraints(
+        technical_genre=technical_genre,
+        technical_tempo_range=technical_tempo_range,
+        technical_key=technical_key,
+        technical_mode=technical_mode,
+        technical_groove_feel=technical_groove_feel,
+        technical_rule_to_break=technical_rule_to_break,
+        rule_breaking_justification=rule_breaking_justification,
+    )
+
+
+def validate_phase2(technical_constraints: TechnicalConstraints) -> List[str]:
+    """
+    Validate Phase 2 fields against schema options and constraints.
+    
+    Returns list of validation issues (empty = valid).
+    """
+    issues = []
+    options = load_schema_options()
+    
+    # Validate technical_genre (warn if custom but don't fail)
+    if not technical_constraints.technical_genre or technical_constraints.technical_genre.startswith("["):
+        issues.append("Phase 2: technical_genre is required")
+    elif options["genre"] and technical_constraints.technical_genre not in options["genre"]:
+        # Allow custom genres but could warn
+        pass
+    
+    # Validate tempo_range
+    tempo_range = technical_constraints.technical_tempo_range
+    if not isinstance(tempo_range, tuple) or len(tempo_range) != 2:
+        issues.append("Phase 2: technical_tempo_range must be a tuple of 2 integers")
+    else:
+        low, high = tempo_range
+        if not isinstance(low, int) or not isinstance(high, int):
+            issues.append("Phase 2: technical_tempo_range values must be integers")
+        else:
+            if low >= high:  # pyright: ignore[reportUndefinedVariable]
+                issues.append("Phase 2: technical_tempo_range minimum must be less than maximum")
+            if not (40 <= low <= 240):
+                issues.append("Phase 2: technical_tempo_range minimum must be between 40 and 240 BPM")
+            if not (40 <= high <= 240):
+                issues.append("Phase 2: technical_tempo_range maximum must be between 40 and 240 BPM")
+    
+    # Validate technical_key
+    if not technical_constraints.technical_key or technical_constraints.technical_key.startswith("["):
+        issues.append("Phase 2: technical_key is required")
+    else:
+        is_valid, error = validate_key(technical_constraints.technical_key)
+        if not is_valid:
+            issues.append(f"Phase 2: technical_key - {error}")
+    
+    # Validate technical_mode
+    if not technical_constraints.technical_mode or technical_constraints.technical_mode.startswith("["):
+        issues.append("Phase 2: technical_mode is required")
+    else:
+        is_valid, error = validate_mode(technical_constraints.technical_mode)
+        if not is_valid:
+            issues.append(f"Phase 2: technical_mode - {error}")
+    
+    # Validate technical_groove_feel
+    if not technical_constraints.technical_groove_feel or technical_constraints.technical_groove_feel.startswith("["):
+        issues.append("Phase 2: technical_groove_feel is required")
+    elif options["groove_feel"] and technical_constraints.technical_groove_feel not in options["groove_feel"]:
+        # Allow custom groove feels but could warn
+        pass
+    
+    # Validate technical_rule_to_break
+        if technical_constraints.technical_rule_to_break:
+            # Check if it's a valid rule enum value
+            all_rules = list_all_rules()
+            all_rule_values = []
+            for category_rules in all_rules.values():
+                all_rule_values.extend(category_rules)
+        if technical_constraints.technical_rule_to_break not in all_rule_values:
+            issues.append(f"Phase 2: technical_rule_to_break '{technical_constraints.technical_rule_to_break}' is not a valid rule")
+        
+        
+        if not technical_constraints.rule_breaking_justification or technical_constraints.rule_breaking_justification.startswith("["):
+            issues.append("Phase 2: rule_breaking_justification is required when technical_rule_to_break is set")
+    
+    return issues

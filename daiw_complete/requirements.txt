@@ -1,0 +1,18 @@
+# Core
+mido>=1.3.0
+numpy>=1.24.0
+
+# UI
+streamlit>=1.28.0
+pywebview>=4.0.0
+
+# Lyric generation
+markovify>=0.9.0
+
+# Audio processing (optional - for sample refinery)
+librosa>=0.10.0
+soundfile>=0.12.0
+audiomentations>=0.33.0
+
+# Testing
+pytest>=7.0.0

@@ -1,0 +1,416 @@
+{
+  "_description": "Genre Mix Fingerprints - Typical frequency balance and production characteristics by genre",
+  "_version": "1.0",
+  "_units": {
+    "frequency_balance": "dB relative to mid band (500-2000Hz)",
+    "rms_swing": "ratio (higher = more dynamic variation)",
+    "transient_drift": "milliseconds of timing variation",
+    "stereo_width": "ratio (0 = mono, 1 = very wide)"
+  },
+
+  "hiphop": {
+    "name": "Hip-Hop / Rap",
+    "frequency_balance": {
+      "sub": 6,
+      "bass": 4,
+      "low_mid": -2,
+      "mid": 0,
+      "high_mid": -1,
+      "presence": 1,
+      "brilliance": -2,
+      "air": -4
+    },
+    "dynamics": {
+      "rms_swing_typical": [0.15, 0.35],
+      "dynamic_range_db": [6, 12],
+      "crest_factor_db": [8, 14]
+    },
+    "transients": {
+      "drift_ms_typical": [5, 20],
+      "attack_style": "punchy"
+    },
+    "stereo": {
+      "width_typical": [0.3, 0.6],
+      "bass_mono": true
+    },
+    "description": "Heavy sub bass, scooped low-mids, crisp hi-hats. Snare behind the beat. Compressed but punchy.",
+    "reference_tracks": ["Dr. Dre - Still D.R.E.", "Kendrick Lamar - HUMBLE.", "J Dilla - Don't Cry"]
+  },
+
+  "trap": {
+    "name": "Trap",
+    "frequency_balance": {
+      "sub": 10,
+      "bass": 6,
+      "low_mid": -4,
+      "mid": 0,
+      "high_mid": 2,
+      "presence": 3,
+      "brilliance": 4,
+      "air": 2
+    },
+    "dynamics": {
+      "rms_swing_typical": [0.1, 0.25],
+      "dynamic_range_db": [4, 8],
+      "crest_factor_db": [6, 10]
+    },
+    "transients": {
+      "drift_ms_typical": [0, 5],
+      "attack_style": "hard"
+    },
+    "stereo": {
+      "width_typical": [0.4, 0.8],
+      "bass_mono": true
+    },
+    "description": "Massive 808 sub, very scooped mids, bright crispy hats. Tight timing. Heavy limiting.",
+    "reference_tracks": ["Future - Mask Off", "Travis Scott - SICKO MODE", "Metro Boomin productions"]
+  },
+
+  "pop": {
+    "name": "Pop",
+    "frequency_balance": {
+      "sub": 0,
+      "bass": 1,
+      "low_mid": -1,
+      "mid": 0,
+      "high_mid": 2,
+      "presence": 3,
+      "brilliance": 2,
+      "air": 1
+    },
+    "dynamics": {
+      "rms_swing_typical": [0.08, 0.2],
+      "dynamic_range_db": [4, 8],
+      "crest_factor_db": [6, 10]
+    },
+    "transients": {
+      "drift_ms_typical": [0, 8],
+      "attack_style": "polished"
+    },
+    "stereo": {
+      "width_typical": [0.5, 0.8],
+      "bass_mono": true
+    },
+    "description": "Bright, polished, vocal-forward. Controlled low end. Presence and air boosted. Loud masters.",
+    "reference_tracks": ["Taylor Swift - Blank Space", "Dua Lipa - Levitating", "The Weeknd - Blinding Lights"]
+  },
+
+  "rock": {
+    "name": "Rock",
+    "frequency_balance": {
+      "sub": -2,
+      "bass": 2,
+      "low_mid": 1,
+      "mid": 0,
+      "high_mid": 2,
+      "presence": 3,
+      "brilliance": 1,
+      "air": -1
+    },
+    "dynamics": {
+      "rms_swing_typical": [0.15, 0.35],
+      "dynamic_range_db": [8, 14],
+      "crest_factor_db": [10, 16]
+    },
+    "transients": {
+      "drift_ms_typical": [2, 10],
+      "attack_style": "punchy"
+    },
+    "stereo": {
+      "width_typical": [0.4, 0.7],
+      "bass_mono": true
+    },
+    "description": "Guitar presence, punchy snare, warm bass. Room sound. More dynamics than pop.",
+    "reference_tracks": ["Foo Fighters - Everlong", "AC/DC - Back In Black", "Queens of the Stone Age - No One Knows"]
+  },
+
+  "metal": {
+    "name": "Metal",
+    "frequency_balance": {
+      "sub": 2,
+      "bass": 3,
+      "low_mid": -2,
+      "mid": 0,
+      "high_mid": 4,
+      "presence": 5,
+      "brilliance": 2,
+      "air": 0
+    },
+    "dynamics": {
+      "rms_swing_typical": [0.08, 0.2],
+      "dynamic_range_db": [4, 10],
+      "crest_factor_db": [6, 12]
+    },
+    "transients": {
+      "drift_ms_typical": [0, 3],
+      "attack_style": "aggressive"
+    },
+    "stereo": {
+      "width_typical": [0.6, 0.9],
+      "bass_mono": true
+    },
+    "description": "Scooped mids, aggressive presence. Tight and precise. Wide guitars. Powerful low end.",
+    "reference_tracks": ["Metallica - Master of Puppets", "Meshuggah - Bleed", "Gojira - Stranded"]
+  },
+
+  "jazz": {
+    "name": "Jazz",
+    "frequency_balance": {
+      "sub": -3,
+      "bass": 1,
+      "low_mid": 2,
+      "mid": 0,
+      "high_mid": 0,
+      "presence": -1,
+      "brilliance": -2,
+      "air": -3
+    },
+    "dynamics": {
+      "rms_swing_typical": [0.3, 0.6],
+      "dynamic_range_db": [14, 24],
+      "crest_factor_db": [14, 22]
+    },
+    "transients": {
+      "drift_ms_typical": [10, 40],
+      "attack_style": "natural"
+    },
+    "stereo": {
+      "width_typical": [0.3, 0.6],
+      "bass_mono": false
+    },
+    "description": "Warm, natural, wide dynamics. Less hyped frequencies. Room sound important. Loose timing.",
+    "reference_tracks": ["Miles Davis - Kind of Blue", "Bill Evans - Waltz for Debby", "Kamasi Washington - The Epic"]
+  },
+
+  "rnb": {
+    "name": "R&B / Neo-Soul",
+    "frequency_balance": {
+      "sub": 5,
+      "bass": 3,
+      "low_mid": 0,
+      "mid": 0,
+      "high_mid": 1,
+      "presence": 2,
+      "brilliance": 1,
+      "air": 0
+    },
+    "dynamics": {
+      "rms_swing_typical": [0.2, 0.4],
+      "dynamic_range_db": [8, 14],
+      "crest_factor_db": [10, 16]
+    },
+    "transients": {
+      "drift_ms_typical": [8, 25],
+      "attack_style": "smooth"
+    },
+    "stereo": {
+      "width_typical": [0.4, 0.7],
+      "bass_mono": true
+    },
+    "description": "Warm low end, smooth highs. Laid-back groove. Rich harmonics. Vocal-forward.",
+    "reference_tracks": ["D'Angelo - Untitled", "SZA - Good Days", "Frank Ocean - Nights"]
+  },
+
+  "electronic": {
+    "name": "Electronic / EDM",
+    "frequency_balance": {
+      "sub": 8,
+      "bass": 5,
+      "low_mid": -3,
+      "mid": 0,
+      "high_mid": 2,
+      "presence": 3,
+      "brilliance": 4,
+      "air": 2
+    },
+    "dynamics": {
+      "rms_swing_typical": [0.05, 0.15],
+      "dynamic_range_db": [3, 7],
+      "crest_factor_db": [4, 8]
+    },
+    "transients": {
+      "drift_ms_typical": [0, 2],
+      "attack_style": "precise"
+    },
+    "stereo": {
+      "width_typical": [0.6, 0.95],
+      "bass_mono": true
+    },
+    "description": "Heavy sub, scooped mids, bright tops. Very loud. Tight timing. Wide stereo field.",
+    "reference_tracks": ["Daft Punk - One More Time", "Deadmau5 - Strobe", "Skrillex - Scary Monsters"]
+  },
+
+  "house": {
+    "name": "House",
+    "frequency_balance": {
+      "sub": 4,
+      "bass": 3,
+      "low_mid": -2,
+      "mid": 0,
+      "high_mid": 1,
+      "presence": 2,
+      "brilliance": 2,
+      "air": 1
+    },
+    "dynamics": {
+      "rms_swing_typical": [0.1, 0.25],
+      "dynamic_range_db": [5, 10],
+      "crest_factor_db": [6, 12]
+    },
+    "transients": {
+      "drift_ms_typical": [0, 5],
+      "attack_style": "punchy"
+    },
+    "stereo": {
+      "width_typical": [0.4, 0.7],
+      "bass_mono": true
+    },
+    "description": "Punchy kick, controlled sub. Four-on-floor drive. Groove in the hats. Club-ready.",
+    "reference_tracks": ["Disclosure - Latch", "Duke Dumont - Ocean Drive", "Kaytranada productions"]
+  },
+
+  "lofi": {
+    "name": "Lo-Fi / Chill",
+    "frequency_balance": {
+      "sub": -2,
+      "bass": 2,
+      "low_mid": 3,
+      "mid": 0,
+      "high_mid": -3,
+      "presence": -4,
+      "brilliance": -6,
+      "air": -8
+    },
+    "dynamics": {
+      "rms_swing_typical": [0.2, 0.4],
+      "dynamic_range_db": [8, 14],
+      "crest_factor_db": [10, 16]
+    },
+    "transients": {
+      "drift_ms_typical": [15, 40],
+      "attack_style": "soft"
+    },
+    "stereo": {
+      "width_typical": [0.2, 0.5],
+      "bass_mono": true
+    },
+    "description": "Muffled highs, warm low-mids. Tape saturation. Very loose timing. Everything behind the beat.",
+    "reference_tracks": ["Nujabes - Feather", "J Dilla - Time: The Donut of the Heart", "lo-fi hip hop radio"]
+  },
+
+  "classical": {
+    "name": "Classical / Orchestral",
+    "frequency_balance": {
+      "sub": -4,
+      "bass": 0,
+      "low_mid": 1,
+      "mid": 0,
+      "high_mid": 0,
+      "presence": 0,
+      "brilliance": -1,
+      "air": 1
+    },
+    "dynamics": {
+      "rms_swing_typical": [0.4, 0.8],
+      "dynamic_range_db": [18, 30],
+      "crest_factor_db": [18, 28]
+    },
+    "transients": {
+      "drift_ms_typical": [5, 20],
+      "attack_style": "natural"
+    },
+    "stereo": {
+      "width_typical": [0.3, 0.6],
+      "bass_mono": false
+    },
+    "description": "Natural, balanced. Extreme dynamics. Room/hall sound crucial. Minimal processing.",
+    "reference_tracks": ["Reference recordings from major labels"]
+  },
+
+  "country": {
+    "name": "Country",
+    "frequency_balance": {
+      "sub": -3,
+      "bass": 1,
+      "low_mid": 0,
+      "mid": 0,
+      "high_mid": 2,
+      "presence": 3,
+      "brilliance": 2,
+      "air": 0
+    },
+    "dynamics": {
+      "rms_swing_typical": [0.15, 0.3],
+      "dynamic_range_db": [8, 14],
+      "crest_factor_db": [10, 16]
+    },
+    "transients": {
+      "drift_ms_typical": [2, 10],
+      "attack_style": "natural"
+    },
+    "stereo": {
+      "width_typical": [0.3, 0.6],
+      "bass_mono": true
+    },
+    "description": "Acoustic clarity, bright guitars. Vocal-forward. Natural room. Clean and present.",
+    "reference_tracks": ["Chris Stapleton - Tennessee Whiskey", "Kacey Musgraves - Slow Burn"]
+  },
+
+  "folk": {
+    "name": "Folk / Acoustic",
+    "frequency_balance": {
+      "sub": -4,
+      "bass": 0,
+      "low_mid": 1,
+      "mid": 0,
+      "high_mid": 1,
+      "presence": 2,
+      "brilliance": 1,
+      "air": 1
+    },
+    "dynamics": {
+      "rms_swing_typical": [0.25, 0.5],
+      "dynamic_range_db": [12, 20],
+      "crest_factor_db": [14, 22]
+    },
+    "transients": {
+      "drift_ms_typical": [5, 20],
+      "attack_style": "natural"
+    },
+    "stereo": {
+      "width_typical": [0.2, 0.5],
+      "bass_mono": true
+    },
+    "description": "Natural acoustic sound. Minimal processing. Room ambience. Dynamic performances.",
+    "reference_tracks": ["Bon Iver - Skinny Love", "Fleet Foxes - White Winter Hymnal"]
+  },
+
+  "ambient": {
+    "name": "Ambient / Atmospheric",
+    "frequency_balance": {
+      "sub": 2,
+      "bass": 2,
+      "low_mid": 1,
+      "mid": 0,
+      "high_mid": -1,
+      "presence": -2,
+      "brilliance": 1,
+      "air": 4
+    },
+    "dynamics": {
+      "rms_swing_typical": [0.1, 0.3],
+      "dynamic_range_db": [10, 18],
+      "crest_factor_db": [12, 20]
+    },
+    "transients": {
+      "drift_ms_typical": [0, 10],
+      "attack_style": "soft"
+    },
+    "stereo": {
+      "width_typical": [0.7, 1.0],
+      "bass_mono": false
+    },
+    "description": "Very wide stereo. Lots of air and space. Soft transients. Reverb-heavy. Sub present.",
+    "reference_tracks": ["Brian Eno - Music for Airports", "Tycho - Awake", "Boards of Canada - Music Has the Right to Children"]
+  }
+}

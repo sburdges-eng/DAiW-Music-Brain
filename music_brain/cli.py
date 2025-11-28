@@ -55,12 +55,14 @@ def get_session_module():
 def get_intent_module():
     from music_brain.session.intent_schema import (
         CompleteSongIntent, SongRoot, SongIntent, TechnicalConstraints, 
-        SystemDirective, suggest_rule_break, validate_intent, list_all_rules
+        SystemDirective, suggest_rule_break, validate_intent, list_all_rules,
+        collect_phase1_interactive, validate_phase1, collect_phase2_interactive, validate_phase2
     )
     from music_brain.session.intent_processor import IntentProcessor, process_intent
     return (CompleteSongIntent, SongRoot, SongIntent, TechnicalConstraints,
             SystemDirective, suggest_rule_break, validate_intent, list_all_rules,
-            IntentProcessor, process_intent)
+            IntentProcessor, process_intent, collect_phase1_interactive, validate_phase1,
+            collect_phase2_interactive, validate_phase2)
 
 
 def cmd_extract(args):
@@ -304,7 +306,8 @@ def cmd_intent(args):
     """Handle intent-based song generation."""
     (CompleteSongIntent, SongRoot, SongIntent, TechnicalConstraints,
      SystemDirective, suggest_rule_break, validate_intent, list_all_rules,
-     IntentProcessor, process_intent) = get_intent_module()
+     IntentProcessor, process_intent, collect_phase1_interactive, validate_phase1,
+     collect_phase2_interactive, validate_phase2) = get_intent_module()
     
     if args.subcommand == 'new':
         # Create new intent from template
@@ -489,6 +492,109 @@ def cmd_intent(args):
             print("✅ Intent is valid!")
             return 0
     
+    elif args.subcommand == 'phase1':
+        # Interactively collect Phase 1 data
+        intent_path = Path(args.file) if args.file else None
+        
+        # Load existing intent if file provided
+        song_root = None
+        if intent_path and intent_path.exists():
+            try:
+                intent = CompleteSongIntent.load(str(intent_path))
+                song_root = intent.song_root
+                print(f"Loaded existing intent from: {intent_path}")
+                print("Phase 0 data will inform Phase 1 questions.\n")
+            except Exception as e:
+                print(f"Warning: Could not load intent file: {e}")
+                print("Starting fresh Phase 1 collection.\n")
+        
+        # Collect Phase 1 interactively
+        song_intent = collect_phase1_interactive(song_root=song_root)
+        
+        # Validate
+        phase1_issues = validate_phase1(song_intent)
+        if phase1_issues:
+            print("\n⚠️  Phase 1 validation issues:")
+            for issue in phase1_issues:
+                print(f"  - {issue}")
+            print("\nPlease fix these issues.")
+            return 1
+        
+        # Save or update intent
+        if intent_path and intent_path.exists():
+            # Update existing intent
+            intent.song_intent = song_intent
+            intent.save(str(intent_path))
+            print(f"\n✅ Phase 1 updated in: {intent_path}")
+        else:
+            # Create new intent with Phase 1 only
+            output_path = args.output or "song_intent_phase1.json"
+            intent = CompleteSongIntent(
+                title=args.title or "Untitled Song",
+                song_intent=song_intent,
+            )
+            intent.save(output_path)
+            print(f"\n✅ Phase 1 saved to: {output_path}")
+            print(f"\nNext steps:")
+            print(f"  1. Fill Phase 0: Edit {output_path} or use 'daiw intent phase0'")
+            print(f"  2. Fill Phase 2: Edit {output_path} or use 'daiw intent phase2'")
+            print(f"  3. Process: daiw intent process {output_path}")
+        
+        return 0
+    
+    elif args.subcommand == 'phase2':
+        # Interactively collect Phase 2 data
+        intent_path = Path(args.file) if args.file else None
+        
+        # Load existing intent if file provided
+        song_intent = None
+        if intent_path and intent_path.exists():
+            try:
+                intent = CompleteSongIntent.load(str(intent_path))
+                song_intent = intent.song_intent
+                print(f"Loaded existing intent from: {intent_path}")
+                if song_intent.mood_primary:
+                    print("Phase 1 data will inform Phase 2 suggestions.\n")
+                else:
+                    print("No Phase 1 data found. Suggestions will be limited.\n")
+            except Exception as e:
+                print(f"Warning: Could not load intent file: {e}")
+                print("Starting fresh Phase 2 collection.\n")
+        
+        # Collect Phase 2 interactively
+        technical_constraints = collect_phase2_interactive(song_intent=song_intent)
+        
+        # Validate
+        phase2_issues = validate_phase2(technical_constraints)
+        if phase2_issues:
+            print("\n⚠️  Phase 2 validation issues:")
+            for issue in phase2_issues:
+                print(f"  - {issue}")
+            print("\nPlease fix these issues.")
+            return 1
+        
+        # Save or update intent
+        if intent_path and intent_path.exists():
+            # Update existing intent
+            intent.technical_constraints = technical_constraints
+            intent.save(str(intent_path))
+            print(f"\n✅ Phase 2 updated in: {intent_path}")
+        else:
+            # Create new intent with Phase 2 only
+            output_path = args.output or "song_intent_phase2.json"
+            intent = CompleteSongIntent(
+                title=args.title or "Untitled Song",
+                technical_constraints=technical_constraints,
+            )
+            intent.save(output_path)
+            print(f"\n✅ Phase 2 saved to: {output_path}")
+            print(f"\nNext steps:")
+            print(f"  1. Fill Phase 0: Edit {output_path} or use 'daiw intent phase0'")
+            print(f"  2. Fill Phase 1: Edit {output_path} or use 'daiw intent phase1'")
+            print(f"  3. Process: daiw intent process {output_path}")
+        
+        return 0
+    
     return 0
 
 
@@ -587,6 +693,18 @@ def main():
     # intent validate
     intent_validate = intent_subparsers.add_parser('validate', help='Validate intent file')
     intent_validate.add_argument('file', help='Intent JSON file')
+    
+    # intent phase1
+    intent_phase1 = intent_subparsers.add_parser('phase1', help='Interactively collect Phase 1 (Emotional Intent)')
+    intent_phase1.add_argument('-f', '--file', help='Existing intent file to update (optional)')
+    intent_phase1.add_argument('-t', '--title', help='Song title (for new intents)')
+    intent_phase1.add_argument('-o', '--output', help='Output file (default: song_intent_phase1.json)')
+    
+    # intent phase2
+    intent_phase2 = intent_subparsers.add_parser('phase2', help='Interactively collect Phase 2 (Technical Constraints)')
+    intent_phase2.add_argument('-f', '--file', help='Existing intent file to update (optional)')
+    intent_phase2.add_argument('-t', '--title', help='Song title (for new intents)')
+    intent_phase2.add_argument('-o', '--output', help='Output file (default: song_intent_phase2.json)')
     
     args = parser.parse_args()
     

@@ -1,0 +1,531 @@
+{
+  "metadata": {
+    "name": "DAiW Emotional Mapping Data",
+    "version": "1.0",
+    "created": "2025-11-27",
+    "source": "Russell's Circumplex Model + Music Psychology Research",
+    "philosophy": "Interrogate Before Generate"
+  },
+
+  "circumplex_model": {
+    "description": "Two-dimensional model of emotion",
+    "axes": {
+      "valence": {
+        "description": "Positive to negative emotional quality",
+        "range": [-2, 2],
+        "labels": {
+          "-2": "very_negative",
+          "-1": "negative", 
+          "0": "neutral",
+          "1": "positive",
+          "2": "very_positive"
+        }
+      },
+      "arousal": {
+        "description": "Energy level / activation",
+        "range": [-2, 2],
+        "labels": {
+          "-2": "very_low",
+          "-1": "low",
+          "0": "neutral", 
+          "1": "high",
+          "2": "very_high"
+        }
+      }
+    },
+    "quadrants": {
+      "low_arousal_negative_valence": ["grief", "depression", "sadness", "melancholy"],
+      "high_arousal_negative_valence": ["anxiety", "anger", "fear", "frustration"],
+      "low_arousal_positive_valence": ["calm", "content", "peaceful", "serene"],
+      "high_arousal_positive_valence": ["excited", "joyful", "elated", "energetic"]
+    }
+  },
+
+  "emotional_presets": {
+    "grief": {
+      "quadrant": "low_arousal_negative_valence",
+      "tempo": {
+        "min": 60,
+        "max": 82,
+        "suggested": 72
+      },
+      "mode_weights": {
+        "minor": 0.4,
+        "dorian": 0.4,
+        "major": 0.2
+      },
+      "register": {
+        "low_midi": 48,
+        "high_midi": 72,
+        "center_midi": 58,
+        "description": "Mid-low, centered around Bb3"
+      },
+      "harmonic_rhythm": {
+        "changes_per_bar": 1.0,
+        "description": "Slow, one chord per bar"
+      },
+      "dissonance": 0.3,
+      "timing_feel": "behind",
+      "density": {
+        "notes_per_beat": 0.5,
+        "description": "Sparse"
+      },
+      "dynamics": {
+        "floor": 0.2,
+        "ceiling": 0.6,
+        "variance": 0.3,
+        "description": "Soft with occasional swells"
+      },
+      "space_probability": 0.3,
+      "emotional_notes": "Weight, heaviness, resignation. Space for reflection."
+    },
+
+    "anxiety": {
+      "quadrant": "high_arousal_negative_valence",
+      "tempo": {
+        "min": 100,
+        "max": 140,
+        "suggested": 120
+      },
+      "mode_weights": {
+        "minor": 0.3,
+        "phrygian": 0.3,
+        "locrian": 0.2,
+        "dorian": 0.2
+      },
+      "register": {
+        "low_midi": 60,
+        "high_midi": 84,
+        "center_midi": 72,
+        "description": "Higher, compressed range - claustrophobic"
+      },
+      "harmonic_rhythm": {
+        "changes_per_bar": 2.0,
+        "description": "Fast, unstable"
+      },
+      "dissonance": 0.6,
+      "timing_feel": "ahead",
+      "density": {
+        "notes_per_beat": 2.0,
+        "description": "Busy, restless"
+      },
+      "dynamics": {
+        "floor": 0.4,
+        "ceiling": 0.8,
+        "variance": 0.4,
+        "description": "Restless, no settling point"
+      },
+      "space_probability": 0.1,
+      "emotional_notes": "Urgency, unease, can't settle. Pushing forward."
+    },
+
+    "nostalgia": {
+      "quadrant": "low_arousal_mixed_valence",
+      "tempo": {
+        "min": 70,
+        "max": 90,
+        "suggested": 78
+      },
+      "mode_weights": {
+        "major": 0.4,
+        "mixolydian": 0.3,
+        "dorian": 0.2,
+        "minor": 0.1
+      },
+      "register": {
+        "low_midi": 48,
+        "high_midi": 76,
+        "center_midi": 62,
+        "description": "Warm middle range"
+      },
+      "harmonic_rhythm": {
+        "changes_per_bar": 1.5,
+        "description": "Moderate"
+      },
+      "dissonance": 0.25,
+      "timing_feel": "behind",
+      "density": {
+        "notes_per_beat": 1.0,
+        "description": "Moderate"
+      },
+      "dynamics": {
+        "floor": 0.3,
+        "ceiling": 0.6,
+        "variance": 0.2,
+        "description": "Gentle, wistful"
+      },
+      "space_probability": 0.2,
+      "emotional_notes": "Bittersweet, looking back. Warmth with undertone of loss."
+    },
+
+    "anger": {
+      "quadrant": "high_arousal_negative_valence",
+      "tempo": {
+        "min": 120,
+        "max": 160,
+        "suggested": 138
+      },
+      "mode_weights": {
+        "phrygian": 0.3,
+        "minor": 0.4,
+        "locrian": 0.2,
+        "dorian": 0.1
+      },
+      "register": {
+        "low_midi": 36,
+        "high_midi": 72,
+        "center_midi": 48,
+        "description": "Low, heavy"
+      },
+      "harmonic_rhythm": {
+        "changes_per_bar": 2.0,
+        "description": "Driving, repetitive"
+      },
+      "dissonance": 0.5,
+      "timing_feel": "ahead",
+      "density": {
+        "notes_per_beat": 2.5,
+        "description": "Dense, aggressive"
+      },
+      "dynamics": {
+        "floor": 0.6,
+        "ceiling": 1.0,
+        "variance": 0.2,
+        "description": "Consistently loud, aggressive attacks"
+      },
+      "space_probability": 0.05,
+      "emotional_notes": "Force, aggression, driving forward. Power and weight."
+    },
+
+    "calm": {
+      "quadrant": "low_arousal_positive_valence",
+      "tempo": {
+        "min": 60,
+        "max": 80,
+        "suggested": 68
+      },
+      "mode_weights": {
+        "major": 0.5,
+        "lydian": 0.3,
+        "mixolydian": 0.2
+      },
+      "register": {
+        "low_midi": 48,
+        "high_midi": 76,
+        "center_midi": 60,
+        "description": "Comfortable middle"
+      },
+      "harmonic_rhythm": {
+        "changes_per_bar": 0.5,
+        "description": "Very slow, settled"
+      },
+      "dissonance": 0.1,
+      "timing_feel": "behind",
+      "density": {
+        "notes_per_beat": 0.5,
+        "description": "Sparse, breathing"
+      },
+      "dynamics": {
+        "floor": 0.2,
+        "ceiling": 0.5,
+        "variance": 0.1,
+        "description": "Soft, even"
+      },
+      "space_probability": 0.35,
+      "emotional_notes": "Peace, contentment, breathing room."
+    },
+
+    "tension_building": {
+      "quadrant": "transitional",
+      "tempo": {
+        "min": 80,
+        "max": 110,
+        "suggested": 96
+      },
+      "mode_weights": {
+        "minor": 0.3,
+        "phrygian": 0.3,
+        "dorian": 0.2,
+        "locrian": 0.2
+      },
+      "register": {
+        "low_midi": 40,
+        "high_midi": 80,
+        "center_midi": 60,
+        "description": "Wide range, expanding"
+      },
+      "harmonic_rhythm": {
+        "changes_per_bar": 1.5,
+        "description": "Moderate, building"
+      },
+      "dissonance": 0.5,
+      "timing_feel": "on",
+      "density": {
+        "notes_per_beat": 1.5,
+        "description": "Increasing"
+      },
+      "dynamics": {
+        "floor": 0.3,
+        "ceiling": 0.9,
+        "variance": 0.5,
+        "description": "Building, expanding"
+      },
+      "space_probability": 0.15,
+      "emotional_notes": "Anticipation, something coming. Unresolved."
+    }
+  },
+
+  "emotion_modifiers": {
+    "ptsd_intrusion": {
+      "name": "PTSD Intrusive Memories",
+      "description": "Layer on base emotion for trauma response",
+      "intrusion_probability": 0.15,
+      "intrusion_types": [
+        {
+          "type": "register_spike",
+          "description": "Sudden high notes, startling"
+        },
+        {
+          "type": "harmonic_rush",
+          "description": "Chords speed up briefly, panic"
+        },
+        {
+          "type": "unresolved_dissonance",
+          "description": "Dissonance that doesn't resolve correctly"
+        },
+        {
+          "type": "dynamic_spike",
+          "description": "Sudden loud moment"
+        },
+        {
+          "type": "rhythmic_stumble",
+          "description": "Timing disruption, tripping"
+        }
+      ]
+    },
+
+    "dissociation": {
+      "name": "Dissociative Quality",
+      "description": "Detached, floating, not quite present",
+      "adjustments": {
+        "dissonance": -0.1,
+        "density": -0.3,
+        "register_shift": 5
+      },
+      "timing_override": "behind",
+      "notes": "Oddly smooth surface, disconnected from beat"
+    },
+
+    "misdirection": {
+      "name": "Emotional Misdirection",
+      "description": "Surface reads as one emotion, undertow is another",
+      "adjustments": {
+        "dissonance": 0.1
+      },
+      "techniques": [
+        "Use major-leaning progressions",
+        "Avoid perfect cadences",
+        "Use inversions instead of root position",
+        "Unresolved phrase endings",
+        "Melody comfortable but harmony unsettled"
+      ],
+      "notes": "Key technique for Kelly song - sounds like love until reveal"
+    },
+
+    "suppressed": {
+      "name": "Suppressed Emotion",
+      "description": "Holding it together, tension underneath",
+      "adjustments": {
+        "density": -0.5,
+        "dissonance": 0.15
+      },
+      "timing_override": "behind",
+      "notes": "Dynamics stay controlled despite intense content"
+    },
+
+    "cathartic_release": {
+      "name": "Cathartic Release",
+      "description": "Finally letting go",
+      "adjustments": {
+        "tempo": 10,
+        "dissonance": -0.2,
+        "density": 0.5
+      },
+      "notes": "Dynamics expand, tension resolves, breathing again"
+    }
+  },
+
+  "interval_emotions": {
+    "1": {
+      "name": "Minor 2nd",
+      "semitones": 1,
+      "tension": 0.9,
+      "associations": ["discomfort", "dread", "anxiety", "clash"],
+      "use_for": ["tension_peak", "wrong_feeling", "unease"]
+    },
+    "2": {
+      "name": "Major 2nd",
+      "semitones": 2,
+      "tension": 0.4,
+      "associations": ["suspension", "yearning", "anticipation"],
+      "use_for": ["unresolved_longing", "sus2_chords", "waiting"]
+    },
+    "3": {
+      "name": "Minor 3rd",
+      "semitones": 3,
+      "tension": 0.3,
+      "associations": ["sadness", "introspection", "tenderness"],
+      "use_for": ["grief", "melancholy", "minor_quality"]
+    },
+    "4": {
+      "name": "Major 3rd",
+      "semitones": 4,
+      "tension": 0.2,
+      "associations": ["brightness", "clarity", "resolution"],
+      "use_for": ["joy", "major_quality", "resolution", "hope"]
+    },
+    "5": {
+      "name": "Perfect 4th",
+      "semitones": 5,
+      "tension": 0.3,
+      "associations": ["openness", "questioning", "folk quality"],
+      "use_for": ["uncertainty", "sus4_chords", "ambiguity"]
+    },
+    "6": {
+      "name": "Tritone",
+      "semitones": 6,
+      "tension": 1.0,
+      "associations": ["instability", "danger", "wrongness", "devil's interval"],
+      "use_for": ["tension_peak", "dominant_function", "unease", "horror"]
+    },
+    "7": {
+      "name": "Perfect 5th",
+      "semitones": 7,
+      "tension": 0.1,
+      "associations": ["stability", "power", "grounding", "strength"],
+      "use_for": ["resolution", "foundation", "power_chords"]
+    },
+    "8": {
+      "name": "Minor 6th",
+      "semitones": 8,
+      "tension": 0.6,
+      "associations": ["anguish", "dramatic", "operatic"],
+      "use_for": ["grief_climax", "dramatic_loss", "yearning"]
+    },
+    "9": {
+      "name": "Major 6th",
+      "semitones": 9,
+      "tension": 0.25,
+      "associations": ["warmth", "sweetness", "hope"],
+      "use_for": ["nostalgia", "tenderness", "gentle_joy"]
+    },
+    "10": {
+      "name": "Minor 7th",
+      "semitones": 10,
+      "tension": 0.5,
+      "associations": ["bluesy", "unresolved", "longing"],
+      "use_for": ["incompleteness", "dominant_seventh", "yearning"]
+    },
+    "11": {
+      "name": "Major 7th",
+      "semitones": 11,
+      "tension": 0.55,
+      "associations": ["sophisticated", "bittersweet", "complex"],
+      "use_for": ["jazz_voicing", "complex_emotion", "maj7_chords"]
+    }
+  },
+
+  "timing_feel_guide": {
+    "ahead": {
+      "description": "Notes land slightly before the beat",
+      "emotional_quality": ["anxious", "urgent", "pushing", "aggressive"],
+      "use_for": ["anxiety", "anger", "excitement", "impatience"]
+    },
+    "on": {
+      "description": "Notes land precisely on the beat",
+      "emotional_quality": ["present", "assertive", "steady", "grounded"],
+      "use_for": ["confidence", "stability", "neutral", "marching"]
+    },
+    "behind": {
+      "description": "Notes land slightly after the beat",
+      "emotional_quality": ["relaxed", "heavy", "resigned", "laid back"],
+      "use_for": ["grief", "calm", "nostalgia", "exhaustion", "blues"]
+    }
+  },
+
+  "rule_breaking_categories": {
+    "harmonic": {
+      "parallel_fifths": {
+        "classical_rule": "Forbidden - destroys voice independence",
+        "when_to_break": "Folk quality, power chords, medieval evocation",
+        "emotional_effect": "Rustic, raw, unified, powerful",
+        "examples": ["Beethoven Symphony 6", "All rock power chords", "Debussy planing"]
+      },
+      "unresolved_dissonance": {
+        "classical_rule": "Dissonances must resolve",
+        "when_to_break": "When tension IS the point",
+        "emotional_effect": "Lingering unease, incompleteness",
+        "examples": ["Monk's wrong notes", "Black Sabbath tritone"]
+      },
+      "modal_mixture": {
+        "classical_rule": "Stay in one mode",
+        "when_to_break": "Happy-to-sad ambiguity, emotional complexity",
+        "emotional_effect": "Bittersweet, conflicted, nuanced",
+        "examples": ["Radiohead Creep I-III-IV-iv", "Beatles bVII usage"]
+      },
+      "polytonality": {
+        "classical_rule": "One tonal center",
+        "when_to_break": "Chaos, duality, primal energy",
+        "emotional_effect": "Neither key wins - permanent tension",
+        "examples": ["Stravinsky Rite of Spring", "Petrushka chord"]
+      }
+    },
+    "rhythmic": {
+      "irregular_meter": {
+        "classical_rule": "Maintain consistent meter",
+        "when_to_break": "Unpredictability, ritual, organic feel",
+        "emotional_effect": "Can't settle, primal, unsettled",
+        "examples": ["Stravinsky Sacrificial Dance", "Radiohead Pyramid Song"]
+      },
+      "metric_displacement": {
+        "classical_rule": "Resolve to main pulse",
+        "when_to_break": "Disorientation, complexity",
+        "emotional_effect": "Floating, unmoored",
+        "examples": ["Coltrane sheets of sound"]
+      }
+    },
+    "structural": {
+      "non_resolution": {
+        "classical_rule": "Pieces should resolve to tonic",
+        "when_to_break": "When closure isn't the point",
+        "emotional_effect": "Unfinished, haunting, questioning",
+        "examples": ["Chopin Prelude E minor", "Radiohead double-tonic"]
+      }
+    }
+  },
+
+  "kelly_song_profile": {
+    "title": "When I Found You Sleeping",
+    "subject": "Kelly - died by suicide",
+    "trauma_type": "Compound: grief + PTSD (discovered body)",
+    "technique": "Misdirection - sounds like love song until reveal",
+    "progression": ["F", "C", "Am", "Dm"],
+    "tempo": 82,
+    "key": "F major surface, Am undertow",
+    "aesthetic": "Lo-fi bedroom emo, confessional acoustic",
+    "critical_insight": "Imperfection serves authenticity - voice cracks and timing irregularities are features",
+    "recommended_preset": "grief",
+    "recommended_modifiers": ["misdirection", "ptsd_intrusion"],
+    "avoid": ["Over-polishing", "Perfect cadences", "Root position chords", "Technical perfection"]
+  },
+
+  "interrogation_prompts": {
+    "tempo": "Does {tempo} BPM feel right, or does this need to breathe more/less?",
+    "timing": "The timing feel is '{feel}' ({description}). Does that match the emotional weight?",
+    "dissonance_high": "This maps to high dissonance - lots of unresolved tension. Is that the texture you want?",
+    "dissonance_low": "This maps to mostly consonant/resolved. Should there be more grit underneath?",
+    "space": "There's a lot of silence mapped here. Is this song about what's not said?",
+    "compound": "Is this pure {emotion} or is there something else underneath?",
+    "misdirection": "What's the lie this song tells before the reveal?"
+  }
+}

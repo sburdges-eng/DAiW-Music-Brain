@@ -1,0 +1,323 @@
+{
+  "_description": "Common Chord Progressions Database",
+  "_version": "1.0",
+  "_notation": {
+    "numerals": "Roman numeral analysis relative to key",
+    "intervals": "Semitones from root (0-11)",
+    "quality": "maj/min/dom7/dim/aug etc."
+  },
+  
+  "pop_rock": {
+    "I-V-vi-IV": {
+      "name": "The Axis Progression",
+      "other_names": ["Pop-Punk Progression", "Sensitive Female Chord Progression"],
+      "intervals": [[0, "maj"], [7, "maj"], [9, "min"], [5, "maj"]],
+      "feel": "Uplifting, anthemic, emotional",
+      "examples": ["Let It Be", "No Woman No Cry", "With or Without You", "Someone Like You"],
+      "usage": "Extremely common in pop, rock, country"
+    },
+    "I-IV-V-I": {
+      "name": "Three Chord Rock",
+      "intervals": [[0, "maj"], [5, "maj"], [7, "maj"], [0, "maj"]],
+      "feel": "Simple, driving, classic",
+      "examples": ["La Bamba", "Twist and Shout", "Wild Thing"],
+      "usage": "Rock and roll, blues, country"
+    },
+    "I-vi-IV-V": {
+      "name": "50s Progression",
+      "other_names": ["Doo-wop Changes"],
+      "intervals": [[0, "maj"], [9, "min"], [5, "maj"], [7, "maj"]],
+      "feel": "Nostalgic, classic, romantic",
+      "examples": ["Stand By Me", "Earth Angel", "Every Breath You Take"],
+      "usage": "Doo-wop, pop ballads, rock"
+    },
+    "vi-IV-I-V": {
+      "name": "Axis Variation",
+      "intervals": [[9, "min"], [5, "maj"], [0, "maj"], [7, "maj"]],
+      "feel": "Minor-tinged pop, emotional",
+      "examples": ["Despacito", "Grenade", "Poker Face"],
+      "usage": "Modern pop, minor-key feel"
+    },
+    "I-IV-vi-V": {
+      "name": "Modern Pop",
+      "intervals": [[0, "maj"], [5, "maj"], [9, "min"], [7, "maj"]],
+      "feel": "Contemporary, emotional build",
+      "examples": ["Hey Soul Sister", "22"],
+      "usage": "2010s pop"
+    },
+    "I-bVII-IV-I": {
+      "name": "Rock Mixolydian",
+      "intervals": [[0, "maj"], [10, "maj"], [5, "maj"], [0, "maj"]],
+      "feel": "Rock, bluesy, powerful",
+      "examples": ["Sweet Home Alabama", "Sympathy for the Devil"],
+      "usage": "Classic rock, southern rock"
+    }
+  },
+  
+  "jazz": {
+    "ii-V-I": {
+      "name": "Two-Five-One",
+      "intervals": [[2, "min7"], [7, "dom7"], [0, "maj7"]],
+      "feel": "Resolution, sophistication, jazz standard",
+      "examples": ["Autumn Leaves", "All The Things You Are", "countless standards"],
+      "usage": "Most common jazz progression"
+    },
+    "I-vi-ii-V": {
+      "name": "Rhythm Changes A Section",
+      "intervals": [[0, "maj7"], [9, "min7"], [2, "min7"], [7, "dom7"]],
+      "feel": "Bebop, swing",
+      "examples": ["I Got Rhythm", "Oleo", "Anthropology"],
+      "usage": "Bebop, swing standards"
+    },
+    "iii-VI-ii-V": {
+      "name": "Bird Changes",
+      "intervals": [[4, "min7"], [9, "dom7"], [2, "min7"], [7, "dom7"]],
+      "feel": "Sophisticated, bebop",
+      "examples": ["Confirmation", "Blues for Alice"],
+      "usage": "Bebop substitutions"
+    },
+    "I-IV-iii-VI-ii-V-I": {
+      "name": "Circle Progression",
+      "intervals": [[0, "maj7"], [5, "maj7"], [4, "min7"], [9, "dom7"], [2, "min7"], [7, "dom7"], [0, "maj7"]],
+      "feel": "Classic, flowing, cycle",
+      "examples": ["Fly Me to the Moon"],
+      "usage": "Standards, cycle of fifths movement"
+    },
+    "Imaj7-IVmaj7": {
+      "name": "Major 7 Vamp",
+      "intervals": [[0, "maj7"], [5, "maj7"]],
+      "feel": "Dreamy, open, modal",
+      "examples": ["Maiden Voyage"],
+      "usage": "Modal jazz, fusion"
+    },
+    "Coltrane Changes": {
+      "name": "Giant Steps Changes",
+      "intervals": [[0, "maj7"], [8, "dom7"], [4, "maj7"], [0, "dom7"], [8, "maj7"], [4, "dom7"]],
+      "feel": "Complex, chromatic, challenging",
+      "examples": ["Giant Steps", "Countdown"],
+      "usage": "Advanced jazz"
+    }
+  },
+  
+  "blues": {
+    "12-Bar Blues": {
+      "name": "Standard 12-Bar",
+      "bars": [
+        {"bar": 1, "chord": [0, "dom7"]},
+        {"bar": 2, "chord": [0, "dom7"]},
+        {"bar": 3, "chord": [0, "dom7"]},
+        {"bar": 4, "chord": [0, "dom7"]},
+        {"bar": 5, "chord": [5, "dom7"]},
+        {"bar": 6, "chord": [5, "dom7"]},
+        {"bar": 7, "chord": [0, "dom7"]},
+        {"bar": 8, "chord": [0, "dom7"]},
+        {"bar": 9, "chord": [7, "dom7"]},
+        {"bar": 10, "chord": [5, "dom7"]},
+        {"bar": 11, "chord": [0, "dom7"]},
+        {"bar": 12, "chord": [7, "dom7"]}
+      ],
+      "feel": "Blues, soulful, call and response",
+      "usage": "Blues, rock, jazz blues"
+    },
+    "Quick Change Blues": {
+      "name": "Quick IV",
+      "description": "Bar 2 goes to IV instead of staying on I",
+      "bars": [
+        {"bar": 1, "chord": [0, "dom7"]},
+        {"bar": 2, "chord": [5, "dom7"]},
+        {"bar": 3, "chord": [0, "dom7"]},
+        {"bar": 4, "chord": [0, "dom7"]}
+      ],
+      "feel": "More movement, active",
+      "usage": "Chicago blues, rock blues"
+    },
+    "Minor Blues": {
+      "name": "Minor 12-Bar",
+      "bars": [
+        {"bar": 1, "chord": [0, "min7"]},
+        {"bar": 5, "chord": [5, "min7"]},
+        {"bar": 9, "chord": [7, "dom7"]},
+        {"bar": 10, "chord": [5, "min7"]}
+      ],
+      "feel": "Dark, moody, minor",
+      "usage": "Minor blues, soul"
+    }
+  },
+  
+  "minor_key": {
+    "i-VII-VI-V": {
+      "name": "Andalusian Cadence",
+      "other_names": ["Flamenco Progression"],
+      "intervals": [[0, "min"], [10, "maj"], [8, "maj"], [7, "maj"]],
+      "feel": "Spanish, dramatic, descending",
+      "examples": ["Hit the Road Jack", "Sultans of Swing intro"],
+      "usage": "Flamenco, rock, pop"
+    },
+    "i-iv-v-i": {
+      "name": "Natural Minor",
+      "intervals": [[0, "min"], [5, "min"], [7, "min"], [0, "min"]],
+      "feel": "Dark, folk, natural",
+      "examples": ["House of the Rising Sun"],
+      "usage": "Folk, minor key songs"
+    },
+    "i-VI-III-VII": {
+      "name": "Descending Minor",
+      "intervals": [[0, "min"], [8, "maj"], [3, "maj"], [10, "maj"]],
+      "feel": "Flowing, descending",
+      "examples": ["My Heart Will Go On"],
+      "usage": "Ballads, emotional"
+    },
+    "i-iv-VII-III": {
+      "name": "Epic Minor",
+      "intervals": [[0, "min"], [5, "min"], [10, "maj"], [3, "maj"]],
+      "feel": "Cinematic, building",
+      "examples": ["Game of Thrones theme style"],
+      "usage": "Film scores, epic"
+    }
+  },
+  
+  "modal": {
+    "Dorian Vamp": {
+      "name": "i-IV Dorian",
+      "intervals": [[0, "min7"], [5, "maj7"]],
+      "feel": "Funky, soulful, open",
+      "examples": ["So What", "Oye Como Va"],
+      "usage": "Modal jazz, funk, latin"
+    },
+    "Mixolydian Vamp": {
+      "name": "I-bVII",
+      "intervals": [[0, "maj"], [10, "maj"]],
+      "feel": "Rock, open, earthy",
+      "examples": ["Norwegian Wood", "Sweet Home Alabama"],
+      "usage": "Rock, folk rock"
+    },
+    "Phrygian": {
+      "name": "i-bII",
+      "intervals": [[0, "min"], [1, "maj"]],
+      "feel": "Dark, Spanish, metal",
+      "examples": ["White Rabbit opening"],
+      "usage": "Metal, flamenco"
+    },
+    "Lydian": {
+      "name": "I-II",
+      "intervals": [[0, "maj"], [2, "maj"]],
+      "feel": "Bright, dreamy, floating",
+      "examples": ["Flying theme"],
+      "usage": "Film scores, dreamy pop"
+    }
+  },
+  
+  "edm_electronic": {
+    "i-VI-III-VII": {
+      "name": "EDM Minor",
+      "intervals": [[0, "min"], [8, "maj"], [3, "maj"], [10, "maj"]],
+      "feel": "Euphoric, building, anthem",
+      "examples": ["Wake Me Up", "Levels"],
+      "usage": "EDM, trance"
+    },
+    "i-i-VI-VII": {
+      "name": "House Progression",
+      "intervals": [[0, "min"], [0, "min"], [8, "maj"], [10, "maj"]],
+      "feel": "Driving, hypnotic",
+      "usage": "House, techno"
+    },
+    "VI-VII-i": {
+      "name": "Trance Build",
+      "intervals": [[8, "maj"], [10, "maj"], [0, "min"]],
+      "feel": "Building, euphoric",
+      "usage": "Trance builds"
+    }
+  },
+  
+  "gospel_soul": {
+    "I-I7-IV-iv": {
+      "name": "Gospel Move",
+      "intervals": [[0, "maj"], [0, "dom7"], [5, "maj"], [5, "min"]],
+      "feel": "Soulful, churchy, emotional",
+      "examples": ["My Girl", "countless soul songs"],
+      "usage": "Gospel, soul, R&B"
+    },
+    "I-iii-IV-iv": {
+      "name": "Soul Progression",
+      "intervals": [[0, "maj"], [4, "min"], [5, "maj"], [5, "min"]],
+      "feel": "Smooth, soulful",
+      "usage": "Soul, R&B"
+    },
+    "I-vi-ii-V (with extensions)": {
+      "name": "Gospel Turnaround",
+      "intervals": [[0, "maj9"], [9, "min9"], [2, "min9"], [7, "dom13"]],
+      "feel": "Rich, churchy, sophisticated",
+      "usage": "Gospel, neo-soul"
+    }
+  },
+  
+  "country_folk": {
+    "I-IV-I-V": {
+      "name": "Country Standard",
+      "intervals": [[0, "maj"], [5, "maj"], [0, "maj"], [7, "maj"]],
+      "feel": "Simple, country, folk",
+      "usage": "Country, folk"
+    },
+    "I-V-I-IV": {
+      "name": "Folk Rock",
+      "intervals": [[0, "maj"], [7, "maj"], [0, "maj"], [5, "maj"]],
+      "feel": "Open, acoustic",
+      "examples": ["Knockin on Heavens Door"],
+      "usage": "Folk, country rock"
+    },
+    "I-IV-V-IV": {
+      "name": "Country Shuffle",
+      "intervals": [[0, "maj"], [5, "maj"], [7, "maj"], [5, "maj"]],
+      "feel": "Driving, country",
+      "usage": "Country, rock"
+    }
+  },
+  
+  "reggae": {
+    "I-IV-I-V": {
+      "name": "One Drop",
+      "intervals": [[0, "maj"], [5, "maj"], [0, "maj"], [7, "maj"]],
+      "feel": "Laid back, roots",
+      "usage": "Roots reggae"
+    },
+    "I-V-vi-IV": {
+      "name": "Reggae Pop",
+      "intervals": [[0, "maj"], [7, "maj"], [9, "min"], [5, "maj"]],
+      "feel": "Accessible, pop reggae",
+      "examples": ["Three Little Birds"],
+      "usage": "Reggae pop"
+    },
+    "i-IV-i-V": {
+      "name": "Minor Reggae",
+      "intervals": [[0, "min"], [5, "maj"], [0, "min"], [7, "maj"]],
+      "feel": "Darker, roots",
+      "usage": "Dub, roots"
+    }
+  },
+  
+  "hip_hop": {
+    "i-VI-VII": {
+      "name": "Trap Minor",
+      "intervals": [[0, "min"], [8, "maj"], [10, "maj"]],
+      "feel": "Dark, atmospheric",
+      "usage": "Trap, modern hip-hop"
+    },
+    "i-iv-v": {
+      "name": "Boom Bap Minor",
+      "intervals": [[0, "min"], [5, "min"], [7, "min"]],
+      "feel": "Classic, sample-based",
+      "usage": "90s hip-hop"
+    },
+    "i-VII-VI-VII": {
+      "name": "Lo-Fi Loop",
+      "intervals": [[0, "min7"], [10, "maj7"], [8, "maj7"], [10, "maj7"]],
+      "feel": "Chill, jazzy, lo-fi",
+      "usage": "Lo-fi hip-hop"
+    },
+    "Sample-based": {
+      "description": "Often uses portions of existing progressions from soul, jazz, funk",
+      "common_sources": ["70s soul", "jazz standards", "funk breaks"],
+      "usage": "Production, sampling"
+    }
+  }
+}
