@@ -14,8 +14,13 @@ This is a Python toolkit for music production intelligence. The core philosophy 
 
 DAiW-Music-Brain is a CLI toolkit and Python library for:
 - **Groove extraction & application** - Extract timing/velocity patterns from MIDI, apply genre templates
+- **Humanization engine** - Event-based timing drift, velocity variation, and intentional imperfection
 - **Chord & harmony analysis** - Roman numeral analysis, key detection, borrowed chord identification
-- **Intent-based song generation** - Three-phase deep interrogation system for emotionally-driven composition
+- **Tension curves** - Dynamic bar-wise energy control for emotional breathing
+- **Intent-based song generation** - Three-phase deep interrogation system (Therapy → Plan → MIDI)
+- **Lyrical fragment generation** - Cut-up/Markov engine for creative sparks
+- **Reference track DNA** - Analyze tempo, key, brightness from reference audio
+- **DAW marker automation** - Export emotional structure to DAW timeline markers
 - **Intentional rule-breaking** - Structured approach to breaking music theory "rules" for emotional effect
 - **Interactive teaching** - Lessons on production philosophy and music theory concepts
 
@@ -25,50 +30,79 @@ DAiW-Music-Brain is a CLI toolkit and Python library for:
 
 ```
 DAiW-Music-Brain/
-├── music_brain/              # Main Python package
-│   ├── __init__.py          # Package exports (v0.2.0)
+├── music_brain/              # Main Python package (v0.3.0)
+│   ├── __init__.py          # Package exports
 │   ├── cli.py               # CLI entry point (`daiw` command)
+│   ├── groove_engine.py     # Event-based humanization (apply_groove for events)
 │   ├── data/                # JSON/YAML data files
 │   │   ├── chord_progressions.json
 │   │   ├── genre_pocket_maps.json    # Genre timing characteristics
+│   │   ├── humanize_presets.json     # Emotion-to-groove presets (NEW)
 │   │   ├── song_intent_examples.json
 │   │   └── song_intent_schema.yaml
-│   ├── groove/              # Groove extraction & application
+│   ├── groove/              # Groove extraction & application (file-based)
 │   │   ├── extractor.py     # extract_groove(), GrooveTemplate
-│   │   ├── applicator.py    # apply_groove()
+│   │   ├── applicator.py    # apply_groove() for MIDI files
+│   │   ├── groove_engine.py # Alternate groove processing
 │   │   └── templates.py     # Genre templates (funk, jazz, rock, etc.)
-│   ├── structure/           # Harmonic analysis
-│   │   ├── chord.py         # Chord, ChordProgression, analyze_chords()
-│   │   ├── progression.py   # diagnose_progression(), generate_reharmonizations()
-│   │   └── sections.py      # Section detection
+│   ├── structure/           # Harmonic analysis & tension
+│   │   ├── chord.py         # Chord, ChordProgression, CHORD_QUALITIES
+│   │   ├── progression.py   # diagnose_progression(), parse_progression_string()
+│   │   ├── sections.py      # Section detection
+│   │   ├── tension_curve.py # Dynamic tension curves (NEW)
+│   │   └── comprehensive_engine.py  # Therapy-to-MIDI pipeline (NEW)
 │   ├── session/             # Intent schema & teaching
 │   │   ├── intent_schema.py # CompleteSongIntent, rule-breaking enums
 │   │   ├── intent_processor.py # process_intent(), IntentProcessor
 │   │   ├── teaching.py      # RuleBreakingTeacher
 │   │   ├── interrogator.py  # SongInterrogator
 │   │   └── generator.py     # Generation utilities
-│   ├── audio/               # Audio feel analysis
-│   │   └── feel.py          # analyze_feel(), AudioFeatures
+│   ├── audio/               # Audio analysis
+│   │   ├── feel.py          # analyze_feel(), AudioFeatures
+│   │   └── reference_dna.py # ReferenceProfile, analyze_reference() (NEW)
+│   ├── text/                # Text/lyric processing (NEW)
+│   │   └── lyrical_mirror.py # generate_lyrical_fragments(), mirror_session()
 │   ├── utils/               # Utilities
 │   │   ├── midi_io.py       # MIDI file handling
 │   │   ├── instruments.py   # Instrument mappings
 │   │   └── ppq.py           # PPQ normalization
 │   └── daw/                 # DAW integration
-│       └── logic.py         # Logic Pro integration
+│       ├── logic.py         # Logic Pro integration, LogicProject
+│       └── markers.py       # MarkerEvent, export_markers_midi() (NEW)
 ├── vault/                   # Knowledge base (Obsidian-compatible)
 │   ├── Songwriting_Guides/
-│   │   ├── song_intent_schema.md     # Intent schema documentation
-│   │   ├── rule_breaking_practical.md
-│   │   └── rule_breaking_masterpieces.md
 │   ├── Templates/
 │   ├── Theory_Reference/
 │   ├── Production_Workflows/
-│   └── Data_Files/
-├── tests/                   # Test suite
-│   └── test_basic.py        # Pytest tests
+│   ├── Data_Files/
+│   └── Songs/               # Example song projects (NEW)
+│       └── when-i-found-you-sleeping/
+├── tests/                   # Comprehensive test suite
+│   ├── test_basic.py
+│   ├── test_comprehensive_engine.py
+│   ├── test_groove_engine.py
+│   ├── test_groove_extractor.py
+│   ├── test_intent_schema.py
+│   ├── test_intent_processor.py
+│   ├── test_cli_commands.py
+│   ├── test_cli_flow.py
+│   ├── test_daw_integration.py
+│   ├── test_midi_io.py
+│   ├── test_bridge_integration.py
+│   └── test_error_paths.py
 ├── examples/                # Example files
-│   └── midi/                # Example MIDI files
+│   ├── kelly_song_example.py
+│   └── midi/
+│       ├── groove/          # Groove-applied examples
+│       └── idaw/            # Intent-generated examples
 ├── docs/                    # Documentation
+│   ├── DAIW_INTEGRATION.md
+│   ├── GROOVE_MODULE_GUIDE.md
+│   ├── INTEGRATION_GUIDE.md
+│   └── START_HERE.txt
+├── .github/
+│   └── workflows/
+│       └── ci.yml           # GitHub Actions CI pipeline (NEW)
 ├── app.py                   # Streamlit UI application
 ├── launcher.py              # Native desktop app launcher (pywebview)
 ├── daiw.spec                # PyInstaller build configuration
@@ -100,6 +134,58 @@ DAiW-Music-Brain/
    - `technical_genre`, `technical_key`, `technical_mode`
    - `technical_rule_to_break` - Intentional rule violation
    - `rule_breaking_justification` - WHY break this rule (required!)
+
+### Comprehensive Engine Pipeline
+
+The `comprehensive_engine.py` integrates all phases into a single pipeline:
+
+```
+TherapySession → AffectAnalyzer → TherapyState → HarmonyPlan → MIDI
+```
+
+Key classes:
+- `AffectAnalyzer` - Detects emotions from text using weighted keywords
+- `TherapySession` - Manages state and generates plans
+- `HarmonyPlan` - Blueprint for MIDI generation (root, mode, tempo, chords, length)
+- `NoteEvent` - Canonical note representation for MIDI output
+
+### Humanization & Groove
+
+Two levels of groove application:
+
+1. **File-based** (`music_brain.groove.applicator`)
+   - Works with MIDI files directly
+   - `apply_groove(midi_path, template)`
+
+2. **Event-based** (`music_brain.groove_engine`)
+   - Works with lists of note event dicts
+   - `apply_groove(events, complexity, vulnerability)`
+   - Additional: `apply_swing()`, `apply_pocket()`, `humanize_velocities()`
+
+### Tension Curves
+
+Dynamic energy control over song structure (`tension_curve.py`):
+
+| Preset | Effect |
+|--------|--------|
+| `verse_chorus` | Low-Low-High-High pattern |
+| `slow_build` | Gradual increase to climax |
+| `catharsis` | Build to massive release |
+| `wave` | Ebb and flow |
+| `descent` | Falling energy (resignation) |
+| `spiral` | Escalating chaos |
+
+### Humanize Presets
+
+Emotion-mapped groove settings (`humanize_presets.json`):
+
+| Preset | Mood | Feel |
+|--------|------|------|
+| `lofi_depression` | Grief | Laid back, imperfect |
+| `anxious_driving` | Anxiety | Tight but slightly off |
+| `defiant_punk` | Defiance | Raw, aggressive, sloppy |
+| `intimate_vulnerability` | Vulnerability | Fragile, breathing |
+| `mechanical_dissociation` | Dissociation | Almost robotic |
 
 ### Rule-Breaking Categories
 
@@ -139,11 +225,11 @@ pip install -e ".[all]"      # Everything
 - **UI**: `streamlit>=1.28.0`
 - **Desktop**: `streamlit`, `pywebview>=4.0.0`
 - **Build**: `pyinstaller>=6.0.0`
-- **Optional**: `librosa`, `soundfile`, `music21`
+- **Optional**: `librosa`, `soundfile`, `music21`, `markovify`
 
 ### Python Version
 - Requires Python 3.9+
-- Tested on 3.9, 3.10, 3.11, 3.12
+- Tested on 3.9, 3.11 (via CI)
 
 ---
 
@@ -156,18 +242,43 @@ pytest tests/
 # Run with verbose output
 pytest tests/ -v
 
+# Run specific test file
+pytest tests/test_comprehensive_engine.py -v
+
 # Run specific test class
 pytest tests/test_basic.py::TestImports -v
 ```
 
-### Test Categories in `test_basic.py`
-- `TestImports` - Verify all modules can be imported
-- `TestGrooveTemplates` - Genre template functionality
-- `TestChordParsing` - Chord string parsing
-- `TestDiagnoseProgression` - Harmonic diagnosis
-- `TestTeachingModule` - Teaching/lesson functionality
-- `TestInterrogator` - Song interrogation system
-- `TestDataFiles` - Data file accessibility
+### Test Files
+
+| File | Purpose |
+|------|---------|
+| `test_basic.py` | Core imports, templates, chord parsing |
+| `test_comprehensive_engine.py` | Therapy session, affect analysis, MIDI rendering |
+| `test_groove_engine.py` | Event-based humanization |
+| `test_groove_extractor.py` | Groove extraction from MIDI |
+| `test_intent_schema.py` | Intent data structures |
+| `test_intent_processor.py` | Intent to musical elements |
+| `test_cli_commands.py` | CLI command tests |
+| `test_cli_flow.py` | End-to-end CLI workflows |
+| `test_daw_integration.py` | DAW integration tests |
+| `test_midi_io.py` | MIDI file I/O |
+| `test_bridge_integration.py` | Cross-module integration |
+| `test_error_paths.py` | Error handling and edge cases |
+
+---
+
+## CI/CD Pipeline
+
+GitHub Actions workflow (`.github/workflows/ci.yml`):
+
+1. **Test job**: Runs pytest on Python 3.9 and 3.11
+2. **Build jobs**: Creates standalone executables for:
+   - macOS (`.app` bundle)
+   - Linux (executable)
+   - Windows (`.exe`)
+
+Artifacts are uploaded for each platform build.
 
 ---
 
@@ -239,20 +350,6 @@ pyinstaller daiw.spec --clean --noconfirm
 | `launcher.py` | Native window wrapper using pywebview |
 | `daiw.spec` | PyInstaller configuration for building executables |
 
-The launcher:
-1. Finds a free port
-2. Starts Streamlit server in background
-3. Opens a native window (no browser chrome)
-4. Cleans up server when window closes
-
-### Troubleshooting Builds
-
-If the built app opens and immediately closes:
-1. Edit `daiw.spec`: change `console=False` to `console=True`
-2. Rebuild: `pyinstaller daiw.spec --clean --noconfirm`
-3. Run from terminal to see error messages
-4. Add missing modules to `hiddenimports` list in spec file
-
 ---
 
 ## Code Style & Conventions
@@ -279,8 +376,10 @@ flake8 music_brain/ tests/
    - Heavy modules are imported lazily to speed up CLI startup
    - Use `get_*_module()` functions for deferred imports
 
-2. **Data classes for structured data** (`intent_schema.py`)
+2. **Data classes for structured data**
    - `CompleteSongIntent`, `SongRoot`, `SongIntent`, `TechnicalConstraints`
+   - `HarmonyPlan`, `NoteEvent`, `AffectResult`, `TherapyState`
+   - `ReferenceProfile`, `MarkerEvent`, `EmotionalSection`
    - Support serialization via `to_dict()` / `from_dict()` / `save()` / `load()`
 
 3. **Enums for categorical values**
@@ -289,6 +388,10 @@ flake8 music_brain/ tests/
 
 4. **Module-level exports in `__init__.py`**
    - Each subpackage exports its public API via `__all__`
+
+5. **Graceful degradation**
+   - Optional dependencies (librosa, markovify) checked at runtime
+   - Features degrade gracefully when dependencies unavailable
 
 ---
 
@@ -301,13 +404,44 @@ flake8 music_brain/ tests/
 ### Core Logic
 - `music_brain/session/intent_schema.py` - The heart of the intent system
 - `music_brain/session/intent_processor.py` - Converts intent to musical elements
+- `music_brain/structure/comprehensive_engine.py` - Full therapy→MIDI pipeline
 - `music_brain/groove/templates.py` - Genre groove definitions
+- `music_brain/groove_engine.py` - Event-based humanization
 - `music_brain/structure/progression.py` - Chord parsing and diagnosis
+- `music_brain/structure/tension_curve.py` - Dynamic tension curves
+- `music_brain/text/lyrical_mirror.py` - Lyrical fragment generation
 
 ### Data Files
 - `music_brain/data/genre_pocket_maps.json` - Genre timing characteristics
+- `music_brain/data/humanize_presets.json` - Emotion-to-groove presets
 - `music_brain/data/song_intent_schema.yaml` - Schema definition
 - `music_brain/data/chord_progressions.json` - Common progressions
+
+---
+
+## Public API Exports
+
+From `music_brain/__init__.py`:
+
+```python
+# Groove (file-based)
+from music_brain import extract_groove, apply_groove, GrooveTemplate
+
+# Groove (event-based)
+from music_brain import apply_groove_events
+
+# Structure
+from music_brain import analyze_chords, detect_sections, ChordProgression
+
+# Audio
+from music_brain import analyze_feel, AudioFeatures
+
+# Comprehensive Engine
+from music_brain import AffectAnalyzer, TherapySession, HarmonyPlan, render_plan_to_midi
+
+# Text/Lyrical
+from music_brain import generate_lyrical_fragments
+```
 
 ---
 
@@ -316,9 +450,10 @@ flake8 music_brain/ tests/
 ### When Adding Features
 1. Consider the "Interrogate Before Generate" philosophy
 2. Rule-breaking should always have emotional justification
-3. Add tests for new functionality in `tests/test_basic.py`
+3. Add tests for new functionality in appropriate test file
 4. Update `__all__` exports if adding public API
 5. Keep CLI startup fast (use lazy imports)
+6. Handle optional dependencies gracefully
 
 ### When Modifying Intent Schema
 1. Update both `intent_schema.py` and `song_intent_schema.yaml`
@@ -332,6 +467,16 @@ flake8 music_brain/ tests/
 3. Implement processor function in `intent_processor.py`
 4. Update CLI help text if needed
 
+### When Adding Humanize Presets
+1. Add entry to `music_brain/data/humanize_presets.json`
+2. Include `therapy_state`, `groove_settings`, and `suggested_genre_template`
+3. Document the emotional use case
+
+### When Adding Tension Curves
+1. Add to `TENSION_CURVES` dict in `tension_curve.py`
+2. Consider bar-count flexibility
+3. Document emotional intent
+
 ### Data Flow
 ```
 User Input → CompleteSongIntent → IntentProcessor → Generated Elements
@@ -339,6 +484,14 @@ User Input → CompleteSongIntent → IntentProcessor → Generated Elements
                                                     ├── GeneratedGroove
                                                     ├── GeneratedArrangement
                                                     └── GeneratedProduction
+
+OR (Comprehensive Engine):
+
+User Text → TherapySession → AffectResult → HarmonyPlan → NoteEvents → MIDI
+                                                       ↓
+                                              TensionCurve (optional)
+                                              GrooveEngine (optional)
+                                              Markers (optional)
 ```
 
 ---
@@ -354,6 +507,10 @@ User Input → CompleteSongIntent → IntentProcessor → Generated Elements
 4. **Phase 0 must come first** - Technical decisions (Phase 2) can't be made without emotional clarity (Phase 0)
 
 5. **Teaching over finishing** - The tool should educate and empower, not just generate
+
+6. **Graceful degradation** - Core features work without optional dependencies
+
+7. **NoteEvent is canonical** - Any external integration (C++, OSC) should speak in NoteEvent fields
 
 ---
 
@@ -372,6 +529,14 @@ User Input → CompleteSongIntent → IntentProcessor → Generated Elements
 1. Add validation logic in `validate_intent()` in `intent_schema.py`
 2. Consider consistency checks between phases
 
+### Adding affect keywords
+1. Update `AffectAnalyzer.KEYWORDS` in `comprehensive_engine.py`
+2. Update `AFFECT_TO_MODE` mapping if new affect type
+
+### Creating DAW markers from emotion
+1. Use `get_emotional_structure(length_bars, mood_profile)` from `markers.py`
+2. Export with `export_markers_midi(markers, ppq, beats_per_bar, tempo, output_path)`
+
 ---
 
 ## Vault (Knowledge Base)
@@ -379,9 +544,10 @@ User Input → CompleteSongIntent → IntentProcessor → Generated Elements
 The `vault/` directory is an Obsidian-compatible knowledge base containing:
 - **Songwriting_Guides/** - Intent schema docs, rule-breaking guides
 - **Theory_Reference/** - Music theory reference materials
-- **Production_Workflows/** - Production technique guides
+- **Production_Workflows/** - Production technique guides, JUCE/C++ integration
 - **Templates/** - Task boards and templates
 - **Data_Files/** - Supporting data
+- **Songs/** - Example song projects with full emotional journey documentation
 
 These markdown files use Obsidian-style `[[wiki links]]` for cross-referencing.
 
@@ -400,6 +566,20 @@ These markdown files use Obsidian-style `[[wiki links]]` for cross-referencing.
 ### Test failures
 - Run with verbose: `pytest -v`
 - Check data files exist in `music_brain/data/`
+
+### Lyrical mirror not working
+- Install markovify: `pip install markovify`
+- Falls back to cut-up method if unavailable
+
+### Reference DNA analysis fails
+- Install librosa: `pip install librosa`
+- Check audio file format is supported
+
+### Desktop app crashes on launch
+1. Edit `daiw.spec`: change `console=False` to `console=True`
+2. Rebuild: `pyinstaller daiw.spec --clean --noconfirm`
+3. Run from terminal to see error messages
+4. Add missing modules to `hiddenimports` list in spec file
 
 ---
 
