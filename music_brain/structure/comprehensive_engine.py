@@ -37,15 +37,15 @@ class AffectAnalyzer:
     """
 
     KEYWORDS = {
-        "grief": {"loss", "gone", "miss", "dead", "died", "funeral", "mourning", "never again", "empty"},
-        "rage": {"angry", "furious", "hate", "betrayed", "unfair", "revenge", "burn", "fight", "destroy"},
-        "awe": {"wonder", "beautiful", "infinite", "god", "universe", "transcend", "light", "vast"},
+        "grief": {"loss", "gone", "miss", "dead", "died", "funeral", "mourning", "never again"},
+        "rage": {"angry", "furious", "hate", "betrayed", "unfair", "revenge", "burn", "destroy"},
+        "awe": {"wonder", "beautiful", "infinite", "god", "universe", "transcend", "light", "vast", "divine"},
         "nostalgia": {"remember", "used to", "childhood", "back when", "old days", "memory", "home"},
         "fear": {"scared", "terrified", "panic", "can't breathe", "trapped", "anxious", "dread"},
-        "dissociation": {"numb", "nothing", "floating", "unreal", "detached", "fog", "grey", "wall"},
-        "defiance": {"won't", "refuse", "stand", "strong", "break", "free", "my own", "no more"},
+        "dissociation": {"numb", "nothing", "floating", "unreal", "detached", "fog", "grey", "wall", "empty"},
+        "defiance": {"won't", "refuse", "stand", "strong", "break", "free", "my own", "no more", "fight"},
         "tenderness": {"soft", "gentle", "hold", "love", "kind", "care", "fragile", "warm"},
-        "confusion": {"why", "lost", "don't know", "spinning", "chaos", "strange", "question"},
+        "confusion": {"why", "lost", "don't know", "spinning", "chaos", "strange", "question", "confused"},
     }
 
     def analyze(self, text: str) -> AffectResult:

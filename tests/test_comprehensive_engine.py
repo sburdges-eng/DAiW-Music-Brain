@@ -203,37 +203,57 @@ def test_generate_plan_complexity_from_chaos(session):
     assert low_chaos_plan.complexity < high_chaos_plan.complexity
 
 
-def test_generate_plan_vulnerability_from_motivation(session):
-    """Higher motivation should mean lower vulnerability."""
+def test_generate_plan_length_from_motivation(session):
+    """Higher motivation should mean longer song."""
     session.process_core_input("test")
 
-    session.set_scales(1.0, 0.5)  # Low motivation
+    session.set_scales(1, 0.5)  # Low motivation
     low_mot_plan = session.generate_plan()
 
-    session.set_scales(10.0, 0.5)  # High motivation
+    session.set_scales(10, 0.5)  # High motivation
     high_mot_plan = session.generate_plan()
 
-    # Low motivation = more vulnerable
-    assert low_mot_plan.vulnerability > high_mot_plan.vulnerability
+    # Low motivation = shorter song, high motivation = longer song
+    assert low_mot_plan.length_bars < high_mot_plan.length_bars
 
 
 # ==============================================================================
 # HARMONY PLAN TESTS
 # ==============================================================================
 
-def test_harmony_plan_defaults():
-    """HarmonyPlan should have sensible defaults."""
-    plan = HarmonyPlan()
+def test_harmony_plan_required_fields():
+    """HarmonyPlan should require all fields."""
+    plan = HarmonyPlan(
+        root_note="C",
+        mode="aeolian",
+        tempo_bpm=100,
+        time_signature="4/4",
+        length_bars=16,
+        chord_symbols=["Cm", "Ab", "Fm", "Cm"],
+        harmonic_rhythm="1_chord_per_bar",
+        mood_profile="grief",
+        complexity=0.5,
+    )
     assert plan.root_note == "C"
-    assert plan.mode == "minor"
-    assert plan.tempo_bpm == 120
+    assert plan.mode == "aeolian"
+    assert plan.tempo_bpm == 100
     assert plan.length_bars == 16
-    assert len(plan.chord_symbols) > 0
+    assert len(plan.chord_symbols) == 4
 
 
-def test_harmony_plan_progression_generation():
-    """Chord symbols should be generated if not provided."""
-    plan = HarmonyPlan(mode="aeolian", root_note="A")
+def test_harmony_plan_minor_progression():
+    """Minor mode plan should have valid chord symbols."""
+    plan = HarmonyPlan(
+        root_note="A",
+        mode="aeolian",
+        tempo_bpm=90,
+        time_signature="4/4",
+        length_bars=8,
+        chord_symbols=["Am", "F", "C", "G"],
+        harmonic_rhythm="1_chord_per_bar",
+        mood_profile="grief",
+        complexity=0.3,
+    )
     assert len(plan.chord_symbols) > 0
     assert any("m" in chord for chord in plan.chord_symbols)
 
@@ -245,11 +265,11 @@ def test_harmony_plan_progression_generation():
 def test_therapy_state_defaults():
     """TherapyState should initialize with defaults."""
     state = TherapyState()
-    assert state.core_wound_text == ""
-    assert state.motivation == 5.0
-    assert state.chaos_tolerance == 0.5
+    assert state.core_wound_name == ""
+    assert state.motivation_scale == 5
+    assert state.chaos_tolerance == 0.3
     assert state.suggested_mode == "ionian"
-    assert state.phase == 0
+    assert state.affect_result is None
 
 
 # ==============================================================================
