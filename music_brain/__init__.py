@@ -28,6 +28,7 @@ from music_brain.structure.comprehensive_engine import (
 )
 from music_brain.groove_engine import apply_groove as apply_groove_events
 from music_brain.text.lyrical_mirror import generate_lyrical_fragments
+from music_brain.session.harmony import generate_harmony, HarmonyResult, diagnose_progression
 
 __all__ = [
     # Groove (file-based)
@@ -50,4 +51,8 @@ __all__ = [
     "render_plan_to_midi",
     # Text/Lyrical
     "generate_lyrical_fragments",
+    # Harmony Generation
+    "generate_harmony",
+    "HarmonyResult",
+    "diagnose_progression",
 ]
