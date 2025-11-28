@@ -1,0 +1,33 @@
+{
+  "idaw_version": "1.0.02",
+  "emotion": "neutral",
+  "bpm": 82,
+  "time_signature": "4/4",
+  "tracks": {
+    "lead": {
+      "category": "keys_piano",
+      "source": "user_samples",
+      "preset": null,
+      "samples": [],
+      "midi_channel": 0
+    },
+    "pad": {
+      "category": "pads",
+      "source": "user_samples",
+      "preset": null,
+      "samples": [],
+      "midi_channel": 0
+    },
+    "bass": {
+      "category": "bass_synth",
+      "source": "user_samples",
+      "preset": null,
+      "samples": [],
+      "midi_channel": 0
+    }
+  },
+  "logic_pro_hints": {
+    "suggested_patches": [],
+    "apple_loops_tags": []
+  }
+}
