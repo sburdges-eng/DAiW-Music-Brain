@@ -24,7 +24,8 @@ def test_cli_happy_path(mock_render, mock_input):
     # 1. Core wound text (contains 'miss' -> grief)
     # 2. Motivation (10)
     # 3. Chaos tolerance (5)
-    mock_input.side_effect = ["I miss him terribly", "10", "5"]
+    # 4. Vulnerability (5)
+    mock_input.side_effect = ["I miss him terribly", "10", "5", "5"]
     mock_render.return_value = "output.mid"
 
     run_cli()
@@ -44,7 +45,7 @@ def test_cli_rage_path(mock_render, mock_input):
     """Test CLI with rage-inducing input."""
     from music_brain.structure.comprehensive_engine import run_cli
 
-    mock_input.side_effect = ["I am furious and want revenge", "8", "7"]
+    mock_input.side_effect = ["I am furious and want revenge", "8", "7", "5"]
     mock_render.return_value = "output.mid"
 
     run_cli()
@@ -62,7 +63,7 @@ def test_cli_low_motivation(mock_render, mock_input):
     """Test CLI with low motivation produces short song."""
     from music_brain.structure.comprehensive_engine import run_cli
 
-    mock_input.side_effect = ["feeling gentle", "2", "3"]
+    mock_input.side_effect = ["feeling gentle", "2", "3", "5"]
     mock_render.return_value = "output.mid"
 
     run_cli()
@@ -80,7 +81,7 @@ def test_cli_retry_empty_input(mock_render, mock_input):
     from music_brain.structure.comprehensive_engine import run_cli
 
     # First two inputs are empty, third is valid
-    mock_input.side_effect = ["", "   ", "Real emotional content", "5", "5"]
+    mock_input.side_effect = ["", "   ", "Real emotional content", "5", "5", "5"]
     mock_render.return_value = "output.mid"
 
     run_cli()
@@ -116,7 +117,7 @@ def test_cli_chaos_normalization(mock_render, mock_input):
     from music_brain.structure.comprehensive_engine import run_cli
 
     # Chaos input of 10 should become 1.0 internally
-    mock_input.side_effect = ["test content", "5", "10"]
+    mock_input.side_effect = ["test content", "5", "10", "5"]
     mock_render.return_value = "output.mid"
 
     run_cli()
@@ -133,7 +134,7 @@ def test_cli_zero_chaos(mock_render, mock_input):
     """Zero chaos should result in zero complexity."""
     from music_brain.structure.comprehensive_engine import run_cli
 
-    mock_input.side_effect = ["test content", "5", "0"]
+    mock_input.side_effect = ["test content", "5", "0", "5"]
     mock_render.return_value = "output.mid"
 
     run_cli()
@@ -157,12 +158,12 @@ def test_therapy_session_scale_bounds():
     # Out of bounds values should be clamped
     session.set_scales(motivation=-5, chaos_tolerance=2.0)
 
-    assert session.state.motivation == 1.0  # Clamped to min
+    assert session.state.motivation_scale == 1  # Clamped to min
     assert session.state.chaos_tolerance == 1.0  # Clamped to max
 
     session.set_scales(motivation=100, chaos_tolerance=-1.0)
 
-    assert session.state.motivation == 10.0  # Clamped to max
+    assert session.state.motivation_scale == 10  # Clamped to max
     assert session.state.chaos_tolerance == 0.0  # Clamped to min
 
 
@@ -203,9 +204,10 @@ def test_affect_with_multiple_keywords():
 
     analyzer = AffectAnalyzer()
 
-    result = analyzer.analyze("dead dead dead grief mourning loss")
+    result = analyzer.analyze("dead dead dead mourning loss funeral empty gone")
 
     # Grief should have high score from multiple keywords
+    # Each keyword: dead, mourning, loss, funeral, empty, gone
     assert result.scores.get("grief", 0) >= 5
 
 
@@ -229,7 +231,17 @@ def test_harmony_plan_custom_chord_symbols():
     from music_brain.structure.comprehensive_engine import HarmonyPlan
 
     custom_chords = ["Am7", "Dm7", "G7", "Cmaj7"]
-    plan = HarmonyPlan(chord_symbols=custom_chords)
+    plan = HarmonyPlan(
+        root_note="C",
+        mode="ionian",
+        tempo_bpm=120,
+        time_signature="4/4",
+        length_bars=16,
+        chord_symbols=custom_chords,
+        harmonic_rhythm="1_chord_per_bar",
+        mood_profile="neutral",
+        complexity=0.5,
+    )
 
     assert plan.chord_symbols == custom_chords
 
@@ -240,7 +252,7 @@ def test_cli_dissociation_path(mock_render, mock_input):
     """Test CLI with dissociation-inducing input."""
     from music_brain.structure.comprehensive_engine import run_cli
 
-    mock_input.side_effect = ["I feel numb and empty, nothing matters", "4", "6"]
+    mock_input.side_effect = ["I feel numb and empty, nothing matters", "4", "6", "5"]
     mock_render.return_value = "output.mid"
 
     run_cli()

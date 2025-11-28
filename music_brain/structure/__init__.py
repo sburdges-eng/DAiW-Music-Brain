@@ -37,6 +37,19 @@ from music_brain.structure.tension_curve import (
     generate_curve_for_bars,
     TENSION_CURVES,
 )
+from music_brain.structure.tension import (
+    generate_tension_curve,
+    choose_structure_type_for_mood,
+    get_tension_at_bar,
+    list_structure_types,
+    get_structure_curve,
+    STRUCTURE_CURVES,
+    MOOD_TO_STRUCTURE,
+)
+from music_brain.structure.comprehensive_engine import (
+    NoteEvent,
+    select_kit_for_mood,
+)
 
 __all__ = [
     # Chord analysis
@@ -60,10 +73,21 @@ __all__ = [
     "HarmonyPlan",
     "render_plan_to_midi",
     "run_cli",
-    # Tension curves
+    # Tension curves (from tension_curve.py)
     "apply_tension_curve",
     "get_tension_curve",
     "list_tension_curves",
     "generate_curve_for_bars",
     "TENSION_CURVES",
+    # Mood-driven tension (from tension.py)
+    "generate_tension_curve",
+    "choose_structure_type_for_mood",
+    "get_tension_at_bar",
+    "list_structure_types",
+    "get_structure_curve",
+    "STRUCTURE_CURVES",
+    "MOOD_TO_STRUCTURE",
+    # Enhanced note events
+    "NoteEvent",
+    "select_kit_for_mood",
 ]

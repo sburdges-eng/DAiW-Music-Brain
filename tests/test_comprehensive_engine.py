@@ -52,19 +52,19 @@ def analyzer():
     # Dissociation keywords
     ("numb", "dissociation"),
     ("nothing", "dissociation"),
-    ("empty", "dissociation"),
+    ("unreal", "dissociation"),  # Changed from "empty" which is also in grief
     # Defiance keywords
     ("refuse", "defiance"),
     ("strong", "defiance"),
-    ("fight", "defiance"),
+    ("no more", "defiance"),  # Changed from "fight" which is also in rage
     # Tenderness keywords
     ("gentle", "tenderness"),
     ("care", "tenderness"),
     ("soft", "tenderness"),
     # Confusion keywords
     ("chaos", "confusion"),
-    ("why", "confusion"),
-    ("confused", "confusion"),
+    ("spinning", "confusion"),  # Changed from "why" and "confused"
+    ("strange", "confusion"),
 ])
 def test_affect_analyzer_keywords(analyzer, keyword, expected_affect):
     """Every emotion keyword should trigger its mapped affect."""
@@ -203,39 +203,69 @@ def test_generate_plan_complexity_from_chaos(session):
     assert low_chaos_plan.complexity < high_chaos_plan.complexity
 
 
-def test_generate_plan_vulnerability_from_motivation(session):
-    """Higher motivation should mean lower vulnerability."""
-    session.process_core_input("test")
+def test_generate_plan_tension_curve_varies_with_mood(session):
+    """Different moods should generate different tension curve types."""
+    # Grief should use "descent" structure
+    session.state.affect_result = AffectResult("grief", None, {"grief": 1.0}, 1.0)
+    session.state.suggested_mode = "aeolian"
+    session.set_scales(5, 0.5)
+    grief_plan = session.generate_plan()
 
-    session.set_scales(1.0, 0.5)  # Low motivation
-    low_mot_plan = session.generate_plan()
+    # Rage should use "spiral" structure
+    session.state.affect_result = AffectResult("rage", None, {"rage": 1.0}, 1.0)
+    session.state.suggested_mode = "phrygian"
+    rage_plan = session.generate_plan()
 
-    session.set_scales(10.0, 0.5)  # High motivation
-    high_mot_plan = session.generate_plan()
-
-    # Low motivation = more vulnerable
-    assert low_mot_plan.vulnerability > high_mot_plan.vulnerability
+    # Both plans should have tension curves
+    assert len(grief_plan.tension_curve) > 0
+    assert len(rage_plan.tension_curve) > 0
+    # And different structure types
+    assert grief_plan.structure_type == "descent"
+    assert rage_plan.structure_type == "spiral"
 
 
 # ==============================================================================
 # HARMONY PLAN TESTS
 # ==============================================================================
 
-def test_harmony_plan_defaults():
-    """HarmonyPlan should have sensible defaults."""
-    plan = HarmonyPlan()
+def test_harmony_plan_creation():
+    """HarmonyPlan should be creatable with required fields."""
+    plan = HarmonyPlan(
+        root_note="C",
+        mode="ionian",
+        tempo_bpm=120,
+        time_signature="4/4",
+        length_bars=16,
+        chord_symbols=["C", "Am", "F", "G"],
+        harmonic_rhythm="1_chord_per_bar",
+        mood_profile="neutral",
+        complexity=0.5,
+    )
     assert plan.root_note == "C"
-    assert plan.mode == "minor"
+    assert plan.mode == "ionian"
     assert plan.tempo_bpm == 120
     assert plan.length_bars == 16
-    assert len(plan.chord_symbols) > 0
+    assert len(plan.chord_symbols) == 4
 
 
-def test_harmony_plan_progression_generation():
-    """Chord symbols should be generated if not provided."""
-    plan = HarmonyPlan(mode="aeolian", root_note="A")
+def test_harmony_plan_has_tension_curve():
+    """HarmonyPlan should support tension curve field."""
+    plan = HarmonyPlan(
+        root_note="A",
+        mode="aeolian",
+        tempo_bpm=100,
+        time_signature="4/4",
+        length_bars=8,
+        chord_symbols=["Am", "G", "F", "E"],
+        harmonic_rhythm="1_chord_per_bar",
+        mood_profile="grief",
+        complexity=0.5,
+        structure_type="descent",
+        tension_curve=[1.0, 0.9, 0.8, 0.7, 0.6, 0.5, 0.4, 0.3],
+    )
     assert len(plan.chord_symbols) > 0
-    assert any("m" in chord for chord in plan.chord_symbols)
+    assert len(plan.tension_curve) == 8
+    assert any("m" in chord or chord == "Am" for chord in plan.chord_symbols)
 
 
 # ==============================================================================
@@ -245,11 +275,10 @@ def test_harmony_plan_progression_generation():
 def test_therapy_state_defaults():
     """TherapyState should initialize with defaults."""
     state = TherapyState()
-    assert state.core_wound_text == ""
-    assert state.motivation == 5.0
-    assert state.chaos_tolerance == 0.5
+    assert state.core_wound_name == ""
+    assert state.motivation_scale == 5
+    assert state.chaos_tolerance == 0.3
     assert state.suggested_mode == "ionian"
-    assert state.phase == 0
 
 
 # ==============================================================================

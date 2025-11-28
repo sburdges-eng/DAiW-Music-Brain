@@ -23,6 +23,8 @@ from music_brain.groove.groove_engine import (
     get_preset,
     settings_from_preset,
 )
+# Re-export apply_groove from engine for consistency
+from music_brain.groove.engine import apply_groove as groove_engine_apply
 
 __all__ = [
     # Extraction
