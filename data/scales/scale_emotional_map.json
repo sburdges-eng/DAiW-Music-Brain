@@ -1,0 +1,1505 @@
+{
+  "metadata": {
+    "title": "Scale Emotional Map",
+    "version": "1.0.0",
+    "created": "2025-11-27",
+    "author": "Sean Burdge / Claude",
+    "description": "Comprehensive reference mapping musical scales to emotional qualities, genre associations, chord types, and related scales",
+    "total_scales": 62,
+    "categories": [
+      "Major Modes",
+      "Harmonic Minor Modes",
+      "Melodic Minor Modes",
+      "Pentatonic Scales",
+      "Blues Scales",
+      "Symmetric Scales",
+      "Bebop Scales",
+      "World/Exotic Scales"
+    ],
+    "usage_note": "Intervals are relative to root - apply to any of 12 root notes to get actual pitches"
+  },
+  "scales": [
+    {
+      "scale_type": "Ionian (Major)",
+      "category": "Major Modes",
+      "intervals_semitones": [0, 2, 4, 5, 7, 9, 11],
+      "intervals_names": ["1", "2", "3", "4", "5", "6", "7"],
+      "emotional_quality": ["bright", "happy", "triumphant", "stable", "resolved", "innocent"],
+      "genre_associations": ["pop", "classical", "country", "children's music", "anthems", "musical theater"],
+      "chords": {
+        "basic": ["major", "minor", "minor", "major", "major", "minor", "diminished"],
+        "degrees": {
+          "I": "major",
+          "ii": "minor",
+          "iii": "minor",
+          "IV": "major",
+          "V": "major",
+          "vi": "minor",
+          "vii°": "diminished"
+        },
+        "common_progressions": [
+          "I - IV - V - I",
+          "I - V - vi - IV",
+          "I - vi - IV - V",
+          "ii - V - I",
+          "I - IV - vi - V"
+        ]
+      },
+      "related_scales": [
+        {"name": "Lydian", "relationship": "Raised 4th creates brighter, more ethereal quality"},
+        {"name": "Mixolydian", "relationship": "Lowered 7th removes leading tone tension"},
+        {"name": "Major Pentatonic", "relationship": "Removes 4th and 7th for simpler, folk-like sound"}
+      ]
+    },
+    {
+      "scale_type": "Dorian",
+      "category": "Major Modes",
+      "intervals_semitones": [0, 2, 3, 5, 7, 9, 10],
+      "intervals_names": ["1", "2", "b3", "4", "5", "6", "b7"],
+      "emotional_quality": ["melancholy", "soulful", "hopeful darkness", "cool", "sophisticated", "introspective"],
+      "genre_associations": ["jazz", "funk", "R&B", "soul", "game soundtracks", "celtic", "folk rock"],
+      "chords": {
+        "basic": ["minor", "minor", "major", "major", "minor", "diminished", "major"],
+        "degrees": {
+          "i": "minor",
+          "ii": "minor",
+          "bIII": "major",
+          "IV": "major",
+          "v": "minor",
+          "vi°": "diminished",
+          "bVII": "major"
+        },
+        "common_progressions": [
+          "i - IV",
+          "i - IV - bVII - i",
+          "i - bVII - IV - i",
+          "i - ii - bVII - i"
+        ]
+      },
+      "related_scales": [
+        {"name": "Aeolian (Natural Minor)", "relationship": "Dorian has raised 6th, creating less dark quality"},
+        {"name": "Mixolydian", "relationship": "Parallel major mode with same b7"},
+        {"name": "Melodic Minor", "relationship": "Dorian with raised 7th"}
+      ]
+    },
+    {
+      "scale_type": "Phrygian",
+      "category": "Major Modes",
+      "intervals_semitones": [0, 1, 3, 5, 7, 8, 10],
+      "intervals_names": ["1", "b2", "b3", "4", "5", "b6", "b7"],
+      "emotional_quality": ["dark", "exotic", "tense", "mysterious", "aggressive", "Spanish", "ancient"],
+      "genre_associations": ["flamenco", "metal", "film scores", "Middle Eastern fusion", "prog rock"],
+      "chords": {
+        "basic": ["minor", "major", "major", "minor", "diminished", "major", "minor"],
+        "degrees": {
+          "i": "minor",
+          "bII": "major",
+          "bIII": "major",
+          "iv": "minor",
+          "v°": "diminished",
+          "bVI": "major",
+          "bvii": "minor"
+        },
+        "common_progressions": [
+          "i - bII - i",
+          "i - bII - bVII - i",
+          "i - bvii - bVI - bII"
+        ]
+      },
+      "related_scales": [
+        {"name": "Phrygian Dominant", "relationship": "Raised 3rd creates major/minor tension, more flamenco"},
+        {"name": "Locrian", "relationship": "Even darker with diminished tonic"},
+        {"name": "Aeolian", "relationship": "Phrygian with raised 2nd, less exotic"}
+      ]
+    },
+    {
+      "scale_type": "Lydian",
+      "category": "Major Modes",
+      "intervals_semitones": [0, 2, 4, 6, 7, 9, 11],
+      "intervals_names": ["1", "2", "3", "#4", "5", "6", "7"],
+      "emotional_quality": ["dreamy", "ethereal", "floating", "wonder", "magical", "hopeful", "spacious"],
+      "genre_associations": ["film scores", "jazz fusion", "prog rock", "new age", "ambient", "video game music"],
+      "chords": {
+        "basic": ["major", "major", "minor", "diminished", "major", "minor", "minor"],
+        "degrees": {
+          "I": "major",
+          "II": "major",
+          "iii": "minor",
+          "#iv°": "diminished",
+          "V": "major",
+          "vi": "minor",
+          "vii": "minor"
+        },
+        "common_progressions": [
+          "I - II",
+          "I - II - I",
+          "I - II - vii - I",
+          "I - #iv° - I"
+        ]
+      },
+      "related_scales": [
+        {"name": "Ionian (Major)", "relationship": "Lydian with natural 4th, more grounded"},
+        {"name": "Lydian Dominant", "relationship": "Lydian with b7, jazzy fusion sound"},
+        {"name": "Lydian Augmented", "relationship": "Lydian with #5, even more ethereal"}
+      ]
+    },
+    {
+      "scale_type": "Mixolydian",
+      "category": "Major Modes",
+      "intervals_semitones": [0, 2, 4, 5, 7, 9, 10],
+      "intervals_names": ["1", "2", "3", "4", "5", "6", "b7"],
+      "emotional_quality": ["groovy", "bluesy", "rock swagger", "laid-back", "confident", "earthy"],
+      "genre_associations": ["rock", "blues", "funk", "folk rock", "jam bands", "Celtic", "country rock"],
+      "chords": {
+        "basic": ["major", "minor", "diminished", "major", "minor", "minor", "major"],
+        "degrees": {
+          "I": "major",
+          "ii": "minor",
+          "iii°": "diminished",
+          "IV": "major",
+          "v": "minor",
+          "vi": "minor",
+          "bVII": "major"
+        },
+        "common_progressions": [
+          "I - bVII - IV - I",
+          "I - bVII - I",
+          "I - IV - bVII - IV",
+          "I - v - bVII - IV"
+        ]
+      },
+      "related_scales": [
+        {"name": "Ionian (Major)", "relationship": "Mixolydian with natural 7th, more resolved"},
+        {"name": "Dorian", "relationship": "Parallel minor mode with same b7"},
+        {"name": "Blues Scale", "relationship": "Often combined for rock/blues improvisation"}
+      ]
+    },
+    {
+      "scale_type": "Aeolian (Natural Minor)",
+      "category": "Major Modes",
+      "intervals_semitones": [0, 2, 3, 5, 7, 8, 10],
+      "intervals_names": ["1", "2", "b3", "4", "5", "b6", "b7"],
+      "emotional_quality": ["sad", "melancholy", "somber", "reflective", "dark", "serious", "longing"],
+      "genre_associations": ["rock", "pop ballads", "classical", "metal", "indie", "emo", "folk"],
+      "chords": {
+        "basic": ["minor", "diminished", "major", "minor", "minor", "major", "major"],
+        "degrees": {
+          "i": "minor",
+          "ii°": "diminished",
+          "bIII": "major",
+          "iv": "minor",
+          "v": "minor",
+          "bVI": "major",
+          "bVII": "major"
+        },
+        "common_progressions": [
+          "i - bVII - bVI - bVII",
+          "i - bVI - bIII - bVII",
+          "i - iv - bVI - V",
+          "i - bVI - bVII - i"
+        ]
+      },
+      "related_scales": [
+        {"name": "Dorian", "relationship": "Aeolian with raised 6th, less dark"},
+        {"name": "Harmonic Minor", "relationship": "Aeolian with raised 7th, stronger resolution"},
+        {"name": "Minor Pentatonic", "relationship": "Removes 2nd and b6 for simpler, bluesy sound"}
+      ]
+    },
+    {
+      "scale_type": "Locrian",
+      "category": "Major Modes",
+      "intervals_semitones": [0, 1, 3, 5, 6, 8, 10],
+      "intervals_names": ["1", "b2", "b3", "4", "b5", "b6", "b7"],
+      "emotional_quality": ["unstable", "dissonant", "nightmarish", "unsettling", "tense", "avant-garde"],
+      "genre_associations": ["metal", "jazz", "film scores (horror)", "experimental", "prog"],
+      "chords": {
+        "basic": ["diminished", "major", "minor", "minor", "major", "major", "minor"],
+        "degrees": {
+          "i°": "diminished",
+          "bII": "major",
+          "biii": "minor",
+          "iv": "minor",
+          "bV": "major",
+          "bVI": "major",
+          "bvii": "minor"
+        },
+        "common_progressions": [
+          "i° - bII (rarely used as tonal center)",
+          "bII - i° - bII",
+          "Used more as color over m7b5 chords than as key center"
+        ]
+      },
+      "related_scales": [
+        {"name": "Phrygian", "relationship": "Locrian with natural 5th, usable as tonal center"},
+        {"name": "Locrian #2", "relationship": "Locrian with natural 2nd, slightly less harsh"},
+        {"name": "Super Locrian", "relationship": "Even more altered, used over altered dominant chords"}
+      ]
+    },
+    {
+      "scale_type": "Harmonic Minor",
+      "category": "Harmonic Minor Modes",
+      "intervals_semitones": [0, 2, 3, 5, 7, 8, 11],
+      "intervals_names": ["1", "2", "b3", "4", "5", "b6", "7"],
+      "emotional_quality": ["dramatic", "exotic", "classical tension", "dark romance", "yearning", "Middle Eastern"],
+      "genre_associations": ["classical", "neo-classical metal", "flamenco", "Middle Eastern", "film scores", "tango"],
+      "chords": {
+        "basic": ["minor", "diminished", "augmented", "minor", "major", "major", "diminished"],
+        "degrees": {
+          "i": "minor",
+          "ii°": "diminished",
+          "bIII+": "augmented",
+          "iv": "minor",
+          "V": "major",
+          "bVI": "major",
+          "vii°": "diminished"
+        },
+        "common_progressions": [
+          "i - iv - V - i",
+          "i - bVI - V - i",
+          "i - iv - bVI - V",
+          "i - V - i"
+        ]
+      },
+      "related_scales": [
+        {"name": "Aeolian (Natural Minor)", "relationship": "Harmonic minor with b7, weaker dominant"},
+        {"name": "Phrygian Dominant", "relationship": "5th mode of harmonic minor, flamenco sound"},
+        {"name": "Melodic Minor", "relationship": "Harmonic minor with raised 6th, smoother"}
+      ]
+    },
+    {
+      "scale_type": "Locrian #6",
+      "category": "Harmonic Minor Modes",
+      "intervals_semitones": [0, 1, 3, 5, 6, 9, 10],
+      "intervals_names": ["1", "b2", "b3", "4", "b5", "6", "b7"],
+      "emotional_quality": ["unstable", "mysterious", "exotic darkness", "disorienting"],
+      "genre_associations": ["jazz", "fusion", "film scores", "experimental"],
+      "chords": {
+        "basic": ["diminished", "minor", "minor", "major", "major", "diminished", "minor"],
+        "degrees": {
+          "i°": "diminished",
+          "bii": "minor",
+          "biii": "minor",
+          "IV": "major",
+          "bV": "major",
+          "vi°": "diminished",
+          "bvii": "minor"
+        },
+        "common_progressions": [
+          "Used primarily as color over half-diminished chords",
+          "i° - IV - bV"
+        ]
+      },
+      "related_scales": [
+        {"name": "Locrian", "relationship": "Locrian #6 has raised 6th, slightly less dark"},
+        {"name": "Locrian #2", "relationship": "Different approach to softening Locrian"}
+      ]
+    },
+    {
+      "scale_type": "Ionian #5 (Augmented Major)",
+      "category": "Harmonic Minor Modes",
+      "intervals_semitones": [0, 2, 4, 5, 8, 9, 11],
+      "intervals_names": ["1", "2", "3", "4", "#5", "6", "7"],
+      "emotional_quality": ["dreamy", "surreal", "unsettled beauty", "otherworldly", "shimmering"],
+      "genre_associations": ["jazz", "film scores", "impressionist", "experimental pop"],
+      "chords": {
+        "basic": ["augmented", "minor", "minor", "major", "augmented", "minor", "diminished"],
+        "degrees": {
+          "I+": "augmented",
+          "ii": "minor",
+          "iii": "minor",
+          "IV": "major",
+          "#V+": "augmented",
+          "vi": "minor",
+          "vii°": "diminished"
+        },
+        "common_progressions": [
+          "I+ - IV - I+",
+          "Used as passing color in jazz voicings"
+        ]
+      },
+      "related_scales": [
+        {"name": "Ionian (Major)", "relationship": "Natural 5th creates stable major sound"},
+        {"name": "Lydian Augmented", "relationship": "Similar #5 but with #4 instead of natural 4"}
+      ]
+    },
+    {
+      "scale_type": "Dorian #4",
+      "category": "Harmonic Minor Modes",
+      "intervals_semitones": [0, 2, 3, 6, 7, 9, 10],
+      "intervals_names": ["1", "2", "b3", "#4", "5", "6", "b7"],
+      "emotional_quality": ["exotic minor", "mysterious groove", "dark mysticism", "otherworldly cool"],
+      "genre_associations": ["jazz fusion", "prog rock", "world fusion", "film scores"],
+      "chords": {
+        "basic": ["minor", "major", "major", "diminished", "minor", "diminished", "major"],
+        "degrees": {
+          "i": "minor",
+          "II": "major",
+          "bIII": "major",
+          "#iv°": "diminished",
+          "v": "minor",
+          "vi°": "diminished",
+          "bVII": "major"
+        },
+        "common_progressions": [
+          "i - II - bVII - i",
+          "i - bIII - II - i"
+        ]
+      },
+      "related_scales": [
+        {"name": "Dorian", "relationship": "Natural 4th, more conventional minor sound"},
+        {"name": "Lydian b7", "relationship": "Major version with similar #4 and b7"}
+      ]
+    },
+    {
+      "scale_type": "Phrygian Dominant",
+      "category": "Harmonic Minor Modes",
+      "intervals_semitones": [0, 1, 4, 5, 7, 8, 10],
+      "intervals_names": ["1", "b2", "3", "4", "5", "b6", "b7"],
+      "emotional_quality": ["exotic", "Spanish passion", "dramatic tension", "fiery", "seductive darkness"],
+      "genre_associations": ["flamenco", "Middle Eastern", "Jewish music", "metal", "film scores", "tango"],
+      "chords": {
+        "basic": ["major", "major", "diminished", "minor", "diminished", "major", "minor"],
+        "degrees": {
+          "I": "major",
+          "bII": "major",
+          "iii°": "diminished",
+          "iv": "minor",
+          "v°": "diminished",
+          "bVI": "major",
+          "bvii": "minor"
+        },
+        "common_progressions": [
+          "I - bII - I",
+          "I - bvii - bVI - I",
+          "I - iv - bII - I",
+          "i (minor) - bII - I (major) - Andalusian cadence variation"
+        ]
+      },
+      "related_scales": [
+        {"name": "Phrygian", "relationship": "b3 instead of natural 3, fully minor"},
+        {"name": "Harmonic Minor", "relationship": "Phrygian Dominant is 5th mode of Harmonic Minor"},
+        {"name": "Double Harmonic Major", "relationship": "Similar exotic flavor with different intervals"}
+      ]
+    },
+    {
+      "scale_type": "Lydian #2",
+      "category": "Harmonic Minor Modes",
+      "intervals_semitones": [0, 3, 4, 6, 7, 9, 11],
+      "intervals_names": ["1", "#2", "3", "#4", "5", "6", "7"],
+      "emotional_quality": ["ethereal", "alien", "crystalline", "mysterious brightness"],
+      "genre_associations": ["film scores", "jazz", "experimental", "ambient"],
+      "chords": {
+        "basic": ["major", "augmented", "minor", "diminished", "major", "diminished", "minor"],
+        "degrees": {
+          "I": "major",
+          "#II+": "augmented",
+          "iii": "minor",
+          "#iv°": "diminished",
+          "V": "major",
+          "vi°": "diminished",
+          "vii": "minor"
+        },
+        "common_progressions": [
+          "I - V - I",
+          "Primarily used as color/texture rather than functional harmony"
+        ]
+      },
+      "related_scales": [
+        {"name": "Lydian", "relationship": "Natural 2nd, more conventional bright sound"},
+        {"name": "Harmonic Minor", "relationship": "Lydian #2 is 6th mode of Harmonic Minor"}
+      ]
+    },
+    {
+      "scale_type": "Super Locrian bb7 (Ultralocrian)",
+      "category": "Harmonic Minor Modes",
+      "intervals_semitones": [0, 1, 3, 4, 6, 8, 9],
+      "intervals_names": ["1", "b2", "b3", "b4", "b5", "b6", "bb7"],
+      "emotional_quality": ["extremely dark", "chaotic", "disintegrating", "nightmare"],
+      "genre_associations": ["avant-garde jazz", "experimental", "horror scores"],
+      "chords": {
+        "basic": ["diminished", "diminished", "minor", "diminished", "major", "minor", "major"],
+        "degrees": {
+          "i°": "diminished",
+          "Rarely used functionally - primarily melodic color"
+        },
+        "common_progressions": [
+          "Used as extreme tension over diminished or altered chords",
+          "Not typically used for progressions"
+        ]
+      },
+      "related_scales": [
+        {"name": "Locrian", "relationship": "More stable version with natural 4th and 7th"},
+        {"name": "Super Locrian", "relationship": "Less extreme altered scale"}
+      ]
+    },
+    {
+      "scale_type": "Melodic Minor (Ascending)",
+      "category": "Melodic Minor Modes",
+      "intervals_semitones": [0, 2, 3, 5, 7, 9, 11],
+      "intervals_names": ["1", "2", "b3", "4", "5", "6", "7"],
+      "emotional_quality": ["bittersweet", "sophisticated sadness", "hopeful minor", "jazz elegance", "yearning"],
+      "genre_associations": ["jazz", "classical", "film scores", "fusion", "contemporary classical"],
+      "chords": {
+        "basic": ["minor-major7", "minor", "augmented", "major", "major", "diminished", "diminished"],
+        "degrees": {
+          "i(maj7)": "minor-major7",
+          "ii": "minor",
+          "bIII+": "augmented",
+          "IV": "major",
+          "V": "major",
+          "vi°": "diminished",
+          "vii°": "diminished"
+        },
+        "common_progressions": [
+          "i(maj7) - IV - V - i(maj7)",
+          "i(maj7) - ii - V - i(maj7)",
+          "Often used for improvisation over min/maj7 chords"
+        ]
+      },
+      "related_scales": [
+        {"name": "Dorian", "relationship": "Melodic minor with b7, less sophisticated"},
+        {"name": "Harmonic Minor", "relationship": "Melodic minor with b6, more classical tension"},
+        {"name": "Ionian (Major)", "relationship": "Only differs by b3, minor vs major"}
+      ]
+    },
+    {
+      "scale_type": "Dorian b2 (Phrygian #6)",
+      "category": "Melodic Minor Modes",
+      "intervals_semitones": [0, 1, 3, 5, 7, 9, 10],
+      "intervals_names": ["1", "b2", "b3", "4", "5", "6", "b7"],
+      "emotional_quality": ["exotic darkness", "mysterious", "tense groove", "shadowy"],
+      "genre_associations": ["jazz", "fusion", "film noir scores", "world music"],
+      "chords": {
+        "basic": ["minor", "major", "major", "major", "diminished", "diminished", "minor"],
+        "degrees": {
+          "i": "minor",
+          "bII": "major",
+          "bIII": "major",
+          "IV": "major",
+          "v°": "diminished",
+          "vi°": "diminished",
+          "bvii": "minor"
+        },
+        "common_progressions": [
+          "i - bII - IV - i",
+          "i - bIII - bII - i"
+        ]
+      },
+      "related_scales": [
+        {"name": "Phrygian", "relationship": "Natural 6th vs raised 6th"},
+        {"name": "Dorian", "relationship": "Natural 2nd, less exotic"}
+      ]
+    },
+    {
+      "scale_type": "Lydian Augmented",
+      "category": "Melodic Minor Modes",
+      "intervals_semitones": [0, 2, 4, 6, 8, 9, 11],
+      "intervals_names": ["1", "2", "3", "#4", "#5", "6", "7"],
+      "emotional_quality": ["extremely ethereal", "floating", "surreal", "transcendent", "ascending"],
+      "genre_associations": ["jazz", "film scores", "new age", "prog rock", "ambient"],
+      "chords": {
+        "basic": ["augmented", "major", "minor", "diminished", "augmented", "minor", "minor"],
+        "degrees": {
+          "I+": "augmented",
+          "II": "major",
+          "iii": "minor",
+          "#iv°": "diminished",
+          "#V+": "augmented",
+          "vi": "minor",
+          "vii": "minor"
+        },
+        "common_progressions": [
+          "I+ - II - I+",
+          "Used primarily as color over maj7#5 chords"
+        ]
+      },
+      "related_scales": [
+        {"name": "Lydian", "relationship": "Natural 5th, more grounded"},
+        {"name": "Ionian #5", "relationship": "Natural 4th with #5"},
+        {"name": "Whole Tone", "relationship": "Similar floating quality, even fewer anchor points"}
+      ]
+    },
+    {
+      "scale_type": "Lydian Dominant (Lydian b7)",
+      "category": "Melodic Minor Modes",
+      "intervals_semitones": [0, 2, 4, 6, 7, 9, 10],
+      "intervals_names": ["1", "2", "3", "#4", "5", "6", "b7"],
+      "emotional_quality": ["bright tension", "jazzy", "sophisticated groove", "expansive", "adventurous"],
+      "genre_associations": ["jazz", "fusion", "funk", "prog rock", "film scores"],
+      "chords": {
+        "basic": ["dominant7", "minor", "diminished", "diminished", "minor", "minor", "major"],
+        "degrees": {
+          "I7": "dominant7",
+          "ii": "minor",
+          "iii°": "diminished",
+          "#iv°": "diminished",
+          "v": "minor",
+          "vi": "minor",
+          "bVII": "major"
+        },
+        "common_progressions": [
+          "I7 - bVII - I7",
+          "Used over dominant 7th chords, especially tritone subs",
+          "I7 - ii - I7"
+        ]
+      },
+      "related_scales": [
+        {"name": "Lydian", "relationship": "Natural 7th, major quality"},
+        {"name": "Mixolydian", "relationship": "Natural 4th, less bright"},
+        {"name": "Whole Tone", "relationship": "Similar brightness, no 4th or 7th"}
+      ]
+    },
+    {
+      "scale_type": "Mixolydian b6 (Hindu/Aeolian Dominant)",
+      "category": "Melodic Minor Modes",
+      "intervals_semitones": [0, 2, 4, 5, 7, 8, 10],
+      "intervals_names": ["1", "2", "3", "4", "5", "b6", "b7"],
+      "emotional_quality": ["melancholic brightness", "bittersweet", "tragic joy", "exotic major"],
+      "genre_associations": ["Indian classical", "jazz", "film scores", "world fusion"],
+      "chords": {
+        "basic": ["major", "minor", "diminished", "minor", "diminished", "major", "minor"],
+        "degrees": {
+          "I": "major",
+          "ii": "minor",
+          "iii°": "diminished",
+          "iv": "minor",
+          "v°": "diminished",
+          "bVI": "major",
+          "bvii": "minor"
+        },
+        "common_progressions": [
+          "I - bVI - bvii - I",
+          "I - iv - I",
+          "Used over dominant chords resolving to minor"
+        ]
+      },
+      "related_scales": [
+        {"name": "Mixolydian", "relationship": "Natural 6th, straightforward dominant"},
+        {"name": "Aeolian", "relationship": "b3 instead of natural 3, fully minor"},
+        {"name": "Harmonic Major", "relationship": "Natural 7th with b6"}
+      ]
+    },
+    {
+      "scale_type": "Locrian #2 (Half-Diminished)",
+      "category": "Melodic Minor Modes",
+      "intervals_semitones": [0, 2, 3, 5, 6, 8, 10],
+      "intervals_names": ["1", "2", "b3", "4", "b5", "b6", "b7"],
+      "emotional_quality": ["tense", "searching", "unstable longing", "dark but not harsh"],
+      "genre_associations": ["jazz", "film scores", "classical", "neo-soul"],
+      "chords": {
+        "basic": ["half-diminished", "minor", "major", "minor", "major", "major", "minor"],
+        "degrees": {
+          "iø7": "half-diminished",
+          "ii": "minor",
+          "bIII": "major",
+          "iv": "minor",
+          "bV": "major",
+          "bVI": "major",
+          "bvii": "minor"
+        },
+        "common_progressions": [
+          "iø7 - bIII - bVI",
+          "Primary use: improvising over m7b5 chords in ii-V-i",
+          "iø7 - V7 - i"
+        ]
+      },
+      "related_scales": [
+        {"name": "Locrian", "relationship": "b2 instead of natural 2, harsher"},
+        {"name": "Aeolian", "relationship": "Natural 5th, stable minor"}
+      ]
+    },
+    {
+      "scale_type": "Super Locrian (Altered Scale)",
+      "category": "Melodic Minor Modes",
+      "intervals_semitones": [0, 1, 3, 4, 6, 8, 10],
+      "intervals_names": ["1", "b2", "b3", "b4", "b5", "b6", "b7"],
+      "emotional_quality": ["extreme tension", "dissonant", "chaotic", "unstable", "explosive"],
+      "genre_associations": ["jazz", "bebop", "fusion", "avant-garde"],
+      "chords": {
+        "basic": ["Used over altered dominant chords - not for building progressions"],
+        "degrees": {
+          "Primary function": "Melodic color over 7alt chords (7#9, 7b9, 7#5, 7b5)"
+        },
+        "common_progressions": [
+          "V7alt - i (resolution to minor)",
+          "bII7 - I (tritone sub resolution)",
+          "Used for maximum tension before resolution"
+        ]
+      },
+      "related_scales": [
+        {"name": "Locrian", "relationship": "Less altered, more stable"},
+        {"name": "Whole-Half Diminished", "relationship": "Alternative for altered dominant sounds"},
+        {"name": "Phrygian", "relationship": "Natural 4th and 5th, usable as tonal center"}
+      ]
+    },
+    {
+      "scale_type": "Major Pentatonic",
+      "category": "Pentatonic Scales",
+      "intervals_semitones": [0, 2, 4, 7, 9],
+      "intervals_names": ["1", "2", "3", "5", "6"],
+      "emotional_quality": ["bright", "simple", "innocent", "folk", "uplifting", "open"],
+      "genre_associations": ["country", "folk", "pop", "rock", "Celtic", "African", "children's music"],
+      "chords": {
+        "basic": ["major", "suspended", "power chords"],
+        "degrees": {
+          "I": "major",
+          "ii": "suspended (no 3rd available)",
+          "V": "major or sus"
+        },
+        "common_progressions": [
+          "I - IV - V (implied)",
+          "I - V - I",
+          "Works over any major key progression"
+        ]
+      },
+      "related_scales": [
+        {"name": "Ionian (Major)", "relationship": "Adds 4th and 7th for full major scale"},
+        {"name": "Minor Pentatonic", "relationship": "Same notes, different root (relative minor)"},
+        {"name": "Blues Scale", "relationship": "Adds b3 for blues flavor"}
+      ]
+    },
+    {
+      "scale_type": "Minor Pentatonic",
+      "category": "Pentatonic Scales",
+      "intervals_semitones": [0, 3, 5, 7, 10],
+      "intervals_names": ["1", "b3", "4", "5", "b7"],
+      "emotional_quality": ["bluesy", "raw", "soulful", "gritty", "expressive", "primal"],
+      "genre_associations": ["blues", "rock", "R&B", "soul", "funk", "metal"],
+      "chords": {
+        "basic": ["minor", "power chords", "minor7"],
+        "degrees": {
+          "i": "minor",
+          "bIII": "major (implied)",
+          "iv": "minor",
+          "v": "minor (no 3rd)",
+          "bVII": "major (implied)"
+        },
+        "common_progressions": [
+          "i - iv - i",
+          "i - bVII - i",
+          "12-bar blues patterns"
+        ]
+      },
+      "related_scales": [
+        {"name": "Major Pentatonic", "relationship": "Same notes, different root (relative major)"},
+        {"name": "Blues Scale", "relationship": "Adds b5 for blue note"},
+        {"name": "Aeolian", "relationship": "Adds 2nd and b6 for full natural minor"}
+      ]
+    },
+    {
+      "scale_type": "Egyptian (Suspended Pentatonic)",
+      "category": "Pentatonic Scales",
+      "intervals_semitones": [0, 2, 5, 7, 10],
+      "intervals_names": ["1", "2", "4", "5", "b7"],
+      "emotional_quality": ["ancient", "mystical", "ambiguous", "meditative", "floating"],
+      "genre_associations": ["world music", "ambient", "film scores", "new age", "Middle Eastern fusion"],
+      "chords": {
+        "basic": ["sus2", "sus4", "power chords"],
+        "degrees": {
+          "No clear major/minor - suspended quality throughout"
+        },
+        "common_progressions": [
+          "Isus2 - IVsus - Isus2",
+          "Drone-based compositions",
+          "Modal vamps"
+        ]
+      },
+      "related_scales": [
+        {"name": "Dorian", "relationship": "Adds b3 and 6 for full Dorian"},
+        {"name": "Mixolydian", "relationship": "Adds 3 and 6 for Mixolydian"},
+        {"name": "Minor Pentatonic", "relationship": "2nd mode of minor pentatonic"}
+      ]
+    },
+    {
+      "scale_type": "Japanese (In-Sen)",
+      "category": "Pentatonic Scales",
+      "intervals_semitones": [0, 1, 5, 7, 10],
+      "intervals_names": ["1", "b2", "4", "5", "b7"],
+      "emotional_quality": ["melancholic", "contemplative", "serene sadness", "Zen", "ancient"],
+      "genre_associations": ["Japanese traditional", "ambient", "film scores", "meditation music"],
+      "chords": {
+        "basic": ["minor", "sus4", "power chords"],
+        "degrees": {
+          "i": "minor (implied)",
+          "bII": "major (implied)"
+        },
+        "common_progressions": [
+          "Drone-based",
+          "i - bII - i",
+          "Melodic focus over static harmony"
+        ]
+      },
+      "related_scales": [
+        {"name": "Phrygian", "relationship": "Adds b3 and b6 for full Phrygian"},
+        {"name": "Minor Pentatonic", "relationship": "b2 instead of b3"}
+      ]
+    },
+    {
+      "scale_type": "Hirajoshi",
+      "category": "Pentatonic Scales",
+      "intervals_semitones": [0, 2, 3, 7, 8],
+      "intervals_names": ["1", "2", "b3", "5", "b6"],
+      "emotional_quality": ["haunting", "beautiful sadness", "delicate", "ethereal", "Japanese"],
+      "genre_associations": ["Japanese traditional", "ambient", "metal", "prog rock", "film scores"],
+      "chords": {
+        "basic": ["minor", "major (on bVI)"],
+        "degrees": {
+          "i": "minor",
+          "bVI": "major"
+        },
+        "common_progressions": [
+          "i - bVI - i",
+          "Melodic improvisation over drone",
+          "i - v - i"
+        ]
+      },
+      "related_scales": [
+        {"name": "Aeolian", "relationship": "Adds 4th and b7 for full natural minor"},
+        {"name": "Harmonic Minor", "relationship": "Similar b6 tension"}
+      ]
+    },
+    {
+      "scale_type": "Blues Scale (Minor Blues)",
+      "category": "Blues Scales",
+      "intervals_semitones": [0, 3, 5, 6, 7, 10],
+      "intervals_names": ["1", "b3", "4", "b5", "5", "b7"],
+      "emotional_quality": ["soulful", "gritty", "expressive pain", "raw emotion", "earthy"],
+      "genre_associations": ["blues", "rock", "jazz", "R&B", "soul", "funk"],
+      "chords": {
+        "basic": ["minor7", "dominant7", "power chords"],
+        "degrees": {
+          "Works over": "i7, IV7, V7 in blues context",
+          "The b5 (blue note)": "Creates tension that resolves to 4 or 5"
+        },
+        "common_progressions": [
+          "12-bar blues: I7 - IV7 - I7 - V7 - IV7 - I7",
+          "i - iv - i",
+          "Works over dominant 7th chords"
+        ]
+      },
+      "related_scales": [
+        {"name": "Minor Pentatonic", "relationship": "Blues scale without the b5"},
+        {"name": "Mixolydian", "relationship": "Often combined for major blues"},
+        {"name": "Dorian", "relationship": "Similar minor feel, more notes"}
+      ]
+    },
+    {
+      "scale_type": "Major Blues",
+      "category": "Blues Scales",
+      "intervals_semitones": [0, 2, 3, 4, 7, 9],
+      "intervals_names": ["1", "2", "b3", "3", "5", "6"],
+      "emotional_quality": ["happy blues", "gospel joy", "sassy", "swinging", "bright soul"],
+      "genre_associations": ["blues", "gospel", "country", "rockabilly", "swing"],
+      "chords": {
+        "basic": ["major6", "dominant7", "major"],
+        "degrees": {
+          "I6": "major6",
+          "IV7": "dominant7",
+          "V7": "dominant7"
+        },
+        "common_progressions": [
+          "I - IV - I - V",
+          "12-bar blues in major",
+          "I6 - IV7 - I6"
+        ]
+      },
+      "related_scales": [
+        {"name": "Major Pentatonic", "relationship": "Major blues without the b3"},
+        {"name": "Mixolydian", "relationship": "Adds 4th and b7"},
+        {"name": "Minor Blues", "relationship": "Often combined for full blues vocabulary"}
+      ]
+    },
+    {
+      "scale_type": "Whole Tone",
+      "category": "Symmetric Scales",
+      "intervals_semitones": [0, 2, 4, 6, 8, 10],
+      "intervals_names": ["1", "2", "3", "#4", "#5", "b7"],
+      "emotional_quality": ["dreamlike", "floating", "unstable", "impressionistic", "mysterious", "suspended"],
+      "genre_associations": ["impressionist", "jazz", "film scores", "ambient", "video game music"],
+      "chords": {
+        "basic": ["augmented", "dominant7#5"],
+        "degrees": {
+          "Every chord": "augmented (no minor or diminished possible)",
+          "I+": "augmented",
+          "I7#5": "dominant7#5"
+        },
+        "common_progressions": [
+          "No traditional progressions - all chords are equivalent",
+          "Used as color/transition",
+          "I+ - I+ - resolution outside scale"
+        ]
+      },
+      "related_scales": [
+        {"name": "Lydian Dominant", "relationship": "Adds natural 5 for more stability"},
+        {"name": "Lydian Augmented", "relationship": "Adds natural 7 and 6"},
+        {"name": "Augmented Scale", "relationship": "Different symmetric approach"}
+      ]
+    },
+    {
+      "scale_type": "Half-Whole Diminished",
+      "category": "Symmetric Scales",
+      "intervals_semitones": [0, 1, 3, 4, 6, 7, 9, 10],
+      "intervals_names": ["1", "b2", "b3", "3", "b5", "5", "6", "b7"],
+      "emotional_quality": ["tense", "dramatic", "unsettled", "chromatic", "film noir"],
+      "genre_associations": ["jazz", "film scores", "classical", "metal", "prog"],
+      "chords": {
+        "basic": ["diminished7", "dominant7b9"],
+        "degrees": {
+          "Primary use": "Over dominant 7b9 chords",
+          "i°7": "diminished7",
+          "I7b9": "dominant7b9"
+        },
+        "common_progressions": [
+          "V7b9 - i",
+          "Used for dominant tension before resolution",
+          "Passing diminished chords"
+        ]
+      },
+      "related_scales": [
+        {"name": "Whole-Half Diminished", "relationship": "Inverted pattern, used over dim7 chords"},
+        {"name": "Super Locrian", "relationship": "Alternative altered dominant sound"},
+        {"name": "Harmonic Minor", "relationship": "V chord derives from harmonic minor"}
+      ]
+    },
+    {
+      "scale_type": "Whole-Half Diminished",
+      "category": "Symmetric Scales",
+      "intervals_semitones": [0, 2, 3, 5, 6, 8, 9, 11],
+      "intervals_names": ["1", "2", "b3", "4", "b5", "b6", "6", "7"],
+      "emotional_quality": ["mysterious", "suspenseful", "chromatic tension", "unstable"],
+      "genre_associations": ["jazz", "film scores", "classical", "prog rock"],
+      "chords": {
+        "basic": ["diminished7", "minor-major7"],
+        "degrees": {
+          "Primary use": "Over diminished 7th chords",
+          "i°7": "diminished7"
+        },
+        "common_progressions": [
+          "°7 - resolution",
+          "Passing diminished function",
+          "Used for chromatic voice leading"
+        ]
+      },
+      "related_scales": [
+        {"name": "Half-Whole Diminished", "relationship": "Inverted pattern, used over dom7b9"},
+        {"name": "Harmonic Minor", "relationship": "vii°7 chord shares tones"}
+      ]
+    },
+    {
+      "scale_type": "Augmented Scale",
+      "category": "Symmetric Scales",
+      "intervals_semitones": [0, 3, 4, 7, 8, 11],
+      "intervals_names": ["1", "b3", "3", "5", "#5", "7"],
+      "emotional_quality": ["unstable", "shimmering", "otherworldly", "ambiguous"],
+      "genre_associations": ["jazz", "film scores", "impressionist", "experimental"],
+      "chords": {
+        "basic": ["augmented", "major"],
+        "degrees": {
+          "I+": "augmented",
+          "I": "major"
+        },
+        "common_progressions": [
+          "Primarily used as melodic color",
+          "I - I+ - I",
+          "Creates chromatic voice leading"
+        ]
+      },
+      "related_scales": [
+        {"name": "Whole Tone", "relationship": "Different symmetric approach to augmented sounds"},
+        {"name": "Ionian #5", "relationship": "More conventional scale with augmented tonic"}
+      ]
+    },
+    {
+      "scale_type": "Bebop Dominant",
+      "category": "Bebop Scales",
+      "intervals_semitones": [0, 2, 4, 5, 7, 9, 10, 11],
+      "intervals_names": ["1", "2", "3", "4", "5", "6", "b7", "7"],
+      "emotional_quality": ["swinging", "sophisticated", "energetic", "virtuosic", "urban"],
+      "genre_associations": ["bebop", "jazz", "swing", "hard bop"],
+      "chords": {
+        "basic": ["dominant7", "major"],
+        "degrees": {
+          "I7": "dominant7",
+          "The added natural 7": "Creates chromatic passing tone"
+        },
+        "common_progressions": [
+          "ii - V7 - I",
+          "Turnarounds",
+          "Used over any dominant 7th chord"
+        ]
+      },
+      "related_scales": [
+        {"name": "Mixolydian", "relationship": "Bebop Dominant without the natural 7"},
+        {"name": "Bebop Major", "relationship": "Similar concept for major chords"},
+        {"name": "Blues Scale", "relationship": "Often combined in jazz improvisation"}
+      ]
+    },
+    {
+      "scale_type": "Bebop Major",
+      "category": "Bebop Scales",
+      "intervals_semitones": [0, 2, 4, 5, 7, 8, 9, 11],
+      "intervals_names": ["1", "2", "3", "4", "5", "#5", "6", "7"],
+      "emotional_quality": ["bright swing", "sophisticated joy", "virtuosic", "elegant"],
+      "genre_associations": ["bebop", "jazz", "swing", "cool jazz"],
+      "chords": {
+        "basic": ["major7", "major6"],
+        "degrees": {
+          "Imaj7": "major7",
+          "I6": "major6",
+          "The added #5": "Creates chromatic passing tone between 5 and 6"
+        },
+        "common_progressions": [
+          "Imaj7 - vi - ii - V",
+          "Used over major 7th chords",
+          "Rhythm changes"
+        ]
+      },
+      "related_scales": [
+        {"name": "Ionian (Major)", "relationship": "Bebop Major without the #5"},
+        {"name": "Bebop Dominant", "relationship": "Similar concept for dominant chords"}
+      ]
+    },
+    {
+      "scale_type": "Bebop Dorian",
+      "category": "Bebop Scales",
+      "intervals_semitones": [0, 2, 3, 4, 5, 7, 9, 10],
+      "intervals_names": ["1", "2", "b3", "3", "4", "5", "6", "b7"],
+      "emotional_quality": ["soulful swing", "sophisticated minor", "urban groove"],
+      "genre_associations": ["bebop", "hard bop", "soul jazz", "fusion"],
+      "chords": {
+        "basic": ["minor7", "minor6"],
+        "degrees": {
+          "i7": "minor7",
+          "i6": "minor6",
+          "The added natural 3": "Creates chromatic line b3-3-4"
+        },
+        "common_progressions": [
+          "ii7 - V7 - Imaj7",
+          "i7 - IV7",
+          "Minor ii-V-i"
+        ]
+      },
+      "related_scales": [
+        {"name": "Dorian", "relationship": "Bebop Dorian without the natural 3"},
+        {"name": "Bebop Minor", "relationship": "Alternative minor bebop approach"}
+      ]
+    },
+    {
+      "scale_type": "Bebop Minor (Bebop Melodic Minor)",
+      "category": "Bebop Scales",
+      "intervals_semitones": [0, 2, 3, 5, 7, 8, 9, 11],
+      "intervals_names": ["1", "2", "b3", "4", "5", "b6", "6", "7"],
+      "emotional_quality": ["dramatic swing", "sophisticated tension", "minor elegance"],
+      "genre_associations": ["bebop", "jazz", "latin jazz"],
+      "chords": {
+        "basic": ["minor-major7", "minor6"],
+        "degrees": {
+          "i(maj7)": "minor-major7",
+          "The added b6": "Creates chromatic line 5-b6-6-7"
+        },
+        "common_progressions": [
+          "i(maj7) - iv - V7 - i",
+          "Used over minor-major7 chords"
+        ]
+      },
+      "related_scales": [
+        {"name": "Melodic Minor", "relationship": "Bebop Minor without the b6"},
+        {"name": "Harmonic Minor", "relationship": "Has b6 but different approach"}
+      ]
+    },
+    {
+      "scale_type": "Double Harmonic Major (Byzantine)",
+      "category": "World/Exotic Scales",
+      "intervals_semitones": [0, 1, 4, 5, 7, 8, 11],
+      "intervals_names": ["1", "b2", "3", "4", "5", "b6", "7"],
+      "emotional_quality": ["exotic majesty", "Middle Eastern grandeur", "ancient", "dramatic", "mystical"],
+      "genre_associations": ["Middle Eastern", "Indian", "metal", "film scores", "Byzantine chant"],
+      "chords": {
+        "basic": ["major", "major (on bII)"],
+        "degrees": {
+          "I": "major",
+          "bII": "major",
+          "v": "minor"
+        },
+        "common_progressions": [
+          "I - bII - I",
+          "I - v - bII - I",
+          "Modal vamps"
+        ]
+      },
+      "related_scales": [
+        {"name": "Phrygian Dominant", "relationship": "b2 and b6, but b7 instead of natural 7"},
+        {"name": "Harmonic Minor", "relationship": "Different approach to the b6"},
+        {"name": "Hungarian Minor", "relationship": "Similar exotic flavor, different intervals"}
+      ]
+    },
+    {
+      "scale_type": "Hungarian Minor",
+      "category": "World/Exotic Scales",
+      "intervals_semitones": [0, 2, 3, 6, 7, 8, 11],
+      "intervals_names": ["1", "2", "b3", "#4", "5", "b6", "7"],
+      "emotional_quality": ["dark exotic", "mysterious passion", "gypsy fire", "dramatic tension"],
+      "genre_associations": ["Eastern European folk", "gypsy jazz", "metal", "classical", "film scores"],
+      "chords": {
+        "basic": ["minor", "augmented", "major"],
+        "degrees": {
+          "i": "minor",
+          "bIII+": "augmented",
+          "V": "major"
+        },
+        "common_progressions": [
+          "i - V - i",
+          "i - bVI - V - i",
+          "i - #iv° - V - i"
+        ]
+      },
+      "related_scales": [
+        {"name": "Harmonic Minor", "relationship": "Hungarian Minor has #4"},
+        {"name": "Double Harmonic Major", "relationship": "Similar exotic quality, major instead of minor"},
+        {"name": "Phrygian Dominant", "relationship": "Different approach to exotic minor"}
+      ]
+    },
+    {
+      "scale_type": "Hungarian Major",
+      "category": "World/Exotic Scales",
+      "intervals_semitones": [0, 3, 4, 6, 7, 9, 10],
+      "intervals_names": ["1", "#2", "3", "#4", "5", "6", "b7"],
+      "emotional_quality": ["bright exotic", "celebratory", "festive", "unusual joy"],
+      "genre_associations": ["Eastern European folk", "klezmer", "film scores"],
+      "chords": {
+        "basic": ["major", "dominant7"],
+        "degrees": {
+          "I7": "dominant7",
+          "V": "major"
+        },
+        "common_progressions": [
+          "I7 - IV - I7",
+          "Primarily melodic/improvisational"
+        ]
+      },
+      "related_scales": [
+        {"name": "Lydian Dominant", "relationship": "Similar #4 and b7, natural 2"},
+        {"name": "Hungarian Minor", "relationship": "Minor version"}
+      ]
+    },
+    {
+      "scale_type": "Neapolitan Minor",
+      "category": "World/Exotic Scales",
+      "intervals_semitones": [0, 1, 3, 5, 7, 8, 11],
+      "intervals_names": ["1", "b2", "b3", "4", "5", "b6", "7"],
+      "emotional_quality": ["dark classical", "operatic tragedy", "dramatic tension", "elegant sorrow"],
+      "genre_associations": ["classical", "opera", "film scores", "neo-classical metal"],
+      "chords": {
+        "basic": ["minor", "major (bII - Neapolitan chord)", "major (V)"],
+        "degrees": {
+          "i": "minor",
+          "bII": "major (Neapolitan)",
+          "V": "major"
+        },
+        "common_progressions": [
+          "i - bII - V - i",
+          "bII - V - i (Neapolitan cadence)",
+          "i - iv - bII - V - i"
+        ]
+      },
+      "related_scales": [
+        {"name": "Harmonic Minor", "relationship": "Natural 2 instead of b2"},
+        {"name": "Phrygian", "relationship": "b7 instead of natural 7"},
+        {"name": "Neapolitan Major", "relationship": "Major 3rd instead of minor"}
+      ]
+    },
+    {
+      "scale_type": "Neapolitan Major",
+      "category": "World/Exotic Scales",
+      "intervals_semitones": [0, 1, 3, 5, 7, 9, 11],
+      "intervals_names": ["1", "b2", "b3", "4", "5", "6", "7"],
+      "emotional_quality": ["bittersweet grandeur", "melancholic majesty", "classical drama"],
+      "genre_associations": ["classical", "film scores", "romantic era"],
+      "chords": {
+        "basic": ["minor (on i, due to b3)", "major (bII)", "major (V)"],
+        "degrees": {
+          "i": "minor",
+          "bII": "major",
+          "V": "major",
+          "vi": "minor"
+        },
+        "common_progressions": [
+          "i - bII - V - i",
+          "i - vi - bII - V"
+        ]
+      },
+      "related_scales": [
+        {"name": "Neapolitan Minor", "relationship": "b6 instead of natural 6"},
+        {"name": "Melodic Minor", "relationship": "Natural 2 instead of b2"}
+      ]
+    },
+    {
+      "scale_type": "Persian",
+      "category": "World/Exotic Scales",
+      "intervals_semitones": [0, 1, 4, 5, 6, 8, 11],
+      "intervals_names": ["1", "b2", "3", "4", "b5", "b6", "7"],
+      "emotional_quality": ["mysterious", "ancient", "exotic tension", "mystical", "dramatic"],
+      "genre_associations": ["Middle Eastern", "film scores", "ambient", "metal"],
+      "chords": {
+        "basic": ["major", "diminished"],
+        "degrees": {
+          "I": "major",
+          "bII": "major",
+          "iv°": "diminished"
+        },
+        "common_progressions": [
+          "I - bII - I",
+          "Drone-based",
+          "Modal improvisation"
+        ]
+      },
+      "related_scales": [
+        {"name": "Phrygian Dominant", "relationship": "Natural 5 instead of b5"},
+        {"name": "Double Harmonic Major", "relationship": "Similar exotic flavor"}
+      ]
+    },
+    {
+      "scale_type": "Enigmatic",
+      "category": "World/Exotic Scales",
+      "intervals_semitones": [0, 1, 4, 6, 8, 10, 11],
+      "intervals_names": ["1", "b2", "3", "#4", "#5", "b7", "7"],
+      "emotional_quality": ["mysterious", "unsettling", "avant-garde", "ambiguous", "dreamlike"],
+      "genre_associations": ["film scores", "contemporary classical", "experimental", "ambient"],
+      "chords": {
+        "basic": ["augmented", "major"],
+        "degrees": {
+          "I+": "augmented",
+          "Highly chromatic": "Not suited for traditional progressions"
+        },
+        "common_progressions": [
+          "Primarily melodic/linear composition",
+          "I - bII - I",
+          "Used for color/atmosphere"
+        ]
+      },
+      "related_scales": [
+        {"name": "Lydian Augmented", "relationship": "Similar #4 and #5"},
+        {"name": "Whole Tone", "relationship": "Similar floating, augmented quality"}
+      ]
+    },
+    {
+      "scale_type": "Prometheus",
+      "category": "World/Exotic Scales",
+      "intervals_semitones": [0, 2, 4, 6, 9, 10],
+      "intervals_names": ["1", "2", "3", "#4", "6", "b7"],
+      "emotional_quality": ["mystical", "otherworldly", "Scriabin-esque", "transcendent", "visionary"],
+      "genre_associations": ["late romantic", "impressionist", "film scores", "new age"],
+      "chords": {
+        "basic": ["dominant7#11 (Prometheus chord)"],
+        "degrees": {
+          "I7#11": "Prometheus chord - the defining sonority"
+        },
+        "common_progressions": [
+          "Static harmony on Prometheus chord",
+          "Used by Scriabin as 'mystic chord'",
+          "Modal/atmospheric composition"
+        ]
+      },
+      "related_scales": [
+        {"name": "Lydian Dominant", "relationship": "Prometheus without the 5th"},
+        {"name": "Whole Tone", "relationship": "Similar #4 and b7, different 6th"}
+      ]
+    },
+    {
+      "scale_type": "Tritone (Two-Semitone Tritone)",
+      "category": "World/Exotic Scales",
+      "intervals_semitones": [0, 1, 4, 6, 7, 10],
+      "intervals_names": ["1", "b2", "3", "#4", "5", "b7"],
+      "emotional_quality": ["extreme tension", "dissonant", "aggressive", "unstable"],
+      "genre_associations": ["metal", "avant-garde", "film scores (horror/tension)"],
+      "chords": {
+        "basic": ["dominant7", "tritone relationships"],
+        "degrees": {
+          "Built around": "Tritone interval as central feature"
+        },
+        "common_progressions": [
+          "Tritone substitution patterns",
+          "I7 - bV7 - I7",
+          "Used for maximum harmonic tension"
+        ]
+      },
+      "related_scales": [
+        {"name": "Phrygian Dominant", "relationship": "Similar b2, 3, b7"},
+        {"name": "Half-Whole Diminished", "relationship": "Alternative tension scale"}
+      ]
+    },
+    {
+      "scale_type": "Algerian",
+      "category": "World/Exotic Scales",
+      "intervals_semitones": [0, 2, 3, 6, 7, 8, 11],
+      "intervals_names": ["1", "2", "b3", "#4", "5", "b6", "7"],
+      "emotional_quality": ["North African mystery", "desert landscapes", "exotic minor", "passionate"],
+      "genre_associations": ["North African", "world fusion", "film scores", "metal"],
+      "chords": {
+        "basic": ["minor", "major (V)"],
+        "degrees": {
+          "i": "minor",
+          "V": "major",
+          "#iv°": "diminished"
+        },
+        "common_progressions": [
+          "i - V - i",
+          "i - bVI - V - i",
+          "Modal vamps"
+        ]
+      },
+      "related_scales": [
+        {"name": "Hungarian Minor", "relationship": "Same intervals - alternate name"},
+        {"name": "Harmonic Minor", "relationship": "Natural 4 instead of #4"}
+      ]
+    },
+    {
+      "scale_type": "Arabian (Major Locrian)",
+      "category": "World/Exotic Scales",
+      "intervals_semitones": [0, 2, 4, 5, 6, 8, 10],
+      "intervals_names": ["1", "2", "3", "4", "b5", "b6", "b7"],
+      "emotional_quality": ["exotic tension", "desert mystery", "unstable brightness", "ancient"],
+      "genre_associations": ["Middle Eastern", "film scores", "fusion"],
+      "chords": {
+        "basic": ["major", "diminished"],
+        "degrees": {
+          "I": "major",
+          "ii°": "diminished",
+          "bV": "major"
+        },
+        "common_progressions": [
+          "I - bV - I",
+          "Modal/drone-based",
+          "Melodic improvisation focus"
+        ]
+      },
+      "related_scales": [
+        {"name": "Mixolydian b6", "relationship": "Natural 5 instead of b5"},
+        {"name": "Locrian", "relationship": "b3 instead of natural 3"}
+      ]
+    },
+    {
+      "scale_type": "Balinese (Pelog)",
+      "category": "World/Exotic Scales",
+      "intervals_semitones": [0, 1, 3, 7, 8],
+      "intervals_names": ["1", "b2", "b3", "5", "b6"],
+      "emotional_quality": ["gamelan", "ethereal", "ancient", "meditative", "Southeast Asian"],
+      "genre_associations": ["Indonesian traditional", "ambient", "new age", "film scores"],
+      "chords": {
+        "basic": ["minor", "suspended"],
+        "degrees": {
+          "i": "minor (implied)",
+          "Primarily melodic": "Not chord-based tradition"
+        },
+        "common_progressions": [
+          "Drone/ostinato based",
+          "Cyclic patterns (gamelan)",
+          "Not Western chord progressions"
+        ]
+      },
+      "related_scales": [
+        {"name": "Phrygian", "relationship": "Adds 4th and b7 for full Phrygian"},
+        {"name": "Japanese (In-Sen)", "relationship": "Similar pentatonic with b2"}
+      ]
+    },
+    {
+      "scale_type": "Chinese (Mongolian)",
+      "category": "World/Exotic Scales",
+      "intervals_semitones": [0, 2, 4, 7, 9],
+      "intervals_names": ["1", "2", "3", "5", "6"],
+      "emotional_quality": ["bright", "open", "pastoral", "folk", "simple beauty"],
+      "genre_associations": ["Chinese traditional", "folk", "film scores", "world music"],
+      "chords": {
+        "basic": ["major", "suspended"],
+        "degrees": {
+          "I": "major",
+          "V": "major (no 3rd)"
+        },
+        "common_progressions": [
+          "I - V - I",
+          "Melodic/pentatonic patterns",
+          "Same as Major Pentatonic"
+        ]
+      },
+      "related_scales": [
+        {"name": "Major Pentatonic", "relationship": "Identical scale - alternate name"},
+        {"name": "Ionian", "relationship": "Adds 4th and 7th"}
+      ]
+    },
+    {
+      "scale_type": "Kumoi",
+      "category": "World/Exotic Scales",
+      "intervals_semitones": [0, 2, 3, 7, 9],
+      "intervals_names": ["1", "2", "b3", "5", "6"],
+      "emotional_quality": ["wistful", "Japanese serenity", "gentle sadness", "contemplative"],
+      "genre_associations": ["Japanese traditional", "ambient", "new age", "film scores"],
+      "chords": {
+        "basic": ["minor", "major (on bIII)"],
+        "degrees": {
+          "i": "minor",
+          "bIII": "major"
+        },
+        "common_progressions": [
+          "i - bIII - i",
+          "Drone-based",
+          "Melodic focus"
+        ]
+      },
+      "related_scales": [
+        {"name": "Dorian", "relationship": "Adds 4th and b7 for full Dorian"},
+        {"name": "Hirajoshi", "relationship": "Different Japanese pentatonic, has b6"}
+      ]
+    },
+    {
+      "scale_type": "Iwato",
+      "category": "World/Exotic Scales",
+      "intervals_semitones": [0, 1, 5, 6, 10],
+      "intervals_names": ["1", "b2", "4", "b5", "b7"],
+      "emotional_quality": ["dark", "dissonant", "ominous", "traditional Japanese darkness"],
+      "genre_associations": ["Japanese traditional", "horror scores", "ambient", "metal"],
+      "chords": {
+        "basic": ["half-diminished (implied)", "suspended"],
+        "degrees": {
+          "iø": "half-diminished (implied)",
+          "Highly dissonant": "Traditional melody, not chord-based"
+        },
+        "common_progressions": [
+          "Drone-based",
+          "Melodic/atmospheric",
+          "Not traditional harmony"
+        ]
+      },
+      "related_scales": [
+        {"name": "Locrian", "relationship": "Adds b3 and b6 for full Locrian"},
+        {"name": "Japanese (In-Sen)", "relationship": "Different Japanese pentatonic"}
+      ]
+    },
+    {
+      "scale_type": "Yo (Ritsu)",
+      "category": "World/Exotic Scales",
+      "intervals_semitones": [0, 2, 5, 7, 9],
+      "intervals_names": ["1", "2", "4", "5", "6"],
+      "emotional_quality": ["bright Japanese", "ceremonial", "noble", "ancient"],
+      "genre_associations": ["Japanese traditional", "court music (gagaku)", "film scores"],
+      "chords": {
+        "basic": ["suspended", "major (implied)"],
+        "degrees": {
+          "Isus2": "suspended 2",
+          "Isus4": "suspended 4"
+        },
+        "common_progressions": [
+          "Drone-based",
+          "Melodic patterns",
+          "No 3rd creates ambiguity"
+        ]
+      },
+      "related_scales": [
+        {"name": "Egyptian (Suspended Pentatonic)", "relationship": "Very similar, b7 instead of 6"},
+        {"name": "Major Pentatonic", "relationship": "3rd instead of 4th"}
+      ]
+    },
+    {
+      "scale_type": "Spanish 8-Tone",
+      "category": "World/Exotic Scales",
+      "intervals_semitones": [0, 1, 3, 4, 5, 6, 8, 10],
+      "intervals_names": ["1", "b2", "b3", "3", "4", "b5", "b6", "b7"],
+      "emotional_quality": ["intense flamenco", "passionate", "dramatic", "gypsy fire"],
+      "genre_associations": ["flamenco", "Spanish classical", "jazz fusion", "metal"],
+      "chords": {
+        "basic": ["major", "minor", "diminished"],
+        "degrees": {
+          "I": "major (due to natural 3)",
+          "i": "minor (due to b3)",
+          "Both major and minor 3rd present": "Creates characteristic tension"
+        },
+        "common_progressions": [
+          "I - bII - I",
+          "Andalusian cadence variations",
+          "i - bVII - bVI - V"
+        ]
+      },
+      "related_scales": [
+        {"name": "Phrygian Dominant", "relationship": "Core of Spanish 8-tone, fewer notes"},
+        {"name": "Half-Whole Diminished", "relationship": "Similar chromaticism"}
+      ]
+    },
+    {
+      "scale_type": "Flamenco (Spanish Phrygian)",
+      "category": "World/Exotic Scales",
+      "intervals_semitones": [0, 1, 3, 4, 5, 7, 8, 10],
+      "intervals_names": ["1", "b2", "b3", "3", "4", "5", "b6", "b7"],
+      "emotional_quality": ["passionate", "dramatic", "fiery", "Spanish soul", "intense"],
+      "genre_associations": ["flamenco", "Spanish guitar", "fusion", "world music"],
+      "chords": {
+        "basic": ["major", "minor"],
+        "degrees": {
+          "I": "major",
+          "i": "minor",
+          "bII": "major",
+          "The 3/b3 ambiguity": "Core of flamenco expression"
+        },
+        "common_progressions": [
+          "Andalusian cadence: Am - G - F - E",
+          "i - bVII - bVI - V",
+          "I - bII - I"
+        ]
+      },
+      "related_scales": [
+        {"name": "Phrygian", "relationship": "Without the natural 3"},
+        {"name": "Phrygian Dominant", "relationship": "Without the b3"},
+        {"name": "Spanish 8-Tone", "relationship": "Similar, includes b5"}
+      ]
+    },
+    {
+      "scale_type": "Harmonic Major",
+      "category": "World/Exotic Scales",
+      "intervals_semitones": [0, 2, 4, 5, 7, 8, 11],
+      "intervals_names": ["1", "2", "3", "4", "5", "b6", "7"],
+      "emotional_quality": ["bittersweet", "nostalgic", "melancholic brightness", "wistful"],
+      "genre_associations": ["classical", "film scores", "jazz", "pop ballads"],
+      "chords": {
+        "basic": ["major", "diminished", "minor"],
+        "degrees": {
+          "I": "major",
+          "ii°": "diminished",
+          "iv": "minor",
+          "V": "major"
+        },
+        "common_progressions": [
+          "I - iv - I",
+          "I - bVI - V - I",
+          "The iv chord creates melancholy in major context"
+        ]
+      },
+      "related_scales": [
+        {"name": "Ionian (Major)", "relationship": "Natural 6 instead of b6"},
+        {"name": "Harmonic Minor", "relationship": "b3 instead of natural 3"},
+        {"name": "Mixolydian b6", "relationship": "b7 instead of natural 7"}
+      ]
+    },
+    {
+      "scale_type": "Leading Whole Tone",
+      "category": "World/Exotic Scales",
+      "intervals_semitones": [0, 2, 4, 6, 8, 10, 11],
+      "intervals_names": ["1", "2", "3", "#4", "#5", "b7", "7"],
+      "emotional_quality": ["dreamy with tension", "resolving ethereal", "mysterious brightness"],
+      "genre_associations": ["jazz", "impressionist", "film scores"],
+      "chords": {
+        "basic": ["augmented", "major"],
+        "degrees": {
+          "I+": "augmented",
+          "The natural 7": "Adds leading tone to whole tone base"
+        },
+        "common_progressions": [
+          "I+ - resolution",
+          "Primarily melodic/coloristic",
+          "Passing scale"
+        ]
+      },
+      "related_scales": [
+        {"name": "Whole Tone", "relationship": "Without the natural 7"},
+        {"name": "Lydian Augmented", "relationship": "Adds 6th, removes b7"}
+      ]
+    }
+  ]
+}
