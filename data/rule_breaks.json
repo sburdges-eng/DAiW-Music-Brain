@@ -1,0 +1,336 @@
+{
+  "HARMONY_ModalInterchange": {
+    "name": "Modal Interchange / Borrowed Chords",
+    "category": "harmonic",
+    "description": "Using chords from parallel major/minor or other modes",
+    "rule_being_broken": "Stay within diatonic chords of your key; major and minor modes should not mix freely",
+    "examples": [
+      {
+        "artist": "The Beatles",
+        "song": "Norwegian Wood",
+        "year": 1965,
+        "progression": "I-♭VII-I (E-D-E)",
+        "notation_detail": "♭VII chord (D major) borrowed from E Mixolydian / parallel minor",
+        "why_it_works": "♭VII functions as dominant substitute; created characteristic 60s rock sound",
+        "emotional_function": "rustic, folk-like, modal"
+      },
+      {
+        "artist": "Radiohead",
+        "song": "Creep",
+        "year": 1992,
+        "progression": "I-III-IV-iv (G-B-C-Cm)",
+        "notation_detail": "B major (III) borrowed from G Lydian, Cm (iv) borrowed from G minor",
+        "why_it_works": "Creates characteristic happy-to-sad emotional ambiguity; modal mixture",
+        "emotional_function": "bittersweet, emotionally ambiguous"
+      },
+      {
+        "artist": "Your Kelly Song",
+        "song": "When I Found You Sleeping",
+        "year": 2025,
+        "progression": "I-V-iv-I (F-C-Bbm-F)",
+        "notation_detail": "Bbm (iv) borrowed from F minor into F major context",
+        "why_it_works": "Makes hope feel earned and bittersweet; grief expressed through harmonic darkness",
+        "emotional_function": "bittersweet darkness, borrowed sadness"
+      }
+    ],
+    "technical_implementation": {
+      "in_major": "Replace IV with iv (Bb → Bbm in F major)",
+      "in_minor": "Replace iv with IV (less common)",
+      "common_borrowings": ["iv in major", "♭VII in major", "♭VI in major", "IV in minor"]
+    },
+    "emotional_use": "bittersweet hope, happy-to-sad ambiguity, making joy feel earned",
+    "vault_reference": "rule_breaking_masterpieces.md#Modal-Mixture-and-Borrowed-Chords"
+  },
+
+  "HARMONY_AvoidTonicResolution": {
+    "name": "Avoided Tonic Resolution",
+    "category": "harmonic",
+    "description": "Ending on non-tonic chord or using ambiguous resolution",
+    "rule_being_broken": "Pieces should resolve to tonic at the end; dominant chords should resolve to tonic",
+    "examples": [
+      {
+        "artist": "Chopin",
+        "song": "Prelude in E Minor, Op. 28 No. 4",
+        "year": 1839,
+        "notation_detail": "m. 23: Chord spelled as dominant 4/2 with B♭ in bass, but B♭ 'resolves' upward to B♮ across fermata",
+        "why_it_works": "The silence embodies 'negative action' - defined by intention NOT to carry out resolution",
+        "emotional_function": "unresolved yearning, ambiguous ending"
+      },
+      {
+        "artist": "Radiohead",
+        "song": "Everything In Its Right Place",
+        "year": 2000,
+        "notation_detail": "Double-tonic complex - never establishes clear tonic between C major and F major",
+        "why_it_works": "Conflates aspects of both modes; proportion varies throughout",
+        "emotional_function": "floating, unresolved emotional state"
+      }
+    ],
+    "technical_implementation": {
+      "basic": "End on V or vi instead of I",
+      "advanced": "Enharmonic spelling to create ambiguity",
+      "jazz": "End on ♭II7 (tritone substitution) instead of V7"
+    },
+    "emotional_use": "unresolved yearning, grief, longing, ambiguity",
+    "vault_reference": "rule_breaking_masterpieces.md#Non-Resolution-and-Formal-Ambiguity"
+  },
+
+  "HARMONY_ParallelMotion": {
+    "name": "Parallel Fifths and Octaves",
+    "category": "harmonic",
+    "description": "Two voices moving in parallel perfect 5ths or octaves",
+    "rule_being_broken": "Parallel perfect fifths (P5→P5) and octaves (P8→P8) are forbidden; destroys voice independence",
+    "examples": [
+      {
+        "artist": "Beethoven",
+        "song": "Symphony No. 6 'Pastoral'",
+        "year": 1808,
+        "notation_detail": "Violins and violas moving in parallel P5 motion in Storm movement",
+        "why_it_works": "Creates rustic, folk-like quality; evokes peasant dances",
+        "emotional_function": "folk energy, rustic power",
+        "quote": "Well, who has forbidden them?"
+      },
+      {
+        "artist": "Debussy",
+        "song": "La Cathédrale engloutie",
+        "year": 1910,
+        "notation_detail": "Planing - entire triads moving in parallel (C-E-G → D-F#-A → E-G#-B)",
+        "why_it_works": "Deliberately evokes pre-tonal organum; impressionistic wash of color",
+        "emotional_function": "archaic, medieval atmosphere"
+      },
+      {
+        "artist": "Power Chords (Rock/Metal)",
+        "song": "Every rock riff ever",
+        "year": "1960s-present",
+        "notation_detail": "Root + P5 moving in parallel (E5→A5→D5)",
+        "why_it_works": "Intermodulation distortion creates harmonics; parallel motion = massive unified sound",
+        "emotional_function": "power, defiance, rawness"
+      }
+    ],
+    "technical_implementation": {
+      "basic": "Use power chords (root + fifth only)",
+      "impressionist": "Planing - move entire triads in parallel",
+      "voicing": "Remove thirds from chords to emphasize fifths"
+    },
+    "emotional_use": "power, defiance, folk energy, impressionistic color",
+    "vault_reference": "rule_breaking_masterpieces.md#Parallel-Fifths-and-Octaves"
+  },
+
+  "HARMONY_UnresolvedDissonance": {
+    "name": "Unresolved Dissonance",
+    "category": "harmonic",
+    "description": "Dissonances that don't resolve by step to consonances",
+    "rule_being_broken": "Dissonances (7ths, tritones, 2nds) must resolve by step; leading tone must resolve up",
+    "examples": [
+      {
+        "artist": "Thelonious Monk",
+        "song": "'Round Midnight",
+        "year": 1968,
+        "notation_detail": "Deliberate major 2nd dyads (B♭/A♭) that never resolve; semitone clusters",
+        "why_it_works": "Wrong notes make sense because they sound wrong in a meaningful way",
+        "emotional_function": "syntactic dissonance, commentary on expectations",
+        "voicing_formula": "Monk voicings = semitone interval at bottom + 3rd on top"
+      },
+      {
+        "artist": "Coltrane",
+        "song": "Giant Steps",
+        "year": 1959,
+        "notation_detail": "26 chord changes in 16 bars; roots move by major 3rds instead of 5ths",
+        "why_it_works": "Each V7 resolves to I, but I immediately becomes passing tone to next key",
+        "emotional_function": "vertical cascades, sheets of sound"
+      }
+    ],
+    "technical_implementation": {
+      "monk_style": "Play notes a semitone below 'correct' note",
+      "coltrane_changes": "Cycle through three keys a major 3rd apart",
+      "cluster_voicings": "Stack seconds and sevenths without resolution"
+    },
+    "emotional_use": "anxiety, complexity, jazz sophistication, intellectual tension",
+    "vault_reference": "rule_breaking_masterpieces.md#Unresolved-Dissonance"
+  },
+
+  "HARMONY_Polytonality": {
+    "name": "Polytonality / Bitonal Superimposition",
+    "category": "harmonic",
+    "description": "Multiple simultaneous keys sounding together",
+    "rule_being_broken": "Music should establish and maintain single tonal center",
+    "examples": [
+      {
+        "artist": "Stravinsky",
+        "song": "The Rite of Spring - Augurs of Spring",
+        "year": 1913,
+        "notation_detail": "E♭7 chord (E♭-G-B♭-D♭) + E major triad (E-G#-B) simultaneously",
+        "why_it_works": "Neither key wins; creates permanent tension; primal chaos",
+        "emotional_function": "primitive, pre-tonal chaos"
+      },
+      {
+        "artist": "Stravinsky",
+        "song": "Petrushka",
+        "year": 1911,
+        "notation_detail": "C major triad + F# major triad (tritone apart)",
+        "why_it_works": "Represents Petrushka's dual nature (puppet/human)",
+        "emotional_function": "split identity, maximum tonal distance"
+      }
+    ],
+    "technical_implementation": {
+      "basic": "Superimpose two triads",
+      "tritone_relationship": "Use triads a tritone apart (C + F#)",
+      "cluster": "Stack multiple triads from different keys"
+    },
+    "emotional_use": "chaos, split identity, primitive energy, modernist complexity",
+    "vault_reference": "rule_breaking_masterpieces.md#Polytonality"
+  },
+
+  "RHYTHM_ConstantDisplacement": {
+    "name": "Constant Metric Displacement",
+    "category": "rhythmic",
+    "description": "Continuously shifting meter and accent patterns",
+    "rule_being_broken": "Music should maintain consistent meter; strong beats should fall predictably",
+    "examples": [
+      {
+        "artist": "Stravinsky",
+        "song": "The Rite of Spring - Sacrificial Dance",
+        "year": 1913,
+        "notation_detail": "Alternating 2/16, 3/16, 5/16, 2/8, 3/8, 5/8, 7/8",
+        "why_it_works": "Impossible to predict accent pattern; additive rhythms",
+        "emotional_function": "primitive, pre-civilized chaos"
+      },
+      {
+        "artist": "Radiohead",
+        "song": "Pyramid Song",
+        "year": 2001,
+        "notation_detail": "Ambiguous meter (interpretations: 12/8, 6/8, 4/4, 3/4+5/4)",
+        "why_it_works": "Piano chords with no discernible pulse until drums enter",
+        "emotional_function": "unsettled, floating, dreamlike"
+      }
+    ],
+    "technical_implementation": {
+      "additive_rhythm": "Add/subtract beats irregularly",
+      "polyrhythm": "Layer different meters simultaneously",
+      "ambiguous_pulse": "Remove clear downbeat"
+    },
+    "emotional_use": "anxiety, unsettled feeling, off-kilter tension before dramatic shift",
+    "vault_reference": "rule_breaking_masterpieces.md#Irregular-Meter"
+  },
+
+  "RHYTHM_TempoFluctuation": {
+    "name": "Tempo Fluctuation / Rubato",
+    "category": "rhythmic",
+    "description": "Organic breathing and tempo changes",
+    "rule_being_broken": "Maintain steady tempo throughout",
+    "examples": [
+      {
+        "artist": "Coltrane",
+        "song": "Sheets of Sound technique",
+        "year": "1950s-60s",
+        "notation_detail": "So many notes they don't fit 8ths, 16ths, or triplets - groups of 5 and 7",
+        "why_it_works": "Dense cascades create thick, wall-like sonic texture",
+        "emotional_function": "overwhelming density, vertical improvisation"
+      }
+    ],
+    "technical_implementation": {
+      "subtle": "Slight push/pull around tempo",
+      "extreme": "Accelerando/ritardando for dramatic effect",
+      "irregular_groupings": "Notes in groups of 5, 7, 11 instead of 2, 3, 4"
+    },
+    "emotional_use": "intimacy, vulnerability, organic breathing, human imperfection",
+    "vault_reference": "rule_breaking_masterpieces.md#Polyrhythm"
+  },
+
+  "PRODUCTION_BuriedVocals": {
+    "name": "Buried / Obscured Vocals",
+    "category": "production",
+    "description": "Vocals treated as texture rather than focal point",
+    "rule_being_broken": "Vocals should be clear and intelligible",
+    "examples": [
+      {
+        "artist": "My Bloody Valentine",
+        "song": "Loveless (entire album)",
+        "year": 1991,
+        "notation_detail": "Vocals buried under layers of distortion and reverb",
+        "why_it_works": "Creates dream-like, dissociative atmosphere",
+        "emotional_function": "dissociation, dreamlike distance"
+      },
+      {
+        "artist": "Bon Iver",
+        "song": "Woods",
+        "year": 2009,
+        "notation_detail": "Heavily autotuned/processed vocals as primary instrument",
+        "why_it_works": "Removes human directness, creates otherworldly quality",
+        "emotional_function": "isolation, removed from reality"
+      }
+    ],
+    "technical_implementation": {
+      "level": "Mix vocals -6dB to -12dB quieter than typical",
+      "processing": "Heavy reverb, delay, distortion",
+      "frequency": "Roll off high end for distance"
+    },
+    "emotional_use": "dissociation, dreams, distance, texture over clarity",
+    "vault_reference": "production best practices"
+  },
+
+  "PRODUCTION_PitchImperfection": {
+    "name": "Intentional Pitch Imperfection",
+    "category": "production",
+    "description": "Leaving pitch variations and 'mistakes' in final mix",
+    "rule_being_broken": "Vocals and instruments should be perfectly in tune",
+    "examples": [
+      {
+        "artist": "Elliott Smith",
+        "song": "Either/Or (album)",
+        "year": 1997,
+        "notation_detail": "Slight vocal pitch variations and guitar tuning drift left in",
+        "why_it_works": "Creates intimacy; feels like sitting in room with artist",
+        "emotional_function": "raw vulnerability, intimate confession"
+      },
+      {
+        "artist": "Daniel Johnston",
+        "song": "Hi, How Are You",
+        "year": 1983,
+        "notation_detail": "Significant pitch and timing variations throughout",
+        "why_it_works": "Emotional honesty overrides technical perfection",
+        "emotional_function": "unfiltered emotional truth"
+      }
+    ],
+    "technical_implementation": {
+      "recording": "Use minimal takes, keep first/second take",
+      "tuning": "Leave slight guitar tuning drift",
+      "editing": "Avoid auto-tune and pitch correction",
+      "philosophy": "Imperfection as authenticity marker"
+    },
+    "emotional_use": "raw vulnerability, emotional honesty, lo-fi intimacy",
+    "vault_reference": "lo-fi production philosophy"
+  },
+
+  "TRITONE_Unresolved": {
+    "name": "Unresolved Tritone",
+    "category": "harmonic",
+    "description": "Using tritone as foundational interval without resolution",
+    "rule_being_broken": "Tritone (diabolus in musica) must be resolved",
+    "historical_context": "Called 'devil's interval' in medieval music; avoided or carefully resolved",
+    "examples": [
+      {
+        "artist": "Black Sabbath",
+        "song": "Black Sabbath",
+        "year": 1970,
+        "notation_detail": "G-G(octave)-D♭ - entire riff built on tritone",
+        "why_it_works": "Tension that begged for resolution becomes identity of genre",
+        "emotional_function": "dark, ominous, literally diabolical"
+      },
+      {
+        "artist": "Jazz Tritone Substitution",
+        "song": "Standard practice",
+        "year": "1930s-present",
+        "notation_detail": "Replace V7 with ♭II7 (tritone away) - e.g., G7→D♭7 in C major",
+        "why_it_works": "Both chords share same tritone (B-F); chromatic bass motion",
+        "emotional_function": "sophisticated color, smooth voice-leading"
+      }
+    ],
+    "technical_implementation": {
+      "metal": "Build riffs on unresolved tritone",
+      "jazz": "Tritone substitution for dominant",
+      "ambient": "Suspend tritone as harmonic center"
+    },
+    "emotional_use": "darkness, tension, sophisticated jazz color, metal heaviness",
+    "vault_reference": "rule_breaking_masterpieces.md#The-Tritone"
+  }
+}
