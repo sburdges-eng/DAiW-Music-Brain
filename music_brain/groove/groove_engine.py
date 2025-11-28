@@ -19,7 +19,7 @@ compared to the basic random humanization in applicator.py.
 
 import random
 from typing import List, Dict, Any, Optional
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 
 
 # ==============================================================================
@@ -348,9 +348,11 @@ def apply_groove(
         # ----------------------------------------------------------------------
         # 4. Optional: Ghost notes
         # ----------------------------------------------------------------------
-        if (settings.enable_ghost_notes and
-            vulnerability > 0.6 and
-            random.random() < settings.ghost_note_probability):
+        if (
+            settings.enable_ghost_notes
+            and vulnerability > 0.6
+            and random.random() < settings.ghost_note_probability
+        ):
 
             ghost = new_note.copy()
             ghost["velocity"] = max(

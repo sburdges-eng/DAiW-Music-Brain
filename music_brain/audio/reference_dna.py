@@ -10,7 +10,7 @@ intent always takes precedence.
 
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Optional, List, Dict
+from typing import Optional, Dict
 
 try:
     import librosa

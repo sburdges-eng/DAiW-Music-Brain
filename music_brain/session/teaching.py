@@ -13,7 +13,6 @@ Philosophy: "The wrong note played with conviction is the right note."
 
 import random
 from typing import List, Dict, Optional
-from dataclasses import dataclass
 
 
 # Teaching content database

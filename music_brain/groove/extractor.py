@@ -11,7 +11,7 @@ Analyzes:
 
 import json
 from dataclasses import dataclass, field
-from typing import List, Dict, Optional, Tuple
+from typing import List, Dict, Tuple
 from pathlib import Path
 
 try:

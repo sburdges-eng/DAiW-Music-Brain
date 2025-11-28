@@ -27,7 +27,7 @@ import argparse
 import sys
 import json
 from pathlib import Path
-from typing import Optional
+
 
 # Lazy imports to speed up CLI startup
 def get_groove_module():
@@ -43,9 +43,11 @@ def get_humanize_module():
     return (humanize_midi_file, GrooveSettings, settings_from_intent, quick_humanize,
             list_presets, settings_from_preset, get_preset)
 
+
 def get_structure_module():
     from music_brain.structure import analyze_chords, detect_sections
     return analyze_chords, detect_sections
+
 
 def get_session_module():
     from music_brain.session import RuleBreakingTeacher
@@ -54,7 +56,7 @@ def get_session_module():
 
 def get_intent_module():
     from music_brain.session.intent_schema import (
-        CompleteSongIntent, SongRoot, SongIntent, TechnicalConstraints, 
+        CompleteSongIntent, SongRoot, SongIntent, TechnicalConstraints,
         SystemDirective, suggest_rule_break, validate_intent, list_all_rules
     )
     from music_brain.session.intent_processor import IntentProcessor, process_intent
@@ -161,7 +163,10 @@ def cmd_humanize(args):
         # Manual complexity/vulnerability
         complexity = args.complexity
         vulnerability = args.vulnerability
-        print(f"Humanizing drums (complexity={complexity:.2f}, vulnerability={vulnerability:.2f}): {midi_path}")
+        print(
+            f"Humanizing drums (complexity={complexity:.2f}, "
+            f"vulnerability={vulnerability:.2f}): {midi_path}"
+        )
         settings = GrooveSettings(complexity=complexity, vulnerability=vulnerability)
 
     # Apply optional overrides
@@ -180,7 +185,7 @@ def cmd_humanize(args):
         seed=args.seed,
     )
 
-    print(f"\n=== Drum Humanization Applied ===")
+    print("\n=== Drum Humanization Applied ===")
     print(f"  Complexity:    {complexity:.2f} (timing chaos)")
     print(f"  Vulnerability: {vulnerability:.2f} (dynamic fragility)")
     print(f"  Ghost notes:   {'enabled' if settings.enable_ghost_notes else 'disabled'}")
@@ -208,7 +213,7 @@ def cmd_analyze(args):
         print(f"Roman numerals: {' - '.join(progression.roman_numerals)}")
         
         if progression.borrowed_chords:
-            print(f"\nBorrowed chords detected:")
+            print("\nBorrowed chords detected:")
             for chord, source in progression.borrowed_chords.items():
                 print(f"  {chord} ← borrowed from {source}")
     
@@ -218,7 +223,10 @@ def cmd_analyze(args):
         
         print("\n=== Section Analysis ===")
         for section in sections:
-            print(f"  {section.name}: bars {section.start_bar}-{section.end_bar} (energy: {section.energy:.2f})")
+            print(
+                f"  {section.name}: bars {section.start_bar}-{section.end_bar} "
+                f"(energy: {section.energy:.2f})"
+            )
     
     return 0
 
@@ -517,7 +525,9 @@ def main():
                               help='Groove intensity 0.0-1.0')
 
     # Humanize command (Drunken Drummer)
-    humanize_parser = subparsers.add_parser('humanize', help='Apply drum humanization (Drunken Drummer)')
+    humanize_parser = subparsers.add_parser(
+        'humanize', help='Apply drum humanization (Drunken Drummer)'
+    )
     humanize_parser.add_argument('midi_file', nargs='?', help='MIDI file to humanize')
     humanize_parser.add_argument('-o', '--output', help='Output MIDI file')
     humanize_parser.add_argument('-p', '--preset',
@@ -527,8 +537,10 @@ def main():
                                  help='Quick style preset')
     humanize_parser.add_argument('-c', '--complexity', type=float, default=0.5,
                                  help='Timing chaos 0.0-1.0 (ignored if --style/--preset used)')
-    humanize_parser.add_argument('-v', '--vulnerability', type=float, default=0.5,
-                                 help='Dynamic fragility 0.0-1.0 (ignored if --style/--preset used)')
+    humanize_parser.add_argument(
+        '-v', '--vulnerability', type=float, default=0.5,
+        help='Dynamic fragility 0.0-1.0 (ignored if --style/--preset used)'
+    )
     humanize_parser.add_argument('--channel', type=int, default=9,
                                  help='MIDI drum channel (default: 9, i.e. channel 10)')
     humanize_parser.add_argument('--no-ghost-notes', action='store_true',
@@ -572,10 +584,14 @@ def main():
     intent_new.add_argument('-o', '--output', help='Output file (default: song_intent.json)')
     
     # intent process
-    intent_process = intent_subparsers.add_parser('process', help='Process intent to generate elements')
+    intent_process = intent_subparsers.add_parser(
+        'process', help='Process intent to generate elements'
+    )
     intent_process.add_argument('file', help='Intent JSON file')
     intent_process.add_argument('-o', '--output', help='Save output to JSON')
-    intent_process.add_argument('-f', '--force', action='store_true', help='Proceed despite validation issues')
+    intent_process.add_argument(
+        '-f', '--force', action='store_true', help='Proceed despite validation issues'
+    )
     
     # intent suggest
     intent_suggest = intent_subparsers.add_parser('suggest', help='Suggest rules to break')

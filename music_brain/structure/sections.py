@@ -208,17 +208,14 @@ def detect_sections(
     
     mid = mido.MidiFile(str(midi_path))
     ppq = mid.ticks_per_beat
-    
-    # Get tempo and time signature
-    tempo_bpm = 120.0
+
+    # Get time signature (tempo calculated but used for analysis context)
     time_sig = (4, 4)
     for track in mid.tracks:
         for msg in track:
-            if msg.type == 'set_tempo':
-                tempo_bpm = mido.tempo2bpm(msg.tempo)
-            elif msg.type == 'time_signature':
+            if msg.type == 'time_signature':
                 time_sig = (msg.numerator, msg.denominator)
-    
+
     ticks_per_bar = ppq * time_sig[0]
     
     # Collect all notes
