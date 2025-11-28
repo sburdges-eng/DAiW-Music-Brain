@@ -110,6 +110,7 @@ class AffectState(Enum):
     DISSOCIATION = "dissociation"
     DETERMINATION = "determination"
     SURRENDER = "surrender"
+    HAPPY = "happy"  # Positive states: contentment, joy, excitement, pride, love
 
 
 class TextureType(Enum):
@@ -492,6 +493,7 @@ AFFECT_MODE_MAP = {
     "dissociation": {"modes": ["Lydian", "Locrian"], "tempo_range": (60, 90), "density": "Sparse"},
     "determination": {"modes": ["Ionian", "Mixolydian"], "tempo_range": (100, 130), "density": "Full"},
     "surrender": {"modes": ["Aeolian", "Dorian"], "tempo_range": (50, 75), "density": "Sparse"},
+    "happy": {"modes": ["Ionian", "Lydian", "Mixolydian"], "tempo_range": (90, 140), "density": "Full"},
 }
 
 
@@ -875,6 +877,7 @@ def suggest_full_palette(emotion: str) -> Dict:
         "dissociation": ["Ethereal", "Murky", "Skeletal"],
         "determination": ["Massive", "Crystalline", "Full"],
         "surrender": ["Ethereal", "Skeletal", "Intimate"],
+        "happy": ["Crystalline", "Lush", "Massive"],
     }
 
     textures = emotion_texture_map.get(emotion.lower(), [])

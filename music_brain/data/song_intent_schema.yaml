@@ -25,6 +25,7 @@ enums:
   mood_primary_options:
     - "Grief"
     - "Joy"
+    - "Happy"              # Encompasses contentment, excitement, pride, love, hope
     - "Nervousness"
     - "Defiance"
     - "Liberation"
