@@ -497,7 +497,7 @@ def main():
         prog='daiw',
         description='DAiW - Digital Audio intelligent Workstation CLI'
     )
-    parser.add_argument('--version', action='version', version='%(prog)s 0.2.0')
+    parser.add_argument('--version', action='version', version='%(prog)s 0.3.0')
     
     subparsers = parser.add_subparsers(dest='command', help='Commands')
     
