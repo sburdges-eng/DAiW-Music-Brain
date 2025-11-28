@@ -1,0 +1,349 @@
+{
+  "_description": "Chord Progression Families - Common patterns by genre and function",
+  "_version": "1.0",
+  "_notation": {
+    "degrees": "Scale degrees (0=I, 2=ii, 4=iii, 5=IV, 7=V, 9=vi, 11=vii)",
+    "roman": "Traditional Roman numeral notation"
+  },
+
+  "universal_progressions": {
+    "I-IV-V-I": {
+      "degrees": [0, 5, 7, 0],
+      "roman": "I - IV - V - I",
+      "name": "Three Chord Song",
+      "genres": ["rock", "country", "folk", "blues", "pop"],
+      "feel": "Resolution, classic, satisfying",
+      "examples": ["Wild Thing", "La Bamba", "Twist and Shout"]
+    },
+    "I-V-vi-IV": {
+      "degrees": [0, 7, 9, 5],
+      "roman": "I - V - vi - IV",
+      "name": "Pop Progression / Axis",
+      "genres": ["pop", "rock", "country"],
+      "feel": "Emotional, anthemic, uplifting-sad",
+      "examples": ["Let It Be", "No Woman No Cry", "With or Without You"]
+    },
+    "I-vi-IV-V": {
+      "degrees": [0, 9, 5, 7],
+      "roman": "I - vi - IV - V",
+      "name": "50s Progression / Doo-Wop",
+      "genres": ["pop", "doo-wop", "rock"],
+      "feel": "Nostalgic, sweet, innocent",
+      "examples": ["Stand By Me", "Earth Angel", "Every Breath You Take"]
+    },
+    "vi-IV-I-V": {
+      "degrees": [9, 5, 0, 7],
+      "roman": "vi - IV - I - V",
+      "name": "Sensitive Female Chord Progression",
+      "genres": ["pop", "singer-songwriter"],
+      "feel": "Emotional, introspective",
+      "examples": ["Poker Face", "Grenade", "Apologize"]
+    },
+    "I-IV-vi-V": {
+      "degrees": [0, 5, 9, 7],
+      "roman": "I - IV - vi - V",
+      "name": "Pop Variant",
+      "genres": ["pop", "rock"],
+      "feel": "Hopeful, building",
+      "examples": ["Hey Soul Sister", "22"]
+    }
+  },
+
+  "jazz_progressions": {
+    "ii-V-I": {
+      "degrees": [2, 7, 0],
+      "roman": "ii - V - I",
+      "name": "Two-Five-One",
+      "genres": ["jazz", "r&b", "neo-soul"],
+      "feel": "Sophisticated resolution",
+      "extensions": "Usually with 7ths: iim7 - V7 - Imaj7",
+      "examples": ["Autumn Leaves", "All The Things You Are"]
+    },
+    "I-vi-ii-V": {
+      "degrees": [0, 9, 2, 7],
+      "roman": "I - vi - ii - V",
+      "name": "Rhythm Changes A Section",
+      "genres": ["jazz", "bebop"],
+      "feel": "Bouncy, classic jazz",
+      "examples": ["I Got Rhythm", "Oleo"]
+    },
+    "iii-vi-ii-V": {
+      "degrees": [4, 9, 2, 7],
+      "roman": "iii - vi - ii - V",
+      "name": "Circle of Fifths",
+      "genres": ["jazz", "standards"],
+      "feel": "Elegant, flowing",
+      "examples": ["Fly Me To The Moon"]
+    },
+    "Imaj7-IV-iii-vi": {
+      "degrees": [0, 5, 4, 9],
+      "roman": "Imaj7 - IVmaj7 - iii7 - vi7",
+      "name": "Neo-Soul Progression",
+      "genres": ["neo-soul", "r&b", "jazz"],
+      "feel": "Smooth, sophisticated, dreamy",
+      "examples": ["D'Angelo tracks", "Erykah Badu"]
+    }
+  },
+
+  "blues_progressions": {
+    "12-bar-blues": {
+      "degrees": [0, 0, 0, 0, 5, 5, 0, 0, 7, 5, 0, 7],
+      "roman": "I - I - I - I - IV - IV - I - I - V - IV - I - V",
+      "name": "12-Bar Blues",
+      "genres": ["blues", "rock", "jazz"],
+      "feel": "Gritty, soulful, foundational",
+      "examples": ["Sweet Home Chicago", "Pride and Joy"]
+    },
+    "8-bar-blues": {
+      "degrees": [0, 0, 5, 5, 0, 7, 0, 7],
+      "roman": "I - I - IV - IV - I - V - I - V",
+      "name": "8-Bar Blues",
+      "genres": ["blues"],
+      "feel": "Compact blues",
+      "examples": ["Key to the Highway"]
+    },
+    "minor-blues": {
+      "degrees": [0, 0, 0, 0, 5, 5, 0, 0, 8, 7, 0, 7],
+      "roman": "i - i - i - i - iv - iv - i - i - bVI - V - i - V",
+      "name": "Minor Blues",
+      "genres": ["blues", "jazz"],
+      "feel": "Dark, moody blues",
+      "examples": ["The Thrill Is Gone"]
+    }
+  },
+
+  "rock_progressions": {
+    "I-bVII-IV": {
+      "degrees": [0, 10, 5],
+      "roman": "I - bVII - IV",
+      "name": "Mixolydian Vamp",
+      "genres": ["rock", "classic rock"],
+      "feel": "Classic rock swagger",
+      "examples": ["Sweet Home Alabama", "Free Fallin'"]
+    },
+    "I-bIII-IV": {
+      "degrees": [0, 3, 5],
+      "roman": "I - bIII - IV",
+      "name": "Rock Power Move",
+      "genres": ["rock", "grunge"],
+      "feel": "Dark power",
+      "examples": ["Smells Like Teen Spirit"]
+    },
+    "i-bVI-bIII-bVII": {
+      "degrees": [0, 8, 3, 10],
+      "roman": "i - bVI - bIII - bVII",
+      "name": "Aeolian Progression",
+      "genres": ["rock", "metal", "pop"],
+      "feel": "Dark, minor key epic",
+      "examples": ["Stairway to Heaven ending"]
+    },
+    "I-V-IV": {
+      "degrees": [0, 7, 5],
+      "roman": "I - V - IV",
+      "name": "Classic Rock Three",
+      "genres": ["rock", "punk"],
+      "feel": "Driving, energetic",
+      "examples": ["Louie Louie", "Wild Thing"]
+    }
+  },
+
+  "minor_progressions": {
+    "i-iv-v": {
+      "degrees": [0, 5, 7],
+      "roman": "i - iv - v",
+      "name": "Natural Minor",
+      "genres": ["rock", "metal", "folk"],
+      "feel": "Dark, unresolved",
+      "examples": ["House of the Rising Sun"]
+    },
+    "i-bVII-bVI-bVII": {
+      "degrees": [0, 10, 8, 10],
+      "roman": "i - bVII - bVI - bVII",
+      "name": "Andalusian Cadence",
+      "genres": ["flamenco", "rock", "pop"],
+      "feel": "Spanish, dramatic",
+      "examples": ["Hit The Road Jack", "Sultans of Swing"]
+    },
+    "i-bVI-bIII-bVII": {
+      "degrees": [0, 8, 3, 10],
+      "roman": "i - bVI - bIII - bVII",
+      "name": "Epic Minor",
+      "genres": ["film", "rock", "pop"],
+      "feel": "Cinematic, emotional",
+      "examples": ["My Heart Will Go On"]
+    },
+    "i-V-i": {
+      "degrees": [0, 7, 0],
+      "roman": "i - V - i",
+      "name": "Harmonic Minor Cadence",
+      "genres": ["classical", "metal", "jazz"],
+      "feel": "Dramatic resolution",
+      "examples": ["Classical pieces"]
+    }
+  },
+
+  "modal_progressions": {
+    "dorian_vamp": {
+      "degrees": [0, 2],
+      "roman": "i - II",
+      "name": "Dorian Vamp",
+      "genres": ["funk", "jazz", "soul"],
+      "feel": "Groovy, funky",
+      "examples": ["So What", "Oye Como Va"]
+    },
+    "mixolydian_vamp": {
+      "degrees": [0, 10],
+      "roman": "I - bVII",
+      "name": "Mixolydian Vamp",
+      "genres": ["rock", "folk", "jam band"],
+      "feel": "Open, floating",
+      "examples": ["Sympathy for the Devil", "Norwegian Wood"]
+    },
+    "lydian_vamp": {
+      "degrees": [0, 2],
+      "roman": "I - II",
+      "name": "Lydian Shimmer",
+      "genres": ["film", "new age", "ambient"],
+      "feel": "Bright, dreamy, floating",
+      "examples": ["ET Theme"]
+    },
+    "phrygian_vamp": {
+      "degrees": [0, 1],
+      "roman": "i - bII",
+      "name": "Phrygian Darkness",
+      "genres": ["metal", "flamenco"],
+      "feel": "Dark, exotic, tense",
+      "examples": ["White Rabbit intro"]
+    }
+  },
+
+  "edm_progressions": {
+    "i-bVI-bIII-bVII": {
+      "degrees": [0, 8, 3, 10],
+      "roman": "i - bVI - bIII - bVII",
+      "name": "EDM Minor",
+      "genres": ["edm", "house", "trance"],
+      "feel": "Euphoric, building",
+      "examples": ["Clarity", "Don't You Worry Child"]
+    },
+    "I-V-vi-IV": {
+      "degrees": [0, 7, 9, 5],
+      "roman": "I - V - vi - IV",
+      "name": "EDM Major Pop",
+      "genres": ["edm", "pop", "dance"],
+      "feel": "Anthemic, uplifting",
+      "examples": ["Wake Me Up", "Titanium"]
+    },
+    "vi-IV-I-V": {
+      "degrees": [9, 5, 0, 7],
+      "roman": "vi - IV - I - V",
+      "name": "Festival Anthem",
+      "genres": ["edm", "pop"],
+      "feel": "Emotional build",
+      "examples": ["Levels", "Animals"]
+    }
+  },
+
+  "hiphop_r&b_progressions": {
+    "i-iv-i-V": {
+      "degrees": [0, 5, 0, 7],
+      "roman": "i - iv - i - V",
+      "name": "Minor R&B",
+      "genres": ["r&b", "hip-hop"],
+      "feel": "Smooth, moody",
+      "examples": ["No Diggity"]
+    },
+    "I-vi-IV-I": {
+      "degrees": [0, 9, 5, 0],
+      "roman": "I - vi - IV - I",
+      "name": "Smooth Major",
+      "genres": ["r&b", "pop"],
+      "feel": "Smooth, easy",
+      "examples": ["Cruisin'"]
+    },
+    "ii7-V7-Imaj7": {
+      "degrees": [2, 7, 0],
+      "roman": "iim7 - V7 - Imaj7",
+      "name": "Neo-Soul 2-5-1",
+      "genres": ["neo-soul", "r&b"],
+      "feel": "Jazzy, sophisticated",
+      "examples": ["D'Angelo", "Erykah Badu"]
+    },
+    "i-bVI-bVII-i": {
+      "degrees": [0, 8, 10, 0],
+      "roman": "i - bVI - bVII - i",
+      "name": "Dark Hip-Hop",
+      "genres": ["hip-hop", "trap"],
+      "feel": "Dark, atmospheric",
+      "examples": ["Many trap beats"]
+    }
+  },
+
+  "gospel_progressions": {
+    "I-I7-IV-iv": {
+      "degrees": [0, 0, 5, 5],
+      "roman": "I - I7 - IV - iv",
+      "name": "Gospel Turnaround",
+      "genres": ["gospel", "soul"],
+      "feel": "Soulful, churchy",
+      "notes": "I7 leads to IV, iv adds color"
+    },
+    "IV-iii-ii-I": {
+      "degrees": [5, 4, 2, 0],
+      "roman": "IV - iii - ii - I",
+      "name": "Gospel Walkdown",
+      "genres": ["gospel", "r&b"],
+      "feel": "Descending resolution",
+      "examples": ["Many gospel songs"]
+    },
+    "I-V/vi-vi-IV": {
+      "degrees": [0, 7, 9, 5],
+      "roman": "I - V/vi - vi - IV",
+      "name": "Contemporary Gospel",
+      "genres": ["gospel", "ccm"],
+      "feel": "Modern worship",
+      "examples": ["Hillsong style"]
+    }
+  },
+
+  "functional_categories": {
+    "tonic_function": {
+      "chords": ["I", "iii", "vi"],
+      "degrees": [0, 4, 9],
+      "feel": "Home, stable, resolved"
+    },
+    "subdominant_function": {
+      "chords": ["IV", "ii"],
+      "degrees": [5, 2],
+      "feel": "Moving away, tension building"
+    },
+    "dominant_function": {
+      "chords": ["V", "vii°"],
+      "degrees": [7, 11],
+      "feel": "Tension, wants to resolve to tonic"
+    }
+  },
+
+  "cadence_types": {
+    "authentic": {
+      "pattern": "V - I",
+      "degrees": [7, 0],
+      "feel": "Strong resolution, final"
+    },
+    "plagal": {
+      "pattern": "IV - I",
+      "degrees": [5, 0],
+      "feel": "Amen cadence, soft resolution"
+    },
+    "half": {
+      "pattern": "? - V",
+      "degrees": ["any", 7],
+      "feel": "Unresolved, question"
+    },
+    "deceptive": {
+      "pattern": "V - vi",
+      "degrees": [7, 9],
+      "feel": "Surprise, avoided resolution"
+    }
+  }
+}
