@@ -9,7 +9,6 @@ preparing MIDI files for Logic import and processing Logic exports.
 from dataclasses import dataclass, field
 from typing import List, Dict, Optional
 from pathlib import Path
-import json
 
 try:
     import mido
@@ -150,15 +149,23 @@ class LogicProject:
             for tick, msg_type, pitch, vel, ch in events:
                 delta = tick - current_tick
                 current_tick = tick
-                
+
                 if msg_type == "note_on":
-                    track.append(mido.Message('note_on', note=pitch, velocity=vel, channel=ch, time=delta))
+                    track.append(
+                        mido.Message(
+                            'note_on', note=pitch, velocity=vel, channel=ch, time=delta
+                        )
+                    )
                 else:
-                    track.append(mido.Message('note_off', note=pitch, velocity=0, channel=ch, time=delta))
-            
+                    track.append(
+                        mido.Message(
+                            'note_off', note=pitch, velocity=0, channel=ch, time=delta
+                        )
+                    )
+
             # End of track
             track.append(mido.MetaMessage('end_of_track', time=0))
-        
+
         output_path = Path(output_path)
         mid.save(str(output_path))
         
@@ -187,21 +194,19 @@ def export_to_logic(
     """
     if not MIDO_AVAILABLE:
         raise ImportError("mido package required")
-    
-    from music_brain.utils.ppq import normalize_ppq as norm_ppq
-    
+
     midi_path = Path(midi_path)
     mid = mido.MidiFile(str(midi_path))
-    
+
     # Determine output path
     if output_path is None:
         output_path = f"{midi_path.stem}_logic.mid"
-    
+
     # If PPQ matches, just copy
     if mid.ticks_per_beat == LOGIC_PPQ and not normalize_ppq:
         mid.save(output_path)
         return output_path
-    
+
     # Create new MIDI with Logic PPQ
     new_mid = mido.MidiFile(ticks_per_beat=LOGIC_PPQ)
     ppq_ratio = LOGIC_PPQ / mid.ticks_per_beat
@@ -237,9 +242,9 @@ def import_from_logic(midi_path: str) -> LogicProject:
     """
     if not MIDO_AVAILABLE:
         raise ImportError("mido package required")
-    
-    from music_brain.utils.midi_io import get_midi_info, extract_notes
-    
+
+    from music_brain.utils.midi_io import get_midi_info
+
     midi_path = Path(midi_path)
     mid = mido.MidiFile(str(midi_path))
     info = get_midi_info(str(midi_path))

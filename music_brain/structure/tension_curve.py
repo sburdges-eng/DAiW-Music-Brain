@@ -7,7 +7,7 @@ This makes the track "breathe" with verse/chorus/bridge energy arcs.
 Philosophy: Music should have emotional shape, not just static intensity.
 """
 
-from typing import List, Dict, Any, Optional
+from typing import List, Dict, Any
 from dataclasses import dataclass
 
 

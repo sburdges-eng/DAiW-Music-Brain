@@ -2,7 +2,7 @@
 MIDI I/O Utilities - Load, save, and inspect MIDI files.
 """
 
-from typing import Dict, List, Optional, Tuple
+from typing import Dict, List, Tuple
 from pathlib import Path
 from dataclasses import dataclass
 

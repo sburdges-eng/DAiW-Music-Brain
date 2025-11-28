@@ -13,7 +13,6 @@ from dataclasses import dataclass, field
 from typing import List, Dict, Optional, Tuple
 from enum import Enum
 import json
-from pathlib import Path
 
 
 # =================================================================
@@ -160,9 +159,9 @@ class ModalColor(Enum):
 
 class VulnerabilityScale(Enum):
     """Vulnerability level for emotional exposure."""
-    LOW = "Low"       # Guarded, protective
-    MEDIUM = "Medium" # Honest but controlled
-    HIGH = "High"     # Raw, exposed
+    LOW = "Low"        # Guarded, protective
+    MEDIUM = "Medium"  # Honest but controlled
+    HIGH = "High"      # Raw, exposed
 
 
 class NarrativeArc(Enum):

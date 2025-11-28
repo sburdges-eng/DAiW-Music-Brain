@@ -14,7 +14,7 @@ This module implements the "Creative Companion, Not a Factory" approach:
 The tool shouldn't finish art for people - it should make them braver.
 """
 
-from typing import List, Dict, Optional, Callable
+from typing import List, Dict, Optional
 from dataclasses import dataclass, field
 from enum import Enum
 import random
@@ -281,7 +281,7 @@ class SongInterrogator:
                         if word.isdigit():
                             self.context.vulnerability_level = int(word)
                             break
-                except:
+                except (ValueError, AttributeError):
                     pass
         
         elif phase == SongPhase.STORY:

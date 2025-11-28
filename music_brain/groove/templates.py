@@ -22,10 +22,10 @@ GENRE_TEMPLATES = {
         "tempo_range": (90, 120),
         # Per-16th-note deviations in ticks (at 480 PPQ)
         "timing_deviations": [
-            0, -8, 5, -5,   # Beat 1: slight push on 16th notes
-            12, -6, 8, -4,  # Beat 2: laid back snare
-            0, -10, 6, -6,  # Beat 3
-            15, -5, 10, -3, # Beat 4: laid back snare
+            0, -8, 5, -5,    # Beat 1: slight push on 16th notes
+            12, -6, 8, -4,   # Beat 2: laid back snare
+            0, -10, 6, -6,   # Beat 3
+            15, -5, 10, -3,  # Beat 4: laid back snare
         ],
         # Velocity pattern per 16th note (0-127)
         "velocity_curve": [

@@ -6,8 +6,7 @@ timing/velocity characteristics to a target MIDI file.
 """
 
 from pathlib import Path
-from typing import Optional, Union
-import copy
+from typing import Optional
 
 try:
     import mido

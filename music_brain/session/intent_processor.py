@@ -11,16 +11,12 @@ The core philosophy: Rules are broken INTENTIONALLY based on
 emotional justification from the intent schema.
 """
 
-from typing import List, Dict, Optional, Tuple
+from typing import List, Dict
 from dataclasses import dataclass, field
 import random
 
 from music_brain.session.intent_schema import (
     CompleteSongIntent,
-    HarmonyRuleBreak,
-    RhythmRuleBreak,
-    ArrangementRuleBreak,
-    ProductionRuleBreak,
     RULE_BREAKING_EFFECTS,
 )
 
@@ -50,10 +46,10 @@ BORROWED_FROM_MINOR = {
 
 # Modal interchange options
 MODAL_INTERCHANGE = {
-    'lydian': {'#IV': 'maj'},      # Raised 4th, dreamy
-    'mixolydian': {'bVII': 'maj'}, # Flat 7, rock
-    'dorian': {'IV': 'maj'},       # Major IV in minor context
-    'phrygian': {'bII': 'maj'},    # Flat 2, Spanish/tension
+    'lydian': {'#IV': 'maj'},       # Raised 4th, dreamy
+    'mixolydian': {'bVII': 'maj'},  # Flat 7, rock
+    'dorian': {'IV': 'maj'},        # Major IV in minor context
+    'phrygian': {'bII': 'maj'},     # Flat 2, Spanish/tension
 }
 
 
@@ -121,7 +117,8 @@ def _get_note_index(note: str) -> int:
 def _transpose_chord(chord: str, key: str) -> str:
     """Transpose a chord to a specific key."""
     # Simple implementation - just prepend key
-    root_idx = _get_note_index(key)
+    # Note: key parameter reserved for future full transposition implementation
+    _ = key  # Acknowledge the key parameter is intentionally unused for now
     return chord  # Full implementation would transpose
 
 
@@ -256,19 +253,18 @@ def generate_progression_unresolved_dissonance(key: str, mode: str = "major") ->
 def _romans_to_chords(romans: List[str], key: str, mode: str) -> List[str]:
     """Convert Roman numerals to chord names in key."""
     # Simplified mapping - full implementation would be more complete
-    key_root = _get_note_index(key)
-    
+
     # Scale degrees for major
     major_intervals = [0, 2, 4, 5, 7, 9, 11]  # I, ii, iii, IV, V, vi, vii
     minor_intervals = [0, 2, 3, 5, 7, 8, 10]  # i, ii°, III, iv, v, VI, VII
-    
+
     intervals = major_intervals if mode == "major" else minor_intervals
-    
+
     result = []
     for roman in romans:
         chord = _roman_to_chord(roman, key, intervals)
         result.append(chord)
-    
+
     return result
 
 
@@ -397,10 +393,10 @@ def generate_groove_metric_modulation(tempo: int) -> GeneratedGroove:
     # Bars 1-3: normal 4/4
     # Bar 4: implies 3/4 (accents every 3 instead of 4)
     velocity = [
-        100, 60, 80, 60,  # Bar 1: 4/4
-        100, 60, 80, 60,  # Bar 2: 4/4
-        100, 60, 80, 60,  # Bar 3: 4/4
-        100, 70, 80, 100, # Bar 4: shifted accents imply 3/4
+        100, 60, 80, 60,   # Bar 1: 4/4
+        100, 60, 80, 60,   # Bar 2: 4/4
+        100, 60, 80, 60,   # Bar 3: 4/4
+        100, 70, 80, 100,  # Bar 4: shifted accents imply 3/4
     ]
     
     return GeneratedGroove(

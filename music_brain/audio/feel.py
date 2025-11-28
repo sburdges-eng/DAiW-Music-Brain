@@ -9,7 +9,7 @@ Analyzes:
 """
 
 from dataclasses import dataclass, field
-from typing import List, Dict, Optional, Tuple
+from typing import List, Dict
 from pathlib import Path
 
 # Optional imports for audio processing
