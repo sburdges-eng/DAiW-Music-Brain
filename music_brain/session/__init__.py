@@ -18,6 +18,9 @@ from music_brain.session.intent_schema import (
     RhythmRuleBreak,
     ArrangementRuleBreak,
     ProductionRuleBreak,
+    MelodyRuleBreak,
+    TextureRuleBreak,
+    TemporalRuleBreak,
     VulnerabilityScale,
     NarrativeArc,
     CoreStakes,
@@ -27,6 +30,17 @@ from music_brain.session.intent_schema import (
     validate_intent,
     list_all_rules,
     RULE_BREAKING_EFFECTS,
+)
+from music_brain.session.intent_processor import (
+    IntentProcessor,
+    process_intent,
+    GeneratedProgression,
+    GeneratedGroove,
+    GeneratedArrangement,
+    GeneratedProduction,
+    GeneratedMelody,
+    GeneratedTexture,
+    GeneratedTemporal,
 )
 
 __all__ = [
@@ -45,10 +59,23 @@ __all__ = [
     "RhythmRuleBreak",
     "ArrangementRuleBreak",
     "ProductionRuleBreak",
+    "MelodyRuleBreak",
+    "TextureRuleBreak",
+    "TemporalRuleBreak",
     "VulnerabilityScale",
     "NarrativeArc",
     "CoreStakes",
     "GrooveFeel",
+    # Intent Processing
+    "IntentProcessor",
+    "process_intent",
+    "GeneratedProgression",
+    "GeneratedGroove",
+    "GeneratedArrangement",
+    "GeneratedProduction",
+    "GeneratedMelody",
+    "GeneratedTexture",
+    "GeneratedTemporal",
     # Functions
     "suggest_rule_break",
     "get_rule_breaking_info",
