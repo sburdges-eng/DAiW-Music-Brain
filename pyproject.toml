@@ -40,6 +40,10 @@ audio = [
 theory = [
     "music21>=7.0.0",
 ]
+# AI/ML dependencies for future phases
+ai = [
+    "torch>=2.0.0",
+]
 dev = [
     "pytest>=7.0.0",
     "black>=22.0.0",
