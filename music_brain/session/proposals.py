@@ -501,13 +501,36 @@ def _get_density_emotional_effect(density: str) -> str:
 
 
 def _emotion_matches_rhythm(emotion: str, rule: RhythmRuleBreak) -> bool:
-    """Check if an emotion generally matches a rhythm rule."""
+    """
+    Check if an emotion generally matches a rhythm rule.
+
+    This mapping supplements the rule_breaking_effects by providing
+    additional emotion-to-rhythm-rule associations based on the
+    emotions defined in AFFECT_MODE_MAP.
+    """
+    # Map rhythm rules to emotions (using emotions from AFFECT_MODE_MAP)
     rhythm_emotion_map = {
-        RhythmRuleBreak.CONSTANT_DISPLACEMENT: ["anxiety", "unease", "dissociation"],
-        RhythmRuleBreak.TEMPO_FLUCTUATION: ["intimacy", "vulnerability", "tenderness"],
-        RhythmRuleBreak.DROPPED_BEATS: ["shock", "grief", "catharsis"],
-        RhythmRuleBreak.METRIC_MODULATION: ["confusion", "transformation"],
-        RhythmRuleBreak.POLYRHYTHMIC_LAYERS: ["complexity", "conflict"],
+        RhythmRuleBreak.CONSTANT_DISPLACEMENT: [
+            "anxiety",
+            "dissociation",
+        ],
+        RhythmRuleBreak.TEMPO_FLUCTUATION: [
+            "tenderness",
+            "longing",
+            "nostalgia",
+        ],
+        RhythmRuleBreak.DROPPED_BEATS: [
+            "grief",
+            "catharsis",
+            "surrender",
+        ],
+        RhythmRuleBreak.METRIC_MODULATION: [
+            "dissociation",
+        ],
+        RhythmRuleBreak.POLYRHYTHMIC_LAYERS: [
+            "anxiety",
+            "rage",
+        ],
     }
     emotions = rhythm_emotion_map.get(rule, [])
     return emotion.lower() in emotions
