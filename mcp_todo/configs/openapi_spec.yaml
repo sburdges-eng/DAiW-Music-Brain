@@ -1,0 +1,334 @@
+openapi: 3.0.3
+info:
+  title: MCP TODO API
+  description: |
+    Multi-AI compatible TODO management API.
+    Use this API to manage tasks across ChatGPT, Gemini, Claude, and other AI assistants.
+  version: 1.0.0
+
+servers:
+  - url: http://localhost:8080
+    description: Local MCP TODO server
+
+paths:
+  /todos:
+    get:
+      operationId: listTodos
+      summary: List all TODOs
+      description: Retrieve a list of all TODO items with optional filtering
+      parameters:
+        - name: project
+          in: query
+          schema:
+            type: string
+          description: Filter by project name
+        - name: status
+          in: query
+          schema:
+            type: string
+            enum: [pending, in_progress, completed, blocked, cancelled]
+          description: Filter by status
+        - name: priority
+          in: query
+          schema:
+            type: string
+            enum: [low, medium, high, urgent]
+          description: Filter by priority
+        - name: tags
+          in: query
+          schema:
+            type: array
+            items:
+              type: string
+          description: Filter by tags
+      responses:
+        '200':
+          description: List of TODOs
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  count:
+                    type: integer
+                  todos:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/TodoSummary'
+
+    post:
+      operationId: createTodo
+      summary: Create a new TODO
+      description: Add a new task to the TODO list
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TodoCreate'
+      responses:
+        '201':
+          description: TODO created successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  message:
+                    type: string
+                  todo:
+                    $ref: '#/components/schemas/Todo'
+
+  /todos/{id}:
+    get:
+      operationId: getTodo
+      summary: Get a specific TODO
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: TODO ID
+      responses:
+        '200':
+          description: TODO details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Todo'
+        '404':
+          description: TODO not found
+
+    patch:
+      operationId: updateTodo
+      summary: Update a TODO
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TodoUpdate'
+      responses:
+        '200':
+          description: TODO updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Todo'
+
+    delete:
+      operationId: deleteTodo
+      summary: Delete a TODO
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: TODO deleted
+
+  /todos/{id}/complete:
+    post:
+      operationId: completeTodo
+      summary: Mark TODO as completed
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: TODO completed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Todo'
+
+  /todos/{id}/start:
+    post:
+      operationId: startTodo
+      summary: Mark TODO as in progress
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: TODO started
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Todo'
+
+  /todos/search:
+    get:
+      operationId: searchTodos
+      summary: Search TODOs
+      parameters:
+        - name: q
+          in: query
+          required: true
+          schema:
+            type: string
+          description: Search query
+      responses:
+        '200':
+          description: Search results
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  count:
+                    type: integer
+                  todos:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/TodoSummary'
+
+  /todos/summary:
+    get:
+      operationId: getTodoSummary
+      summary: Get TODO statistics
+      responses:
+        '200':
+          description: Summary statistics
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Summary'
+
+components:
+  schemas:
+    Todo:
+      type: object
+      properties:
+        id:
+          type: string
+        title:
+          type: string
+        description:
+          type: string
+        status:
+          type: string
+          enum: [pending, in_progress, completed, blocked, cancelled]
+        priority:
+          type: string
+          enum: [low, medium, high, urgent]
+        tags:
+          type: array
+          items:
+            type: string
+        project:
+          type: string
+        due_date:
+          type: string
+          format: date
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+        completed_at:
+          type: string
+          format: date-time
+        notes:
+          type: array
+          items:
+            type: string
+
+    TodoSummary:
+      type: object
+      properties:
+        id:
+          type: string
+        title:
+          type: string
+        status:
+          type: string
+        priority:
+          type: string
+        tags:
+          type: array
+          items:
+            type: string
+
+    TodoCreate:
+      type: object
+      required:
+        - title
+      properties:
+        title:
+          type: string
+          description: Task title (required)
+        description:
+          type: string
+          description: Detailed description
+        priority:
+          type: string
+          enum: [low, medium, high, urgent]
+          default: medium
+        tags:
+          type: array
+          items:
+            type: string
+        project:
+          type: string
+        due_date:
+          type: string
+          format: date
+        context:
+          type: string
+          description: Additional context for AI assistants
+
+    TodoUpdate:
+      type: object
+      properties:
+        title:
+          type: string
+        description:
+          type: string
+        status:
+          type: string
+          enum: [pending, in_progress, completed, blocked, cancelled]
+        priority:
+          type: string
+          enum: [low, medium, high, urgent]
+        tags:
+          type: array
+          items:
+            type: string
+        due_date:
+          type: string
+
+    Summary:
+      type: object
+      properties:
+        total:
+          type: integer
+        pending:
+          type: integer
+        in_progress:
+          type: integer
+        completed:
+          type: integer
+        by_status:
+          type: object
+        by_priority:
+          type: object

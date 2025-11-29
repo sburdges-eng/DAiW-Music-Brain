@@ -1,0 +1,11 @@
+{
+  "$schema": "https://raw.githubusercontent.com/anthropics/claude-code/main/schemas/mcp-config.json",
+  "mcpServers": {
+    "mcp-todo": {
+      "command": "python",
+      "args": ["-m", "mcp_todo.server"],
+      "cwd": "${workspaceFolder}",
+      "description": "Multi-AI TODO management server for task tracking across AI assistants"
+    }
+  }
+}

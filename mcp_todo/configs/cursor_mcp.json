@@ -1,0 +1,10 @@
+{
+  "// Cursor MCP Configuration": "Place this in ~/.cursor/mcp.json or project .cursor/mcp.json",
+  "mcpServers": {
+    "mcp-todo": {
+      "command": "python",
+      "args": ["-m", "mcp_todo.server"],
+      "env": {}
+    }
+  }
+}

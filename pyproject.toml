@@ -71,6 +71,9 @@ all = [
 
 [project.scripts]
 daiw = "music_brain.cli:main"
+mcp-todo = "mcp_todo.cli:main"
+mcp-todo-server = "mcp_todo.server:main"
+mcp-todo-http = "mcp_todo.http_server:main"
 
 [project.gui-scripts]
 daiw-desktop = "launcher:main"
@@ -85,6 +88,7 @@ exclude = ["tests", "tests.*", "examples", "vault"]
 
 [tool.setuptools.package-data]
 music_brain = ["data/*.json"]
+mcp_todo = ["configs/*.json", "configs/*.yaml", "configs/*.md"]
 
 [tool.black]
 line-length = 100
