@@ -409,3 +409,112 @@ class UserVotingConfig:
             if category in specialty.categories:
                 return self.vote_weight * specialty.weight
         return self.vote_weight
+
+
+class ProposalEventType(str, Enum):
+    """Types of proposal events for notification hooks."""
+    SUBMITTED = "submitted"
+    APPROVED = "approved"
+    REJECTED = "rejected"
+    VOTE_CAST = "vote_cast"
+    STATUS_CHANGED = "status_changed"
+    DEPENDENCY_MET = "dependency_met"
+    DEPENDENCY_BLOCKED = "dependency_blocked"
+
+
+@dataclass
+class ProposalEvent:
+    """
+    An event that occurred on a proposal.
+
+    Used for notification hooks and audit trails.
+    """
+    event_type: ProposalEventType
+    proposal_id: str
+    timestamp: str = ""
+    agent: Optional[str] = None
+    data: Dict[str, Any] = field(default_factory=dict)
+
+    def __post_init__(self):
+        if not self.timestamp:
+            self.timestamp = datetime.now().isoformat()
+
+    def to_dict(self) -> Dict[str, Any]:
+        return {
+            "event_type": self.event_type.value,
+            "proposal_id": self.proposal_id,
+            "timestamp": self.timestamp,
+            "agent": self.agent,
+            "data": self.data,
+        }
+
+    @classmethod
+    def from_dict(cls, data: Dict[str, Any]) -> "ProposalEvent":
+        return cls(
+            event_type=ProposalEventType(data["event_type"]),
+            proposal_id=data["proposal_id"],
+            timestamp=data.get("timestamp", ""),
+            agent=data.get("agent"),
+            data=data.get("data", {}),
+        )
+
+
+@dataclass
+class NotificationHook:
+    """
+    A notification hook for proposal events.
+
+    Hooks can be registered to receive callbacks when proposal events occur.
+    Supports filtering by event type and proposal category.
+    """
+    id: str
+    name: str
+    url: str  # Webhook URL to call
+    event_types: List[ProposalEventType] = field(default_factory=list)  # Empty = all events
+    categories: List[ProposalCategory] = field(default_factory=list)  # Empty = all categories
+    enabled: bool = True
+    created_at: str = ""
+
+    def __post_init__(self):
+        if not self.id:
+            self.id = str(uuid.uuid4())[:8]
+        if not self.created_at:
+            self.created_at = datetime.now().isoformat()
+
+    def matches_event(self, event: ProposalEvent, proposal_category: Optional[ProposalCategory] = None) -> bool:
+        """Check if this hook should be triggered for the given event."""
+        if not self.enabled:
+            return False
+
+        # Check event type filter
+        if self.event_types and event.event_type not in self.event_types:
+            return False
+
+        # Check category filter
+        if self.categories and proposal_category and proposal_category not in self.categories:
+            return False
+
+        return True
+
+    def to_dict(self) -> Dict[str, Any]:
+        return {
+            "id": self.id,
+            "name": self.name,
+            "url": self.url,
+            "event_types": [e.value for e in self.event_types],
+            "categories": [c.value for c in self.categories],
+            "enabled": self.enabled,
+            "created_at": self.created_at,
+        }
+
+    @classmethod
+    def from_dict(cls, data: Dict[str, Any]) -> "NotificationHook":
+        return cls(
+            id=data.get("id", ""),
+            name=data.get("name", ""),
+            url=data.get("url", ""),
+            event_types=[ProposalEventType(e) for e in data.get("event_types", [])],
+            categories=[ProposalCategory(c) for c in data.get("categories", [])],
+            enabled=data.get("enabled", True),
+            created_at=data.get("created_at", ""),
+        )
