@@ -42,6 +42,8 @@ from .models import (
     Phase,
     PhaseTask,
     WorkstationState,
+    UserSpecialty,
+    UserVotingConfig,
 )
 
 from .orchestrator import (
@@ -118,6 +120,8 @@ __all__ = [
     "Phase",
     "PhaseTask",
     "WorkstationState",
+    "UserSpecialty",
+    "UserVotingConfig",
 
     # Orchestrator
     "Workstation",

@@ -3,6 +3,10 @@ MCP Workstation - Proposal Management
 
 Handles the 3-improvement proposal system where each AI submits proposals.
 Includes voting, prioritization, and consensus tracking.
+
+Special handling:
+- MCP Coordinator proposals are auto-approved by default
+- User (sburdges-eng) serves as ultimate voter with veto/approve powers
 """
 
 from dataclasses import dataclass, field
@@ -11,7 +15,7 @@ from datetime import datetime
 import json
 
 from .models import (
-    Proposal, ProposalStatus, ProposalCategory, AIAgent
+    Proposal, ProposalStatus, ProposalCategory, AIAgent, UserVotingConfig
 )
 from .debug import get_debug, DebugCategory, trace
 from .ai_specializations import (
@@ -27,6 +31,7 @@ class ProposalVote:
     vote: int  # -1 (reject), 0 (neutral), 1 (approve)
     comment: str = ""
     timestamp: str = ""
+    weight: float = 1.0  # Vote weight (user votes can have higher weight)
 
     def __post_init__(self):
         if not self.timestamp:
@@ -39,14 +44,19 @@ class ProposalManager:
 
     Each AI can submit up to 3 comprehensive improvement proposals.
     Proposals are voted on by all AIs and prioritized for implementation.
+
+    Special features:
+    - MCP Coordinator proposals are auto-approved (configurable)
+    - User has ultimate voting power with veto/approve capabilities
     """
 
     MAX_PROPOSALS_PER_AGENT = 3
 
-    def __init__(self):
+    def __init__(self, user_config: Optional[UserVotingConfig] = None):
         self.proposals: Dict[str, Proposal] = {}
         self.votes: List[ProposalVote] = []
         self._debug = get_debug()
+        self.user_config = user_config or UserVotingConfig()
 
     @trace(DebugCategory.PROPOSAL)
     def submit_proposal(
@@ -64,25 +74,42 @@ class ProposalManager:
         Submit a new improvement proposal.
 
         Each agent can submit up to MAX_PROPOSALS_PER_AGENT proposals.
+        MCP Coordinator proposals are auto-approved when user_config.auto_approve_mcp is True.
         """
-        # Check proposal limit
-        agent_proposals = self.get_proposals_by_agent(agent)
-        if len(agent_proposals) >= self.MAX_PROPOSALS_PER_AGENT:
-            self._debug.warning(
-                DebugCategory.PROPOSAL,
-                f"Agent {agent.value} has reached proposal limit ({self.MAX_PROPOSALS_PER_AGENT})",
-                agent=agent.value,
-            )
-            return None
+        # MCP Coordinator and User have no proposal limit
+        is_special_agent = agent.is_mcp_coordinator or agent.is_user
 
-        # Validate category alignment with agent strengths
-        capabilities = get_capabilities(agent)
-        if category not in capabilities.proposal_categories:
+        # Check proposal limit (only for regular AI agents)
+        if not is_special_agent:
+            agent_proposals = self.get_proposals_by_agent(agent)
+            if len(agent_proposals) >= self.MAX_PROPOSALS_PER_AGENT:
+                self._debug.warning(
+                    DebugCategory.PROPOSAL,
+                    f"Agent {agent.value} has reached proposal limit ({self.MAX_PROPOSALS_PER_AGENT})",
+                    agent=agent.value,
+                )
+                return None
+
+            # Validate category alignment with agent strengths
+            capabilities = get_capabilities(agent)
+            if category not in capabilities.proposal_categories:
+                self._debug.info(
+                    DebugCategory.PROPOSAL,
+                    f"Note: {category.value} is not a primary strength for {agent.value}",
+                    agent=agent.value,
+                )
+
+        # Determine initial status
+        # MCP Coordinator proposals are auto-approved if configured
+        if agent.is_mcp_coordinator and self.user_config.auto_approve_mcp:
+            initial_status = ProposalStatus.APPROVED
             self._debug.info(
                 DebugCategory.PROPOSAL,
-                f"Note: {category.value} is not a primary strength for {agent.value}",
+                f"MCP Coordinator proposal auto-approved: {title}",
                 agent=agent.value,
             )
+        else:
+            initial_status = ProposalStatus.SUBMITTED
 
         # Create proposal
         proposal = Proposal(
@@ -91,7 +118,7 @@ class ProposalManager:
             title=title,
             description=description,
             category=category,
-            status=ProposalStatus.SUBMITTED,
+            status=initial_status,
             priority=priority,
             estimated_effort=estimated_effort,
             phase_target=phase_target,
@@ -104,7 +131,7 @@ class ProposalManager:
             DebugCategory.PROPOSAL,
             f"Proposal submitted: {title}",
             agent=agent.value,
-            data={"proposal_id": proposal.id, "category": category.value},
+            data={"proposal_id": proposal.id, "category": category.value, "auto_approved": initial_status == ProposalStatus.APPROVED},
         )
 
         return proposal
@@ -121,6 +148,11 @@ class ProposalManager:
         Cast a vote on a proposal.
 
         vote: -1 (reject), 0 (neutral), 1 (approve)
+
+        User (sburdges-eng) has special voting powers:
+        - Ultimate veto: Can reject any proposal immediately
+        - Ultimate approve: Can approve any proposal immediately
+        - Weighted votes based on their specialties
         """
         if proposal_id not in self.proposals:
             self._debug.warning(
@@ -131,8 +163,8 @@ class ProposalManager:
 
         proposal = self.proposals[proposal_id]
 
-        # Can't vote on own proposal
-        if proposal.agent == agent:
+        # Can't vote on own proposal (unless you're the user with ultimate power)
+        if proposal.agent == agent and not agent.is_user:
             self._debug.warning(
                 DebugCategory.PROPOSAL,
                 f"Agent {agent.value} cannot vote on own proposal",
@@ -140,12 +172,37 @@ class ProposalManager:
             )
             return False
 
-        # Record vote
+        # Handle user ultimate voting powers
+        if agent.is_user:
+            vote_weight = self.user_config.get_category_weight(proposal.category)
+
+            # Ultimate veto - user rejects the proposal immediately
+            if vote == -1 and self.user_config.ultimate_veto:
+                proposal.status = ProposalStatus.REJECTED
+                self._debug.info(
+                    DebugCategory.PROPOSAL,
+                    f"User (ultimate voter) vetoed proposal {proposal_id}",
+                    agent=agent.value,
+                )
+
+            # Ultimate approve - user approves the proposal immediately
+            elif vote == 1 and self.user_config.ultimate_approve:
+                proposal.status = ProposalStatus.APPROVED
+                self._debug.info(
+                    DebugCategory.PROPOSAL,
+                    f"User (ultimate voter) approved proposal {proposal_id}",
+                    agent=agent.value,
+                )
+        else:
+            vote_weight = 1.0
+
+        # Record vote with weight
         vote_record = ProposalVote(
             agent=agent,
             proposal_id=proposal_id,
             vote=vote,
             comment=comment,
+            weight=vote_weight,
         )
         self.votes.append(vote_record)
 
@@ -154,49 +211,80 @@ class ProposalManager:
 
         self._debug.info(
             DebugCategory.PROPOSAL,
-            f"Vote cast: {vote:+d} on proposal {proposal_id}",
+            f"Vote cast: {vote:+d} (weight: {vote_weight}) on proposal {proposal_id}",
             agent=agent.value,
-            data={"proposal_id": proposal_id, "vote": vote},
+            data={"proposal_id": proposal_id, "vote": vote, "weight": vote_weight},
         )
 
-        # Check for consensus
-        self._check_consensus(proposal)
+        # Check for consensus (if not already decided by user)
+        if proposal.status == ProposalStatus.SUBMITTED or proposal.status == ProposalStatus.UNDER_REVIEW:
+            self._check_consensus(proposal)
 
         return True
 
     def _check_consensus(self, proposal: Proposal):
-        """Check if a proposal has reached consensus."""
-        total_agents = len(AIAgent)
+        """
+        Check if a proposal has reached consensus.
+
+        Takes into account:
+        - Vote weights (user votes can count as more than 1)
+        - Special agents (MCP_COORDINATOR and USER) excluded from required vote count
+        """
+        # Count regular AI agents only (exclude MCP_COORDINATOR and USER)
+        regular_agents = [
+            a for a in AIAgent
+            if not a.is_mcp_coordinator and not a.is_user
+        ]
+        total_regular_agents = len(regular_agents)
         votes_cast = len(proposal.votes)
 
-        # Need majority of agents (excluding proposer)
-        required_votes = total_agents - 1
+        # Need majority of regular agents (excluding proposer if they're regular)
+        if proposal.agent in regular_agents:
+            required_votes = total_regular_agents - 1
+        else:
+            required_votes = total_regular_agents
+
         if votes_cast < required_votes:
             return
 
-        score = proposal.vote_score
+        # Calculate weighted vote score
+        weighted_score = self._get_weighted_vote_score(proposal)
+        raw_score = proposal.vote_score
+
+        # Use weighted score for consensus, with threshold adjusted for weights
+        # Approval threshold: weighted_score >= required_votes * average_weight
+        # For simplicity, use raw score for now with regular logic
+        # User votes already have ultimate power in vote_on_proposal
 
         # Strong approval (all approve)
-        if score >= required_votes:
+        if raw_score >= required_votes:
             proposal.status = ProposalStatus.APPROVED
             self._debug.info(
                 DebugCategory.PROPOSAL,
-                f"Proposal {proposal.id} approved with score {score}",
+                f"Proposal {proposal.id} approved with score {raw_score} (weighted: {weighted_score:.1f})",
             )
         # Strong rejection (all reject)
-        elif score <= -required_votes:
+        elif raw_score <= -required_votes:
             proposal.status = ProposalStatus.REJECTED
             self._debug.info(
                 DebugCategory.PROPOSAL,
-                f"Proposal {proposal.id} rejected with score {score}",
+                f"Proposal {proposal.id} rejected with score {raw_score} (weighted: {weighted_score:.1f})",
             )
         # Mixed - needs review
         else:
             proposal.status = ProposalStatus.UNDER_REVIEW
             self._debug.info(
                 DebugCategory.PROPOSAL,
-                f"Proposal {proposal.id} under review with mixed votes (score: {score})",
+                f"Proposal {proposal.id} under review with mixed votes (score: {raw_score}, weighted: {weighted_score:.1f})",
             )
+
+    def _get_weighted_vote_score(self, proposal: Proposal) -> float:
+        """Calculate the weighted vote score for a proposal."""
+        weighted_score = 0.0
+        for vote_record in self.votes:
+            if vote_record.proposal_id == proposal.id:
+                weighted_score += vote_record.vote * vote_record.weight
+        return weighted_score
 
     @trace(DebugCategory.PROPOSAL)
     def update_status(
@@ -347,15 +435,21 @@ class ProposalManager:
                     "vote": v.vote,
                     "comment": v.comment,
                     "timestamp": v.timestamp,
+                    "weight": v.weight,
                 }
                 for v in self.votes
             ],
+            "user_config": self.user_config.to_dict(),
         }
 
     @classmethod
     def from_dict(cls, data: Dict) -> "ProposalManager":
         """Deserialize manager state."""
-        manager = cls()
+        user_config = None
+        if "user_config" in data:
+            user_config = UserVotingConfig.from_dict(data["user_config"])
+
+        manager = cls(user_config=user_config)
 
         for pid, pdata in data.get("proposals", {}).items():
             proposal = Proposal.from_dict(pdata)
@@ -368,6 +462,7 @@ class ProposalManager:
                 vote=vdata["vote"],
                 comment=vdata.get("comment", ""),
                 timestamp=vdata.get("timestamp", ""),
+                weight=vdata.get("weight", 1.0),
             )
             manager.votes.append(vote)
 

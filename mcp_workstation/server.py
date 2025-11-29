@@ -18,6 +18,10 @@ from .debug import log_info, log_error, DebugCategory
 # MCP Tool Definitions
 # =============================================================================
 
+# List of all available agents including special types
+ALL_AGENT_CHOICES = ["claude", "chatgpt", "gemini", "github_copilot", "mcp_coordinator", "user"]
+
+
 def get_mcp_tools() -> List[Dict[str, Any]]:
     """
     Get MCP tool definitions for the workstation.
@@ -34,8 +38,8 @@ def get_mcp_tools() -> List[Dict[str, Any]]:
                 "properties": {
                     "agent": {
                         "type": "string",
-                        "enum": ["claude", "chatgpt", "gemini", "github_copilot"],
-                        "description": "The AI agent to register",
+                        "enum": ALL_AGENT_CHOICES,
+                        "description": "The AI agent to register (includes mcp_coordinator for auto-approval and user for ultimate voter)",
                     },
                 },
                 "required": ["agent"],
@@ -57,7 +61,7 @@ def get_mcp_tools() -> List[Dict[str, Any]]:
                 "properties": {
                     "agent": {
                         "type": "string",
-                        "enum": ["claude", "chatgpt", "gemini", "github_copilot"],
+                        "enum": ALL_AGENT_CHOICES,
                     },
                 },
                 "required": ["agent"],
@@ -67,13 +71,13 @@ def get_mcp_tools() -> List[Dict[str, Any]]:
         # Proposal Operations
         {
             "name": "proposal_submit",
-            "description": "Submit an improvement proposal (max 3 per agent)",
+            "description": "Submit an improvement proposal (max 3 per regular agent, unlimited for mcp_coordinator and user). MCP coordinator proposals are auto-approved.",
             "inputSchema": {
                 "type": "object",
                 "properties": {
                     "agent": {
                         "type": "string",
-                        "enum": ["claude", "chatgpt", "gemini", "github_copilot"],
+                        "enum": ALL_AGENT_CHOICES,
                     },
                     "title": {
                         "type": "string",
@@ -114,13 +118,13 @@ def get_mcp_tools() -> List[Dict[str, Any]]:
         },
         {
             "name": "proposal_vote",
-            "description": "Vote on a proposal (-1 reject, 0 neutral, 1 approve)",
+            "description": "Vote on a proposal (-1 reject, 0 neutral, 1 approve). User has ultimate veto/approve powers.",
             "inputSchema": {
                 "type": "object",
                 "properties": {
                     "agent": {
                         "type": "string",
-                        "enum": ["claude", "chatgpt", "gemini", "github_copilot"],
+                        "enum": ALL_AGENT_CHOICES,
                     },
                     "proposal_id": {
                         "type": "string",
@@ -147,7 +151,7 @@ def get_mcp_tools() -> List[Dict[str, Any]]:
                 "properties": {
                     "agent": {
                         "type": "string",
-                        "enum": ["claude", "chatgpt", "gemini", "github_copilot"],
+                        "enum": ALL_AGENT_CHOICES,
                         "description": "Filter by agent",
                     },
                     "status": {
@@ -166,7 +170,7 @@ def get_mcp_tools() -> List[Dict[str, Any]]:
                 "properties": {
                     "agent": {
                         "type": "string",
-                        "enum": ["claude", "chatgpt", "gemini", "github_copilot"],
+                        "enum": ALL_AGENT_CHOICES,
                     },
                 },
                 "required": ["agent"],
@@ -234,7 +238,7 @@ def get_mcp_tools() -> List[Dict[str, Any]]:
                     },
                     "agent": {
                         "type": "string",
-                        "enum": ["claude", "chatgpt", "gemini", "github_copilot"],
+                        "enum": ALL_AGENT_CHOICES,
                     },
                 },
                 "required": ["phase_id", "task_id", "agent"],
@@ -269,7 +273,7 @@ def get_mcp_tools() -> List[Dict[str, Any]]:
                     },
                     "agent": {
                         "type": "string",
-                        "enum": ["claude", "chatgpt", "gemini", "github_copilot"],
+                        "enum": ALL_AGENT_CHOICES,
                     },
                 },
                 "required": ["module_id"],

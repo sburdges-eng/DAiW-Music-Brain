@@ -18,6 +18,8 @@ class AIAgent(str, Enum):
     CHATGPT = "chatgpt"
     GEMINI = "gemini"
     GITHUB_COPILOT = "github_copilot"
+    MCP_COORDINATOR = "mcp_coordinator"  # Special agent for auto-approval
+    USER = "user"  # Ultimate voter (sburdges-eng)
 
     @property
     def display_name(self) -> str:
@@ -26,8 +28,20 @@ class AIAgent(str, Enum):
             "chatgpt": "ChatGPT (OpenAI)",
             "gemini": "Gemini (Google)",
             "github_copilot": "GitHub Copilot",
+            "mcp_coordinator": "MCP Coordinator",
+            "user": "User (sburdges-eng)",
         }
         return names.get(self.value, self.value)
+
+    @property
+    def is_mcp_coordinator(self) -> bool:
+        """Check if this agent is the MCP coordinator."""
+        return self == AIAgent.MCP_COORDINATOR
+
+    @property
+    def is_user(self) -> bool:
+        """Check if this agent is the ultimate user voter."""
+        return self == AIAgent.USER
 
 
 class ProposalStatus(str, Enum):
@@ -318,3 +332,80 @@ class WorkstationState:
         """Load state from JSON file."""
         with open(path, 'r') as f:
             return cls.from_dict(json.load(f))
+
+
+@dataclass
+class UserSpecialty:
+    """
+    User-defined specialty/role for proposal voting and assignment.
+
+    Users can define their expertise areas to influence how they vote
+    and what tasks get assigned to them.
+    """
+    name: str
+    categories: List[ProposalCategory] = field(default_factory=list)
+    weight: float = 1.0  # 0.0-2.0, higher means more influence in that area
+    description: str = ""
+
+    def to_dict(self) -> Dict[str, Any]:
+        return {
+            "name": self.name,
+            "categories": [c.value for c in self.categories],
+            "weight": self.weight,
+            "description": self.description,
+        }
+
+    @classmethod
+    def from_dict(cls, data: Dict[str, Any]) -> "UserSpecialty":
+        return cls(
+            name=data.get("name", ""),
+            categories=[ProposalCategory(c) for c in data.get("categories", [])],
+            weight=data.get("weight", 1.0),
+            description=data.get("description", ""),
+        )
+
+
+@dataclass
+class UserVotingConfig:
+    """
+    Configuration for the ultimate user voter (sburdges-eng).
+
+    This defines how the user's votes are weighted and what override
+    capabilities they have.
+    """
+    username: str = "sburdges-eng"
+    specialties: List[UserSpecialty] = field(default_factory=list)
+    ultimate_veto: bool = True  # Can veto any proposal
+    ultimate_approve: bool = True  # Can approve any proposal directly
+    auto_approve_mcp: bool = True  # Auto-approve MCP coordinator proposals
+    vote_weight: float = 2.0  # User's vote counts as this many votes
+
+    def to_dict(self) -> Dict[str, Any]:
+        return {
+            "username": self.username,
+            "specialties": [s.to_dict() for s in self.specialties],
+            "ultimate_veto": self.ultimate_veto,
+            "ultimate_approve": self.ultimate_approve,
+            "auto_approve_mcp": self.auto_approve_mcp,
+            "vote_weight": self.vote_weight,
+        }
+
+    @classmethod
+    def from_dict(cls, data: Dict[str, Any]) -> "UserVotingConfig":
+        return cls(
+            username=data.get("username", "sburdges-eng"),
+            specialties=[
+                UserSpecialty.from_dict(s) for s in data.get("specialties", [])
+            ],
+            ultimate_veto=data.get("ultimate_veto", True),
+            ultimate_approve=data.get("ultimate_approve", True),
+            auto_approve_mcp=data.get("auto_approve_mcp", True),
+            vote_weight=data.get("vote_weight", 2.0),
+        )
+
+    def get_category_weight(self, category: ProposalCategory) -> float:
+        """Get the user's voting weight for a specific category."""
+        for specialty in self.specialties:
+            if category in specialty.categories:
+                return self.vote_weight * specialty.weight
+        return self.vote_weight

@@ -379,6 +379,112 @@ GITHUB_COPILOT_CAPABILITIES = AICapabilities(
 
 
 # =============================================================================
+# MCP Coordinator Capabilities
+# =============================================================================
+
+MCP_COORDINATOR_CAPABILITIES = AICapabilities(
+    agent=AIAgent.MCP_COORDINATOR,
+    display_name="MCP Coordinator",
+    description="Model Coordinator Process - coordinates proposals and auto-approves "
+                "workflow changes. Not a typical AI agent but a system coordinator.",
+
+    strengths={
+        TaskType.SYSTEM_DESIGN: 1.0,
+        TaskType.API_DESIGN: 0.95,
+        TaskType.PROJECT_SCAFFOLDING: 0.95,
+        TaskType.MULTI_FILE_REFACTOR: 0.90,
+    },
+
+    proposal_categories=[
+        ProposalCategory.ARCHITECTURE,
+        ProposalCategory.AI_COLLABORATION,
+        ProposalCategory.TOOL_INTEGRATION,
+        ProposalCategory.BUILD_SYSTEM,
+    ],
+
+    best_languages=["Python", "YAML", "JSON"],
+
+    special_abilities=[
+        "Proposal auto-approval",
+        "Cross-AI coordination",
+        "Workflow orchestration",
+        "System-level changes",
+    ],
+
+    limitations=[
+        "Not a creative agent",
+        "Focused on coordination tasks only",
+    ],
+
+    recommended_for=[
+        "Workflow coordination",
+        "System integration",
+        "Cross-agent communication",
+        "Automated proposal handling",
+    ],
+)
+
+
+# =============================================================================
+# User Capabilities
+# =============================================================================
+
+USER_CAPABILITIES = AICapabilities(
+    agent=AIAgent.USER,
+    display_name="User (sburdges-eng)",
+    description="Human user with ultimate voting authority. Can approve or veto "
+                "any proposal based on their domain expertise and project vision.",
+
+    strengths={
+        # User can have expertise in any area - represented as moderate baseline
+        TaskType.SYSTEM_DESIGN: 0.80,
+        TaskType.CODE_REVIEW: 0.80,
+        TaskType.PROBLEM_SOLVING: 0.90,
+        TaskType.BRAINSTORMING: 0.85,
+        TaskType.MUSIC_THEORY: 0.95,
+        TaskType.DSP_ALGORITHM: 0.85,
+        TaskType.AUDIO_PROCESSING: 0.85,
+    },
+
+    proposal_categories=[
+        # User can propose in any category
+        ProposalCategory.ARCHITECTURE,
+        ProposalCategory.PERFORMANCE,
+        ProposalCategory.RELIABILITY,
+        ProposalCategory.FEATURE_NEW,
+        ProposalCategory.FEATURE_ENHANCEMENT,
+        ProposalCategory.USER_EXPERIENCE,
+        ProposalCategory.AUDIO_PROCESSING,
+        ProposalCategory.MIDI_HANDLING,
+        ProposalCategory.DSP_ALGORITHM,
+        ProposalCategory.DAW_INTEGRATION,
+    ],
+
+    best_languages=["Python", "C++"],
+
+    special_abilities=[
+        "Ultimate veto power",
+        "Ultimate approve power",
+        "Weighted voting based on specialties",
+        "No proposal limits",
+        "Cross-domain expertise",
+    ],
+
+    limitations=[
+        "Human - may have limited time availability",
+        "Requires context to make informed decisions",
+    ],
+
+    recommended_for=[
+        "Final decision making",
+        "Domain expertise input",
+        "Vision alignment",
+        "Cross-cutting concerns",
+    ],
+)
+
+
+# =============================================================================
 # AI Specialization Registry
 # =============================================================================
 
@@ -387,6 +493,8 @@ AI_CAPABILITIES: Dict[AIAgent, AICapabilities] = {
     AIAgent.CHATGPT: CHATGPT_CAPABILITIES,
     AIAgent.GEMINI: GEMINI_CAPABILITIES,
     AIAgent.GITHUB_COPILOT: GITHUB_COPILOT_CAPABILITIES,
+    AIAgent.MCP_COORDINATOR: MCP_COORDINATOR_CAPABILITIES,
+    AIAgent.USER: USER_CAPABILITIES,
 }
 
 
