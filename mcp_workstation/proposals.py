@@ -395,11 +395,25 @@ class ProposalManager:
     # =========================================================================
 
     def get_dependencies(self, proposal_id: str) -> List[Proposal]:
-        """Get all proposals that this proposal depends on."""
+        """
+        Get all proposals that this proposal depends on.
+
+        Note: Returns only dependencies that exist in the system. If any
+        dependency ID is not found, it is logged and skipped.
+        """
         if proposal_id not in self.proposals:
             return []
         proposal = self.proposals[proposal_id]
-        return [self.proposals[dep_id] for dep_id in proposal.dependencies if dep_id in self.proposals]
+        dependencies = []
+        for dep_id in proposal.dependencies:
+            if dep_id in self.proposals:
+                dependencies.append(self.proposals[dep_id])
+            else:
+                self._debug.warning(
+                    DebugCategory.PROPOSAL,
+                    f"Dependency {dep_id} not found for proposal {proposal_id}",
+                )
+        return dependencies
 
     def get_dependents(self, proposal_id: str) -> List[Proposal]:
         """Get all proposals that depend on this proposal."""

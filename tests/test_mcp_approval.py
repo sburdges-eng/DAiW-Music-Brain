@@ -496,13 +496,13 @@ class TestNotificationHooks:
         pm = ProposalManager()
 
         hook = NotificationHook(
-            id="",
+            id="test_register_hook",
             name="Test Hook",
             url="https://example.com/webhook",
         )
 
         hook_id = pm.register_hook(hook)
-        assert hook_id is not None
+        assert hook_id == "test_register_hook"
         assert hook_id in [h.id for h in pm.get_hooks()]
 
     def test_unregister_hook(self):
@@ -652,6 +652,28 @@ class TestNotificationHooks:
 
         # With non-matching category
         assert hook.matches_event(event, ProposalCategory.ARCHITECTURE) is False
+
+        # With None category - hook with category filter should NOT match
+        assert hook.matches_event(event, None) is False
+
+    def test_hook_without_category_filter_matches_all(self):
+        """Hooks without category filter match events regardless of category."""
+        hook = NotificationHook(
+            id="test",
+            name="Test",
+            url="https://example.com",
+            categories=[],  # No category filter
+        )
+
+        event = ProposalEvent(
+            event_type=ProposalEventType.SUBMITTED,
+            proposal_id="test_id",
+        )
+
+        # Should match any category
+        assert hook.matches_event(event, ProposalCategory.DSP_ALGORITHM) is True
+        assert hook.matches_event(event, ProposalCategory.ARCHITECTURE) is True
+        assert hook.matches_event(event, None) is True
 
     def test_serialization_includes_hooks_and_events(self):
         """Serialization includes hooks and events."""

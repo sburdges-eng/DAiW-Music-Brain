@@ -482,7 +482,22 @@ class NotificationHook:
             self.created_at = datetime.now().isoformat()
 
     def matches_event(self, event: ProposalEvent, proposal_category: Optional[ProposalCategory] = None) -> bool:
-        """Check if this hook should be triggered for the given event."""
+        """
+        Check if this hook should be triggered for the given event.
+
+        Args:
+            event: The proposal event to check
+            proposal_category: The category of the proposal (optional)
+
+        Returns:
+            True if the hook should be triggered for this event
+
+        Note:
+            - If event_types filter is set, event must match one of them
+            - If categories filter is set and proposal_category is provided,
+              category must match. If proposal_category is None but categories
+              filter is set, the hook will NOT match (category is required for filtered hooks).
+        """
         if not self.enabled:
             return False
 
@@ -490,9 +505,12 @@ class NotificationHook:
         if self.event_types and event.event_type not in self.event_types:
             return False
 
-        # Check category filter
-        if self.categories and proposal_category and proposal_category not in self.categories:
-            return False
+        # Check category filter - if categories are specified, require a matching category
+        if self.categories:
+            if proposal_category is None:
+                return False  # Category required when filter is set
+            if proposal_category not in self.categories:
+                return False
 
         return True
 
