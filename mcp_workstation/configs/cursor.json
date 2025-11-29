@@ -1,0 +1,11 @@
+{
+  "mcpServers": {
+    "mcp-workstation": {
+      "command": "python",
+      "args": ["-m", "mcp_workstation.server"],
+      "env": {
+        "PYTHONPATH": "${workspaceFolder}"
+      }
+    }
+  }
+}
