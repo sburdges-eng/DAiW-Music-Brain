@@ -5,8 +5,8 @@
  */
 
 #include "MemoryManager.h"
+#include <JuceHeader.h>
 #include <cassert>
-#include <iostream>
 
 namespace daiw {
 namespace memory {
@@ -61,9 +61,8 @@ void MemoryManager::initialize() {
         m_initialized = true;
 
     } catch (const std::bad_alloc& e) {
-        // Log error - in production would use proper logging
-        std::cerr << "MemoryManager: Failed to allocate Iron Heap: "
-                  << e.what() << std::endl;
+        // Log error using JUCE's logging (in production) or DBG macro
+        DBG("MemoryManager: Failed to allocate Iron Heap: " << e.what());
         throw;
     }
 }

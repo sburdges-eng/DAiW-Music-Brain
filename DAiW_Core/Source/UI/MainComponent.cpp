@@ -16,6 +16,10 @@ MainComponent::MainComponent() {
     m_workComponent = std::make_unique<WorkStateComponent>();
     m_dreamComponent = std::make_unique<DreamStateComponent>();
 
+    // Connect flip button callbacks
+    m_workComponent->onFlipRequested = [this]() { triggerFlip(); };
+    m_dreamComponent->onFlipRequested = [this]() { triggerFlip(); };
+
     // Initially show work state
     addAndMakeVisible(*m_workComponent);
     addChildComponent(*m_dreamComponent);  // Added but not visible

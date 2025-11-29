@@ -131,9 +131,18 @@ public:
      */
     [[nodiscard]] std::size_t getIronHeapRemaining() const noexcept;
 
-    // Configuration constants
-    static constexpr std::size_t IRON_HEAP_SIZE = 4ULL * 1024 * 1024 * 1024;  // 4GB
-    static constexpr std::size_t PLAYGROUND_INITIAL_SIZE = 256 * 1024 * 1024; // 256MB
+    // Configuration constants - can be overridden via compile-time defines
+#ifdef DAIW_IRON_HEAP_SIZE
+    static constexpr std::size_t IRON_HEAP_SIZE = DAIW_IRON_HEAP_SIZE;
+#else
+    static constexpr std::size_t IRON_HEAP_SIZE = 4ULL * 1024 * 1024 * 1024;  // 4GB default
+#endif
+
+#ifdef DAIW_PLAYGROUND_INITIAL_SIZE
+    static constexpr std::size_t PLAYGROUND_INITIAL_SIZE = DAIW_PLAYGROUND_INITIAL_SIZE;
+#else
+    static constexpr std::size_t PLAYGROUND_INITIAL_SIZE = 256 * 1024 * 1024; // 256MB default
+#endif
 
 private:
     MemoryManager();

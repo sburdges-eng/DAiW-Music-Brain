@@ -17,7 +17,7 @@
 #include "../Memory/MemoryManager.h"
 #include "../Memory/DAiW_Buffer.h"
 #include <string>
-#include <map>
+#include <unordered_map>
 
 namespace daiw {
 namespace bridge {
@@ -59,7 +59,7 @@ private:
     bool m_isDreamState{false};
 
     // Buffer handle management
-    std::map<int, std::unique_ptr<memory::AudioBuffer>> m_buffers;
+    std::unordered_map<int, std::unique_ptr<memory::AudioBuffer>> m_buffers;
     int m_nextHandleId{1};
 };
 
