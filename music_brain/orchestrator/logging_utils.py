@@ -194,15 +194,16 @@ class OrchestratorLogger:
         extra = {**self._context, **kwargs}
 
         # Create log record extras
+        extra_fields = {
+            k: v for k, v in extra.items()
+            if k not in ('pipeline_id', 'stage_name', 'execution_id', 'duration_ms')
+        }
         record_extras = {
             'pipeline_id': extra.get('pipeline_id', '-'),
             'stage_name': extra.get('stage_name', '-'),
             'execution_id': extra.get('execution_id'),
             'duration_ms': extra.get('duration_ms'),
-            'extra_data': {
-                k: v for k, v in extra.items()
-                if k not in ('pipeline_id', 'stage_name', 'execution_id', 'duration_ms')
-            },
+            'extra_data': extra_fields,
         }
 
         # Log the message
@@ -214,7 +215,11 @@ class OrchestratorLogger:
             level=logging.getLevelName(level),
             message=message % args if args else message,
             logger_name=self.name,
-            **record_extras,
+            pipeline_id=record_extras.get('pipeline_id'),
+            stage_name=record_extras.get('stage_name'),
+            execution_id=record_extras.get('execution_id'),
+            duration_ms=record_extras.get('duration_ms'),
+            extra=extra_fields,
         )
         self._history.append(entry)
         if len(self._history) > self._max_history:

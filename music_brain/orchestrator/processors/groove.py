@@ -95,6 +95,9 @@ class GrooveProcessor(BaseProcessor):
             return input_data.tempo > 0
         if isinstance(input_data, dict):
             return input_data.get("tempo", 120) > 0
+        # Accept HarmonyOutput from previous stage - we'll get params from context
+        if hasattr(input_data, 'chords'):
+            return True
         return False
 
     async def _process_impl(
@@ -113,7 +116,7 @@ class GrooveProcessor(BaseProcessor):
             ProcessorResult with GrooveOutput
         """
         try:
-            # Parse input
+            # Parse input - support multiple input formats
             if isinstance(input_data, dict):
                 groove_input = GrooveInput(
                     tempo=input_data.get("tempo", 120),
@@ -125,6 +128,13 @@ class GrooveProcessor(BaseProcessor):
                 )
             elif isinstance(input_data, GrooveInput):
                 groove_input = input_data
+            elif hasattr(input_data, 'chords'):
+                # Input is from HarmonyProcessor - get params from context
+                groove_input = GrooveInput(
+                    tempo=context.get_shared("tempo", 120),
+                    genre=context.get_shared("genre", "straight"),
+                    emotion=context.get_shared("emotion", "neutral"),
+                )
             else:
                 return ProcessorResult(
                     success=False,

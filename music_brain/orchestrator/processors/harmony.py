@@ -99,6 +99,9 @@ class HarmonyProcessor(BaseProcessor):
             return bool(input_data.emotion)
         if isinstance(input_data, dict):
             return "emotion" in input_data
+        # Accept IntentOutput from previous stage - we'll get emotion from context
+        if hasattr(input_data, 'intent'):
+            return True
         return False
 
     async def _process_impl(
@@ -117,7 +120,7 @@ class HarmonyProcessor(BaseProcessor):
             ProcessorResult with HarmonyOutput
         """
         try:
-            # Parse input
+            # Parse input - support multiple input formats
             if isinstance(input_data, dict):
                 harmony_input = HarmonyInput(
                     emotion=input_data.get("emotion", "neutral"),
@@ -129,6 +132,16 @@ class HarmonyProcessor(BaseProcessor):
                 )
             elif isinstance(input_data, HarmonyInput):
                 harmony_input = input_data
+            elif hasattr(input_data, 'intent'):
+                # Input is from IntentProcessor - get params from context
+                harmony_input = HarmonyInput(
+                    emotion=context.get_shared("emotion", "neutral"),
+                    key=context.get_shared("key", "C"),
+                    mode=context.get_shared("mode", "major"),
+                    rule_to_break=input_data.intent.get("phase_2", {}).get(
+                        "technical_rule_to_break"
+                    ),
+                )
             else:
                 return ProcessorResult(
                     success=False,
