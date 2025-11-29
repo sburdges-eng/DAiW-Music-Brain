@@ -127,6 +127,28 @@ from .crewai_music_agents import (
 )
 
 # =============================================================================
+# Voice Profiles - Customizable Voice Characteristics
+# =============================================================================
+
+from .voice_profiles import (
+    # Main classes
+    VoiceProfileManager,
+    VoiceProfile,
+
+    # Enums
+    Gender,
+    AccentRegion,
+    SpeechPattern,
+
+    # Convenience functions
+    get_voice_manager,
+    apply_voice_profile,
+    learn_word,
+    list_accents,
+    list_speech_patterns,
+)
+
+# =============================================================================
 # Unified Hub - Central Orchestration
 # =============================================================================
 
@@ -202,6 +224,18 @@ __all__ = [
     "song_production_task",
     "get_crew",
     "shutdown_crew",
+
+    # Voice Profiles
+    "VoiceProfileManager",
+    "VoiceProfile",
+    "Gender",
+    "AccentRegion",
+    "SpeechPattern",
+    "get_voice_manager",
+    "apply_voice_profile",
+    "learn_word",
+    "list_accents",
+    "list_speech_patterns",
 
     # Unified Hub
     "UnifiedHub",

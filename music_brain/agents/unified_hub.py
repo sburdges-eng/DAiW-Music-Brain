@@ -57,6 +57,14 @@ from .crewai_music_agents import (
     ToolManager,
     AGENT_ROLES,
 )
+from .voice_profiles import (
+    VoiceProfileManager,
+    VoiceProfile,
+    Gender,
+    AccentRegion,
+    SpeechPattern,
+    get_voice_manager,
+)
 
 
 # =============================================================================
@@ -82,6 +90,7 @@ class HubConfig:
 
     # Voice
     default_voice_channel: int = 0
+    default_voice_profile: str = "default"
 
     def __post_init__(self):
         self.session_dir = os.path.expanduser(self.session_dir)
@@ -98,6 +107,7 @@ class SessionConfig:
     key: str = "C"
     mode: str = "major"
     emotion: str = "neutral"
+    voice_profile: str = "default"
     notes: List[str] = field(default_factory=list)
 
 
@@ -133,6 +143,11 @@ class LocalVoiceSynth:
     Local voice synthesis using system TTS and MIDI CC for formant control.
 
     NO CLOUD APIs - Uses macOS 'say' or espeak on Linux.
+
+    Supports:
+    - Voice profiles with pitch, accent, speech patterns
+    - Learning custom pronunciations
+    - Speech impediment simulation
     """
 
     def __init__(self, midi_bridge: Optional[AbletonMIDIBridge] = None):
@@ -140,6 +155,11 @@ class LocalVoiceSynth:
         self._speaking = False
         self._current_note = None
         self._platform = self._detect_platform()
+        self._profile_manager = get_voice_manager()
+        self._active_profile: Optional[str] = None
+
+        # Initialize preset profiles
+        self._profile_manager.create_preset_profiles()
 
     def _detect_platform(self) -> str:
         import platform
@@ -156,31 +176,58 @@ class LocalVoiceSynth:
         self,
         text: str,
         vowel: Optional[str] = None,
-        rate: int = 175,
-        pitch: int = 50
+        rate: Optional[int] = None,
+        pitch: Optional[int] = None,
+        profile: Optional[str] = None
     ) -> bool:
         """
-        Speak text using local TTS.
+        Speak text using local TTS with voice profile support.
 
         Args:
             text: Text to speak
             vowel: Optional vowel hint for formant control
-            rate: Speech rate (words per minute)
-            pitch: Base pitch (0-100)
+            rate: Speech rate (words per minute) - auto from profile if None
+            pitch: Base pitch (0-100) - auto from profile if None
+            profile: Voice profile name to use
 
         Returns:
             True if speaking started
         """
+        # Apply voice profile if specified or active
+        use_profile = profile or self._active_profile
+        voice_params = {}
+
+        if use_profile:
+            text, voice_params = self._profile_manager.apply_profile(text, use_profile)
+
+        # Get rate and pitch from profile or defaults
+        if rate is None:
+            rate = int(175 * voice_params.get("rate", 1.0))
+        if pitch is None:
+            # Map Hz to 0-100 scale (roughly 80-400 Hz)
+            base_hz = voice_params.get("pitch", 170)
+            pitch = int((base_hz - 80) / 320 * 100)
+            pitch = max(0, min(100, pitch))
+
         if vowel and self.midi:
             self.set_vowel(vowel)
+
+        # Apply voice quality to MIDI if available
+        if self.midi and voice_params:
+            if "breathiness" in voice_params:
+                self.set_breathiness(voice_params["breathiness"])
+            if "formant_shift" in voice_params:
+                self.set_formant_shift(voice_params["formant_shift"])
 
         self._speaking = True
 
         try:
             if self._platform == "macos":
                 import subprocess
+                # macOS say supports voice selection
+                cmd = ["say", "-r", str(rate)]
                 subprocess.Popen(
-                    ["say", "-r", str(rate), text],
+                    cmd + [text],
                     stdout=subprocess.DEVNULL,
                     stderr=subprocess.DEVNULL
                 )
@@ -201,6 +248,84 @@ class LocalVoiceSynth:
             return False
         finally:
             self._speaking = False
+
+    def set_profile(self, profile_name: str):
+        """Set the active voice profile."""
+        self._active_profile = profile_name
+
+    def get_profile(self) -> Optional[str]:
+        """Get the active voice profile name."""
+        return self._active_profile
+
+    def create_profile(
+        self,
+        name: str,
+        gender: str = "neutral",
+        base_pitch: Optional[float] = None,
+        accent: str = "american_general",
+        speech_patterns: Optional[List[str]] = None,
+        **kwargs
+    ) -> VoiceProfile:
+        """
+        Create a new voice profile.
+
+        Args:
+            name: Profile name
+            gender: male/female/neutral/child
+            base_pitch: Base pitch in Hz
+            accent: Accent region (see list_accents())
+            speech_patterns: List of speech patterns (see list_speech_patterns())
+
+        Returns:
+            Created VoiceProfile
+        """
+        gender_enum = Gender(gender) if isinstance(gender, str) else gender
+        accent_enum = AccentRegion(accent) if isinstance(accent, str) else accent
+        patterns = [
+            SpeechPattern(p) if isinstance(p, str) else p
+            for p in (speech_patterns or [])
+        ]
+
+        return self._profile_manager.create_profile(
+            name=name,
+            gender=gender_enum,
+            base_pitch=base_pitch,
+            accent=accent_enum,
+            speech_patterns=patterns,
+            **kwargs
+        )
+
+    def learn_pronunciation(self, word: str, pronunciation: str):
+        """Learn a custom pronunciation for the active profile."""
+        if self._active_profile:
+            self._profile_manager.learn_pronunciation(
+                self._active_profile, word, pronunciation
+            )
+
+    def learn_phrase(self, phrase: str, replacement: str):
+        """Learn a phrase replacement for the active profile."""
+        if self._active_profile:
+            self._profile_manager.learn_phrase(
+                self._active_profile, phrase, replacement
+            )
+
+    def list_profiles(self) -> List[str]:
+        """List available voice profiles."""
+        return self._profile_manager.list_profiles()
+
+    def list_accents(self) -> List[str]:
+        """List available accents."""
+        return [a.value for a in AccentRegion]
+
+    def list_speech_patterns(self) -> List[str]:
+        """List available speech patterns."""
+        return [p.value for p in SpeechPattern]
+
+    def set_formant_shift(self, shift: float, channel: int = 0):
+        """Set formant shift (-1 to 1)."""
+        if self.midi:
+            value = int((shift + 1) * 63.5)
+            self.midi.send_cc(VoiceCC.FORMANT_SHIFT.value, value, channel)
 
     def note_on(self, pitch: int, velocity: int = 100, channel: int = 0):
         """Start a note (for vocoder/synth voice)."""
