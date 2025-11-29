@@ -16,6 +16,11 @@ Usage:
     daiw intent list                            List all rule-breaking options
     daiw intent validate <file>                 Validate intent file
 
+    daiw propose for <emotion>                  Generate creative proposals
+    daiw propose quick <emotion>                Quick top proposals for emotion
+    daiw propose full <emotion>                 Full proposal set with details
+    daiw propose emotions                       List supported emotions
+
 Humanization Styles:
     tight   - Minimal drift, confident (complexity=0.1, vulnerability=0.2)
     natural - Human feel, balanced (complexity=0.4, vulnerability=0.5)
@@ -61,6 +66,15 @@ def get_intent_module():
     return (CompleteSongIntent, SongRoot, SongIntent, TechnicalConstraints,
             SystemDirective, suggest_rule_break, validate_intent, list_all_rules,
             IntentProcessor, process_intent)
+
+
+def get_proposals_module():
+    from music_brain.session.proposals import (
+        ProposalGenerator, generate_proposals, quick_proposals,
+        list_supported_emotions, ProposalCategory
+    )
+    return (ProposalGenerator, generate_proposals, quick_proposals,
+            list_supported_emotions, ProposalCategory)
 
 
 def cmd_extract(args):
@@ -492,6 +506,111 @@ def cmd_intent(args):
     return 0
 
 
+def cmd_propose(args):
+    """Generate creative proposals based on emotional intent."""
+    (ProposalGenerator, generate_proposals, quick_proposals,
+     list_supported_emotions, ProposalCategory) = get_proposals_module()
+
+    if args.subcommand == 'emotions':
+        # List supported emotions
+        emotions = list_supported_emotions()
+        print("\n🎭 Supported Emotions for Proposals:\n")
+        for emotion in sorted(emotions):
+            print(f"  • {emotion}")
+        print("\nUse: daiw propose for <emotion> to get proposals")
+        return 0
+
+    elif args.subcommand == 'quick':
+        # Quick proposals for an emotion
+        emotion = args.emotion
+        count = args.count or 3
+        proposals = quick_proposals(emotion, count=count)
+
+        print(f"\n🎯 Quick Proposals for '{emotion}':\n")
+
+        if not proposals:
+            print(f"  No proposals found for '{emotion}'")
+            print("  Try: daiw propose emotions to see available options")
+            return 1
+
+        for i, p in enumerate(proposals, 1):
+            print(f"{i}. {p.title}")
+            print(f"   Category: {p.category.value}")
+            print(f"   Effect: {p.emotional_effect}")
+            if p.rule_breaking:
+                print(f"   Rule: {p.rule_breaking}")
+            print()
+
+        return 0
+
+    elif args.subcommand in ('full', 'for'):
+        # Full proposal generation
+        emotion = args.emotion
+
+        proposal_set = generate_proposals(emotion)
+
+        print("\n" + "=" * 60)
+        print(f"🎵 CREATIVE PROPOSALS FOR '{emotion.upper()}'")
+        print("=" * 60)
+
+        # Context notes
+        if proposal_set.context_notes:
+            print("\n📋 Context:")
+            for note in proposal_set.context_notes:
+                print(f"   • {note}")
+
+        # Starting point
+        if proposal_set.suggested_starting_point:
+            print(f"\n🚀 {proposal_set.suggested_starting_point}")
+
+        # Group by category
+        categories = set(p.category for p in proposal_set.proposals)
+
+        for category in sorted(categories, key=lambda c: c.value):
+            category_proposals = proposal_set.get_by_category(category)
+            if category_proposals:
+                print(f"\n{'─' * 40}")
+                print(f"📌 {category.value.upper()} PROPOSALS")
+                print(f"{'─' * 40}")
+
+                for p in category_proposals:
+                    confidence_icon = {
+                        "recommended": "✅",
+                        "suggested": "💡",
+                        "experimental": "🧪",
+                    }.get(p.confidence.value, "•")
+
+                    print(f"\n{confidence_icon} {p.title}")
+                    print(f"   {p.description}")
+                    print(f"   Effect: {p.emotional_effect}")
+
+                    if p.implementation_hints:
+                        print("   Hints:")
+                        for hint in p.implementation_hints[:2]:
+                            print(f"     → {hint}")
+
+                    if p.rule_breaking:
+                        print(f"   [Rule Break: {p.rule_breaking}]")
+
+        print("\n" + "=" * 60)
+
+        # Save if requested
+        if hasattr(args, 'output') and args.output:
+            import json
+            with open(args.output, 'w') as f:
+                json.dump(proposal_set.to_dict(), f, indent=2)
+            print(f"\nProposals saved to: {args.output}")
+
+        return 0
+
+    else:
+        print("Usage: daiw propose for <emotion> [options]")
+        print("       daiw propose quick <emotion> [--count N]")
+        print("       daiw propose full <emotion> [--output file]")
+        print("       daiw propose emotions")
+        return 1
+
+
 def main():
     parser = argparse.ArgumentParser(
         prog='daiw',
@@ -587,7 +706,29 @@ def main():
     # intent validate
     intent_validate = intent_subparsers.add_parser('validate', help='Validate intent file')
     intent_validate.add_argument('file', help='Intent JSON file')
-    
+
+    # Propose command with subcommands
+    propose_parser = subparsers.add_parser('propose', help='Generate creative proposals')
+    propose_subparsers = propose_parser.add_subparsers(dest='subcommand', help='Propose commands')
+
+    # propose quick <emotion>
+    propose_quick = propose_subparsers.add_parser('quick', help='Quick top proposals')
+    propose_quick.add_argument('emotion', help='Target emotion')
+    propose_quick.add_argument('-n', '--count', type=int, default=3, help='Number of proposals')
+
+    # propose emotions (list supported emotions)
+    propose_subparsers.add_parser('emotions', help='List supported emotions')
+
+    # propose full <emotion> (explicit full generation)
+    propose_full = propose_subparsers.add_parser('full', help='Full proposal set')
+    propose_full.add_argument('emotion', help='Target emotion')
+    propose_full.add_argument('-o', '--output', help='Save proposals to JSON file')
+
+    # propose for <emotion> (wrapper for direct emotion)
+    propose_for = propose_subparsers.add_parser('for', help='Generate proposals for emotion')
+    propose_for.add_argument('emotion', help='Target emotion (grief, anger, nostalgia, etc.)')
+    propose_for.add_argument('-o', '--output', help='Save proposals to JSON file')
+
     args = parser.parse_args()
     
     if not args.command:
@@ -603,6 +744,7 @@ def main():
         'reharm': cmd_reharm,
         'teach': cmd_teach,
         'intent': cmd_intent,
+        'propose': cmd_propose,
     }
     
     return commands[args.command](args)
