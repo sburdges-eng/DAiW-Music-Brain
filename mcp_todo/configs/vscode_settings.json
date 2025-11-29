@@ -1,0 +1,29 @@
+{
+  "// MCP TODO Server Configuration for VSCode/Cursor with Copilot": "",
+  "// Add this to your .vscode/settings.json": "",
+
+  "mcp.servers": {
+    "mcp-todo": {
+      "command": "python",
+      "args": ["-m", "mcp_todo.server"],
+      "cwd": "${workspaceFolder}"
+    }
+  },
+
+  "// For Cursor AI, add to cursor settings:": "",
+  "cursor.mcp.servers": {
+    "mcp-todo": {
+      "command": "python",
+      "args": ["-m", "mcp_todo.server"]
+    }
+  },
+
+  "// For GitHub Copilot Chat with MCP support:": "",
+  "github.copilot.chat.mcp.enabled": true,
+  "github.copilot.chat.mcp.servers": {
+    "mcp-todo": {
+      "command": "python",
+      "args": ["-m", "mcp_todo.server"]
+    }
+  }
+}
