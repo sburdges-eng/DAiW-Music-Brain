@@ -1,0 +1,11 @@
+{
+  "mcpServers": {
+    "mcp-todo": {
+      "command": "python",
+      "args": ["-m", "mcp_todo.server"],
+      "env": {
+        "PYTHONPATH": "${workspaceFolder}"
+      }
+    }
+  }
+}

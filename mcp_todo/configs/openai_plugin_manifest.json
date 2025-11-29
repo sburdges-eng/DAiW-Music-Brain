@@ -1,0 +1,17 @@
+{
+  "schema_version": "v1",
+  "name_for_human": "MCP TODO",
+  "name_for_model": "mcp_todo",
+  "description_for_human": "Manage your tasks and TODOs across multiple AI assistants.",
+  "description_for_model": "A TODO management system that allows creating, listing, updating, completing, and deleting tasks. Tasks can have priorities (low, medium, high, urgent), tags for organization, project assignments, due dates, and notes. Use this to help users track their work and tasks.",
+  "auth": {
+    "type": "none"
+  },
+  "api": {
+    "type": "openapi",
+    "url": "http://localhost:8080/openapi.json"
+  },
+  "logo_url": "http://localhost:8080/logo.png",
+  "contact_email": "support@example.com",
+  "legal_info_url": "http://localhost:8080/legal"
+}
