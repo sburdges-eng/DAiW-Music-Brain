@@ -172,37 +172,61 @@ class ProposalManager:
             )
             return False
 
-        # Handle user ultimate voting powers
+        # Handle user ultimate voting powers first (before weight calculation)
         if agent.is_user:
-            vote_weight = self.user_config.get_category_weight(proposal.category)
-
             # Ultimate veto - user rejects the proposal immediately
             if vote == -1 and self.user_config.ultimate_veto:
                 proposal.status = ProposalStatus.REJECTED
+                vote_weight = self.user_config.get_category_weight(proposal.category)
+                self._record_vote(agent, proposal_id, vote, comment, vote_weight, proposal)
                 self._debug.info(
                     DebugCategory.PROPOSAL,
                     f"User (ultimate voter) vetoed proposal {proposal_id}",
                     agent=agent.value,
                 )
+                return True
 
             # Ultimate approve - user approves the proposal immediately
             elif vote == 1 and self.user_config.ultimate_approve:
                 proposal.status = ProposalStatus.APPROVED
+                vote_weight = self.user_config.get_category_weight(proposal.category)
+                self._record_vote(agent, proposal_id, vote, comment, vote_weight, proposal)
                 self._debug.info(
                     DebugCategory.PROPOSAL,
                     f"User (ultimate voter) approved proposal {proposal_id}",
                     agent=agent.value,
                 )
+                return True
+
+            # Neutral vote or powers disabled - use weighted vote
+            vote_weight = self.user_config.get_category_weight(proposal.category)
         else:
             vote_weight = 1.0
 
         # Record vote with weight
+        self._record_vote(agent, proposal_id, vote, comment, vote_weight, proposal)
+
+        # Check for consensus
+        self._check_consensus(proposal)
+
+        return True
+
+    def _record_vote(
+        self,
+        agent: AIAgent,
+        proposal_id: str,
+        vote: int,
+        comment: str,
+        weight: float,
+        proposal: Proposal,
+    ):
+        """Record a vote and update the proposal."""
         vote_record = ProposalVote(
             agent=agent,
             proposal_id=proposal_id,
             vote=vote,
             comment=comment,
-            weight=vote_weight,
+            weight=weight,
         )
         self.votes.append(vote_record)
 
@@ -211,24 +235,22 @@ class ProposalManager:
 
         self._debug.info(
             DebugCategory.PROPOSAL,
-            f"Vote cast: {vote:+d} (weight: {vote_weight}) on proposal {proposal_id}",
+            f"Vote cast: {vote:+d} (weight: {weight}) on proposal {proposal_id}",
             agent=agent.value,
-            data={"proposal_id": proposal_id, "vote": vote, "weight": vote_weight},
+            data={"proposal_id": proposal_id, "vote": vote, "weight": weight},
         )
-
-        # Check for consensus (if not already decided by user)
-        if proposal.status == ProposalStatus.SUBMITTED or proposal.status == ProposalStatus.UNDER_REVIEW:
-            self._check_consensus(proposal)
-
-        return True
 
     def _check_consensus(self, proposal: Proposal):
         """
         Check if a proposal has reached consensus.
 
-        Takes into account:
-        - Vote weights (user votes can count as more than 1)
-        - Special agents (MCP_COORDINATOR and USER) excluded from required vote count
+        Uses weighted vote scores where user votes can count as more than 1.
+        Special agents (MCP_COORDINATOR and USER) are excluded from required vote count.
+
+        Consensus logic:
+        - Weighted score >= required_votes: APPROVED
+        - Weighted score <= -required_votes: REJECTED
+        - Otherwise: UNDER_REVIEW
         """
         # Count regular AI agents only (exclude MCP_COORDINATOR and USER)
         regular_agents = [
@@ -247,35 +269,28 @@ class ProposalManager:
         if votes_cast < required_votes:
             return
 
-        # Calculate weighted vote score
+        # Calculate weighted vote score for consensus decisions
         weighted_score = self._get_weighted_vote_score(proposal)
-        raw_score = proposal.vote_score
 
-        # Use weighted score for consensus, with threshold adjusted for weights
-        # Approval threshold: weighted_score >= required_votes * average_weight
-        # For simplicity, use raw score for now with regular logic
-        # User votes already have ultimate power in vote_on_proposal
-
-        # Strong approval (all approve)
-        if raw_score >= required_votes:
+        # Use weighted score for consensus decisions
+        # This means user votes with higher weights have more influence
+        if weighted_score >= required_votes:
             proposal.status = ProposalStatus.APPROVED
             self._debug.info(
                 DebugCategory.PROPOSAL,
-                f"Proposal {proposal.id} approved with score {raw_score} (weighted: {weighted_score:.1f})",
+                f"Proposal {proposal.id} approved with weighted score {weighted_score:.1f}",
             )
-        # Strong rejection (all reject)
-        elif raw_score <= -required_votes:
+        elif weighted_score <= -required_votes:
             proposal.status = ProposalStatus.REJECTED
             self._debug.info(
                 DebugCategory.PROPOSAL,
-                f"Proposal {proposal.id} rejected with score {raw_score} (weighted: {weighted_score:.1f})",
+                f"Proposal {proposal.id} rejected with weighted score {weighted_score:.1f}",
             )
-        # Mixed - needs review
         else:
             proposal.status = ProposalStatus.UNDER_REVIEW
             self._debug.info(
                 DebugCategory.PROPOSAL,
-                f"Proposal {proposal.id} under review with mixed votes (score: {raw_score}, weighted: {weighted_score:.1f})",
+                f"Proposal {proposal.id} under review with mixed votes (weighted score: {weighted_score:.1f})",
             )
 
     def _get_weighted_vote_score(self, proposal: Proposal) -> float:
