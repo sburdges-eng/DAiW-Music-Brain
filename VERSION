@@ -1,17 +1,17 @@
 iDAW - Intelligent Digital Audio Workstation
 =============================================
 
-Version: 1.0.0
-Codename: Dual Engine
+Version: 1.1.0
+Codename: Golden Master
 Build Date: 2025
 Platform: macOS 10.15+ / Windows 10+ / Linux
 
 Components:
 -----------
-- Music Brain (Python AI Engine): 1.0.0
-- iDAW Core (C++ Audio Engine): 1.0.0
-- Orchestrator: 1.0.0
-- Bridge API: 1.0.0
+- Music Brain (Python AI Engine): 1.1.0
+- iDAW Core (C++ Audio Engine): 1.1.0
+- Orchestrator: 1.1.0
+- Bridge API: 1.1.0
 
 Plugins:
 --------
@@ -29,6 +29,15 @@ Architecture:
 - Python Bridge: pybind11 embedded interpreter
 - Shaders: OpenGL 3.3+ (Da Vinci Protocol)
 - Ghost Hands: AI-driven parameter automation
+- Innovation Trigger: Rule-break suggestions after 3 rejections (v1.1)
+- Time Machine: Auto-save to hidden Git on every Flip (v1.1)
+
+Safety Protocols:
+-----------------
+- Privacy: Zero cloud connectivity (all processing local)
+- Audio: Flush-to-Zero for denormals
+- Threading: Side B never locks Side A
+- Memory: Lock-free ring buffer for audio/MIDI transfer
 
 Author: Sean Burdges
 License: MIT

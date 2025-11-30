@@ -12,11 +12,11 @@
 #pragma once
 
 #define IDAW_VERSION_MAJOR 1
-#define IDAW_VERSION_MINOR 0
+#define IDAW_VERSION_MINOR 1
 #define IDAW_VERSION_PATCH 0
 
-#define IDAW_VERSION_STRING "1.0.0"
-#define IDAW_VERSION_CODENAME "Dual Engine"
+#define IDAW_VERSION_STRING "1.1.0"
+#define IDAW_VERSION_CODENAME "Golden Master"
 #define IDAW_VERSION_FULL "iDAW " IDAW_VERSION_STRING " (" IDAW_VERSION_CODENAME ")"
 
 #define IDAW_COPYRIGHT "Copyright (c) 2025 Sean Burdges"
@@ -33,6 +33,8 @@
 #define IDAW_FEATURE_GHOST_HANDS        1  // AI-driven knob automation
 #define IDAW_FEATURE_DA_VINCI_SHADERS   1  // OpenGL fragment shaders
 #define IDAW_FEATURE_RING_BUFFER        1  // Lock-free MIDI transfer
+#define IDAW_FEATURE_INNOVATION_TRIGGER 1  // Rule-break suggestion after 3 rejections
+#define IDAW_FEATURE_TIME_MACHINE       1  // Auto-save to hidden Git on Flip
 
 // Plugin versions
 #define IDAW_PLUGIN_001_VERSION "1.0.0"  // The Eraser
