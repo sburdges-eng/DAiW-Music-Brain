@@ -1,0 +1,51 @@
+{
+  "organization": "sburdges-eng",
+  "repositories": [
+    {
+      "name": "DAiW-Music-Brain",
+      "full_name": "sburdges-eng/DAiW-Music-Brain",
+      "description": "Digital Audio intelligent Workstation - Music production intelligence toolkit",
+      "url": "https://github.com/sburdges-eng/DAiW-Music-Brain",
+      "topics": ["music", "daw", "midi", "audio", "python", "mcp"],
+      "default_branch": "main",
+      "features": [
+        "Groove extraction & application",
+        "Chord & harmony analysis",
+        "Intent-based song generation",
+        "Multi-AI workstation orchestration"
+      ]
+    },
+    {
+      "name": "BEO-Master",
+      "full_name": "sburdges-eng/BEO-Master",
+      "description": "Customized banquet event list management system",
+      "url": "https://github.com/sburdges-eng/BEO-Master",
+      "topics": ["events", "banquet", "management"],
+      "default_branch": "main",
+      "features": [
+        "Banquet event organization",
+        "Custom list management"
+      ]
+    },
+    {
+      "name": "lariat-bible",
+      "full_name": "sburdges-eng/lariat-bible",
+      "description": "Inclusive Order of Operations reference",
+      "url": "https://github.com/sburdges-eng/lariat-bible",
+      "topics": ["reference", "documentation", "operations"],
+      "default_branch": "main",
+      "features": [
+        "Order of operations documentation",
+        "Inclusive reference guide"
+      ]
+    }
+  ],
+  "cross_repo_integrations": [
+    {
+      "name": "multi-ai-workstation",
+      "description": "MCP-based multi-AI collaboration across all repos",
+      "repos": ["DAiW-Music-Brain"],
+      "tools": ["mcp_todo", "mcp_workstation", "mcp_repos"]
+    }
+  ]
+}

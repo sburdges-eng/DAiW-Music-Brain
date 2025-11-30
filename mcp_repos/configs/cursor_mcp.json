@@ -1,0 +1,11 @@
+{
+  "mcpServers": {
+    "mcp-repos": {
+      "command": "python",
+      "args": ["-m", "mcp_repos", "--server"],
+      "env": {
+        "PYTHONPATH": "${workspaceFolder}"
+      }
+    }
+  }
+}
