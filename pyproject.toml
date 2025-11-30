@@ -69,11 +69,14 @@ all = [
     "streamlit>=1.28.0",
     "pywebview>=4.0.0",
 ]
-# Penta-core integration (placeholder - dependencies to be added when penta-core API is defined)
-# See docs/integrations/penta-core.md for integration documentation
+# Penta-core MCP Server dependencies
 penta-core = [
-    # Dependencies will be added when penta-core package is published
-    # "penta-core>=0.1.0",  # Uncomment when available
+    "fastmcp>=2.0.0",
+    "python-dotenv>=1.0.0",
+    "openai>=1.0.0",
+    "anthropic>=0.30.0",
+    "google-generativeai>=0.5.0",
+    "httpx>=0.25.0",
 ]
 
 [project.scripts]
@@ -83,6 +86,7 @@ mcp-todo-server = "mcp_todo.server:main"
 mcp-todo-http = "mcp_todo.http_server:main"
 mcp-workstation = "mcp_workstation.cli:main"
 mcp-workstation-server = "mcp_workstation.server:run_server"
+penta-core-server = "penta_core.server:main"
 
 [project.gui-scripts]
 daiw-desktop = "launcher:main"
@@ -99,6 +103,7 @@ exclude = ["tests", "tests.*", "examples", "vault"]
 music_brain = ["data/*.json"]
 mcp_todo = ["configs/*.json", "configs/*.yaml", "configs/*.md"]
 mcp_workstation = ["configs/*.json"]
+penta_core = ["*.example"]
 
 [tool.black]
 line-length = 100
