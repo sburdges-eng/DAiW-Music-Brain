@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <!-- Application Identification -->
+    <key>CFBundleIdentifier</key>
+    <string>com.idaw.app</string>
+    
+    <key>CFBundleName</key>
+    <string>iDAW</string>
+    
+    <key>CFBundleDisplayName</key>
+    <string>iDAW - Intelligent Digital Audio Workstation</string>
+    
+    <key>CFBundleExecutable</key>
+    <string>iDAW</string>
+    
+    <!-- Version Information -->
+    <key>CFBundleVersion</key>
+    <string>1.0.0</string>
+    
+    <key>CFBundleShortVersionString</key>
+    <string>1.0.0</string>
+    
+    <key>CFBundleInfoDictionaryVersion</key>
+    <string>6.0</string>
+    
+    <!-- Bundle Type -->
+    <key>CFBundlePackageType</key>
+    <string>APPL</string>
+    
+    <key>CFBundleSignature</key>
+    <string>iDAW</string>
+    
+    <!-- Icons -->
+    <key>CFBundleIconFile</key>
+    <string>iDAW.icns</string>
+    
+    <key>CFBundleIconName</key>
+    <string>AppIcon</string>
+    
+    <!-- Platform Requirements -->
+    <key>LSMinimumSystemVersion</key>
+    <string>10.15</string>
+    
+    <key>NSHighResolutionCapable</key>
+    <true/>
+    
+    <key>LSApplicationCategoryType</key>
+    <string>public.app-category.music</string>
+    
+    <!-- Document Types (MIDI, Audio) -->
+    <key>CFBundleDocumentTypes</key>
+    <array>
+        <dict>
+            <key>CFBundleTypeName</key>
+            <string>MIDI File</string>
+            <key>CFBundleTypeRole</key>
+            <string>Editor</string>
+            <key>CFBundleTypeExtensions</key>
+            <array>
+                <string>mid</string>
+                <string>midi</string>
+            </array>
+            <key>CFBundleTypeMIMETypes</key>
+            <array>
+                <string>audio/midi</string>
+                <string>audio/x-midi</string>
+            </array>
+        </dict>
+        <dict>
+            <key>CFBundleTypeName</key>
+            <string>iDAW Project</string>
+            <key>CFBundleTypeRole</key>
+            <string>Editor</string>
+            <key>CFBundleTypeExtensions</key>
+            <array>
+                <string>idaw</string>
+                <string>idawproj</string>
+            </array>
+        </dict>
+        <dict>
+            <key>CFBundleTypeName</key>
+            <string>WAV Audio</string>
+            <key>CFBundleTypeRole</key>
+            <string>Editor</string>
+            <key>CFBundleTypeExtensions</key>
+            <array>
+                <string>wav</string>
+            </array>
+        </dict>
+        <dict>
+            <key>CFBundleTypeName</key>
+            <string>Genre DNA</string>
+            <key>CFBundleTypeRole</key>
+            <string>Editor</string>
+            <key>CFBundleTypeExtensions</key>
+            <array>
+                <string>json</string>
+            </array>
+        </dict>
+    </array>
+    
+    <!-- URL Schemes -->
+    <key>CFBundleURLTypes</key>
+    <array>
+        <dict>
+            <key>CFBundleURLName</key>
+            <string>iDAW URL</string>
+            <key>CFBundleURLSchemes</key>
+            <array>
+                <string>idaw</string>
+            </array>
+        </dict>
+    </array>
+    
+    <!-- Privacy Permissions -->
+    <key>NSMicrophoneUsageDescription</key>
+    <string>iDAW needs microphone access for The Parrot plugin (vocal recording, Echo mode, Harmony mode).</string>
+    
+    <key>NSAppleEventsUsageDescription</key>
+    <string>iDAW uses automation to control DAW workflows.</string>
+    
+    <!-- Entitlements -->
+    <key>com.apple.security.audio-input</key>
+    <true/>
+    
+    <key>com.apple.security.device.audio-input</key>
+    <true/>
+    
+    <!-- Human Interface -->
+    <key>NSPrincipalClass</key>
+    <string>NSApplication</string>
+    
+    <key>NSMainNibFile</key>
+    <string>MainMenu</string>
+    
+    <!-- Copyright -->
+    <key>NSHumanReadableCopyright</key>
+    <string>Copyright © 2025 Sean Burdges. All rights reserved.</string>
+    
+    <!-- Hardened Runtime -->
+    <key>com.apple.security.app-sandbox</key>
+    <false/>
+    
+    <key>com.apple.security.cs.allow-unsigned-executable-memory</key>
+    <true/>
+    
+    <key>com.apple.security.cs.disable-library-validation</key>
+    <true/>
+    
+    <!-- Python Embedding -->
+    <key>NSSupportsAutomaticGraphicsSwitching</key>
+    <true/>
+    
+    <!-- GPU/OpenGL for Side B Shaders -->
+    <key>NSRequiresAquaSystemAppearance</key>
+    <false/>
+</dict>
+</plist>

@@ -12,8 +12,10 @@ A Python package for music production analysis:
 - Reference track DNA analysis
 """
 
-__version__ = "0.3.0"
+__version__ = "1.0.0"
 __author__ = "Sean Burdges"
+__app_name__ = "iDAW"
+__codename__ = "Dual Engine"
 
 from music_brain.groove import extract_groove, apply_groove, GrooveTemplate
 from music_brain.structure import analyze_chords, detect_sections, ChordProgression

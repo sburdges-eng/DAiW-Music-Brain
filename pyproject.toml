@@ -3,9 +3,9 @@ requires = ["setuptools>=45", "wheel", "setuptools-scm[toml]>=6.2"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "daiw"
-version = "0.2.0"
-description = "Music production intelligence toolkit - groove extraction, chord analysis, AI-assisted songwriting"
+name = "idaw"
+version = "1.0.0"
+description = "iDAW - Intelligent Digital Audio Workstation with Dual Engine architecture, AI-powered music generation, and 7 creative plugins"
 readme = "README.md"
 license = {text = "MIT"}
 requires-python = ">=3.9"
