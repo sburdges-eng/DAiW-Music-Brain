@@ -75,3 +75,6 @@ Thumbs.db
 # Test outputs
 output.mid
 *.mid.bak
+
+# CodeQL artifacts
+_codeql_detected_source_root
