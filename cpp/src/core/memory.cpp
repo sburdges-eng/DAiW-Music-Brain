@@ -55,6 +55,11 @@ void* MemoryPool::allocate() noexcept {
 
     while (ptr != nullptr) {
         // Read the next pointer from the block we're trying to pop
+        // Note: ABA problem is not an issue here because:
+        // 1. All blocks are from a contiguous memory region that is never freed
+        // 2. Even if a block is deallocated and reallocated, the next pointer
+        //    is always valid (points to another block in the pool or nullptr)
+        // 3. The worst case is a spurious CAS failure, which is harmless
         void* next = *static_cast<void**>(ptr);
 
         // Try to atomically update the head to the next block

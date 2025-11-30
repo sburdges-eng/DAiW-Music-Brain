@@ -91,6 +91,9 @@ void test_concurrent_allocation() {
     constexpr size_t numBlocks = 1000;
     constexpr size_t numThreads = 4;
     constexpr size_t opsPerThread = 10000;
+    // Deallocate every N iterations to keep the pool from being exhausted
+    // while still testing concurrent alloc/dealloc behavior
+    constexpr size_t deallocateFrequency = 3;
 
     MemoryPool pool(blockSize, numBlocks);
 
@@ -115,8 +118,8 @@ void test_concurrent_allocation() {
                 failedAllocs.fetch_add(1, std::memory_order_relaxed);
             }
 
-            // Occasionally deallocate some
-            if (!myPtrs.empty() && (i % 3 == 0)) {
+            // Occasionally deallocate some to test concurrent dealloc
+            if (!myPtrs.empty() && (i % deallocateFrequency == 0)) {
                 pool.deallocate(myPtrs.back());
                 myPtrs.pop_back();
             }
@@ -156,9 +159,11 @@ void test_no_double_allocation() {
     constexpr size_t blockSize = 64;
     constexpr size_t numBlocks = 1000;
     constexpr size_t numThreads = 8;
+    // Number of trials to run - higher values increase confidence in race-freedom
+    constexpr int numTrials = 50;
 
     // Run the test multiple times to increase chance of catching races
-    for (int trial = 0; trial < 50; ++trial) {
+    for (int trial = 0; trial < numTrials; ++trial) {
         // Create a fresh pool for each trial
         MemoryPool pool(blockSize, numBlocks);
 
