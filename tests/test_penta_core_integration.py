@@ -506,13 +506,15 @@ class TestCppBridge:
         from music_brain.integrations import CppBridge
 
         bridge = CppBridge()
-        callback_called = []
+
+        # Initially no callback is registered
+        assert bridge.has_ghost_hands_callback() is False
 
         def on_ghost_hands(chaos: float, complexity: float):
-            callback_called.append((chaos, complexity))
+            pass
 
         bridge.set_ghost_hands_callback(on_ghost_hands)
-        assert bridge._ghost_hands_callback is not None
+        assert bridge.has_ghost_hands_callback() is True
 
 
 class TestOSCBridge:
@@ -557,9 +559,15 @@ class TestOSCBridge:
         def handler(chaos: float, vuln: float):
             pass
 
+        # Initially no handlers
+        assert osc.has_handler("/daiw/generate") is False
+        assert osc.get_registered_addresses() == []
+
         osc.register_handler("/daiw/generate", handler)
-        assert "/daiw/generate" in osc._handlers
-        assert osc._handlers["/daiw/generate"] is handler
+
+        # Handler is now registered
+        assert osc.has_handler("/daiw/generate") is True
+        assert "/daiw/generate" in osc.get_registered_addresses()
 
     def test_send_methods_do_not_raise(self):
         from music_brain.integrations import OSCBridge

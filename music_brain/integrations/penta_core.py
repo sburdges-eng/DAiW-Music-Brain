@@ -44,6 +44,17 @@ from enum import Enum
 from typing import Any, Callable, Dict, List, Optional
 
 
+# =============================================================================
+# Constants
+# =============================================================================
+
+# Default note duration in ticks (quarter note at 480 PPQ)
+DEFAULT_NOTE_DURATION_TICKS = 480
+
+# Number of consecutive rejections before triggering innovation mode
+INNOVATION_THRESHOLD = 3
+
+
 @dataclass
 class PentaCoreConfig:
     """Configuration for penta-core integration.
@@ -533,9 +544,9 @@ class MidiBuffer:
                 MidiEvent.note_on(60, 80),  # C4
                 MidiEvent.note_on(64, 80),  # E4
                 MidiEvent.note_on(67, 80),  # G4
-                MidiEvent(status=0x80, data1=60, data2=0, timestamp=480),
-                MidiEvent(status=0x80, data1=64, data2=0, timestamp=480),
-                MidiEvent(status=0x80, data1=67, data2=0, timestamp=480),
+                MidiEvent(status=0x80, data1=60, data2=0, timestamp=DEFAULT_NOTE_DURATION_TICKS),
+                MidiEvent(status=0x80, data1=64, data2=0, timestamp=DEFAULT_NOTE_DURATION_TICKS),
+                MidiEvent(status=0x80, data1=67, data2=0, timestamp=DEFAULT_NOTE_DURATION_TICKS),
             ],
             success=False,
             error_message="Python execution failed - using fail-safe",
@@ -712,6 +723,14 @@ class CppBridge:
         """
         self._ghost_hands_callback = callback
 
+    def has_ghost_hands_callback(self) -> bool:
+        """Check if a Ghost Hands callback is registered.
+
+        Returns:
+            True if a callback is registered, False otherwise.
+        """
+        return self._ghost_hands_callback is not None
+
     def register_rejection(self) -> None:
         """Register a user rejection of generated content.
 
@@ -740,9 +759,9 @@ class CppBridge:
         """Check if innovation mode should be triggered.
 
         Returns:
-            True if rejection count >= 3, False otherwise.
+            True if rejection count >= INNOVATION_THRESHOLD (default: 3), False otherwise.
         """
-        return self._rejection_count >= 3
+        return self._rejection_count >= INNOVATION_THRESHOLD
 
 
 # =============================================================================
@@ -857,6 +876,25 @@ class OSCBridge:
             >>> osc.register_handler("/daiw/generate", on_generate)
         """
         self._handlers[address] = handler
+
+    def has_handler(self, address: str) -> bool:
+        """Check if a handler is registered for an OSC address.
+
+        Args:
+            address: OSC address pattern to check.
+
+        Returns:
+            True if a handler is registered, False otherwise.
+        """
+        return address in self._handlers
+
+    def get_registered_addresses(self) -> List[str]:
+        """Get list of all registered OSC addresses.
+
+        Returns:
+            List of OSC address patterns with registered handlers.
+        """
+        return list(self._handlers.keys())
 
     def send_midi_note(self, note: int, velocity: int, duration_ms: int) -> None:
         """Send a MIDI note to the C++ plugin.
