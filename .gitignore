@@ -75,3 +75,22 @@ Thumbs.db
 # Test outputs
 output.mid
 *.mid.bak
+
+# C++/JUCE build artifacts
+DAiW_Core/build/
+DAiW_Core/Builds/
+*.o
+*.obj
+*.a
+*.lib
+*.dylib
+*.dll
+*.pdb
+CMakeCache.txt
+CMakeFiles/
+cmake_install.cmake
+Makefile
+*.xcodeproj/
+*.xcworkspace/
+*.vcxproj*
+compile_commands.json
