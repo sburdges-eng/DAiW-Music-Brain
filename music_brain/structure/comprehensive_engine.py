@@ -353,8 +353,8 @@ def render_plan_to_midi(plan: HarmonyPlan, output_path: str) -> str:
 
     # Handle empty progression gracefully
     if not parsed_chords:
-        # No chords to process, skip to export
-        pass
+        # No chords to process - create empty track
+        print("[SYSTEM]: Warning: Empty chord progression, creating track with no notes")
     else:
         while current_bar < total_bars:
             for parsed in parsed_chords:

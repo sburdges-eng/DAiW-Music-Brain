@@ -136,8 +136,13 @@ struct Version {
     static constexpr int minor = DAIW_VERSION_MINOR;
     static constexpr int patch = DAIW_VERSION_PATCH;
 
+    // Version string macro for compile-time construction
+    #define DAIW_STRINGIFY(x) #x
+    #define DAIW_VERSION_TO_STRING(major, minor, patch) \
+        DAIW_STRINGIFY(major) "." DAIW_STRINGIFY(minor) "." DAIW_STRINGIFY(patch)
+
     static constexpr const char* string() {
-        return "1.0.0";  // Updated at compile time
+        return DAIW_VERSION_TO_STRING(DAIW_VERSION_MAJOR, DAIW_VERSION_MINOR, DAIW_VERSION_PATCH);
     }
 };
 

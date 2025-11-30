@@ -198,11 +198,14 @@ class MCPCoordinator:
 
     def _notify(self, event_type: str, task: TaskRequest) -> None:
         """Send notifications to registered hooks."""
+        import logging
+
         for hook in self.config.notification_hooks:
             try:
                 hook(event_type, task)
-            except Exception:
-                pass  # Don't let hook failures break the coordinator
+            except Exception as e:
+                # Log the error but don't break coordinator operation
+                logging.warning(f"Notification hook failed: {e}")
 
     def to_dict(self) -> Dict[str, Any]:
         """Serialize coordinator state."""
