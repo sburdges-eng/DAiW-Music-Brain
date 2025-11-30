@@ -367,6 +367,67 @@ When generating code:
 
 ---
 
+## Commands
+
+### Installation
+
+```bash
+# Install as editable package with dev dependencies
+pip install -e ".[dev]"
+
+# Install with all optional dependencies
+pip install -e ".[all]"
+```
+
+### Building & Testing
+
+```bash
+# Run all tests
+pytest tests/ -v
+
+# Run specific test class
+pytest tests/test_basic.py::TestImports -v
+```
+
+### Linting & Formatting
+
+```bash
+# Format code with black
+black music_brain/ tests/
+
+# Type check with mypy
+mypy music_brain/
+
+# Lint with flake8
+flake8 music_brain/ tests/
+```
+
+### Running the CLI
+
+```bash
+# Show help
+daiw --help
+
+# Diagnose a chord progression
+daiw diagnose "F-C-Am-Dm"
+```
+
+---
+
+## Boundaries
+
+When working on this codebase, **do not**:
+
+- **Modify vault/ files** without explicit permission - these are the knowledge base documents
+- **Change data files** (`.github/copilot-instructions.md`, `CLAUDE.md`) without explicit request
+- **Alter test fixtures** in `examples/midi/` - these are reference files
+- **Remove rule-breaking justifications** - every rule break must have emotional justification
+- **Skip Phase 0** - never generate technical parameters without emotional intent clarity
+- **Commit secrets or credentials** to source control
+- **Modify pyproject.toml** version or dependencies without explicit request
+
+---
+
 ## Project Status
 
 - **Phase 1**: 92% complete (core systems implemented)
