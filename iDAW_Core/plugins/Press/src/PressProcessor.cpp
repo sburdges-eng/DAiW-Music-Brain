@@ -13,6 +13,11 @@
 #include "PressProcessor.h"
 #include <algorithm>
 
+// x86 SIMD intrinsics for denormal protection
+#if defined(__SSE__) || defined(_M_X64) || defined(_M_IX86)
+#include <xmmintrin.h>
+#endif
+
 namespace iDAW {
 
 //==============================================================================
@@ -76,7 +81,25 @@ void PressProcessor::processBlock(juce::AudioBuffer<float>& buffer,
                                    juce::MidiBuffer& /*midiMessages*/) {
     if (!m_prepared) return;
     
+    // ==========================================================================
+    // SAFETY: Disable Denormals for this thread (prevents CPU spikes)
+    // ==========================================================================
     juce::ScopedNoDenormals noDenormals;
+    
+    // Additional x86 denormal protection (belt and suspenders)
+    #if defined(__SSE__) || defined(_M_X64) || defined(_M_IX86)
+    unsigned int mxcsr = _mm_getcsr();
+    _mm_setcsr(mxcsr | 0x8040);  // DAZ and FTZ bits
+    #endif
+    
+    // ==========================================================================
+    // SAFETY: Enforce minimum release time to prevent aliasing/distortion
+    // ==========================================================================
+    const float safeReleaseMs = std::max(m_params.releaseMs, 10.0f);
+    if (safeReleaseMs != m_params.releaseMs) {
+        m_params.releaseMs = safeReleaseMs;
+        updateEnvelopeCoeffs();
+    }
     
     const int numChannels = buffer.getNumChannels();
     const int numSamples = buffer.getNumSamples();

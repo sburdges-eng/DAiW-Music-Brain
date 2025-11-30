@@ -207,6 +207,15 @@ void main() {
     vec2 uv = fragTexCoord;
     vec2 center = vec2(0.5, 0.5);
     
+    // ==========================================================================
+    // SAFETY: Clamp all uniform values to prevent NaN/Infinity
+    // ==========================================================================
+    float safeHeartScale = clamp(heartScale, 0.1, 2.0);
+    float safeRelaxationRate = clamp(heartRelaxationRate, 0.0, 10.0);
+    float safeGainReduction = clamp(gainReductionDb, 0.0, 60.0);
+    float safeInputLevel = clamp(inputLevel, -120.0, 6.0);
+    float safeOutputLevel = clamp(outputLevel, -120.0, 6.0);
+    
     // Paper/parchment background
     vec3 paper = vec3(0.95, 0.93, 0.88);
     float paperNoise = fbm(uv * 100.0, 3) * 0.05;
@@ -215,11 +224,11 @@ void main() {
     vec3 color = paper;
     
     // Calculate heart animation
-    float beatRate = 1.0 + heartRelaxationRate * 2.0;  // 1-3 Hz
+    float beatRate = 1.0 + safeRelaxationRate * 2.0;  // 1-3 Hz
     float beat = heartbeat(time, beatRate);
     
     // Apply heartScale with beat animation
-    float animatedScale = heartScale * (0.95 + beat * 0.1);
+    float animatedScale = safeHeartScale * (0.95 + beat * 0.1);
     
     // Heart position (centered, slightly up)
     vec2 heartPos = (uv - vec2(0.5, 0.55)) * 2.0;
@@ -261,15 +270,15 @@ void main() {
     
     // Meters on the right side
     // Input meter (green)
-    float inputMeter = drawMeter(uv, inputLevel, 0.85, 0.03, 0.3);
+    float inputMeter = drawMeter(uv, safeInputLevel, 0.85, 0.03, 0.3);
     color = mix(color, vec3(0.2, 0.6, 0.2), inputMeter);
     
     // Output meter (blue)
-    float outputMeter = drawMeter(uv, outputLevel, 0.9, 0.03, 0.3);
+    float outputMeter = drawMeter(uv, safeOutputLevel, 0.9, 0.03, 0.3);
     color = mix(color, vec3(0.2, 0.4, 0.7), outputMeter);
     
     // GR meter (orange, fills from top)
-    float grMeter = drawGRMeter(uv, gainReductionDb, 0.8, 0.03, 0.3);
+    float grMeter = drawGRMeter(uv, safeGainReduction, 0.8, 0.03, 0.3);
     color = mix(color, vec3(0.9, 0.5, 0.1), grMeter);
     
     // Vignette

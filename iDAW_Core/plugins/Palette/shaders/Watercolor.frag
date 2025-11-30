@@ -184,24 +184,33 @@ float wetEdge(vec2 uv, float dist, float blur) {
 void main() {
     vec2 uv = fragTexCoord;
     
+    // ==========================================================================
+    // SAFETY: Clamp all uniform values to prevent NaN/Infinity
+    // ==========================================================================
+    float safeBlurStrength = clamp(blurStrength, 0.0, 1.0);
+    float safeEdgeSharpening = clamp(edgeSharpening, 0.0, 2.0);
+    float safeColorR = clamp(colorR, 0.0, 1.0);
+    float safeColorG = clamp(colorG, 0.0, 1.0);
+    float safeColorB = clamp(colorB, 0.0, 1.0);
+    
     // Paper background
     vec3 paper = paperTexture(uv);
     
-    // Paint color from synth state
-    vec3 paintColor = vec3(colorR, colorG, colorB);
+    // Paint color from synth state (using safe values)
+    vec3 paintColor = vec3(safeColorR, safeColorG, safeColorB);
     
     // Apply watercolor wash
-    vec3 paint = paintWash(uv, paintColor, blurStrength, edgeSharpening);
+    vec3 paint = paintWash(uv, paintColor, safeBlurStrength, safeEdgeSharpening);
     
     // Multiple wash layers for depth
     vec3 paint2 = paintWash(uv + vec2(0.1, 0.05), 
                             paintColor * 0.8, 
-                            blurStrength * 0.7, 
-                            edgeSharpening * 0.5) * 0.5;
+                            safeBlurStrength * 0.7, 
+                            safeEdgeSharpening * 0.5) * 0.5;
     vec3 paint3 = paintWash(uv - vec2(0.05, 0.1), 
                             paintColor * 0.6, 
-                            blurStrength * 0.5, 
-                            edgeSharpening * 0.3) * 0.3;
+                            safeBlurStrength * 0.5, 
+                            safeEdgeSharpening * 0.3) * 0.3;
     
     // Combine layers
     vec3 totalPaint = paint + paint2 + paint3;

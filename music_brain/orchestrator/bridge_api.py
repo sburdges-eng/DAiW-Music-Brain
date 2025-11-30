@@ -18,6 +18,8 @@ Usage from Python (testing):
 
 import json
 import asyncio
+import math
+import hashlib
 from dataclasses import dataclass, field
 from typing import Dict, Any, List, Optional, Tuple
 from pathlib import Path
@@ -25,6 +27,136 @@ from pathlib import Path
 from music_brain.orchestrator import AIOrchestrator, Pipeline, OrchestratorConfig
 from music_brain.orchestrator.processors import IntentProcessor, HarmonyProcessor, GrooveProcessor
 from music_brain.orchestrator.interfaces import ProcessorResult, ExecutionContext
+
+
+# =============================================================================
+# SAFETY & ROBUSTNESS FUNCTIONS
+# =============================================================================
+
+def resolve_contradictions(params: Dict[str, Any]) -> Dict[str, Any]:
+    """
+    Resolve contradictory parameter values to ensure safe operation.
+    
+    Handles cases like:
+    - Infinite gain with positive modulation
+    - Velocity min > velocity max
+    - Other logical contradictions
+    
+    Args:
+        params: Parameter dictionary to validate and fix
+        
+    Returns:
+        Cleaned parameter dictionary with contradictions resolved
+    """
+    resolved = params.copy()
+    
+    # Handle gain contradictions
+    if 'gain' in resolved and 'gain_mod' in resolved:
+        if resolved['gain'] == -math.inf and resolved['gain_mod'] > 0:
+            resolved['gain'] = -6.0  # Default to safe volume if contradiction
+    
+    # Handle velocity range contradictions
+    if 'velocity_min' in resolved and 'velocity_max' in resolved:
+        if resolved['velocity_min'] > resolved['velocity_max']:
+            avg = (resolved['velocity_min'] + resolved['velocity_max']) / 2
+            resolved['velocity_min'] = avg
+            resolved['velocity_max'] = avg
+    
+    # Handle chaos/complexity range clipping
+    for key in ['chaos', 'complexity', 'swing', 'gate']:
+        if key in resolved:
+            resolved[key] = max(0.0, min(1.0, resolved[key]))
+    
+    # Handle tempo contradictions (too slow or too fast)
+    if 'tempo' in resolved:
+        resolved['tempo'] = max(20, min(300, resolved['tempo']))
+    
+    # Handle grid resolution contradictions
+    if 'grid' in resolved:
+        resolved['grid'] = max(1, min(64, resolved['grid']))
+    
+    # Handle attack/release time contradictions (attack > release)
+    if 'attack' in resolved and 'release' in resolved:
+        if resolved['attack'] > resolved['release']:
+            # Swap them if attack is longer than release
+            resolved['attack'], resolved['release'] = resolved['release'], resolved['attack']
+    
+    return resolved
+
+
+# Synesthesia word-to-parameter dictionary
+_synesthesia_dictionary: Dict[str, Dict[str, float]] = {
+    # Emotions
+    "happy": {"chaos": 0.3, "complexity": 0.4},
+    "sad": {"chaos": 0.2, "complexity": 0.6},
+    "angry": {"chaos": 0.8, "complexity": 0.7},
+    "calm": {"chaos": 0.1, "complexity": 0.3},
+    "excited": {"chaos": 0.6, "complexity": 0.5},
+    "melancholic": {"chaos": 0.25, "complexity": 0.65},
+    "peaceful": {"chaos": 0.05, "complexity": 0.2},
+    "intense": {"chaos": 0.7, "complexity": 0.8},
+    
+    # Musical descriptors
+    "funky": {"chaos": 0.5, "complexity": 0.6},
+    "smooth": {"chaos": 0.15, "complexity": 0.4},
+    "groovy": {"chaos": 0.4, "complexity": 0.5},
+    "ambient": {"chaos": 0.2, "complexity": 0.3},
+    "punchy": {"chaos": 0.3, "complexity": 0.4},
+    "ethereal": {"chaos": 0.35, "complexity": 0.7},
+    "driving": {"chaos": 0.45, "complexity": 0.55},
+    "dreamy": {"chaos": 0.3, "complexity": 0.5},
+    
+    # Textures
+    "warm": {"chaos": 0.2, "complexity": 0.4},
+    "bright": {"chaos": 0.4, "complexity": 0.5},
+    "dark": {"chaos": 0.3, "complexity": 0.6},
+    "crisp": {"chaos": 0.25, "complexity": 0.35},
+    "muddy": {"chaos": 0.5, "complexity": 0.3},
+    "airy": {"chaos": 0.2, "complexity": 0.45},
+    
+    # Dynamics
+    "loud": {"chaos": 0.6, "complexity": 0.5},
+    "soft": {"chaos": 0.15, "complexity": 0.35},
+    "dynamic": {"chaos": 0.55, "complexity": 0.6},
+    "static": {"chaos": 0.1, "complexity": 0.2},
+}
+
+
+def get_parameter(word: str, dictionary: Optional[Dict[str, Dict[str, float]]] = None) -> Dict[str, float]:
+    """
+    Get parameters for a word from dictionary, with Synesthesia fallback.
+    
+    If word is not in dictionary, generates deterministic random values
+    based on word hash - turning unknown words into musical parameters.
+    
+    Args:
+        word: The word to look up
+        dictionary: Optional custom dictionary. Uses default if None.
+        
+    Returns:
+        Dict with 'chaos' and 'complexity' values (0.0-1.0)
+    """
+    if dictionary is None:
+        dictionary = _synesthesia_dictionary
+    
+    word_lower = word.lower().strip()
+    
+    if word_lower in dictionary:
+        return dictionary[word_lower]
+    else:
+        # The "Synesthesia" Fallback
+        # Turn unknown words into deterministic random values
+        word_hash = hashlib.sha256(word_lower.encode('utf-8')).hexdigest()
+        seed = int(word_hash, 16) % 100
+        
+        # Generate chaos from first part of hash
+        chaos = seed / 100.0
+        
+        # Generate complexity from different part of hash for variety
+        complexity_seed = int(word_hash[16:32], 16) % 100
+        complexity = complexity_seed / 100.0
+        
+        return {"chaos": chaos, "complexity": complexity}
 
 
 @dataclass
@@ -180,7 +312,7 @@ def compute_ghost_hands_suggestions(
     Compute AI suggestions for chaos and complexity knobs ("Ghost Hands").
     
     The knobs should visually update to reflect the AI's interpretation
-    of the user's text input.
+    of the user's text input. Uses Synesthesia fallback for unknown words.
     
     Args:
         text: User text prompt
@@ -191,6 +323,7 @@ def compute_ghost_hands_suggestions(
         Tuple of (suggested_chaos, suggested_complexity)
     """
     text_lower = text.lower()
+    words = text_lower.split()
     
     # Start with genre defaults
     base_chaos = genre_data.get("velocity", {}).get("humanization", 0.15)
@@ -226,14 +359,35 @@ def compute_ghost_hands_suggestions(
     
     suggested_chaos = base_chaos
     suggested_complexity = base_complexity
+    matched_words = 0
     
     for word, modifier in chaos_modifiers.items():
         if word in text_lower:
             suggested_chaos += modifier
+            matched_words += 1
     
     for word, modifier in complexity_modifiers.items():
         if word in text_lower:
             suggested_complexity += modifier
+            matched_words += 1
+    
+    # Use Synesthesia fallback for unmatched descriptive words
+    # (words not in our known modifiers dictionary)
+    descriptive_words = [w for w in words if len(w) > 3 and w.isalpha()]
+    known_words = set(chaos_modifiers.keys()) | set(complexity_modifiers.keys())
+    unknown_words = [w for w in descriptive_words if w not in known_words]
+    
+    if unknown_words and matched_words == 0:
+        # No known words matched - use Synesthesia for the first unknown word
+        synesthesia_params = get_parameter(unknown_words[0])
+        suggested_chaos = synesthesia_params["chaos"]
+        suggested_complexity = synesthesia_params["complexity"]
+    elif unknown_words:
+        # Blend unknown words with existing suggestions
+        for word in unknown_words[:2]:  # Max 2 unknown words
+            params = get_parameter(word)
+            suggested_chaos = (suggested_chaos + params["chaos"]) / 2
+            suggested_complexity = (suggested_complexity + params["complexity"]) / 2
     
     # Clamp to valid range
     suggested_chaos = max(0.0, min(1.0, suggested_chaos))
@@ -456,6 +610,26 @@ async def process_prompt(
         # Get tempo from genre
         bpm_range = genre_data.get("bpm_range", [100, 120])
         tempo = (bpm_range[0] + bpm_range[1]) // 2
+        
+        # SAFETY: Resolve any contradictions in parameters before MIDI generation
+        generation_params = {
+            "chaos": knob_state.chaos,
+            "complexity": knob_state.complexity,
+            "gate": knob_state.gate,
+            "swing": knob_state.swing,
+            "tempo": tempo,
+            "grid": knob_state.grid,
+            "velocity_min": genre_data.get("velocity", {}).get("min", 40),
+            "velocity_max": genre_data.get("velocity", {}).get("max", 120),
+        }
+        resolved_params = resolve_contradictions(generation_params)
+        
+        # Apply resolved parameters back to knob state
+        knob_state.chaos = resolved_params["chaos"]
+        knob_state.complexity = resolved_params["complexity"]
+        knob_state.gate = resolved_params["gate"]
+        knob_state.swing = resolved_params["swing"]
+        tempo = int(resolved_params["tempo"])
         
         # Generate MIDI events
         midi_events = generate_midi_from_harmony(

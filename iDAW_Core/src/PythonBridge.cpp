@@ -151,12 +151,19 @@ MidiBuffer PythonBridge::call_iMIDI(const KnobState& knobs,
             return createFailsafeMidiBuffer();
         }
         
+        // SAFETY: Sanitize user input before passing to Python
+        std::string safePrompt = sanitizeInput(textPrompt);
+        if (safePrompt.empty()) {
+            // Empty prompt after sanitization - use default
+            safePrompt = "create music";
+        }
+        
         // Acquire GIL for Python operations
         py::gil_scoped_acquire gil;
         
         // Prepare input data
         py::dict inputData;
-        inputData["text_prompt"] = textPrompt;
+        inputData["text_prompt"] = safePrompt;  // Use sanitized input
         inputData["knobs"] = knobs.toPyDict();
         inputData["genres"] = py::dict();  // Pass available genres
         for (const auto& [name, data] : m_genres) {

@@ -97,29 +97,39 @@ void main() {
     vec2 uv = fragTexCoord;
     vec2 centered = (uv - 0.5) * 2.0;  // -1 to 1
     
+    // ==========================================================================
+    // SAFETY: Clamp all uniform values to prevent NaN/Infinity
+    // ==========================================================================
+    float safeOuterRadius = clamp(outerRadius, 0.1, 1.5);
+    float safeInnerRadius = clamp(innerRadius, 0.01, 0.5);
+    float safeLoopCount = clamp(loopCount, 1.0, 50.0);
+    float safeRotationSpeed = clamp(rotationSpeed, 0.0, 10.0);
+    float safeLineThickness = clamp(lineThickness, 0.001, 0.2);
+    float safeTraceProgress = clamp(traceProgress, 0.0, 1.0);
+    
     // Paper background
     vec3 color = paperBackground();
     
     // Spirograph parameters
-    float R = outerRadius * 0.4;
-    float r = innerRadius * 0.15;
-    float k = loopCount;
+    float R = safeOuterRadius * 0.4;
+    float r = safeInnerRadius * 0.15;
+    float k = safeLoopCount;
     
     // Animation: rotate over time
-    float rotation = time * rotationSpeed * 0.5;
+    float rotation = time * safeRotationSpeed * 0.5;
     float c = cos(rotation);
     float s = sin(rotation);
     centered = vec2(centered.x * c - centered.y * s, 
                     centered.x * s + centered.y * c);
     
     // Calculate how much of the curve to draw
-    float maxT = 6.28318 * (k + 1.0) * traceProgress;
+    float maxT = 6.28318 * (k + 1.0) * safeTraceProgress;
     
     // Distance to spirograph curve
     float dist = spirographDistance(centered, R, r, k, maxT);
     
     // Pencil stroke
-    float thickness = lineThickness * 0.02;
+    float thickness = safeLineThickness * 0.02;
     float stroke = pencilStroke(dist, thickness, uv);
     
     // Multiple passes for sketch effect

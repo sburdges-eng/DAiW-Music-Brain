@@ -25,10 +25,53 @@
 #include <mutex>
 #include <future>
 #include <fstream>
+#include <regex>
+#include <algorithm>
 
 namespace py = pybind11;
 
 namespace iDAW {
+
+// =============================================================================
+// INPUT SANITIZATION
+// =============================================================================
+
+/**
+ * Sanitize user input to prevent injection attacks and ensure safety.
+ * 
+ * - Removes dangerous characters: ; { } ( )
+ * - Truncates to maximum length (500 chars)
+ * - Used before passing text to Python interpreter
+ * 
+ * @param input Raw user input string
+ * @return Sanitized safe string
+ */
+inline std::string sanitizeInput(const std::string& input) {
+    // Remove dangerous characters that could be used for injection
+    std::string safe = std::regex_replace(input, std::regex("[;{}\\(\\)]"), "");
+    
+    // Also remove backticks, quotes that could escape strings
+    safe = std::regex_replace(safe, std::regex("[`\"']"), "");
+    
+    // Remove potential escape sequences
+    safe = std::regex_replace(safe, std::regex("\\\\"), "");
+    
+    // Truncate length to prevent buffer issues
+    const size_t MAX_INPUT_LENGTH = 500;
+    if (safe.length() > MAX_INPUT_LENGTH) {
+        safe = safe.substr(0, MAX_INPUT_LENGTH);
+    }
+    
+    // Trim whitespace
+    auto start = safe.find_first_not_of(" \t\n\r");
+    auto end = safe.find_last_not_of(" \t\n\r");
+    if (start == std::string::npos) {
+        return "";
+    }
+    safe = safe.substr(start, end - start + 1);
+    
+    return safe;
+}
 
 /**
  * Knob state structure - current values of Side B UI knobs
