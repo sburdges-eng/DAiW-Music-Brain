@@ -4,6 +4,7 @@ Session - Song generation, teaching modules, and interactive tools.
 Interactive teaching for music theory and production concepts.
 Interrogation-first songwriting assistance.
 Intent-based generation with rule-breaking support.
+Proposal generation for creative suggestions.
 """
 
 from music_brain.session.teaching import RuleBreakingTeacher
@@ -27,6 +28,13 @@ from music_brain.session.intent_schema import (
     validate_intent,
     list_all_rules,
     RULE_BREAKING_EFFECTS,
+)
+from music_brain.session.proposals import (
+    ProposalGenerator,
+    Proposal,
+    ProposalCategory,
+    propose_for_emotion,
+    quick_propose,
 )
 
 __all__ = [
@@ -55,4 +63,10 @@ __all__ = [
     "validate_intent",
     "list_all_rules",
     "RULE_BREAKING_EFFECTS",
+    # Proposals
+    "ProposalGenerator",
+    "Proposal",
+    "ProposalCategory",
+    "propose_for_emotion",
+    "quick_propose",
 ]

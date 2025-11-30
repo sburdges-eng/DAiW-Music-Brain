@@ -2,6 +2,11 @@
 
 > This document provides AI assistants with essential context for working with the DAiW (Digital Audio intelligent Workstation) codebase.
 
+## Version
+
+**Current Version:** 1.0.0 (Release)
+**Last Updated:** 2025-11-30
+
 ## Project Philosophy
 
 **"Interrogate Before Generate"** - The tool shouldn't finish art for people. It should make them braver.
@@ -18,6 +23,9 @@ DAiW-Music-Brain is a CLI toolkit and Python library for:
 - **Intent-based song generation** - Three-phase deep interrogation system for emotionally-driven composition
 - **Intentional rule-breaking** - Structured approach to breaking music theory "rules" for emotional effect
 - **Interactive teaching** - Lessons on production philosophy and music theory concepts
+- **AI Orchestrator** - Multi-agent system for music production coordination
+- **Proposal Generator** - Creative suggestions based on emotional intent
+- **C++ Real-Time Core** - JUCE 8 plugin infrastructure with SIMD optimization
 
 ---
 
@@ -26,7 +34,7 @@ DAiW-Music-Brain is a CLI toolkit and Python library for:
 ```
 DAiW-Music-Brain/
 ├── music_brain/              # Main Python package
-│   ├── __init__.py          # Package exports (v0.2.0)
+│   ├── __init__.py          # Package exports (v1.0.0)
 │   ├── cli.py               # CLI entry point (`daiw` command)
 │   ├── data/                # JSON/YAML data files
 │   │   ├── chord_progressions.json
@@ -40,13 +48,19 @@ DAiW-Music-Brain/
 │   ├── structure/           # Harmonic analysis
 │   │   ├── chord.py         # Chord, ChordProgression, analyze_chords()
 │   │   ├── progression.py   # diagnose_progression(), generate_reharmonizations()
+│   │   ├── comprehensive_engine.py  # Therapy-to-music pipeline
 │   │   └── sections.py      # Section detection
 │   ├── session/             # Intent schema & teaching
 │   │   ├── intent_schema.py # CompleteSongIntent, rule-breaking enums
 │   │   ├── intent_processor.py # process_intent(), IntentProcessor
 │   │   ├── teaching.py      # RuleBreakingTeacher
 │   │   ├── interrogator.py  # SongInterrogator
+│   │   ├── proposals.py     # ProposalGenerator (NEW in v1.0.0)
 │   │   └── generator.py     # Generation utilities
+│   ├── orchestrator/        # AI Orchestrator (NEW in v1.0.0)
+│   │   ├── agents.py        # 7 AI agents (Eraser, Pencil, Press, etc.)
+│   │   ├── coordinator.py   # MCP Coordinator
+│   │   └── engine.py        # Dual Engine (Work/Dream states)
 │   ├── audio/               # Audio feel analysis
 │   │   └── feel.py          # analyze_feel(), AudioFeatures
 │   ├── utils/               # Utilities
@@ -55,6 +69,18 @@ DAiW-Music-Brain/
 │   │   └── ppq.py           # PPQ normalization
 │   └── daw/                 # DAW integration
 │       └── logic.py         # Logic Pro integration
+├── cpp/                     # C++ Real-Time Core (NEW in v1.0.0)
+│   ├── CMakeLists.txt       # JUCE 8 build system
+│   ├── include/daiw/        # Public headers
+│   └── src/                 # Implementation
+│       ├── core/            # types, memory, logging
+│       ├── dsp/             # SIMD ops, filters
+│       ├── midi/            # MIDI engine, groove, humanizer
+│       ├── harmony/         # chord, progression, voice_leading
+│       └── python/          # pybind11 bindings
+├── iDAW_Core/               # Native app core (NEW in v1.0.0)
+│   └── include/Version.h
+├── mcp_workstation/         # MCP tools
 ├── vault/                   # Knowledge base (Obsidian-compatible)
 │   ├── Songwriting_Guides/
 │   │   ├── song_intent_schema.md     # Intent schema documentation
