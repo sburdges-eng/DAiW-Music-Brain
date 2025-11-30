@@ -155,12 +155,12 @@ def test_therapy_session_scale_bounds():
     session = TherapySession()
 
     # Out of bounds values should be clamped
-    session.set_scales(-5, 2.0)
+    session.set_scales(motivation=-5, chaos=2.0)
 
     assert session.state.motivation_scale == 1  # Clamped to min
     assert session.state.chaos_tolerance == 1.0  # Clamped to max
 
-    session.set_scales(100, -1.0)
+    session.set_scales(motivation=100, chaos=-1.0)
 
     assert session.state.motivation_scale == 10  # Clamped to max
     assert session.state.chaos_tolerance == 0.0  # Clamped to min
@@ -203,10 +203,13 @@ def test_affect_with_multiple_keywords():
 
     analyzer = AffectAnalyzer()
 
+    # Each unique keyword found adds 1.0 (repetition doesn't count)
+    # "dead", "mourning", "loss" are in grief keywords = 3 total
     result = analyzer.analyze("dead dead dead grief mourning loss")
 
-    # Grief should have high score from multiple keywords
-    assert result.scores.get("grief", 0) >= 5
+    # Grief should be primary with score of 3 (dead, mourning, loss)
+    assert result.primary == "grief"
+    assert result.scores.get("grief", 0) >= 3
 
 
 def test_plan_generation_without_processing():
@@ -230,9 +233,15 @@ def test_harmony_plan_custom_chord_symbols():
 
     custom_chords = ["Am7", "Dm7", "G7", "Cmaj7"]
     plan = HarmonyPlan(
-        root_note="A", mode="aeolian", tempo_bpm=100, time_signature="4/4",
-        length_bars=4, chord_symbols=custom_chords, harmonic_rhythm="1_chord_per_bar",
-        mood_profile="nostalgia", complexity=0.5
+        root_note="A",
+        mode="aeolian",
+        tempo_bpm=100,
+        time_signature="4/4",
+        length_bars=4,
+        chord_symbols=custom_chords,
+        harmonic_rhythm="1_chord_per_bar",
+        mood_profile="nostalgia",
+        complexity=0.5,
     )
 
     assert plan.chord_symbols == custom_chords

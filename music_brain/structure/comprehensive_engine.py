@@ -8,14 +8,58 @@ Logic Flow:
 1. TherapySession processes text -> AffectResult
 2. TherapySession generates HarmonyPlan (with mode/tempo/chords)
 3. render_plan_to_midi() converts Plan -> MIDI using music_brain.daw.logic
+4. render_phrase_to_vault() provides high-level API for full generation
 
 NoteEvent is the canonical event structure. Anything outside Python
 (C++ plugin, OSC bridge) should speak in terms of NoteEvent fields.
 """
 
+import re
 import random
+from pathlib import Path
 from dataclasses import dataclass
-from typing import List, Dict, Optional
+from typing import List, Dict, Optional, Tuple
+
+from music_brain.structure.tension import generate_tension_curve
+
+
+# ==============================================================================
+# OUTPUT DIRECTORY
+# ==============================================================================
+
+OUTPUT_DIR = Path.home() / "Music" / "AudioVault" / "output"
+
+
+# ==============================================================================
+# HELPER FUNCTIONS
+# ==============================================================================
+
+
+def slugify(text: str) -> str:
+    """Convert text to a safe filename."""
+    text = text.lower().strip()
+    text = re.sub(r"[^a-z0-9]+", "_", text)
+    return text.strip("_") or "untitled"
+
+
+def select_kit_for_mood(mood: str) -> str:
+    """
+    Select an appropriate kit based on detected mood.
+
+    Args:
+        mood: Primary affect from therapy session
+
+    Returns:
+        Kit name string
+    """
+    if mood in ["grief", "dissociation", "nostalgia"]:
+        return "LoFi_Bedroom_Kit"
+    elif mood in ["rage", "defiance", "fear"]:
+        return "Industrial_Glitch_Kit"
+    elif mood in ["awe", "tenderness"]:
+        return "Ambient_Drift_Kit"
+    else:
+        return "Standard_Kit"
 
 # ==============================================================================
 # 1. AFFECT ANALYZER (Scored & Ranked)
@@ -119,6 +163,7 @@ class HarmonyPlan:
     harmonic_rhythm: str      # "1_chord_per_bar"
     mood_profile: str
     complexity: float         # 0.0 - 1.0 (chaos/complexity dial)
+    structure_type: str = "standard"  # "standard" | "climb" | "constant"
 
 
 @dataclass
@@ -279,6 +324,14 @@ class TherapySession:
         else:  # Ionian/Neutral
             chords = ["C", "Am", "F", "G"]
 
+        # 5. Mood → structure_type
+        if primary in ["grief", "dissociation"]:
+            structure_type = "climb"       # slow drowning build
+        elif primary in ["rage", "defiance"]:
+            structure_type = "standard"    # verse/chorus punches
+        else:
+            structure_type = "constant"    # flat loop / mantra
+
         return HarmonyPlan(
             root_note=root,
             mode=mode,
@@ -289,6 +342,7 @@ class TherapySession:
             harmonic_rhythm="1_chord_per_bar",
             mood_profile=primary,
             complexity=eff_complexity,
+            structure_type=structure_type,
         )
 
 
@@ -297,13 +351,24 @@ class TherapySession:
 # ==============================================================================
 
 
-def render_plan_to_midi(plan: HarmonyPlan, output_path: str) -> str:
+def render_plan_to_midi(plan: HarmonyPlan, output_path: str, vulnerability: float = 0.0) -> str:
     """
     Render a HarmonyPlan to a MIDI file using existing music_brain components:
 
     - music_brain.structure.progression.parse_progression_string
     - music_brain.structure.chord.CHORD_QUALITIES
     - music_brain.daw.logic.LogicProject, LOGIC_CHANNELS (if present)
+
+    Now with tension curve support for emotional contour:
+    - Verse bars: ~0.6-0.7 x velocity -> softer, more tentative
+    - Chorus bars: ~1.1 x velocity -> louder, more direct
+    - Bridge bars: 1.2-1.5 x velocity -> peak energy
+    - Outro: 0.5 x velocity -> collapse
+
+    Args:
+        plan: HarmonyPlan with structure_type for tension curve selection
+        output_path: Path to write MIDI file
+        vulnerability: Optional humanization factor (0.0-1.0)
 
     Returns: path to the written MIDI file (or the intended path if degraded).
     """
@@ -339,27 +404,51 @@ def render_plan_to_midi(plan: HarmonyPlan, output_path: str) -> str:
     progression_str = "-".join(plan.chord_symbols)
     parsed_chords = parse_progression_string(progression_str)
 
-    # 3. Build NoteEvents from ParsedChord + CHORD_QUALITIES
+    if not parsed_chords:
+        print("[SYSTEM]: Chord parser returned empty; aborting render.")
+        return output_path
+
+    # 3. Setup timing and tension curve
     ppq = getattr(project, "ppq", 480)
     beats_per_bar = time_sig[0]
     bar_ticks = int(beats_per_bar * ppq)
+    total_bars = plan.length_bars
+
+    # Generate tension curve based on structure_type
+    structure_type = getattr(plan, "structure_type", None)
+    if structure_type is None:
+        # Fallback if plan is old/legacy
+        if plan.mode in ["phrygian", "locrian"]:
+            structure_type = "climb"
+        else:
+            structure_type = "standard"
+
+    tension_map = generate_tension_curve(total_bars, structure_type=structure_type)
 
     note_events: List[NoteEvent] = []
+    base_velocity = 90.0
+    base_complexity = plan.complexity
 
-    # naive: one chord per bar, LOOPED to fill song length
+    # 4. Main render loop with tension-modulated velocity
     start_tick = 0
     current_bar = 0
-    total_bars = plan.length_bars
 
     while current_bar < total_bars:
         for parsed in parsed_chords:
             if current_bar >= total_bars:
                 break
 
+            # Per-bar tension multiplier
+            idx = min(current_bar, len(tension_map) - 1)
+            tension_mult = float(tension_map[idx])
+
+            # Per-bar base velocity modulated by tension
+            bar_base_velocity = base_velocity * tension_mult
+
             quality = parsed.quality
             intervals = CHORD_QUALITIES.get(quality)
 
-            # degrade gracefully if quality isn't in the map
+            # Degrade gracefully if quality isn't in the map
             if intervals is None:
                 base_quality = "min" if "m" in quality else "maj"
                 intervals = CHORD_QUALITIES.get(base_quality, (0, 4, 7))
@@ -367,15 +456,15 @@ def render_plan_to_midi(plan: HarmonyPlan, output_path: str) -> str:
             root_midi = 48 + parsed.root_num  # C3 as base
             duration_ticks = bar_ticks
 
-            # FUTURE GROOVE LAYER HOOK:
-            # Here we would modify start_tick and/or per-note offsets based on
-            # plan.complexity and any additional groove parameters.
-
             for interval in intervals:
+                # Apply slight velocity variation for humanization
+                vel = int(random.gauss(bar_base_velocity, 5))
+                vel = max(20, min(120, vel))
+
                 note_events.append(
                     NoteEvent(
                         pitch=root_midi + interval,
-                        velocity=80,
+                        velocity=vel,
                         start_tick=start_tick,
                         duration_ticks=duration_ticks,
                     )
@@ -384,7 +473,7 @@ def render_plan_to_midi(plan: HarmonyPlan, output_path: str) -> str:
             start_tick += duration_ticks
             current_bar += 1
 
-    # 4. Add track & export
+    # 5. Add track & export
     try:
         channel = LOGIC_CHANNELS.get("keys", 2)
     except Exception:
@@ -465,6 +554,91 @@ def run_cli() -> None:
     # 8. MIDI Export
     output_path = "daiw_therapy_session.mid"
     render_plan_to_midi(plan, output_path)
+
+
+# ==============================================================================
+# 7. HIGH-LEVEL API (render_phrase_to_vault)
+# ==============================================================================
+
+
+def render_phrase_to_vault(
+    phrase: str,
+    session: Optional[TherapySession] = None,
+    vulnerability: float = 0.5,
+    motivation: int = 5,
+    chaos: float = 0.5,
+) -> Tuple[str, str, HarmonyPlan, List[Dict]]:
+    """
+    High-level API to render emotional phrase directly to MIDI in the vault.
+
+    This combines:
+    1. Therapy session processing
+    2. Structure generation
+    3. MIDI rendering to AudioVault/output/
+
+    Args:
+        phrase: Emotional input text ("I feel broken")
+        session: Optional existing TherapySession (creates new if None)
+        vulnerability: Humanization factor 0.0-1.0
+        motivation: Motivation scale 1-10 (affects length)
+        chaos: Chaos tolerance 0.0-1.0 (affects complexity)
+
+    Returns:
+        Tuple of:
+        - path: Path to generated MIDI file
+        - kit: Recommended kit name
+        - plan: HarmonyPlan used for generation
+        - structure_map: Bar-by-bar structure parameters
+    """
+    # Import structure engine here to avoid circular imports
+    try:
+        from music_brain.structure.structure_engine import StructuralArchitect
+        HAS_ARCHITECT = True
+    except ImportError:
+        HAS_ARCHITECT = False
+
+    # Create or use session
+    if session is None:
+        session = TherapySession()
+
+    # Set scales if provided
+    session.set_scales(motivation, chaos)
+
+    # Process the phrase
+    session.process_core_input(phrase)
+
+    # Generate plan
+    plan = session.generate_plan()
+
+    # Select kit based on mood
+    kit = select_kit_for_mood(plan.mood_profile)
+
+    # Ensure output directory exists
+    OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
+
+    # Generate output path
+    output_path = str(OUTPUT_DIR / f"{slugify(phrase)}.mid")
+
+    # Generate structure map if architect available
+    structure_map: List[Dict] = []
+    if HAS_ARCHITECT:
+        architect = StructuralArchitect(plan.tempo_bpm)
+        # Select form based on mode/mood
+        if plan.mode in ["phrygian", "locrian"]:
+            form = "electronic_build"
+        elif plan.mode in ["aeolian", "dorian"]:
+            form = "ballad"
+        elif plan.mood_profile in ["rage", "defiance"]:
+            form = "punk_assault"
+        else:
+            form = "pop_standard"
+
+        structure_map = architect.generate_map(form, total_bars=plan.length_bars)
+
+    # Render to MIDI (uses existing render_plan_to_midi with tension curves)
+    midi_path = render_plan_to_midi(plan, output_path, vulnerability)
+
+    return midi_path, kit, plan, structure_map
 
 
 if __name__ == "__main__":

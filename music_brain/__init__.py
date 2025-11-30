@@ -10,6 +10,7 @@ A Python package for music production analysis:
 - Therapy-to-music pipeline (Comprehensive Engine)
 - Lyrical fragment generation
 - Reference track DNA analysis
+- AudioVault sample management
 """
 
 __version__ = "0.3.0"
@@ -25,9 +26,49 @@ from music_brain.structure.comprehensive_engine import (
     TherapySession,
     HarmonyPlan,
     render_plan_to_midi,
+    select_kit_for_mood,
+    render_phrase_to_vault,
 )
 from music_brain.groove_engine import apply_groove as apply_groove_events
 from music_brain.text.lyrical_mirror import generate_lyrical_fragments
+
+# Audio Refinery (sample management)
+from music_brain.audio_refinery import (
+    Sample,
+    Kit,
+    scan_audio_vault,
+    suggest_samples_for_mood,
+    build_kit_from_samples,
+)
+
+# Structure engine
+from music_brain.structure.structure_engine import (
+    StructuralArchitect,
+    Section as StructureSection,
+    generate_structure_for_plan,
+)
+
+# Tension curves
+from music_brain.structure.tension import generate_tension_curve
+
+# Configuration and exceptions
+from music_brain.config import (
+    get_audio_vault_path,
+    get_seed,
+    set_seeds,
+    GrooveConfig,
+    TensionConfig,
+    TherapyConfig,
+    MidiConfig,
+)
+from music_brain.exceptions import (
+    DAiWError,
+    GrooveEngineError,
+    StructureError,
+    TherapyError,
+    MidiError,
+    AudioVaultError,
+)
 
 __all__ = [
     # Groove (file-based)
@@ -48,6 +89,35 @@ __all__ = [
     "TherapySession",
     "HarmonyPlan",
     "render_plan_to_midi",
+    "select_kit_for_mood",
+    "render_phrase_to_vault",
     # Text/Lyrical
     "generate_lyrical_fragments",
+    # Audio Refinery
+    "Sample",
+    "Kit",
+    "scan_audio_vault",
+    "suggest_samples_for_mood",
+    "build_kit_from_samples",
+    # Structure Engine
+    "StructuralArchitect",
+    "StructureSection",
+    "generate_structure_for_plan",
+    # Tension
+    "generate_tension_curve",
+    # Configuration
+    "get_audio_vault_path",
+    "get_seed",
+    "set_seeds",
+    "GrooveConfig",
+    "TensionConfig",
+    "TherapyConfig",
+    "MidiConfig",
+    # Exceptions
+    "DAiWError",
+    "GrooveEngineError",
+    "StructureError",
+    "TherapyError",
+    "MidiError",
+    "AudioVaultError",
 ]

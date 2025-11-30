@@ -27,9 +27,45 @@ cd DAiW-Music-Brain
 pip install -e .
 ```
 
-## Quick Start
+## 5-Minute Quick Start
 
-### Intent-Based Song Generation (New!)
+**From text to sound in 5 minutes:**
+
+```bash
+# 1. Clone and install
+git clone https://github.com/yourusername/DAiW-Music-Brain.git
+cd DAiW-Music-Brain
+pip install -e .
+
+# 2. Generate MIDI from emotional input
+python examples/basic_therapy_to_midi.py "I feel broken but still here" -v
+
+# 3. Output shows:
+#    - Detected affect: neutral (or grief, rage, etc. based on keywords)
+#    - Key: C ionian
+#    - Tempo: 100 BPM
+#    - MIDI file: output.mid
+
+# 4. Open your DAW (Logic, Ableton, FL Studio)
+# 5. Drag output.mid onto a track
+# 6. Load a piano or pad instrument
+# 7. Hit play
+```
+
+**Keywords the engine recognizes:**
+- grief: loss, gone, miss, dead, empty
+- rage: angry, furious, hate, betrayed
+- fear: scared, terrified, panic, trapped
+- nostalgia: remember, childhood, memory, home
+- tenderness: soft, gentle, hold, love, care
+
+See [examples/README.md](examples/README.md) for more.
+
+---
+
+## CLI Quick Start
+
+### Intent-Based Song Generation
 
 ```bash
 # Create a new song intent template
@@ -214,6 +250,55 @@ DAiW-Music-Brain/
 Optional:
 - librosa (audio analysis)
 - music21 (advanced theory)
+
+## Optional Dependencies
+
+```bash
+# Development tools (pytest, black, flake8, mypy)
+pip install -e .[dev]
+
+# Audio analysis (librosa, soundfile)
+pip install -e .[audio]
+
+# Music theory (music21)
+pip install -e .[theory]
+
+# Web UI (streamlit)
+pip install -e .[ui]
+
+# Desktop app (streamlit + pywebview)
+pip install -e .[desktop]
+
+# Build standalone executables
+pip install -e .[build]
+
+# Everything
+pip install -e .[all]
+```
+
+## Privacy & Data
+
+**Everything is local.** DAiW does not send any data anywhere.
+
+- All processing happens on your machine
+- No telemetry, no analytics, no network requests
+- Your emotional input text is processed in memory and not logged
+- MIDI files are written only where you specify
+- The Audio Vault is a local folder you control
+
+If you're self-hosting or building from source, you have complete control over where data lives. This is an emotional tool, not a telemetry farm.
+
+## Configuration
+
+Set these environment variables to customize behavior:
+
+```bash
+# Audio sample location (default: ~/Music/AudioVault)
+export DAIW_AUDIO_VAULT_PATH="/path/to/your/samples"
+
+# Random seed for reproducible output (optional)
+export DAIW_SEED=42
+```
 
 ## License
 

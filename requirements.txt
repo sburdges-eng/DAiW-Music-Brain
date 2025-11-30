@@ -2,27 +2,66 @@
 mido>=1.2.10          # MIDI file I/O
 numpy>=1.21.0         # Numerical operations
 
-# Audio analysis for testing (install with: pip install daiw[audio])
-# librosa>=0.9.0      # Audio analysis
-# soundfile>=0.10.0   # Audio file I/O
+# ============================================================================
+# Optional: Audio Analysis (install with: pip install daiw[audio])
+# ============================================================================
+# librosa>=0.9.0      # Audio analysis (spectral, tempo, key)
+# soundfile>=0.10.0   # Audio file I/O (WAV, FLAC, OGG)
+# scipy>=1.7.0        # Signal processing
+# audioread>=2.1.0    # Read various audio formats
+# resampy>=0.4.0      # High-quality audio resampling
 
-# AI/ML dependencies for future use (install with: pip install daiw[ai])
+# ============================================================================
+# Optional: Sample Processing (install with: pip install daiw[samples])
+# ============================================================================
+# pydub>=0.25.0       # Audio manipulation (slice, concat, effects)
+# scipy>=1.7.0        # Signal processing (filters, transforms)
+# soundfile>=0.10.0   # Audio file I/O
+# audiomentations>=0.30.0  # Audio augmentation (pitch, time stretch)
+# pedalboard>=0.7.0   # VST-style audio effects (EQ, compression, reverb)
+
+# ============================================================================
+# Optional: AI/ML (install with: pip install daiw[ai])
+# ============================================================================
 # torch>=2.0.0        # PyTorch for AI agents (Phase 2+)
 
-# Optional music theory (install with: pip install daiw[theory])
-# music21>=7.0.0      # Advanced music theory
+# ============================================================================
+# Optional: Music Theory (install with: pip install daiw[theory])
+# ============================================================================
+# music21>=7.0.0      # Advanced music theory, MusicXML
 
-# Desktop UI dependencies (install with: pip install daiw[ui])
+# ============================================================================
+# Optional: Lyrics Generation (install with: pip install daiw[lyrics])
+# ============================================================================
+# markovify>=0.9.0    # Markov chain text generation
+
+# ============================================================================
+# Optional: Desktop UI (install with: pip install daiw[ui])
+# ============================================================================
 # streamlit>=1.28.0   # Web UI framework
+# pandas>=1.3.0       # Data visualization
 
-# Native desktop app (install with: pip install daiw[desktop])
+# ============================================================================
+# Optional: Native Desktop App (install with: pip install daiw[desktop])
+# ============================================================================
 # streamlit>=1.28.0   # Web UI framework
 # pywebview>=4.0.0    # Native window wrapper
 
-# Build tools for standalone executable (install with: pip install daiw[build])
+# ============================================================================
+# Optional: Build Standalone Executable (install with: pip install daiw[build])
+# ============================================================================
 # pyinstaller>=6.0.0  # Executable packaging
 
-# Development dependencies (install with: pip install daiw[dev])
+# ============================================================================
+# Development Dependencies (install with: pip install daiw[dev])
+# ============================================================================
 # pytest>=7.0.0
+# pytest-mock>=3.0.0
 # black>=22.0.0
 # flake8>=4.0.0
+# mypy>=0.900
+
+# ============================================================================
+# Install Everything (install with: pip install daiw[all])
+# ============================================================================
+# Includes: audio, samples, theory, lyrics, ui, desktop
