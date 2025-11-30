@@ -69,6 +69,12 @@ all = [
     "streamlit>=1.28.0",
     "pywebview>=4.0.0",
 ]
+# Penta-core integration (placeholder - dependencies to be added when penta-core API is defined)
+# See docs/integrations/penta-core.md for integration documentation
+penta-core = [
+    # Dependencies will be added when penta-core package is published
+    # "penta-core>=0.1.0",  # Uncomment when available
+]
 
 [project.scripts]
 daiw = "music_brain.cli:main"
