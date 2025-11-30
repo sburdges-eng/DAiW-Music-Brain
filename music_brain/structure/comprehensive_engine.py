@@ -351,38 +351,43 @@ def render_plan_to_midi(plan: HarmonyPlan, output_path: str) -> str:
     current_bar = 0
     total_bars = plan.length_bars
 
-    while current_bar < total_bars:
-        for parsed in parsed_chords:
-            if current_bar >= total_bars:
-                break
+    # Handle empty progression gracefully
+    if not parsed_chords:
+        # No chords to process, skip to export
+        pass
+    else:
+        while current_bar < total_bars:
+            for parsed in parsed_chords:
+                if current_bar >= total_bars:
+                    break
 
-            quality = parsed.quality
-            intervals = CHORD_QUALITIES.get(quality)
+                quality = parsed.quality
+                intervals = CHORD_QUALITIES.get(quality)
 
-            # degrade gracefully if quality isn't in the map
-            if intervals is None:
-                base_quality = "min" if "m" in quality else "maj"
-                intervals = CHORD_QUALITIES.get(base_quality, (0, 4, 7))
+                # degrade gracefully if quality isn't in the map
+                if intervals is None:
+                    base_quality = "min" if "m" in quality else "maj"
+                    intervals = CHORD_QUALITIES.get(base_quality, (0, 4, 7))
 
-            root_midi = 48 + parsed.root_num  # C3 as base
-            duration_ticks = bar_ticks
+                root_midi = 48 + parsed.root_num  # C3 as base
+                duration_ticks = bar_ticks
 
-            # FUTURE GROOVE LAYER HOOK:
-            # Here we would modify start_tick and/or per-note offsets based on
-            # plan.complexity and any additional groove parameters.
+                # FUTURE GROOVE LAYER HOOK:
+                # Here we would modify start_tick and/or per-note offsets based on
+                # plan.complexity and any additional groove parameters.
 
-            for interval in intervals:
-                note_events.append(
-                    NoteEvent(
-                        pitch=root_midi + interval,
-                        velocity=80,
-                        start_tick=start_tick,
-                        duration_ticks=duration_ticks,
+                for interval in intervals:
+                    note_events.append(
+                        NoteEvent(
+                            pitch=root_midi + interval,
+                            velocity=80,
+                            start_tick=start_tick,
+                            duration_ticks=duration_ticks,
+                        )
                     )
-                )
 
-            start_tick += duration_ticks
-            current_bar += 1
+                start_tick += duration_ticks
+                current_bar += 1
 
     # 4. Add track & export
     try:

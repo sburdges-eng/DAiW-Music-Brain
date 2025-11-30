@@ -133,7 +133,7 @@ class TestEnums:
     def test_production_rule_break_values(self):
         assert ProductionRuleBreak.EXCESSIVE_MUD.value == "PRODUCTION_ExcessiveMud"
         assert ProductionRuleBreak.PITCH_IMPERFECTION.value == "PRODUCTION_PitchImperfection"
-        assert len(ProductionRuleBreak) == 5
+        assert len(ProductionRuleBreak) == 8  # Updated: now has 8 values
 
     def test_vulnerability_scale(self):
         assert VulnerabilityScale.LOW.value == "Low"
