@@ -1,0 +1,34 @@
+iDAW - Intelligent Digital Audio Workstation
+=============================================
+
+Version: 1.0.0
+Codename: Dual Engine
+Build Date: 2025
+Platform: macOS 10.15+ / Windows 10+ / Linux
+
+Components:
+-----------
+- Music Brain (Python AI Engine): 1.0.0
+- iDAW Core (C++ Audio Engine): 1.0.0
+- Orchestrator: 1.0.0
+- Bridge API: 1.0.0
+
+Plugins:
+--------
+- Plugin 001: The Eraser (Spectral Gating) - 1.0.0
+- Plugin 002: The Pencil (Tube Saturation) - 1.0.0
+- Plugin 003: The Press (VCA Compressor) - 1.0.0
+- Plugin 004: The Smudge (Convolution Reverb) - 1.0.0
+- Plugin 005: The Trace (Delay) - 1.0.0
+- Plugin 006: The Palette (Wavetable Synth) - 1.0.0
+- Plugin 007: The Parrot (Vocal/Instrument Companion) - 1.0.0
+
+Architecture:
+-------------
+- Dual Heap Memory: Side A (4GB RT-Safe) + Side B (Dynamic AI/UI)
+- Python Bridge: pybind11 embedded interpreter
+- Shaders: OpenGL 3.3+ (Da Vinci Protocol)
+- Ghost Hands: AI-driven parameter automation
+
+Author: Sean Burdges
+License: MIT

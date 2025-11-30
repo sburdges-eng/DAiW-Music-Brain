@@ -3,9 +3,9 @@ requires = ["setuptools>=45", "wheel", "setuptools-scm[toml]>=6.2"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "daiw"
-version = "0.2.0"
-description = "Music production intelligence toolkit - groove extraction, chord analysis, AI-assisted songwriting"
+name = "idaw"
+version = "1.0.0"
+description = "iDAW - Intelligent Digital Audio Workstation with Dual Engine architecture, AI-powered music generation, and 7 creative plugins"
 readme = "README.md"
 license = {text = "MIT"}
 requires-python = ">=3.9"
@@ -42,6 +42,7 @@ theory = [
 ]
 dev = [
     "pytest>=7.0.0",
+    "pytest-asyncio>=0.21.0",
     "black>=22.0.0",
     "flake8>=4.0.0",
     "mypy>=0.900",
@@ -110,6 +111,7 @@ exclude = '''
 testpaths = ["tests"]
 python_files = ["test_*.py"]
 python_functions = ["test_*"]
+asyncio_mode = "auto"
 
 [tool.mypy]
 python_version = "3.9"
