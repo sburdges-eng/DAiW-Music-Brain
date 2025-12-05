@@ -17,7 +17,8 @@ Usage:
 """
 
 __version__ = "1.0.0"
-__all__ = ["TodoStorage", "Todo", "TodoServer"]
+__all__ = ["TodoStorage", "Todo", "MCPTodoServer"]
 
 from .models import Todo, TodoPriority, TodoStatus
 from .storage import TodoStorage
+from .server import MCPTodoServer
