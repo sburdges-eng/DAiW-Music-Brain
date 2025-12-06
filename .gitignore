@@ -96,6 +96,9 @@ out/
 cmake-build-*/
 _deps/
 
+# CodeQL temporary files
+_codeql_detected_source_root
+
 # pybind11 generated modules
 idaw_bridge*.so
 idaw_bridge*.pyd
