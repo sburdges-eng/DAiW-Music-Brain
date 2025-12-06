@@ -3,15 +3,22 @@ MCP Workstation - Proposal Management
 
 Handles the 3-improvement proposal system where each AI submits proposals.
 Includes voting, prioritization, and consensus tracking.
+
+Special handling:
+- MCP Coordinator proposals are auto-approved by default
+- User (sburdges-eng) serves as ultimate voter with veto/approve powers
+- Proposal dependencies block implementation until prerequisites are approved
+- Notification hooks for external system integration
 """
 
 from dataclasses import dataclass, field
-from typing import Dict, List, Optional, Tuple
+from typing import Callable, Dict, List, Optional, Tuple
 from datetime import datetime
 import json
 
 from .models import (
-    Proposal, ProposalStatus, ProposalCategory, AIAgent
+    Proposal, ProposalStatus, ProposalCategory, AIAgent, UserVotingConfig,
+    ProposalEvent, ProposalEventType, NotificationHook
 )
 from .debug import get_debug, DebugCategory, trace
 from .ai_specializations import (
@@ -27,6 +34,7 @@ class ProposalVote:
     vote: int  # -1 (reject), 0 (neutral), 1 (approve)
     comment: str = ""
     timestamp: str = ""
+    weight: float = 1.0  # Vote weight (user votes can have higher weight)
 
     def __post_init__(self):
         if not self.timestamp:
@@ -39,14 +47,24 @@ class ProposalManager:
 
     Each AI can submit up to 3 comprehensive improvement proposals.
     Proposals are voted on by all AIs and prioritized for implementation.
+
+    Special features:
+    - MCP Coordinator proposals are auto-approved (configurable)
+    - User has ultimate voting power with veto/approve capabilities
+    - Proposal dependencies block implementation until prerequisites are approved
+    - Notification hooks for external system integration
     """
 
     MAX_PROPOSALS_PER_AGENT = 3
 
-    def __init__(self):
+    def __init__(self, user_config: Optional[UserVotingConfig] = None):
         self.proposals: Dict[str, Proposal] = {}
         self.votes: List[ProposalVote] = []
         self._debug = get_debug()
+        self.user_config = user_config or UserVotingConfig()
+        self.hooks: Dict[str, NotificationHook] = {}
+        self.events: List[ProposalEvent] = []
+        self._hook_callbacks: List[Callable[[ProposalEvent, Optional[Proposal]], None]] = []
 
     @trace(DebugCategory.PROPOSAL)
     def submit_proposal(
@@ -59,30 +77,63 @@ class ProposalManager:
         estimated_effort: str = "medium",
         phase_target: int = 1,
         implementation_notes: str = "",
+        dependencies: Optional[List[str]] = None,
     ) -> Optional[Proposal]:
         """
         Submit a new improvement proposal.
 
         Each agent can submit up to MAX_PROPOSALS_PER_AGENT proposals.
-        """
-        # Check proposal limit
-        agent_proposals = self.get_proposals_by_agent(agent)
-        if len(agent_proposals) >= self.MAX_PROPOSALS_PER_AGENT:
-            self._debug.warning(
-                DebugCategory.PROPOSAL,
-                f"Agent {agent.value} has reached proposal limit ({self.MAX_PROPOSALS_PER_AGENT})",
-                agent=agent.value,
-            )
-            return None
+        MCP Coordinator proposals are auto-approved when user_config.auto_approve_mcp is True.
 
-        # Validate category alignment with agent strengths
-        capabilities = get_capabilities(agent)
-        if category not in capabilities.proposal_categories:
+        Args:
+            dependencies: List of proposal IDs that must be approved before this one
+                         can be implemented.
+        """
+        # MCP Coordinator and User have no proposal limit
+        is_special_agent = agent.is_mcp_coordinator or agent.is_user
+
+        # Check proposal limit (only for regular AI agents)
+        if not is_special_agent:
+            agent_proposals = self.get_proposals_by_agent(agent)
+            if len(agent_proposals) >= self.MAX_PROPOSALS_PER_AGENT:
+                self._debug.warning(
+                    DebugCategory.PROPOSAL,
+                    f"Agent {agent.value} has reached proposal limit ({self.MAX_PROPOSALS_PER_AGENT})",
+                    agent=agent.value,
+                )
+                return None
+
+            # Validate category alignment with agent strengths
+            capabilities = get_capabilities(agent)
+            if category not in capabilities.proposal_categories:
+                self._debug.info(
+                    DebugCategory.PROPOSAL,
+                    f"Note: {category.value} is not a primary strength for {agent.value}",
+                    agent=agent.value,
+                )
+
+        # Validate dependencies exist
+        if dependencies:
+            for dep_id in dependencies:
+                if dep_id not in self.proposals:
+                    self._debug.warning(
+                        DebugCategory.PROPOSAL,
+                        f"Dependency {dep_id} not found",
+                        agent=agent.value,
+                    )
+                    return None
+
+        # Determine initial status
+        # MCP Coordinator proposals are auto-approved if configured
+        if agent.is_mcp_coordinator and self.user_config.auto_approve_mcp:
+            initial_status = ProposalStatus.APPROVED
             self._debug.info(
                 DebugCategory.PROPOSAL,
-                f"Note: {category.value} is not a primary strength for {agent.value}",
+                f"MCP Coordinator proposal auto-approved: {title}",
                 agent=agent.value,
             )
+        else:
+            initial_status = ProposalStatus.SUBMITTED
 
         # Create proposal
         proposal = Proposal(
@@ -91,11 +142,12 @@ class ProposalManager:
             title=title,
             description=description,
             category=category,
-            status=ProposalStatus.SUBMITTED,
+            status=initial_status,
             priority=priority,
             estimated_effort=estimated_effort,
             phase_target=phase_target,
             implementation_notes=implementation_notes,
+            dependencies=dependencies or [],
         )
 
         self.proposals[proposal.id] = proposal
@@ -104,8 +156,25 @@ class ProposalManager:
             DebugCategory.PROPOSAL,
             f"Proposal submitted: {title}",
             agent=agent.value,
-            data={"proposal_id": proposal.id, "category": category.value},
+            data={"proposal_id": proposal.id, "category": category.value, "auto_approved": initial_status == ProposalStatus.APPROVED},
         )
+
+        # Emit event
+        self._emit_event(ProposalEvent(
+            event_type=ProposalEventType.SUBMITTED,
+            proposal_id=proposal.id,
+            agent=agent.value,
+            data={"title": title, "category": category.value},
+        ), proposal)
+
+        # If auto-approved, also emit approved event
+        if initial_status == ProposalStatus.APPROVED:
+            self._emit_event(ProposalEvent(
+                event_type=ProposalEventType.APPROVED,
+                proposal_id=proposal.id,
+                agent=agent.value,
+                data={"auto_approved": True},
+            ), proposal)
 
         return proposal
 
@@ -121,6 +190,11 @@ class ProposalManager:
         Cast a vote on a proposal.
 
         vote: -1 (reject), 0 (neutral), 1 (approve)
+
+        User (sburdges-eng) has special voting powers:
+        - Ultimate veto: Can reject any proposal immediately
+        - Ultimate approve: Can approve any proposal immediately
+        - Weighted votes based on their specialties
         """
         if proposal_id not in self.proposals:
             self._debug.warning(
@@ -131,8 +205,8 @@ class ProposalManager:
 
         proposal = self.proposals[proposal_id]
 
-        # Can't vote on own proposal
-        if proposal.agent == agent:
+        # Can't vote on own proposal (unless you're the user with ultimate power)
+        if proposal.agent == agent and not agent.is_user:
             self._debug.warning(
                 DebugCategory.PROPOSAL,
                 f"Agent {agent.value} cannot vote on own proposal",
@@ -140,12 +214,68 @@ class ProposalManager:
             )
             return False
 
-        # Record vote
+        # Handle user ultimate voting powers first (before weight calculation)
+        if agent.is_user:
+            old_status = proposal.status  # Capture before any changes
+
+            # Ultimate veto - user rejects the proposal immediately
+            if vote == -1 and self.user_config.ultimate_veto:
+                proposal.status = ProposalStatus.REJECTED
+                vote_weight = self.user_config.get_category_weight(proposal.category)
+                self._record_vote(agent, proposal_id, vote, comment, vote_weight, proposal, old_status)
+                self._debug.info(
+                    DebugCategory.PROPOSAL,
+                    f"User (ultimate voter) vetoed proposal {proposal_id}",
+                    agent=agent.value,
+                )
+                return True
+
+            # Ultimate approve - user approves the proposal immediately
+            elif vote == 1 and self.user_config.ultimate_approve:
+                proposal.status = ProposalStatus.APPROVED
+                vote_weight = self.user_config.get_category_weight(proposal.category)
+                self._record_vote(agent, proposal_id, vote, comment, vote_weight, proposal, old_status)
+                self._debug.info(
+                    DebugCategory.PROPOSAL,
+                    f"User (ultimate voter) approved proposal {proposal_id}",
+                    agent=agent.value,
+                )
+                return True
+
+            # Neutral vote or powers disabled - use weighted vote
+            vote_weight = self.user_config.get_category_weight(proposal.category)
+        else:
+            vote_weight = 1.0
+
+        # Record vote with weight
+        self._record_vote(agent, proposal_id, vote, comment, vote_weight, proposal)
+
+        # Check for consensus
+        self._check_consensus(proposal)
+
+        return True
+
+    def _record_vote(
+        self,
+        agent: AIAgent,
+        proposal_id: str,
+        vote: int,
+        comment: str,
+        weight: float,
+        proposal: Proposal,
+        old_status: Optional[ProposalStatus] = None,
+    ):
+        """Record a vote and update the proposal."""
+        # If old_status not provided, capture it now
+        if old_status is None:
+            old_status = proposal.status
+
         vote_record = ProposalVote(
             agent=agent,
             proposal_id=proposal_id,
             vote=vote,
             comment=comment,
+            weight=weight,
         )
         self.votes.append(vote_record)
 
@@ -154,49 +284,288 @@ class ProposalManager:
 
         self._debug.info(
             DebugCategory.PROPOSAL,
-            f"Vote cast: {vote:+d} on proposal {proposal_id}",
+            f"Vote cast: {vote:+d} (weight: {weight}) on proposal {proposal_id}",
             agent=agent.value,
-            data={"proposal_id": proposal_id, "vote": vote},
+            data={"proposal_id": proposal_id, "vote": vote, "weight": weight},
         )
 
-        # Check for consensus
-        self._check_consensus(proposal)
+        # Emit vote event
+        self._emit_event(ProposalEvent(
+            event_type=ProposalEventType.VOTE_CAST,
+            proposal_id=proposal_id,
+            agent=agent.value,
+            data={"vote": vote, "weight": weight, "comment": comment},
+        ), proposal)
 
-        return True
+        # Check if status changed and emit appropriate event
+        if proposal.status != old_status:
+            self._emit_status_change_event(proposal, old_status, agent.value)
+
+    def _emit_status_change_event(self, proposal: Proposal, old_status: ProposalStatus, agent: Optional[str] = None):
+        """Emit an event when proposal status changes."""
+        if proposal.status == ProposalStatus.APPROVED:
+            self._emit_event(ProposalEvent(
+                event_type=ProposalEventType.APPROVED,
+                proposal_id=proposal.id,
+                agent=agent,
+                data={"old_status": old_status.value},
+            ), proposal)
+            # Check if any dependent proposals can now proceed
+            self._check_dependency_unblocks(proposal.id)
+        elif proposal.status == ProposalStatus.REJECTED:
+            self._emit_event(ProposalEvent(
+                event_type=ProposalEventType.REJECTED,
+                proposal_id=proposal.id,
+                agent=agent,
+                data={"old_status": old_status.value},
+            ), proposal)
+        else:
+            self._emit_event(ProposalEvent(
+                event_type=ProposalEventType.STATUS_CHANGED,
+                proposal_id=proposal.id,
+                agent=agent,
+                data={"old_status": old_status.value, "new_status": proposal.status.value},
+            ), proposal)
 
     def _check_consensus(self, proposal: Proposal):
-        """Check if a proposal has reached consensus."""
-        total_agents = len(AIAgent)
+        """
+        Check if a proposal has reached consensus.
+
+        Uses weighted vote scores where user votes can count as more than 1.
+        Special agents (MCP_COORDINATOR and USER) are excluded from required vote count.
+
+        Consensus logic:
+        - Weighted score >= required_votes: APPROVED
+        - Weighted score <= -required_votes: REJECTED
+        - Otherwise: UNDER_REVIEW
+        """
+        old_status = proposal.status
+
+        # Count regular AI agents only (exclude MCP_COORDINATOR and USER)
+        regular_agents = [
+            a for a in AIAgent
+            if not a.is_mcp_coordinator and not a.is_user
+        ]
+        total_regular_agents = len(regular_agents)
         votes_cast = len(proposal.votes)
 
-        # Need majority of agents (excluding proposer)
-        required_votes = total_agents - 1
+        # Need majority of regular agents (excluding proposer if they're regular)
+        if proposal.agent in regular_agents:
+            required_votes = total_regular_agents - 1
+        else:
+            required_votes = total_regular_agents
+
         if votes_cast < required_votes:
             return
 
-        score = proposal.vote_score
+        # Calculate weighted vote score for consensus decisions
+        weighted_score = self._get_weighted_vote_score(proposal)
 
-        # Strong approval (all approve)
-        if score >= required_votes:
+        # Use weighted score for consensus decisions
+        # This means user votes with higher weights have more influence
+        if weighted_score >= required_votes:
             proposal.status = ProposalStatus.APPROVED
             self._debug.info(
                 DebugCategory.PROPOSAL,
-                f"Proposal {proposal.id} approved with score {score}",
+                f"Proposal {proposal.id} approved with weighted score {weighted_score:.1f}",
             )
-        # Strong rejection (all reject)
-        elif score <= -required_votes:
+        elif weighted_score <= -required_votes:
             proposal.status = ProposalStatus.REJECTED
             self._debug.info(
                 DebugCategory.PROPOSAL,
-                f"Proposal {proposal.id} rejected with score {score}",
+                f"Proposal {proposal.id} rejected with weighted score {weighted_score:.1f}",
             )
-        # Mixed - needs review
         else:
             proposal.status = ProposalStatus.UNDER_REVIEW
             self._debug.info(
                 DebugCategory.PROPOSAL,
-                f"Proposal {proposal.id} under review with mixed votes (score: {score})",
+                f"Proposal {proposal.id} under review with mixed votes (weighted score: {weighted_score:.1f})",
             )
+
+    def _get_weighted_vote_score(self, proposal: Proposal) -> float:
+        """Calculate the weighted vote score for a proposal."""
+        weighted_score = 0.0
+        for vote_record in self.votes:
+            if vote_record.proposal_id == proposal.id:
+                weighted_score += vote_record.vote * vote_record.weight
+        return weighted_score
+
+    # =========================================================================
+    # Dependency Management
+    # =========================================================================
+
+    def get_dependencies(self, proposal_id: str) -> List[Proposal]:
+        """
+        Get all proposals that this proposal depends on.
+
+        Note: Returns only dependencies that exist in the system. If any
+        dependency ID is not found, it is logged and skipped.
+        """
+        if proposal_id not in self.proposals:
+            return []
+        proposal = self.proposals[proposal_id]
+        dependencies = []
+        for dep_id in proposal.dependencies:
+            if dep_id in self.proposals:
+                dependencies.append(self.proposals[dep_id])
+            else:
+                self._debug.warning(
+                    DebugCategory.PROPOSAL,
+                    f"Dependency {dep_id} not found for proposal {proposal_id}",
+                )
+        return dependencies
+
+    def get_dependents(self, proposal_id: str) -> List[Proposal]:
+        """Get all proposals that depend on this proposal."""
+        return [p for p in self.proposals.values() if proposal_id in p.dependencies]
+
+    def are_dependencies_met(self, proposal_id: str) -> bool:
+        """Check if all dependencies for a proposal are approved."""
+        if proposal_id not in self.proposals:
+            return False
+        proposal = self.proposals[proposal_id]
+        if not proposal.dependencies:
+            return True
+        for dep_id in proposal.dependencies:
+            if dep_id not in self.proposals:
+                return False
+            if self.proposals[dep_id].status != ProposalStatus.APPROVED:
+                return False
+        return True
+
+    def get_blocked_proposals(self) -> List[Proposal]:
+        """Get all proposals that are blocked by unmet dependencies."""
+        blocked = []
+        for proposal in self.proposals.values():
+            if proposal.status == ProposalStatus.APPROVED and proposal.dependencies:
+                if not self.are_dependencies_met(proposal.id):
+                    blocked.append(proposal)
+        return blocked
+
+    def get_ready_proposals(self) -> List[Proposal]:
+        """Get all approved proposals that have all dependencies met and are ready for implementation."""
+        ready = []
+        for proposal in self.proposals.values():
+            if proposal.status == ProposalStatus.APPROVED:
+                if self.are_dependencies_met(proposal.id):
+                    ready.append(proposal)
+        return sorted(ready, key=lambda p: (p.priority, p.vote_score), reverse=True)
+
+    def _check_dependency_unblocks(self, approved_proposal_id: str):
+        """Check if approving this proposal unblocks any dependent proposals."""
+        dependents = self.get_dependents(approved_proposal_id)
+        for dependent in dependents:
+            if self.are_dependencies_met(dependent.id):
+                self._emit_event(ProposalEvent(
+                    event_type=ProposalEventType.DEPENDENCY_MET,
+                    proposal_id=dependent.id,
+                    data={"unblocked_by": approved_proposal_id},
+                ), dependent)
+
+    def add_dependency(self, proposal_id: str, dependency_id: str) -> bool:
+        """Add a dependency to a proposal."""
+        if proposal_id not in self.proposals or dependency_id not in self.proposals:
+            return False
+        if proposal_id == dependency_id:
+            return False  # Can't depend on self
+
+        proposal = self.proposals[proposal_id]
+        if dependency_id not in proposal.dependencies:
+            proposal.dependencies.append(dependency_id)
+            proposal.updated_at = datetime.now().isoformat()
+
+            # Check if this creates a blocking situation
+            if proposal.status == ProposalStatus.APPROVED and not self.are_dependencies_met(proposal_id):
+                self._emit_event(ProposalEvent(
+                    event_type=ProposalEventType.DEPENDENCY_BLOCKED,
+                    proposal_id=proposal_id,
+                    data={"blocked_by": dependency_id},
+                ), proposal)
+        return True
+
+    def remove_dependency(self, proposal_id: str, dependency_id: str) -> bool:
+        """Remove a dependency from a proposal."""
+        if proposal_id not in self.proposals:
+            return False
+        proposal = self.proposals[proposal_id]
+        if dependency_id in proposal.dependencies:
+            proposal.dependencies.remove(dependency_id)
+            proposal.updated_at = datetime.now().isoformat()
+
+            # Check if removing this unblocks the proposal
+            if proposal.status == ProposalStatus.APPROVED and self.are_dependencies_met(proposal_id):
+                self._emit_event(ProposalEvent(
+                    event_type=ProposalEventType.DEPENDENCY_MET,
+                    proposal_id=proposal_id,
+                    data={"unblocked_by_removal": dependency_id},
+                ), proposal)
+        return True
+
+    # =========================================================================
+    # Notification Hooks
+    # =========================================================================
+
+    def register_hook(self, hook: NotificationHook) -> str:
+        """Register a notification hook. Returns the hook ID."""
+        self.hooks[hook.id] = hook
+        self._debug.info(
+            DebugCategory.PROPOSAL,
+            f"Notification hook registered: {hook.name}",
+            data={"hook_id": hook.id, "url": hook.url},
+        )
+        return hook.id
+
+    def unregister_hook(self, hook_id: str) -> bool:
+        """Unregister a notification hook."""
+        if hook_id in self.hooks:
+            del self.hooks[hook_id]
+            return True
+        return False
+
+    def get_hooks(self) -> List[NotificationHook]:
+        """Get all registered hooks."""
+        return list(self.hooks.values())
+
+    def register_callback(self, callback: Callable[[ProposalEvent, Optional[Proposal]], None]):
+        """Register a callback function for proposal events (for in-process notifications)."""
+        self._hook_callbacks.append(callback)
+
+    def _emit_event(self, event: ProposalEvent, proposal: Optional[Proposal] = None):
+        """Emit a proposal event to all registered hooks and callbacks."""
+        self.events.append(event)
+
+        # Notify registered callbacks (in-process)
+        for callback in self._hook_callbacks:
+            try:
+                callback(event, proposal)
+            except Exception as e:
+                self._debug.warning(
+                    DebugCategory.PROPOSAL,
+                    f"Callback error: {e}",
+                )
+
+        # Get proposal category for hook filtering
+        proposal_category = proposal.category if proposal else None
+
+        # Trigger matching hooks (would normally do HTTP calls, but we log for now)
+        for hook in self.hooks.values():
+            if hook.matches_event(event, proposal_category):
+                self._debug.info(
+                    DebugCategory.PROPOSAL,
+                    f"Hook triggered: {hook.name} for {event.event_type.value}",
+                    data={"hook_id": hook.id, "event": event.to_dict()},
+                )
+                # In a real implementation, this would make an HTTP POST to hook.url
+                # For now, we just log it
+
+    def get_events(self, proposal_id: Optional[str] = None, event_type: Optional[ProposalEventType] = None) -> List[ProposalEvent]:
+        """Get events, optionally filtered by proposal ID and/or event type."""
+        events = self.events
+        if proposal_id:
+            events = [e for e in events if e.proposal_id == proposal_id]
+        if event_type:
+            events = [e for e in events if e.event_type == event_type]
+        return events
 
     @trace(DebugCategory.PROPOSAL)
     def update_status(
@@ -347,15 +716,23 @@ class ProposalManager:
                     "vote": v.vote,
                     "comment": v.comment,
                     "timestamp": v.timestamp,
+                    "weight": v.weight,
                 }
                 for v in self.votes
             ],
+            "user_config": self.user_config.to_dict(),
+            "hooks": {hid: h.to_dict() for hid, h in self.hooks.items()},
+            "events": [e.to_dict() for e in self.events],
         }
 
     @classmethod
     def from_dict(cls, data: Dict) -> "ProposalManager":
         """Deserialize manager state."""
-        manager = cls()
+        user_config = None
+        if "user_config" in data:
+            user_config = UserVotingConfig.from_dict(data["user_config"])
+
+        manager = cls(user_config=user_config)
 
         for pid, pdata in data.get("proposals", {}).items():
             proposal = Proposal.from_dict(pdata)
@@ -368,8 +745,17 @@ class ProposalManager:
                 vote=vdata["vote"],
                 comment=vdata.get("comment", ""),
                 timestamp=vdata.get("timestamp", ""),
+                weight=vdata.get("weight", 1.0),
             )
             manager.votes.append(vote)
+
+        for hid, hdata in data.get("hooks", {}).items():
+            hook = NotificationHook.from_dict(hdata)
+            manager.hooks[hid] = hook
+
+        for edata in data.get("events", []):
+            event = ProposalEvent.from_dict(edata)
+            manager.events.append(event)
 
         return manager
 

@@ -18,6 +18,8 @@ class AIAgent(str, Enum):
     CHATGPT = "chatgpt"
     GEMINI = "gemini"
     GITHUB_COPILOT = "github_copilot"
+    MCP_COORDINATOR = "mcp_coordinator"  # Special agent for auto-approval
+    USER = "user"  # Ultimate voter (sburdges-eng)
 
     @property
     def display_name(self) -> str:
@@ -26,8 +28,20 @@ class AIAgent(str, Enum):
             "chatgpt": "ChatGPT (OpenAI)",
             "gemini": "Gemini (Google)",
             "github_copilot": "GitHub Copilot",
+            "mcp_coordinator": "MCP Coordinator",
+            "user": "User (sburdges-eng)",
         }
         return names.get(self.value, self.value)
+
+    @property
+    def is_mcp_coordinator(self) -> bool:
+        """Check if this agent is the MCP coordinator."""
+        return self == AIAgent.MCP_COORDINATOR
+
+    @property
+    def is_user(self) -> bool:
+        """Check if this agent is the ultimate user voter."""
+        return self == AIAgent.USER
 
 
 class ProposalStatus(str, Enum):
@@ -318,3 +332,207 @@ class WorkstationState:
         """Load state from JSON file."""
         with open(path, 'r') as f:
             return cls.from_dict(json.load(f))
+
+
+@dataclass
+class UserSpecialty:
+    """
+    User-defined specialty/role for proposal voting and assignment.
+
+    Users can define their expertise areas to influence how they vote
+    and what tasks get assigned to them.
+    """
+    name: str
+    categories: List[ProposalCategory] = field(default_factory=list)
+    weight: float = 1.0  # 0.0-2.0, higher means more influence in that area
+    description: str = ""
+
+    def to_dict(self) -> Dict[str, Any]:
+        return {
+            "name": self.name,
+            "categories": [c.value for c in self.categories],
+            "weight": self.weight,
+            "description": self.description,
+        }
+
+    @classmethod
+    def from_dict(cls, data: Dict[str, Any]) -> "UserSpecialty":
+        return cls(
+            name=data.get("name", ""),
+            categories=[ProposalCategory(c) for c in data.get("categories", [])],
+            weight=data.get("weight", 1.0),
+            description=data.get("description", ""),
+        )
+
+
+@dataclass
+class UserVotingConfig:
+    """
+    Configuration for the ultimate user voter (sburdges-eng).
+
+    This defines how the user's votes are weighted and what override
+    capabilities they have.
+    """
+    username: str = "sburdges-eng"
+    specialties: List[UserSpecialty] = field(default_factory=list)
+    ultimate_veto: bool = True  # Can veto any proposal
+    ultimate_approve: bool = True  # Can approve any proposal directly
+    auto_approve_mcp: bool = True  # Auto-approve MCP coordinator proposals
+    vote_weight: float = 2.0  # User's vote counts as this many votes
+
+    def to_dict(self) -> Dict[str, Any]:
+        return {
+            "username": self.username,
+            "specialties": [s.to_dict() for s in self.specialties],
+            "ultimate_veto": self.ultimate_veto,
+            "ultimate_approve": self.ultimate_approve,
+            "auto_approve_mcp": self.auto_approve_mcp,
+            "vote_weight": self.vote_weight,
+        }
+
+    @classmethod
+    def from_dict(cls, data: Dict[str, Any]) -> "UserVotingConfig":
+        return cls(
+            username=data.get("username", "sburdges-eng"),
+            specialties=[
+                UserSpecialty.from_dict(s) for s in data.get("specialties", [])
+            ],
+            ultimate_veto=data.get("ultimate_veto", True),
+            ultimate_approve=data.get("ultimate_approve", True),
+            auto_approve_mcp=data.get("auto_approve_mcp", True),
+            vote_weight=data.get("vote_weight", 2.0),
+        )
+
+    def get_category_weight(self, category: ProposalCategory) -> float:
+        """Get the user's voting weight for a specific category."""
+        for specialty in self.specialties:
+            if category in specialty.categories:
+                return self.vote_weight * specialty.weight
+        return self.vote_weight
+
+
+class ProposalEventType(str, Enum):
+    """Types of proposal events for notification hooks."""
+    SUBMITTED = "submitted"
+    APPROVED = "approved"
+    REJECTED = "rejected"
+    VOTE_CAST = "vote_cast"
+    STATUS_CHANGED = "status_changed"
+    DEPENDENCY_MET = "dependency_met"
+    DEPENDENCY_BLOCKED = "dependency_blocked"
+
+
+@dataclass
+class ProposalEvent:
+    """
+    An event that occurred on a proposal.
+
+    Used for notification hooks and audit trails.
+    """
+    event_type: ProposalEventType
+    proposal_id: str
+    timestamp: str = ""
+    agent: Optional[str] = None
+    data: Dict[str, Any] = field(default_factory=dict)
+
+    def __post_init__(self):
+        if not self.timestamp:
+            self.timestamp = datetime.now().isoformat()
+
+    def to_dict(self) -> Dict[str, Any]:
+        return {
+            "event_type": self.event_type.value,
+            "proposal_id": self.proposal_id,
+            "timestamp": self.timestamp,
+            "agent": self.agent,
+            "data": self.data,
+        }
+
+    @classmethod
+    def from_dict(cls, data: Dict[str, Any]) -> "ProposalEvent":
+        return cls(
+            event_type=ProposalEventType(data["event_type"]),
+            proposal_id=data["proposal_id"],
+            timestamp=data.get("timestamp", ""),
+            agent=data.get("agent"),
+            data=data.get("data", {}),
+        )
+
+
+@dataclass
+class NotificationHook:
+    """
+    A notification hook for proposal events.
+
+    Hooks can be registered to receive callbacks when proposal events occur.
+    Supports filtering by event type and proposal category.
+    """
+    id: str
+    name: str
+    url: str  # Webhook URL to call
+    event_types: List[ProposalEventType] = field(default_factory=list)  # Empty = all events
+    categories: List[ProposalCategory] = field(default_factory=list)  # Empty = all categories
+    enabled: bool = True
+    created_at: str = ""
+
+    def __post_init__(self):
+        if not self.id:
+            self.id = str(uuid.uuid4())[:8]
+        if not self.created_at:
+            self.created_at = datetime.now().isoformat()
+
+    def matches_event(self, event: ProposalEvent, proposal_category: Optional[ProposalCategory] = None) -> bool:
+        """
+        Check if this hook should be triggered for the given event.
+
+        Args:
+            event: The proposal event to check
+            proposal_category: The category of the proposal (optional)
+
+        Returns:
+            True if the hook should be triggered for this event
+
+        Note:
+            - If event_types filter is set, event must match one of them
+            - If categories filter is set and proposal_category is provided,
+              category must match. If proposal_category is None but categories
+              filter is set, the hook will NOT match (category is required for filtered hooks).
+        """
+        if not self.enabled:
+            return False
+
+        # Check event type filter
+        if self.event_types and event.event_type not in self.event_types:
+            return False
+
+        # Check category filter - if categories are specified, require a matching category
+        if self.categories:
+            if proposal_category is None:
+                return False  # Category required when filter is set
+            if proposal_category not in self.categories:
+                return False
+
+        return True
+
+    def to_dict(self) -> Dict[str, Any]:
+        return {
+            "id": self.id,
+            "name": self.name,
+            "url": self.url,
+            "event_types": [e.value for e in self.event_types],
+            "categories": [c.value for c in self.categories],
+            "enabled": self.enabled,
+            "created_at": self.created_at,
+        }
+
+    @classmethod
+    def from_dict(cls, data: Dict[str, Any]) -> "NotificationHook":
+        return cls(
+            id=data.get("id", ""),
+            name=data.get("name", ""),
+            url=data.get("url", ""),
+            event_types=[ProposalEventType(e) for e in data.get("event_types", [])],
+            categories=[ProposalCategory(c) for c in data.get("categories", [])],
+            enabled=data.get("enabled", True),
+            created_at=data.get("created_at", ""),
+        )

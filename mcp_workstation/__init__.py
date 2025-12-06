@@ -42,6 +42,11 @@ from .models import (
     Phase,
     PhaseTask,
     WorkstationState,
+    UserSpecialty,
+    UserVotingConfig,
+    ProposalEvent,
+    ProposalEventType,
+    NotificationHook,
 )
 
 from .orchestrator import (
@@ -118,6 +123,11 @@ __all__ = [
     "Phase",
     "PhaseTask",
     "WorkstationState",
+    "UserSpecialty",
+    "UserVotingConfig",
+    "ProposalEvent",
+    "ProposalEventType",
+    "NotificationHook",
 
     # Orchestrator
     "Workstation",

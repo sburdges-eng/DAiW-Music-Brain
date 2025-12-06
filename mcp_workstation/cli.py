@@ -41,11 +41,14 @@ Examples:
     status_parser = subparsers.add_parser("status", help="Show workstation status")
     status_parser.add_argument("--json", action="store_true", help="Output as JSON")
 
+    # All agent choices including new special agents
+    all_agents = ["claude", "chatgpt", "gemini", "github_copilot", "mcp_coordinator", "user"]
+
     # Register command
     register_parser = subparsers.add_parser("register", help="Register an AI agent")
     register_parser.add_argument(
         "agent",
-        choices=["claude", "chatgpt", "gemini", "github_copilot"],
+        choices=all_agents,
         help="AI agent to register",
     )
 
@@ -53,7 +56,7 @@ Examples:
     propose_parser = subparsers.add_parser("propose", help="Submit a proposal")
     propose_parser.add_argument(
         "agent",
-        choices=["claude", "chatgpt", "gemini", "github_copilot"],
+        choices=all_agents,
     )
     propose_parser.add_argument("title", help="Proposal title")
     propose_parser.add_argument("description", help="Proposal description")
@@ -73,7 +76,7 @@ Examples:
     vote_parser = subparsers.add_parser("vote", help="Vote on a proposal")
     vote_parser.add_argument(
         "agent",
-        choices=["claude", "chatgpt", "gemini", "github_copilot"],
+        choices=all_agents,
     )
     vote_parser.add_argument("proposal_id", help="Proposal ID")
     vote_parser.add_argument(
@@ -88,7 +91,7 @@ Examples:
     proposals_parser = subparsers.add_parser("proposals", help="List proposals")
     proposals_parser.add_argument(
         "--agent",
-        choices=["claude", "chatgpt", "gemini", "github_copilot"],
+        choices=all_agents,
     )
     proposals_parser.add_argument(
         "--status",
@@ -120,7 +123,7 @@ Examples:
     ai_parser = subparsers.add_parser("ai", help="Show AI specializations")
     ai_parser.add_argument(
         "--agent",
-        choices=["claude", "chatgpt", "gemini", "github_copilot"],
+        choices=all_agents,
     )
 
     # Assign command
