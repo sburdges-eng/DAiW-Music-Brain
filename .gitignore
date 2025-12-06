@@ -75,6 +75,7 @@ Thumbs.db
 # Test outputs
 output.mid
 *.mid.bak
+_codeql_detected_source_root
 
 # C++ Build Artifacts
 *.o
