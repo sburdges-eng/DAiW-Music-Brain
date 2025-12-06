@@ -11,11 +11,11 @@ readme_path = Path(__file__).parent / "README.md"
 long_description = readme_path.read_text(encoding="utf-8") if readme_path.exists() else ""
 
 setup(
-    name="daiw",
+    name="idaw",
     version="1.0.0",
     author="Sean Burdges",
     author_email="seanblariat@gmail.com",
-    description="Music production intelligence toolkit - groove extraction, chord analysis, AI-assisted songwriting",
+    description="iDAW - Intelligent Digital Audio Workstation with Dual Engine architecture, AI-powered music generation, and 7 creative plugins",
     long_description=long_description,
     long_description_content_type="text/markdown",
     url="https://github.com/yourusername/DAiW-Music-Brain",

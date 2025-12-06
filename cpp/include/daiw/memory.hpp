@@ -1,35 +1,46 @@
 /**
- * @file memory.hpp
- * @brief Real-time safe memory management for DAiW
+ * memory.hpp - Lock-free Memory Pool for DAiW
  *
- * Provides memory pools, ring buffers, and lock-free structures
- * suitable for audio thread usage.
+ * This header defines a thread-safe, lock-free memory pool implementation
+ * using intrusive linked list and compare-and-swap (CAS) operations.
+ *
+ * Thread Safety:
+ * - All operations are lock-free and safe for concurrent access
+ * - Uses atomic operations with proper memory ordering
+ * - Implements an intrusive lock-free stack for the free list
  */
 
 #pragma once
 
 #include <atomic>
 #include <cstddef>
-#include <cstdint>
 #include <memory>
-#include <new>
-#include <vector>
 
 namespace daiw {
 
-// =============================================================================
-// Memory Pool (Real-Time Safe Allocator)
-// =============================================================================
-
 /**
- * @brief Fixed-size memory pool for real-time allocation
+ * MemoryPool - Lock-free memory pool for fixed-size allocations
  *
- * Pre-allocates blocks of memory for O(1) allocation and deallocation
- * without malloc/free calls on the audio thread.
+ * Implements a lock-free stack using compare-and-swap operations.
+ * The free list is intrusive - each free block stores a pointer to
+ * the next free block in its first bytes.
+ *
+ * Requirements:
+ * - blockSize must be >= sizeof(void*) for the intrusive next pointer
+ * - All blocks are contiguous in memory for fast contains() check
  */
 class MemoryPool {
 public:
-    explicit MemoryPool(size_t blockSize, size_t numBlocks);
+    /**
+     * Construct a memory pool with fixed-size blocks.
+     * @param blockSize Size of each block in bytes (must be >= sizeof(void*))
+     * @param numBlocks Number of blocks in the pool
+     */
+    MemoryPool(size_t blockSize, size_t numBlocks);
+
+    /**
+     * Destructor - releases the underlying memory.
+     */
     ~MemoryPool();
 
     // Non-copyable, non-movable
@@ -39,176 +50,55 @@ public:
     MemoryPool& operator=(MemoryPool&&) = delete;
 
     /**
-     * @brief Allocate a block from the pool
+     * Allocate a block from the pool (lock-free).
      * @return Pointer to allocated block, or nullptr if pool exhausted
+     *
+     * Thread-safe: Uses CAS loop to pop from lock-free stack.
      */
-    [[nodiscard]] void* allocate() noexcept;
+    void* allocate() noexcept;
 
     /**
-     * @brief Return a block to the pool
+     * Return a block to the pool (lock-free).
      * @param ptr Pointer previously returned by allocate()
+     *
+     * Thread-safe: Uses CAS loop to push onto lock-free stack.
+     * Note: ptr must point to a block from this pool (checked via contains()).
      */
     void deallocate(void* ptr) noexcept;
 
     /**
-     * @brief Check if a pointer belongs to this pool
+     * Check if a pointer belongs to this pool.
+     * @param ptr Pointer to check
+     * @return true if ptr is within the pool's memory region
      */
-    [[nodiscard]] bool contains(void* ptr) const noexcept;
+    bool contains(void* ptr) const noexcept;
 
     /**
-     * @brief Get number of available blocks
+     * Get the number of free blocks (approximate).
+     * @return Approximate count of available blocks
+     *
+     * Note: This value may be stale in concurrent scenarios.
      */
-    [[nodiscard]] size_t availableBlocks() const noexcept;
+    size_t freeCount() const noexcept;
 
     /**
-     * @brief Get total number of blocks
+     * Get the total number of blocks in the pool.
+     * @return Total block count
      */
-    [[nodiscard]] size_t totalBlocks() const noexcept { return numBlocks_; }
+    size_t totalBlocks() const noexcept { return numBlocks_; }
 
     /**
-     * @brief Get block size
+     * Get the size of each block.
+     * @return Block size in bytes
      */
-    [[nodiscard]] size_t blockSize() const noexcept { return blockSize_; }
+    size_t blockSize() const noexcept { return blockSize_; }
 
 private:
-    std::unique_ptr<std::byte[]> memory_;
-    std::vector<void*> freeList_;
-    size_t blockSize_;
-    size_t numBlocks_;
-    std::atomic<size_t> freeCount_;
+    size_t blockSize_;                      ///< Size of each block
+    size_t numBlocks_;                      ///< Total number of blocks
+    std::unique_ptr<char[]> memory_;        ///< Underlying memory buffer
+    std::atomic<void*> freeListHead_;       ///< Head of lock-free free list stack
+    std::atomic<size_t> freeCount_;         ///< Approximate count of free blocks
 };
 
-// =============================================================================
-// Lock-Free Ring Buffer
-// =============================================================================
-
-/**
- * @brief SPSC (Single-Producer, Single-Consumer) lock-free ring buffer
- *
- * Safe for use between audio thread (producer) and GUI thread (consumer)
- * or vice versa.
- */
-template<typename T, size_t Capacity>
-class RingBuffer {
-public:
-    RingBuffer() : head_(0), tail_(0) {
-        static_assert((Capacity & (Capacity - 1)) == 0,
-                      "Capacity must be power of 2");
-    }
-
-    /**
-     * @brief Push an element to the buffer
-     * @return true if successful, false if buffer full
-     */
-    bool push(const T& item) noexcept {
-        const size_t head = head_.load(std::memory_order_relaxed);
-        const size_t nextHead = (head + 1) & (Capacity - 1);
-
-        if (nextHead == tail_.load(std::memory_order_acquire)) {
-            return false;  // Buffer full
-        }
-
-        buffer_[head] = item;
-        head_.store(nextHead, std::memory_order_release);
-        return true;
-    }
-
-    /**
-     * @brief Pop an element from the buffer
-     * @param[out] item Destination for the popped element
-     * @return true if successful, false if buffer empty
-     */
-    bool pop(T& item) noexcept {
-        const size_t tail = tail_.load(std::memory_order_relaxed);
-
-        if (tail == head_.load(std::memory_order_acquire)) {
-            return false;  // Buffer empty
-        }
-
-        item = buffer_[tail];
-        tail_.store((tail + 1) & (Capacity - 1), std::memory_order_release);
-        return true;
-    }
-
-    /**
-     * @brief Check if buffer is empty
-     */
-    [[nodiscard]] bool empty() const noexcept {
-        return head_.load(std::memory_order_acquire) ==
-               tail_.load(std::memory_order_acquire);
-    }
-
-    /**
-     * @brief Get number of elements in buffer
-     */
-    [[nodiscard]] size_t size() const noexcept {
-        const size_t head = head_.load(std::memory_order_acquire);
-        const size_t tail = tail_.load(std::memory_order_acquire);
-        return (head - tail) & (Capacity - 1);
-    }
-
-    /**
-     * @brief Clear the buffer
-     */
-    void clear() noexcept {
-        head_.store(0, std::memory_order_release);
-        tail_.store(0, std::memory_order_release);
-    }
-
-private:
-    alignas(64) std::atomic<size_t> head_;
-    alignas(64) std::atomic<size_t> tail_;
-    T buffer_[Capacity];
-};
-
-// =============================================================================
-// Lock-Free Queue (MPSC - Multiple Producer, Single Consumer)
-// =============================================================================
-
-/**
- * @brief Node for lock-free queue
- */
-template<typename T>
-struct QueueNode {
-    T data;
-    std::atomic<QueueNode*> next{nullptr};
-
-    explicit QueueNode(const T& d) : data(d) {}
-};
-
-/**
- * @brief MPSC lock-free queue for event passing
- *
- * Useful for sending events from multiple GUI threads to the audio thread.
- */
-template<typename T>
-class LockFreeQueue {
-public:
-    LockFreeQueue();
-    ~LockFreeQueue();
-
-    LockFreeQueue(const LockFreeQueue&) = delete;
-    LockFreeQueue& operator=(const LockFreeQueue&) = delete;
-
-    /**
-     * @brief Push an item (multiple producers OK)
-     */
-    void push(const T& item);
-
-    /**
-     * @brief Pop an item (single consumer only)
-     * @return true if item was popped
-     */
-    bool pop(T& item);
-
-    /**
-     * @brief Check if queue is empty
-     */
-    [[nodiscard]] bool empty() const noexcept;
-
-private:
-    std::atomic<QueueNode<T>*> head_;
-    QueueNode<T>* tail_;
-};
-
-}  // namespace daiw
+} // namespace daiw

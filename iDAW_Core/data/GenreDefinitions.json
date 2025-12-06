@@ -1,0 +1,176 @@
+{
+  "metadata": {
+    "version": "1.0.0",
+    "description": "Genre DNA Definitions for iDAW Dual Engine",
+    "author": "iDAW Team",
+    "purpose": "Velocity/Harmonic rules parsed by Python side for MIDI generation"
+  },
+  "genres": {
+    "lofi_hiphop": {
+      "name": "Lo-Fi Hip Hop",
+      "bpm_range": [70, 90],
+      "time_signature": "4/4",
+      "swing_factor": 0.62,
+      "velocity": {
+        "base": 75,
+        "range": [45, 95],
+        "ghost_note_velocity": 35,
+        "accent_velocity": 100,
+        "humanization": 0.15
+      },
+      "harmony": {
+        "preferred_modes": ["dorian", "minor", "mixolydian"],
+        "chord_extensions": ["7", "9", "add9"],
+        "borrowed_chords": ["bVII", "iv", "bVI"],
+        "dissonance_tolerance": 0.4,
+        "voice_leading": "smooth"
+      },
+      "rhythm": {
+        "grid_resolution": 16,
+        "gate_default": 0.75,
+        "timing_offset_ms": 15,
+        "pocket_style": "behind"
+      },
+      "texture": {
+        "density": "sparse",
+        "layer_count": [2, 4],
+        "frequency_range": "mid_focused"
+      },
+      "emotional_tags": ["nostalgia", "melancholy", "calm", "introspective"],
+      "rule_breaks_allowed": [
+        "HARMONY_ModalInterchange",
+        "RHYTHM_TempoFluctuation",
+        "PRODUCTION_LoFiDegradation"
+      ]
+    },
+    "synthwave": {
+      "name": "Synthwave",
+      "bpm_range": [100, 130],
+      "time_signature": "4/4",
+      "swing_factor": 0.50,
+      "velocity": {
+        "base": 90,
+        "range": [70, 120],
+        "ghost_note_velocity": 50,
+        "accent_velocity": 127,
+        "humanization": 0.05
+      },
+      "harmony": {
+        "preferred_modes": ["minor", "phrygian", "harmonic_minor"],
+        "chord_extensions": ["sus4", "add9", "power"],
+        "borrowed_chords": ["bVI", "bVII", "bIII"],
+        "dissonance_tolerance": 0.3,
+        "voice_leading": "parallel"
+      },
+      "rhythm": {
+        "grid_resolution": 8,
+        "gate_default": 0.85,
+        "timing_offset_ms": 0,
+        "pocket_style": "on_grid"
+      },
+      "texture": {
+        "density": "full",
+        "layer_count": [4, 8],
+        "frequency_range": "full_spectrum"
+      },
+      "emotional_tags": ["nostalgia", "epic", "driving", "cinematic"],
+      "rule_breaks_allowed": [
+        "HARMONY_ParallelMotion",
+        "ARRANGEMENT_ExtremeDynamicRange",
+        "PRODUCTION_Distortion"
+      ]
+    },
+    "jazz_fusion": {
+      "name": "Jazz Fusion",
+      "bpm_range": [90, 160],
+      "time_signature": "4/4",
+      "swing_factor": 0.58,
+      "velocity": {
+        "base": 80,
+        "range": [40, 110],
+        "ghost_note_velocity": 30,
+        "accent_velocity": 105,
+        "humanization": 0.25
+      },
+      "harmony": {
+        "preferred_modes": ["dorian", "lydian", "mixolydian", "altered"],
+        "chord_extensions": ["7", "9", "11", "13", "alt"],
+        "borrowed_chords": ["bII7", "subV", "tritone_sub"],
+        "dissonance_tolerance": 0.7,
+        "voice_leading": "chromatic"
+      },
+      "rhythm": {
+        "grid_resolution": 16,
+        "gate_default": 0.60,
+        "timing_offset_ms": 8,
+        "pocket_style": "ahead"
+      },
+      "texture": {
+        "density": "moderate",
+        "layer_count": [3, 6],
+        "frequency_range": "extended"
+      },
+      "emotional_tags": ["sophisticated", "complex", "energetic", "virtuosic"],
+      "rule_breaks_allowed": [
+        "HARMONY_TritoneSubstitution",
+        "HARMONY_Polytonality",
+        "RHYTHM_MetricModulation",
+        "RHYTHM_PolyrhythmicLayers"
+      ]
+    }
+  },
+  "rejection_protocol": {
+    "description": "Innovation Protocol triggered after 3 rejections",
+    "max_rejections": 3,
+    "innovation_strategies": [
+      {
+        "name": "Rule Break",
+        "description": "Suggest breaking a genre rule for creative effect",
+        "implementation": "Select random rule from genre.rule_breaks_allowed"
+      },
+      {
+        "name": "Ghost Track",
+        "description": "Generate a parallel track in different key/time",
+        "key_offset": [3, 5, 7],
+        "time_signature_alternatives": ["3/4", "5/4", "6/8"]
+      },
+      {
+        "name": "Modal Shift",
+        "description": "Shift to parallel or relative mode",
+        "shifts": ["parallel_minor", "parallel_major", "relative_minor", "lydian_bright"]
+      }
+    ]
+  },
+  "knob_mappings": {
+    "chaos": {
+      "min": 0.0,
+      "max": 1.0,
+      "affects": ["velocity.humanization", "timing_offset_ms", "dissonance_tolerance"],
+      "description": "Controls randomization and unpredictability"
+    },
+    "complexity": {
+      "min": 0.0,
+      "max": 1.0,
+      "affects": ["chord_extensions", "layer_count", "grid_resolution"],
+      "description": "Controls harmonic and rhythmic complexity"
+    },
+    "grid": {
+      "min": 4,
+      "max": 32,
+      "affects": ["grid_resolution"],
+      "description": "Quantization grid resolution"
+    },
+    "gate": {
+      "min": 0.1,
+      "max": 1.0,
+      "affects": ["gate_default"],
+      "description": "Note length as fraction of grid"
+    },
+    "swing": {
+      "min": 0.5,
+      "max": 0.75,
+      "affects": ["swing_factor"],
+      "description": "Swing amount (0.5 = straight, 0.67 = triplet)"
+    }
+  }
+}

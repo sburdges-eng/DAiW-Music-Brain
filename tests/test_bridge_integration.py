@@ -94,14 +94,14 @@ def test_render_bridge_success(mock_parse, MockLogicProject, mock_plan):
 @patch("music_brain.daw.logic.LogicProject")
 @patch("music_brain.structure.progression.parse_progression_string")
 def test_render_bridge_creates_harmony_track(mock_parse, MockLogicProject, mock_plan):
-    """Bridge should create a Harmony track."""
+    """Bridge should create harmony track."""
     mock_project_instance = MockLogicProject.return_value
     mock_project_instance.export_midi.return_value = "output.mid"
     mock_project_instance.ppq = 480
 
     mock_chord = MagicMock()
     mock_chord.root_num = 0
-    mock_chord.quality = "min7"
+    mock_chord.quality = "min7"  # 4-note chord
     mock_parse.return_value = [mock_chord, mock_chord]
 
     render_plan_to_midi(mock_plan, "output.mid")
@@ -114,8 +114,8 @@ def test_render_bridge_creates_harmony_track(mock_parse, MockLogicProject, mock_
 
 @patch("music_brain.daw.logic.LogicProject")
 @patch("music_brain.structure.progression.parse_progression_string")
-def test_render_bridge_processes_chord_progression(mock_parse, MockLogicProject, mock_plan):
-    """Bridge should process chord progression correctly."""
+def test_render_bridge_single_track(mock_parse, MockLogicProject, mock_plan):
+    """Bridge should create single harmony track."""
     mock_project_instance = MockLogicProject.return_value
     mock_project_instance.export_midi.return_value = "output.mid"
     mock_project_instance.ppq = 480
@@ -127,8 +127,11 @@ def test_render_bridge_processes_chord_progression(mock_parse, MockLogicProject,
 
     render_plan_to_midi(mock_plan, "output.mid")
 
-    # Verify parse_progression_string was called with the chord symbols
-    mock_parse.assert_called_once()
+    calls = mock_project_instance.add_track.call_args_list
+    track_names = [call[1].get("name") for call in calls]
+
+    assert "Harmony" in track_names
+    assert len(calls) == 1  # Only one track created
 
 
 def test_render_bridge_handles_import_error(mock_plan):
@@ -147,7 +150,6 @@ def test_render_bridge_handles_empty_progression(mock_parse, MockLogicProject, m
     mock_project_instance = MockLogicProject.return_value
     mock_project_instance.export_midi.return_value = "output.mid"
     mock_project_instance.ppq = 480
-
     mock_parse.return_value = []  # No chords parsed
 
     output = render_plan_to_midi(mock_plan, "output.mid")
@@ -170,7 +172,7 @@ def test_harmony_plan_time_signature_parsing():
         length_bars=4,
         chord_symbols=["Cm", "Fm"],
         harmonic_rhythm="1_chord_per_bar",
-        mood_profile="neutral",
+        mood_profile="grief",
         complexity=0.5,
     )
     assert plan.time_signature == "3/4"
@@ -183,14 +185,14 @@ def test_harmony_plan_time_signature_parsing():
         length_bars=4,
         chord_symbols=["Cm", "Fm"],
         harmonic_rhythm="1_chord_per_bar",
-        mood_profile="neutral",
+        mood_profile="grief",
         complexity=0.5,
     )
     assert plan6.time_signature == "6/8"
 
 
 def test_harmony_plan_chord_symbols_default():
-    """Chord symbols should be used from HarmonyPlan."""
+    """Chord symbols should be preserved when provided."""
     plan = HarmonyPlan(
         root_note="D",
         mode="minor",
@@ -199,7 +201,7 @@ def test_harmony_plan_chord_symbols_default():
         length_bars=4,
         chord_symbols=["Dm", "Gm", "Am", "Dm"],
         harmonic_rhythm="1_chord_per_bar",
-        mood_profile="neutral",
+        mood_profile="grief",
         complexity=0.5,
     )
     assert len(plan.chord_symbols) > 0
@@ -209,7 +211,7 @@ def test_harmony_plan_chord_symbols_default():
 
 
 def test_harmony_plan_major_progression():
-    """Major mode should have appropriate chords."""
+    """Major mode should contain appropriate chords."""
     plan = HarmonyPlan(
         root_note="G",
         mode="ionian",
@@ -218,8 +220,8 @@ def test_harmony_plan_major_progression():
         length_bars=4,
         chord_symbols=["G", "C", "D", "G"],
         harmonic_rhythm="1_chord_per_bar",
-        mood_profile="neutral",
-        complexity=0.5,
+        mood_profile="tenderness",
+        complexity=0.3,
     )
     assert len(plan.chord_symbols) > 0
 
@@ -245,7 +247,7 @@ def test_full_therapy_to_plan_flow():
     assert session.state.affect_result.primary == "grief"
     assert session.state.suggested_mode == "aeolian"
 
-    # Set scales (positional arguments: motivation, chaos)
+    # Set scales (positional args: motivation, chaos)
     session.set_scales(7, 0.3)
 
     # Generate plan

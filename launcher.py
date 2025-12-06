@@ -1,9 +1,12 @@
 # launcher.py
 """
-DAiW Native Desktop Launcher
+iDAW Native Desktop Launcher
 
 pywebview wrapper that makes the Streamlit app feel like a real desktop application.
 Handles server lifecycle and provides a native window without browser chrome.
+
+Version: 1.0.0
+Codename: Dual Engine
 """
 import os
 import sys
@@ -13,7 +16,8 @@ import subprocess
 import urllib.request
 from contextlib import closing
 
-APP_TITLE = "DAiW - Digital Audio Intimate Workstation"
+APP_TITLE = "iDAW - Intelligent Digital Audio Workstation"
+APP_VERSION = "1.0.0"
 STREAMLIT_SCRIPT = "app.py"
 
 
@@ -88,20 +92,38 @@ def start_webview(url: str) -> None:
 
 
 def main() -> None:
+    """
+    Main entry point for the iDAW desktop application.
+    
+    Launches the Streamlit backend server and opens a native window
+    using pywebview (falls back to browser if not available).
+    """
+    print(f"\n{'='*60}")
+    print(f"  iDAW - Intelligent Digital Audio Workstation")
+    print(f"  Version {APP_VERSION} (Dual Engine)")
+    print(f"{'='*60}\n")
+    
     port = find_free_port()
     url = f"http://localhost:{port}"
-
+    
+    print(f"[iDAW] Starting Streamlit server on port {port}...")
     process = run_streamlit(port)
 
+    print(f"[iDAW] Waiting for server to be ready...")
     if not wait_for_server(url):
         process.terminate()
         raise RuntimeError(f"Streamlit server failed to start at {url}")
 
+    print(f"[iDAW] Server ready at {url}")
+    print(f"[iDAW] Opening native window...")
+    
     try:
         start_webview(url)
     finally:
+        print(f"[iDAW] Shutting down server...")
         process.terminate()
         process.wait()
+        print(f"[iDAW] Goodbye!")
 
 
 if __name__ == "__main__":

@@ -76,3 +76,31 @@ Thumbs.db
 output.mid
 *.mid.bak
 _codeql*
+_codeql_detected_source_root
+
+# C++ Build Artifacts
+*.o
+*.a
+*.dylib
+*.dll
+CMakeCache.txt
+CMakeFiles/
+cmake_install.cmake
+Makefile
+compile_commands.json
+*.pdb
+*.ilk
+*.exp
+*.lib
+
+# IDE/Build directories for C++
+out/
+cmake-build-*/
+_deps/
+
+# CodeQL temporary files
+_codeql_detected_source_root
+
+# pybind11 generated modules
+idaw_bridge*.so
+idaw_bridge*.pyd

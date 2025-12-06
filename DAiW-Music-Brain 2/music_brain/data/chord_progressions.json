@@ -1,0 +1,268 @@
+{
+  "metadata": {
+    "name": "Chord Progressions Database",
+    "version": "1.0.0",
+    "description": "Common chord progressions organized by function and emotion"
+  },
+  
+  "progressions_by_function": {
+    "turnarounds": {
+      "description": "Progressions that return to tonic",
+      "examples": [
+        {
+          "name": "Classic Turnaround",
+          "numerals": ["I", "vi", "ii", "V"],
+          "example_C": ["C", "Am", "Dm", "G"],
+          "genres": ["jazz", "pop", "doo-wop"]
+        },
+        {
+          "name": "50s Progression",
+          "numerals": ["I", "vi", "IV", "V"],
+          "example_C": ["C", "Am", "F", "G"],
+          "genres": ["50s rock", "pop ballads"]
+        },
+        {
+          "name": "Jazz Turnaround",
+          "numerals": ["I", "VI7", "ii", "V7"],
+          "example_C": ["Cmaj7", "A7", "Dm7", "G7"],
+          "genres": ["jazz", "swing"]
+        }
+      ]
+    },
+    
+    "cadences": {
+      "description": "Resolution patterns",
+      "examples": [
+        {
+          "name": "Authentic (Perfect)",
+          "numerals": ["V", "I"],
+          "function": "Strongest resolution"
+        },
+        {
+          "name": "Plagal",
+          "numerals": ["IV", "I"],
+          "function": "Amen cadence, softer resolution"
+        },
+        {
+          "name": "Deceptive",
+          "numerals": ["V", "vi"],
+          "function": "Unexpected, avoids resolution"
+        },
+        {
+          "name": "Half",
+          "numerals": ["I", "V"],
+          "function": "Incomplete, creates anticipation"
+        },
+        {
+          "name": "Backdoor",
+          "numerals": ["bVII", "I"],
+          "function": "Mixolydian resolution"
+        }
+      ]
+    },
+    
+    "vamps": {
+      "description": "Repeating progressions for groove",
+      "examples": [
+        {
+          "name": "Two Chord Vamp",
+          "numerals": ["I", "IV"],
+          "genres": ["funk", "soul", "gospel"]
+        },
+        {
+          "name": "Minor Vamp",
+          "numerals": ["i", "bVII"],
+          "genres": ["rock", "metal"]
+        },
+        {
+          "name": "Dorian Vamp",
+          "numerals": ["i", "IV"],
+          "genres": ["funk", "jazz-fusion"]
+        }
+      ]
+    }
+  },
+  
+  "progressions_by_emotion": {
+    "triumphant": [
+      {
+        "numerals": ["I", "V", "vi", "IV"],
+        "name": "Axis Progression",
+        "notes": "Most used progression in modern pop"
+      },
+      {
+        "numerals": ["I", "IV", "V", "IV"],
+        "name": "Anthem",
+        "notes": "Never resolves to vi, stays bright"
+      }
+    ],
+    
+    "melancholy": [
+      {
+        "numerals": ["vi", "IV", "I", "V"],
+        "name": "Sad Axis",
+        "notes": "Same chords, minor emphasis"
+      },
+      {
+        "numerals": ["i", "bVI", "bIII", "bVII"],
+        "name": "Aeolian Descent",
+        "notes": "All minor mode, descending feel"
+      }
+    ],
+    
+    "bittersweet": [
+      {
+        "numerals": ["I", "V", "vi", "iv"],
+        "name": "Minor Four Twist",
+        "notes": "Borrowed iv creates the bittersweetness"
+      },
+      {
+        "numerals": ["I", "IV", "iv", "I"],
+        "name": "Creep Progression",
+        "notes": "Major to minor four to tonic"
+      }
+    ],
+    
+    "mysterious": [
+      {
+        "numerals": ["i", "bII", "i", "bVII"],
+        "name": "Phrygian Color",
+        "notes": "bII adds Spanish/exotic quality"
+      },
+      {
+        "numerals": ["i", "bVI", "bVII", "i"],
+        "name": "Minor Plagal",
+        "notes": "Circular minor motion"
+      }
+    ],
+    
+    "epic": [
+      {
+        "numerals": ["I", "bVI", "bVII", "I"],
+        "name": "Mario Cadence",
+        "notes": "Borrowed bVI and bVII for cinematic feel"
+      },
+      {
+        "numerals": ["i", "bVI", "bIII", "bVII"],
+        "name": "Epic Minor",
+        "notes": "Aeolian with all major borrowed chords"
+      }
+    ]
+  },
+  
+  "progressions_by_genre": {
+    "jazz": [
+      {
+        "name": "ii-V-I",
+        "numerals": ["ii7", "V7", "Imaj7"],
+        "notes": "Foundation of jazz harmony"
+      },
+      {
+        "name": "Rhythm Changes A Section",
+        "numerals": ["I", "vi", "ii", "V"],
+        "notes": "Based on 'I Got Rhythm'"
+      },
+      {
+        "name": "Coltrane Changes",
+        "numerals": ["I", "bIII7", "bVI7", "bII7"],
+        "notes": "Major third root motion"
+      }
+    ],
+    
+    "blues": [
+      {
+        "name": "12-Bar Blues",
+        "numerals": ["I", "I", "I", "I", "IV", "IV", "I", "I", "V", "IV", "I", "V"],
+        "notes": "Standard blues form"
+      },
+      {
+        "name": "Quick Change",
+        "numerals": ["I", "IV", "I", "I"],
+        "notes": "IV in bar 2"
+      }
+    ],
+    
+    "rock": [
+      {
+        "name": "Classic Rock",
+        "numerals": ["I", "bVII", "IV", "I"],
+        "notes": "Mixolydian influenced"
+      },
+      {
+        "name": "Grunge",
+        "numerals": ["I", "bVI", "bVII", "V"],
+        "notes": "Dark rock with borrowed chords"
+      }
+    ],
+    
+    "pop": [
+      {
+        "name": "Four Chord Song",
+        "numerals": ["I", "V", "vi", "IV"],
+        "notes": "The axis progression"
+      },
+      {
+        "name": "Sensitive",
+        "numerals": ["vi", "IV", "I", "V"],
+        "notes": "Minor start, same chords"
+      }
+    ],
+    
+    "edm": [
+      {
+        "name": "EDM Anthem",
+        "numerals": ["vi", "IV", "I", "V"],
+        "notes": "Standard build progression"
+      },
+      {
+        "name": "Trance",
+        "numerals": ["i", "bVI", "bVII", "i"],
+        "notes": "Minor with borrowed majors"
+      }
+    ]
+  },
+  
+  "modal_progressions": {
+    "dorian": {
+      "characteristic": "Minor with major IV",
+      "examples": [
+        ["i", "IV", "i", "IV"],
+        ["i", "IV", "bVII", "i"]
+      ]
+    },
+    "phrygian": {
+      "characteristic": "Minor with bII",
+      "examples": [
+        ["i", "bII", "i", "bVII"],
+        ["i", "bII", "bIII", "i"]
+      ]
+    },
+    "lydian": {
+      "characteristic": "Major with #IV",
+      "examples": [
+        ["I", "II", "I", "II"],
+        ["I", "#IVdim", "V", "I"]
+      ]
+    },
+    "mixolydian": {
+      "characteristic": "Major with bVII",
+      "examples": [
+        ["I", "bVII", "IV", "I"],
+        ["I", "bVII", "I", "bVII"]
+      ]
+    },
+    "aeolian": {
+      "characteristic": "Natural minor",
+      "examples": [
+        ["i", "bVI", "bVII", "i"],
+        ["i", "bVII", "bVI", "bVII"]
+      ]
+    },
+    "locrian": {
+      "characteristic": "Diminished tonic (rarely used)",
+      "examples": [
+        ["idim", "bII", "idim", "bII"]
+      ]
+    }
+  }
+}

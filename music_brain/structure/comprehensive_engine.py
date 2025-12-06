@@ -346,16 +346,15 @@ def render_plan_to_midi(plan: HarmonyPlan, output_path: str) -> str:
 
     note_events: List[NoteEvent] = []
 
-    # naive: one chord per bar, LOOPED to fill song length
-    start_tick = 0
-    current_bar = 0
-    total_bars = plan.length_bars
-
     # Handle empty progression gracefully
     if not parsed_chords:
-        # No chords to process - create empty track
-        print("[SYSTEM]: Warning: Empty chord progression, creating track with no notes")
+        print("[SYSTEM]: Warning - no chords parsed, skipping note generation")
     else:
+        # naive: one chord per bar, LOOPED to fill song length
+        start_tick = 0
+        current_bar = 0
+        total_bars = plan.length_bars
+
         while current_bar < total_bars:
             for parsed in parsed_chords:
                 if current_bar >= total_bars:
