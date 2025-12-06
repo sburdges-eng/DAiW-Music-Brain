@@ -1,0 +1,1127 @@
+{
+  "version": "1.0.0",
+  "description": "Instrument database for AI-powered learning",
+  "instruments": {
+    "piano": {
+      "id": "piano",
+      "name": "Piano",
+      "family": "KEYBOARD",
+      "aliases": [
+        "keyboard",
+        "keys",
+        "pianoforte"
+      ],
+      "beginner_friendly": true,
+      "solo_instrument": true,
+      "ensemble_instrument": true,
+      "requires_accompaniment": false,
+      "minimum_age": 4,
+      "physical_demands": "low",
+      "requires_both_hands": true,
+      "requires_breath": false,
+      "days_to_first_song": 3,
+      "months_to_intermediate": 18,
+      "skill_ceiling": "very_high",
+      "starter_cost_usd": [
+        200,
+        800
+      ],
+      "needs_amplification": false,
+      "portable": false,
+      "common_challenges": [
+        "Hand independence - playing different rhythms with each hand",
+        "Reading two clefs simultaneously",
+        "Developing finger strength and dexterity",
+        "Pedal technique and timing",
+        "Playing expressively while maintaining technique"
+      ],
+      "first_skills": [
+        "Hand position and posture",
+        "Finding and naming notes on the keyboard",
+        "Playing simple 5-finger patterns",
+        "Basic rhythm and counting",
+        "Reading single-line melodies"
+      ],
+      "practice_tips": [
+        "Start with hands separately before combining",
+        "Practice slowly with a metronome",
+        "Focus on problem spots, not just playing through",
+        "Spend time on scales and arpeggios daily",
+        "Listen to recordings of pieces you're learning"
+      ],
+      "primary_genres": [
+        "classical",
+        "jazz",
+        "pop",
+        "rock",
+        "blues",
+        "gospel"
+      ],
+      "related_instruments": [
+        "organ",
+        "synthesizer",
+        "electric_piano"
+      ]
+    },
+    "synthesizer": {
+      "id": "synthesizer",
+      "name": "Synthesizer",
+      "family": "ELECTRONIC",
+      "aliases": [
+        "synth",
+        "keyboard synth",
+        "analog synth",
+        "digital synth"
+      ],
+      "beginner_friendly": true,
+      "solo_instrument": true,
+      "ensemble_instrument": true,
+      "requires_accompaniment": false,
+      "minimum_age": 8,
+      "physical_demands": "low",
+      "requires_both_hands": true,
+      "requires_breath": false,
+      "days_to_first_song": 1,
+      "months_to_intermediate": 12,
+      "skill_ceiling": "very_high",
+      "starter_cost_usd": [
+        150,
+        600
+      ],
+      "needs_amplification": true,
+      "portable": true,
+      "common_challenges": [
+        "Understanding synthesis concepts (oscillators, filters, envelopes)",
+        "Sound design vs. playing technique",
+        "Managing patches and presets",
+        "MIDI and DAW integration",
+        "Avoiding preset dependency"
+      ],
+      "first_skills": [
+        "Basic keyboard technique",
+        "Understanding subtractive synthesis",
+        "Using presets effectively",
+        "Basic MIDI concepts",
+        "Creating simple patches"
+      ],
+      "practice_tips": [
+        "Learn piano basics alongside synthesis",
+        "Start with subtractive synthesis fundamentals",
+        "Recreate sounds you hear in music",
+        "Document your patches",
+        "Practice programming as much as playing"
+      ],
+      "primary_genres": [
+        "electronic",
+        "pop",
+        "film_score",
+        "ambient",
+        "experimental"
+      ],
+      "related_instruments": [
+        "piano",
+        "organ",
+        "drum_machine"
+      ]
+    },
+    "acoustic_guitar": {
+      "id": "acoustic_guitar",
+      "name": "Acoustic Guitar",
+      "family": "FRETTED",
+      "aliases": [
+        "guitar",
+        "steel-string guitar",
+        "folk guitar"
+      ],
+      "beginner_friendly": true,
+      "solo_instrument": true,
+      "ensemble_instrument": true,
+      "requires_accompaniment": false,
+      "minimum_age": 6,
+      "physical_demands": "medium",
+      "requires_both_hands": true,
+      "requires_breath": false,
+      "days_to_first_song": 7,
+      "months_to_intermediate": 12,
+      "skill_ceiling": "very_high",
+      "starter_cost_usd": [
+        100,
+        400
+      ],
+      "needs_amplification": false,
+      "portable": true,
+      "common_challenges": [
+        "Finger pain during callus development",
+        "Chord transitions, especially barre chords",
+        "Strumming patterns and rhythm",
+        "Finger independence for fingerpicking",
+        "Tuning and intonation"
+      ],
+      "first_skills": [
+        "Proper posture and hand position",
+        "Tuning the guitar",
+        "Open chords: G, C, D, E, A",
+        "Basic strumming patterns",
+        "Simple chord progressions"
+      ],
+      "practice_tips": [
+        "Short, frequent sessions while building calluses",
+        "Practice chord changes slowly and accurately",
+        "Use a metronome for strumming patterns",
+        "Learn songs you love to stay motivated",
+        "Focus on clean, buzzes-free notes"
+      ],
+      "primary_genres": [
+        "folk",
+        "country",
+        "rock",
+        "pop",
+        "singer-songwriter"
+      ],
+      "related_instruments": [
+        "electric_guitar",
+        "ukulele",
+        "bass"
+      ]
+    },
+    "electric_guitar": {
+      "id": "electric_guitar",
+      "name": "Electric Guitar",
+      "family": "FRETTED",
+      "aliases": [
+        "e-guitar",
+        "solid body guitar"
+      ],
+      "beginner_friendly": true,
+      "solo_instrument": true,
+      "ensemble_instrument": true,
+      "requires_accompaniment": false,
+      "minimum_age": 7,
+      "physical_demands": "medium",
+      "requires_both_hands": true,
+      "requires_breath": false,
+      "days_to_first_song": 7,
+      "months_to_intermediate": 12,
+      "skill_ceiling": "very_high",
+      "starter_cost_usd": [
+        150,
+        500
+      ],
+      "needs_amplification": true,
+      "portable": true,
+      "common_challenges": [
+        "String bending and vibrato technique",
+        "Managing amplifier tone and effects",
+        "Muting unwanted string noise",
+        "Speed and accuracy for lead playing",
+        "Barre chord stamina"
+      ],
+      "first_skills": [
+        "Basic chord shapes",
+        "Power chords",
+        "Palm muting",
+        "Simple riffs and licks",
+        "Using an amplifier"
+      ],
+      "practice_tips": [
+        "Practice both clean and with distortion",
+        "Work on muting technique early",
+        "Learn songs in styles you enjoy",
+        "Record yourself to identify issues",
+        "Practice standing if you plan to perform"
+      ],
+      "primary_genres": [
+        "rock",
+        "blues",
+        "metal",
+        "jazz",
+        "funk",
+        "pop"
+      ],
+      "related_instruments": [
+        "acoustic_guitar",
+        "bass",
+        "ukulele"
+      ]
+    },
+    "bass": {
+      "id": "bass",
+      "name": "Bass Guitar",
+      "family": "FRETTED",
+      "aliases": [
+        "electric bass",
+        "bass guitar",
+        "4-string"
+      ],
+      "beginner_friendly": true,
+      "solo_instrument": false,
+      "ensemble_instrument": true,
+      "requires_accompaniment": false,
+      "minimum_age": 8,
+      "physical_demands": "medium",
+      "requires_both_hands": true,
+      "requires_breath": false,
+      "days_to_first_song": 3,
+      "months_to_intermediate": 12,
+      "skill_ceiling": "very_high",
+      "starter_cost_usd": [
+        150,
+        400
+      ],
+      "needs_amplification": true,
+      "portable": true,
+      "common_challenges": [
+        "Developing finger strength for thicker strings",
+        "Locking in with the drummer",
+        "Understanding the harmonic role of bass",
+        "Slap and pop technique",
+        "Reading bass clef"
+      ],
+      "first_skills": [
+        "Proper fingering technique",
+        "Root notes of common chords",
+        "Basic rhythmic patterns",
+        "Playing with a drummer/metronome",
+        "Simple walking bass lines"
+      ],
+      "practice_tips": [
+        "Always practice with a metronome or drum track",
+        "Focus on groove before speed",
+        "Learn to listen to the whole band",
+        "Study bass lines in songs you love",
+        "Practice standing with a strap"
+      ],
+      "primary_genres": [
+        "rock",
+        "funk",
+        "jazz",
+        "r&b",
+        "metal",
+        "pop"
+      ],
+      "related_instruments": [
+        "electric_guitar",
+        "upright_bass"
+      ]
+    },
+    "ukulele": {
+      "id": "ukulele",
+      "name": "Ukulele",
+      "family": "FRETTED",
+      "aliases": [
+        "uke",
+        "soprano ukulele"
+      ],
+      "beginner_friendly": true,
+      "solo_instrument": true,
+      "ensemble_instrument": true,
+      "requires_accompaniment": false,
+      "minimum_age": 4,
+      "physical_demands": "low",
+      "requires_both_hands": true,
+      "requires_breath": false,
+      "days_to_first_song": 1,
+      "months_to_intermediate": 6,
+      "skill_ceiling": "medium",
+      "starter_cost_usd": [
+        30,
+        150
+      ],
+      "needs_amplification": false,
+      "portable": true,
+      "common_challenges": [
+        "Developing calluses (less severe than guitar)",
+        "Transitioning between chords smoothly",
+        "Strumming with the fingers",
+        "Intonation on cheaper instruments",
+        "Understanding the re-entrant tuning"
+      ],
+      "first_skills": [
+        "Tuning (G-C-E-A)",
+        "Basic chords: C, G, Am, F",
+        "Simple strumming patterns",
+        "Fingerpicking basics",
+        "Playing and singing simultaneously"
+      ],
+      "practice_tips": [
+        "Perfect for short practice sessions",
+        "Great for learning music theory basics",
+        "Practice chord changes before strumming",
+        "Invest in a good tuner",
+        "Take it everywhere - it's portable!"
+      ],
+      "primary_genres": [
+        "hawaiian",
+        "folk",
+        "pop",
+        "indie"
+      ],
+      "related_instruments": [
+        "acoustic_guitar",
+        "mandolin"
+      ]
+    },
+    "drums": {
+      "id": "drums",
+      "name": "Drum Kit",
+      "family": "PERCUSSION",
+      "aliases": [
+        "drum set",
+        "drum kit",
+        "trap set",
+        "kit"
+      ],
+      "beginner_friendly": true,
+      "solo_instrument": false,
+      "ensemble_instrument": true,
+      "requires_accompaniment": false,
+      "minimum_age": 5,
+      "physical_demands": "high",
+      "requires_both_hands": true,
+      "requires_breath": false,
+      "days_to_first_song": 3,
+      "months_to_intermediate": 12,
+      "skill_ceiling": "very_high",
+      "starter_cost_usd": [
+        300,
+        800
+      ],
+      "needs_amplification": false,
+      "portable": false,
+      "common_challenges": [
+        "Limb independence - different patterns with each limb",
+        "Maintaining consistent tempo",
+        "Developing speed and endurance",
+        "Managing dynamics and touch",
+        "Noise/practice space issues"
+      ],
+      "first_skills": [
+        "Proper grip and stroke technique",
+        "Basic rock beats",
+        "Playing with a metronome",
+        "Rudiments: single stroke, double stroke",
+        "Hi-hat, snare, and kick coordination"
+      ],
+      "practice_tips": [
+        "Practice pad work for quiet practice",
+        "Start slow with a metronome, increase gradually",
+        "Work on rudiments daily",
+        "Play along with music",
+        "Record yourself to check timing"
+      ],
+      "primary_genres": [
+        "rock",
+        "jazz",
+        "pop",
+        "funk",
+        "metal",
+        "hip-hop"
+      ],
+      "related_instruments": [
+        "percussion",
+        "cajon",
+        "electronic_drums"
+      ]
+    },
+    "cajon": {
+      "id": "cajon",
+      "name": "Caj\u00f3n",
+      "family": "PERCUSSION",
+      "aliases": [
+        "box drum",
+        "cajon"
+      ],
+      "beginner_friendly": true,
+      "solo_instrument": true,
+      "ensemble_instrument": true,
+      "requires_accompaniment": false,
+      "minimum_age": 5,
+      "physical_demands": "medium",
+      "requires_both_hands": true,
+      "requires_breath": false,
+      "days_to_first_song": 1,
+      "months_to_intermediate": 6,
+      "skill_ceiling": "medium",
+      "starter_cost_usd": [
+        50,
+        200
+      ],
+      "needs_amplification": false,
+      "portable": true,
+      "common_challenges": [
+        "Developing different tones (bass, slap, tone)",
+        "Maintaining good posture while playing",
+        "Building hand endurance",
+        "Ghost notes and dynamics"
+      ],
+      "first_skills": [
+        "Sitting position and posture",
+        "Bass tone (center of the playing surface)",
+        "Slap tone (top edges)",
+        "Basic rock and folk patterns",
+        "Playing with brushes"
+      ],
+      "practice_tips": [
+        "Listen for distinct bass and slap tones",
+        "Start with simple patterns",
+        "Great acoustic alternative to drum kit",
+        "Practice both sitting and standing positions"
+      ],
+      "primary_genres": [
+        "flamenco",
+        "folk",
+        "acoustic",
+        "world"
+      ],
+      "related_instruments": [
+        "drums",
+        "djembe",
+        "bongos"
+      ]
+    },
+    "voice": {
+      "id": "voice",
+      "name": "Voice / Vocals",
+      "family": "VOICE",
+      "aliases": [
+        "singing",
+        "vocals",
+        "singer"
+      ],
+      "beginner_friendly": true,
+      "solo_instrument": true,
+      "ensemble_instrument": true,
+      "requires_accompaniment": false,
+      "minimum_age": 5,
+      "physical_demands": "medium",
+      "requires_both_hands": false,
+      "requires_breath": true,
+      "days_to_first_song": 1,
+      "months_to_intermediate": 12,
+      "skill_ceiling": "very_high",
+      "starter_cost_usd": [
+        0,
+        100
+      ],
+      "needs_amplification": false,
+      "portable": true,
+      "common_challenges": [
+        "Breath support and control",
+        "Pitch accuracy",
+        "Extending vocal range",
+        "Managing vocal health",
+        "Performance anxiety"
+      ],
+      "first_skills": [
+        "Breathing technique",
+        "Pitch matching",
+        "Posture and body alignment",
+        "Simple scales and exercises",
+        "Singing in your comfortable range"
+      ],
+      "practice_tips": [
+        "Stay hydrated - drink lots of water",
+        "Warm up before singing",
+        "Record yourself to hear objectively",
+        "Rest your voice when tired",
+        "Work with a teacher to avoid bad habits"
+      ],
+      "primary_genres": [
+        "pop",
+        "rock",
+        "classical",
+        "jazz",
+        "r&b",
+        "musical_theater"
+      ],
+      "related_instruments": [
+        "piano",
+        "guitar"
+      ]
+    },
+    "flute": {
+      "id": "flute",
+      "name": "Flute",
+      "family": "WOODWINDS",
+      "aliases": [
+        "western flute",
+        "concert flute",
+        "C flute"
+      ],
+      "beginner_friendly": true,
+      "solo_instrument": true,
+      "ensemble_instrument": true,
+      "requires_accompaniment": false,
+      "minimum_age": 8,
+      "physical_demands": "medium",
+      "requires_both_hands": true,
+      "requires_breath": true,
+      "days_to_first_song": 14,
+      "months_to_intermediate": 18,
+      "skill_ceiling": "very_high",
+      "starter_cost_usd": [
+        200,
+        600
+      ],
+      "needs_amplification": false,
+      "portable": true,
+      "common_challenges": [
+        "Producing a consistent sound (embouchure)",
+        "Breath support for long phrases",
+        "Finger coordination",
+        "Intonation in the upper register",
+        "Tone quality development"
+      ],
+      "first_skills": [
+        "Assembling and holding the flute",
+        "Producing a sound (head joint only)",
+        "Basic fingerings for first octave",
+        "Breathing and phrasing",
+        "Simple scales"
+      ],
+      "practice_tips": [
+        "Start with just the head joint for tone production",
+        "Use a mirror to check embouchure",
+        "Practice long tones daily",
+        "Work on breathing exercises",
+        "Progress slowly through registers"
+      ],
+      "primary_genres": [
+        "classical",
+        "jazz",
+        "folk",
+        "world"
+      ],
+      "related_instruments": [
+        "piccolo",
+        "clarinet",
+        "recorder"
+      ]
+    },
+    "clarinet": {
+      "id": "clarinet",
+      "name": "Clarinet",
+      "family": "WOODWINDS",
+      "aliases": [
+        "Bb clarinet",
+        "soprano clarinet"
+      ],
+      "beginner_friendly": true,
+      "solo_instrument": true,
+      "ensemble_instrument": true,
+      "requires_accompaniment": false,
+      "minimum_age": 9,
+      "physical_demands": "medium",
+      "requires_both_hands": true,
+      "requires_breath": true,
+      "days_to_first_song": 14,
+      "months_to_intermediate": 18,
+      "skill_ceiling": "very_high",
+      "starter_cost_usd": [
+        200,
+        700
+      ],
+      "needs_amplification": false,
+      "portable": true,
+      "common_challenges": [
+        "Embouchure development",
+        "Reed selection and maintenance",
+        "Crossing the 'break' (throat to clarion register)",
+        "Finger covering (especially on lower notes)",
+        "Squeaks and tone control"
+      ],
+      "first_skills": [
+        "Assembling the instrument",
+        "Reed placement and care",
+        "Producing a sound with good embouchure",
+        "Chalumeau register fingerings",
+        "Basic articulation"
+      ],
+      "practice_tips": [
+        "Start with quality reeds (not too hard)",
+        "Focus on long tones for tone development",
+        "Practice register transitions slowly",
+        "Keep instrument clean and maintained",
+        "Work on scales in comfortable range"
+      ],
+      "primary_genres": [
+        "classical",
+        "jazz",
+        "klezmer",
+        "band"
+      ],
+      "related_instruments": [
+        "saxophone",
+        "bass_clarinet",
+        "oboe"
+      ]
+    },
+    "saxophone": {
+      "id": "saxophone",
+      "name": "Saxophone",
+      "family": "WOODWINDS",
+      "aliases": [
+        "sax",
+        "alto sax",
+        "tenor sax"
+      ],
+      "beginner_friendly": true,
+      "solo_instrument": true,
+      "ensemble_instrument": true,
+      "requires_accompaniment": false,
+      "minimum_age": 9,
+      "physical_demands": "medium",
+      "requires_both_hands": true,
+      "requires_breath": true,
+      "days_to_first_song": 7,
+      "months_to_intermediate": 12,
+      "skill_ceiling": "very_high",
+      "starter_cost_usd": [
+        300,
+        1000
+      ],
+      "needs_amplification": false,
+      "portable": true,
+      "common_challenges": [
+        "Embouchure consistency",
+        "Breath support for projection",
+        "Intonation (saxophone is not naturally in tune)",
+        "Reed selection",
+        "Developing personal tone"
+      ],
+      "first_skills": [
+        "Assembling and holding the saxophone",
+        "Basic embouchure",
+        "First octave fingerings",
+        "Producing a centered tone",
+        "Simple scales and songs"
+      ],
+      "practice_tips": [
+        "Alto saxophone is most common for beginners",
+        "Work on long tones daily",
+        "Play along with recordings",
+        "Learn to adjust intonation by ear",
+        "Explore different musical styles"
+      ],
+      "primary_genres": [
+        "jazz",
+        "rock",
+        "funk",
+        "classical",
+        "pop"
+      ],
+      "related_instruments": [
+        "clarinet",
+        "flute"
+      ]
+    },
+    "trumpet": {
+      "id": "trumpet",
+      "name": "Trumpet",
+      "family": "BRASS",
+      "aliases": [
+        "Bb trumpet",
+        "cornet"
+      ],
+      "beginner_friendly": true,
+      "solo_instrument": true,
+      "ensemble_instrument": true,
+      "requires_accompaniment": false,
+      "minimum_age": 8,
+      "physical_demands": "medium",
+      "requires_both_hands": true,
+      "requires_breath": true,
+      "days_to_first_song": 14,
+      "months_to_intermediate": 18,
+      "skill_ceiling": "very_high",
+      "starter_cost_usd": [
+        150,
+        600
+      ],
+      "needs_amplification": false,
+      "portable": true,
+      "common_challenges": [
+        "Embouchure development and endurance",
+        "Building range (especially high notes)",
+        "Maintaining air support",
+        "Intonation",
+        "Managing fatigue"
+      ],
+      "first_skills": [
+        "Buzzing on the mouthpiece",
+        "Producing first notes (middle register)",
+        "Basic fingerings",
+        "Breathing and air support",
+        "Simple scales"
+      ],
+      "practice_tips": [
+        "Rest as much as you play (especially early on)",
+        "Start with mouthpiece buzzing exercises",
+        "Don't force high notes - build range gradually",
+        "Practice long tones for endurance",
+        "Listen to great trumpet players"
+      ],
+      "primary_genres": [
+        "jazz",
+        "classical",
+        "latin",
+        "mariachi",
+        "brass_band"
+      ],
+      "related_instruments": [
+        "cornet",
+        "flugelhorn",
+        "trombone"
+      ]
+    },
+    "trombone": {
+      "id": "trombone",
+      "name": "Trombone",
+      "family": "BRASS",
+      "aliases": [
+        "tenor trombone",
+        "slide trombone"
+      ],
+      "beginner_friendly": true,
+      "solo_instrument": true,
+      "ensemble_instrument": true,
+      "requires_accompaniment": false,
+      "minimum_age": 9,
+      "physical_demands": "medium",
+      "requires_both_hands": true,
+      "requires_breath": true,
+      "days_to_first_song": 14,
+      "months_to_intermediate": 18,
+      "skill_ceiling": "very_high",
+      "starter_cost_usd": [
+        200,
+        700
+      ],
+      "needs_amplification": false,
+      "portable": true,
+      "common_challenges": [
+        "Slide position accuracy (no frets or valves)",
+        "Arm reach for outer positions",
+        "Embouchure development",
+        "Legato playing",
+        "Intonation without visual reference"
+      ],
+      "first_skills": [
+        "Buzzing on the mouthpiece",
+        "Learning the 7 slide positions",
+        "Producing first notes",
+        "Glissando and legato technique",
+        "Basic scales"
+      ],
+      "practice_tips": [
+        "Mark slide positions initially for reference",
+        "Practice with a tuner frequently",
+        "Work on smooth slide movement",
+        "Long tones are essential",
+        "Listen to develop intonation sense"
+      ],
+      "primary_genres": [
+        "jazz",
+        "classical",
+        "ska",
+        "brass_band",
+        "marching_band"
+      ],
+      "related_instruments": [
+        "trumpet",
+        "euphonium",
+        "tuba"
+      ]
+    },
+    "violin": {
+      "id": "violin",
+      "name": "Violin",
+      "family": "STRINGS",
+      "aliases": [
+        "fiddle"
+      ],
+      "beginner_friendly": false,
+      "solo_instrument": true,
+      "ensemble_instrument": true,
+      "requires_accompaniment": false,
+      "minimum_age": 4,
+      "physical_demands": "medium",
+      "requires_both_hands": true,
+      "requires_breath": false,
+      "days_to_first_song": 30,
+      "months_to_intermediate": 24,
+      "skill_ceiling": "very_high",
+      "starter_cost_usd": [
+        100,
+        500
+      ],
+      "needs_amplification": false,
+      "portable": true,
+      "common_challenges": [
+        "Intonation (no frets)",
+        "Bowing technique and tone production",
+        "Left hand position and finger placement",
+        "Holding the instrument without tension",
+        "Developing vibrato"
+      ],
+      "first_skills": [
+        "Proper posture and instrument hold",
+        "Bow hold and straight bowing",
+        "Open strings with good tone",
+        "First finger placement",
+        "Simple scales on one string"
+      ],
+      "practice_tips": [
+        "Use tapes on fingerboard initially",
+        "Practice with a tuner constantly",
+        "Focus on bow control before left hand",
+        "Short practice sessions for young students",
+        "Work with a teacher - self-teaching is difficult"
+      ],
+      "primary_genres": [
+        "classical",
+        "folk",
+        "irish",
+        "country",
+        "jazz"
+      ],
+      "related_instruments": [
+        "viola",
+        "cello",
+        "upright_bass"
+      ]
+    },
+    "cello": {
+      "id": "cello",
+      "name": "Cello",
+      "family": "STRINGS",
+      "aliases": [
+        "violoncello"
+      ],
+      "beginner_friendly": false,
+      "solo_instrument": true,
+      "ensemble_instrument": true,
+      "requires_accompaniment": false,
+      "minimum_age": 5,
+      "physical_demands": "medium",
+      "requires_both_hands": true,
+      "requires_breath": false,
+      "days_to_first_song": 30,
+      "months_to_intermediate": 24,
+      "skill_ceiling": "very_high",
+      "starter_cost_usd": [
+        300,
+        1000
+      ],
+      "needs_amplification": false,
+      "portable": false,
+      "common_challenges": [
+        "Intonation across a large fingerboard",
+        "Bowing technique and arm weight",
+        "Thumb position in upper registers",
+        "Transporting the large instrument",
+        "Endpin adjustment and posture"
+      ],
+      "first_skills": [
+        "Seated posture and instrument position",
+        "Bow hold and basic bow strokes",
+        "Open strings",
+        "First position fingerings",
+        "Simple scales"
+      ],
+      "practice_tips": [
+        "Get the right size instrument for your body",
+        "Focus on relaxed posture",
+        "Work on shifting carefully",
+        "Listen to cello recordings for tone reference",
+        "Practice with drone notes for intonation"
+      ],
+      "primary_genres": [
+        "classical",
+        "film_score",
+        "folk",
+        "rock_cello"
+      ],
+      "related_instruments": [
+        "violin",
+        "viola",
+        "upright_bass"
+      ]
+    },
+    "production": {
+      "id": "production",
+      "name": "Music Production",
+      "family": "ELECTRONIC",
+      "aliases": [
+        "DAW",
+        "beatmaking",
+        "producing",
+        "electronic music production"
+      ],
+      "beginner_friendly": true,
+      "solo_instrument": true,
+      "ensemble_instrument": true,
+      "requires_accompaniment": false,
+      "minimum_age": 10,
+      "physical_demands": "low",
+      "requires_both_hands": true,
+      "requires_breath": false,
+      "days_to_first_song": 1,
+      "months_to_intermediate": 12,
+      "skill_ceiling": "very_high",
+      "starter_cost_usd": [
+        0,
+        500
+      ],
+      "needs_amplification": false,
+      "portable": true,
+      "common_challenges": [
+        "DAW learning curve",
+        "Understanding signal flow",
+        "Mixing and EQ concepts",
+        "Arrangement and song structure",
+        "Finishing songs"
+      ],
+      "first_skills": [
+        "DAW navigation and basics",
+        "Working with loops and samples",
+        "Basic MIDI programming",
+        "Simple arrangement structure",
+        "Exporting and sharing"
+      ],
+      "practice_tips": [
+        "Start with one DAW and learn it deeply",
+        "Finish songs, even if imperfect",
+        "Learn basic music theory",
+        "Study reference tracks",
+        "Focus on arrangement before mixing"
+      ],
+      "primary_genres": [
+        "electronic",
+        "hip-hop",
+        "pop",
+        "edm",
+        "ambient"
+      ],
+      "related_instruments": [
+        "synthesizer",
+        "drum_machine",
+        "midi_controller"
+      ]
+    }
+  },
+  "learning_paths": {
+    "piano": {
+      "starter_path": [
+        "posture",
+        "note_reading",
+        "basic_chords",
+        "scales",
+        "simple_songs"
+      ],
+      "intermediate_path": [
+        "arpeggios",
+        "hand_independence",
+        "pedaling",
+        "dynamics",
+        "repertoire"
+      ],
+      "advanced_path": [
+        "advanced_technique",
+        "improvisation",
+        "sight_reading",
+        "performance"
+      ],
+      "recommended_order": [
+        "technique",
+        "theory",
+        "repertoire",
+        "ear_training"
+      ]
+    },
+    "guitar": {
+      "starter_path": [
+        "tuning",
+        "posture",
+        "open_chords",
+        "strumming",
+        "simple_songs"
+      ],
+      "intermediate_path": [
+        "barre_chords",
+        "fingerpicking",
+        "scales",
+        "music_theory",
+        "lead_playing"
+      ],
+      "advanced_path": [
+        "advanced_technique",
+        "improvisation",
+        "songwriting",
+        "performance"
+      ],
+      "recommended_order": [
+        "rhythm",
+        "chords",
+        "scales",
+        "theory"
+      ]
+    },
+    "drums": {
+      "starter_path": [
+        "grip",
+        "basic_beats",
+        "timing",
+        "coordination",
+        "simple_fills"
+      ],
+      "intermediate_path": [
+        "rudiments",
+        "dynamics",
+        "styles",
+        "independence",
+        "groove"
+      ],
+      "advanced_path": [
+        "advanced_rudiments",
+        "odd_time",
+        "polyrhythms",
+        "performance"
+      ],
+      "recommended_order": [
+        "timing",
+        "technique",
+        "rudiments",
+        "musicality"
+      ]
+    },
+    "voice": {
+      "starter_path": [
+        "breathing",
+        "posture",
+        "pitch_matching",
+        "range_finding",
+        "simple_songs"
+      ],
+      "intermediate_path": [
+        "breath_support",
+        "registration",
+        "dynamics",
+        "phrasing",
+        "repertoire"
+      ],
+      "advanced_path": [
+        "advanced_technique",
+        "styles",
+        "performance",
+        "improvisation"
+      ],
+      "recommended_order": [
+        "breathing",
+        "technique",
+        "repertoire",
+        "performance"
+      ]
+    }
+  }
+}

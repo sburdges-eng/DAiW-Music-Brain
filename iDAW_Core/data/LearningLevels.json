@@ -1,0 +1,261 @@
+{
+  "version": "1.0.0",
+  "description": "Difficulty levels and skill categories for learning progression",
+  "difficulty_levels": {
+    "ABSOLUTE_BEGINNER": {
+      "value": 1,
+      "name_friendly": "Absolute Beginner",
+      "tier": "Beginner",
+      "estimated_hours": [
+        0,
+        0
+      ]
+    },
+    "EARLY_BEGINNER": {
+      "value": 2,
+      "name_friendly": "Early Beginner",
+      "tier": "Beginner",
+      "estimated_hours": [
+        10,
+        50
+      ]
+    },
+    "BEGINNER": {
+      "value": 3,
+      "name_friendly": "Beginner",
+      "tier": "Beginner",
+      "estimated_hours": [
+        50,
+        150
+      ]
+    },
+    "EARLY_INTERMEDIATE": {
+      "value": 4,
+      "name_friendly": "Early Intermediate",
+      "tier": "Intermediate",
+      "estimated_hours": [
+        150,
+        300
+      ]
+    },
+    "INTERMEDIATE": {
+      "value": 5,
+      "name_friendly": "Intermediate",
+      "tier": "Intermediate",
+      "estimated_hours": [
+        300,
+        500
+      ]
+    },
+    "LATE_INTERMEDIATE": {
+      "value": 6,
+      "name_friendly": "Late Intermediate",
+      "tier": "Intermediate",
+      "estimated_hours": [
+        500,
+        1000
+      ]
+    },
+    "EARLY_ADVANCED": {
+      "value": 7,
+      "name_friendly": "Early Advanced",
+      "tier": "Advanced",
+      "estimated_hours": [
+        1000,
+        1500
+      ]
+    },
+    "ADVANCED": {
+      "value": 8,
+      "name_friendly": "Advanced",
+      "tier": "Advanced",
+      "estimated_hours": [
+        1500,
+        2500
+      ]
+    },
+    "LATE_ADVANCED": {
+      "value": 9,
+      "name_friendly": "Late Advanced",
+      "tier": "Advanced",
+      "estimated_hours": [
+        2500,
+        4000
+      ]
+    },
+    "EXPERT": {
+      "value": 10,
+      "name_friendly": "Expert/Master",
+      "tier": "Expert",
+      "estimated_hours": [
+        4000,
+        10000
+      ]
+    }
+  },
+  "skill_categories": {
+    "TECHNIQUE": {
+      "value": 1
+    },
+    "POSTURE": {
+      "value": 2
+    },
+    "TONE": {
+      "value": 3
+    },
+    "ARTICULATION": {
+      "value": 4
+    },
+    "DYNAMICS": {
+      "value": 5
+    },
+    "RHYTHM": {
+      "value": 6
+    },
+    "GROOVE": {
+      "value": 7
+    },
+    "TEMPO": {
+      "value": 8
+    },
+    "SUBDIVISION": {
+      "value": 9
+    },
+    "POLYRHYTHM": {
+      "value": 10
+    },
+    "MELODY": {
+      "value": 11
+    },
+    "HARMONY": {
+      "value": 12
+    },
+    "SCALES": {
+      "value": 13
+    },
+    "ARPEGGIOS": {
+      "value": 14
+    },
+    "INTERVALS": {
+      "value": 15
+    },
+    "THEORY": {
+      "value": 16
+    },
+    "EAR_TRAINING": {
+      "value": 17
+    },
+    "SIGHT_READING": {
+      "value": 18
+    },
+    "IMPROVISATION": {
+      "value": 19
+    },
+    "COMPOSITION": {
+      "value": 20
+    },
+    "REPERTOIRE": {
+      "value": 21
+    },
+    "MEMORIZATION": {
+      "value": 22
+    },
+    "STAGE_PRESENCE": {
+      "value": 23
+    },
+    "ENSEMBLE": {
+      "value": 24
+    },
+    "PRACTICE_HABITS": {
+      "value": 25
+    },
+    "SELF_ASSESSMENT": {
+      "value": 26
+    },
+    "GOAL_SETTING": {
+      "value": 27
+    }
+  },
+  "skill_progressions": {
+    "rhythm_foundation": [
+      {
+        "level": "ABSOLUTE_BEGINNER",
+        "skills": [
+          "RHYTHM"
+        ]
+      },
+      {
+        "level": "BEGINNER",
+        "skills": [
+          "TEMPO",
+          "SUBDIVISION"
+        ]
+      },
+      {
+        "level": "INTERMEDIATE",
+        "skills": [
+          "GROOVE"
+        ]
+      },
+      {
+        "level": "ADVANCED",
+        "skills": [
+          "POLYRHYTHM"
+        ]
+      }
+    ],
+    "melodic_development": [
+      {
+        "level": "BEGINNER",
+        "skills": [
+          "MELODY"
+        ]
+      },
+      {
+        "level": "EARLY_INTERMEDIATE",
+        "skills": [
+          "SCALES"
+        ]
+      },
+      {
+        "level": "INTERMEDIATE",
+        "skills": [
+          "INTERVALS",
+          "ARPEGGIOS"
+        ]
+      },
+      {
+        "level": "ADVANCED",
+        "skills": [
+          "IMPROVISATION"
+        ]
+      }
+    ],
+    "harmonic_mastery": [
+      {
+        "level": "EARLY_INTERMEDIATE",
+        "skills": [
+          "HARMONY"
+        ]
+      },
+      {
+        "level": "INTERMEDIATE",
+        "skills": [
+          "THEORY"
+        ]
+      },
+      {
+        "level": "LATE_INTERMEDIATE",
+        "skills": [
+          "EAR_TRAINING"
+        ]
+      },
+      {
+        "level": "ADVANCED",
+        "skills": [
+          "COMPOSITION"
+        ]
+      }
+    ]
+  }
+}
