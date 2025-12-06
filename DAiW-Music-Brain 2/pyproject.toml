@@ -1,0 +1,91 @@
+[build-system]
+requires = ["setuptools>=45", "wheel", "setuptools-scm[toml]>=6.2"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "daiw"
+version = "0.2.0"
+description = "Music production intelligence toolkit - groove extraction, chord analysis, AI-assisted songwriting"
+readme = "README.md"
+license = {text = "MIT"}
+requires-python = ">=3.9"
+authors = [
+    {name = "Sean Burdges", email = "seanblariat@gmail.com"}
+]
+keywords = ["midi", "music", "analysis", "groove", "chord", "songwriting", "daw", "production"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "Intended Audience :: End Users/Desktop",
+    "Topic :: Multimedia :: Sound/Audio :: Analysis",
+    "Topic :: Multimedia :: Sound/Audio :: MIDI",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+]
+
+dependencies = [
+    "mido>=1.2.10",
+    "numpy>=1.21.0",
+]
+
+[project.optional-dependencies]
+audio = [
+    "librosa>=0.9.0",
+    "soundfile>=0.10.0",
+]
+theory = [
+    "music21>=7.0.0",
+]
+dev = [
+    "pytest>=7.0.0",
+    "black>=22.0.0",
+    "flake8>=4.0.0",
+    "mypy>=0.900",
+]
+all = [
+    "librosa>=0.9.0",
+    "soundfile>=0.10.0",
+    "music21>=7.0.0",
+]
+
+[project.scripts]
+daiw = "music_brain.cli:main"
+
+[project.urls]
+Homepage = "https://github.com/yourusername/DAiW-Music-Brain"
+"Bug Tracker" = "https://github.com/yourusername/DAiW-Music-Brain/issues"
+Documentation = "https://github.com/yourusername/DAiW-Music-Brain#readme"
+
+[tool.setuptools.packages.find]
+exclude = ["tests", "tests.*", "examples", "vault"]
+
+[tool.setuptools.package-data]
+music_brain = ["data/*.json"]
+
+[tool.black]
+line-length = 100
+target-version = ["py39", "py310", "py311", "py312"]
+exclude = '''
+/(
+    \.git
+    | \.venv
+    | build
+    | dist
+    | \.eggs
+)/
+'''
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+python_functions = ["test_*"]
+
+[tool.mypy]
+python_version = "3.9"
+warn_return_any = true
+warn_unused_configs = true
+ignore_missing_imports = true

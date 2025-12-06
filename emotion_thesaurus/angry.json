@@ -1,0 +1,483 @@
+{
+  "id": "III",
+  "name": "ANGRY",
+  "description": "Negative emotional states characterized by opposition, frustration, and hostility",
+  "valence": "negative",
+  "arousal_range": [0.5, 1.0],
+  "sub_emotions": {
+    "IRRITATION": {
+      "id": "IIIi",
+      "description": "Mild anger from annoyance",
+      "arousal_bias": 0.5,
+      "sub_sub_emotions": {
+        "annoyed": {
+          "id": "IIIia",
+          "description": "Slightly irritated by something",
+          "intensity_tiers": {
+            "1_subtle": ["bothered", "bugged", "peeved"],
+            "2_mild": ["annoyed", "irked", "vexed"],
+            "3_moderate": ["aggravated", "exasperated", "nettled"],
+            "4_strong": ["deeply annoyed", "thoroughly irked", "completely vexed"],
+            "5_intense": ["utterly aggravated", "profoundly exasperated", "beyond annoyed"],
+            "6_overwhelming": ["explosively annoyed", "volcanic irritation", "nuclear exasperation"]
+          }
+        },
+        "impatient": {
+          "id": "IIIib",
+          "description": "Restless from waiting or delay",
+          "intensity_tiers": {
+            "1_subtle": ["restless", "antsy", "fidgety"],
+            "2_mild": ["impatient", "eager", "hasty"],
+            "3_moderate": ["frustrated", "agitated", "worked up"],
+            "4_strong": ["deeply impatient", "thoroughly frustrated", "completely agitated"],
+            "5_intense": ["explosive impatience", "volcanic frustration", "uncontainable restlessness"],
+            "6_overwhelming": ["beyond patience", "nuclear frustration", "absolute intolerance"]
+          }
+        },
+        "grumpy": {
+          "id": "IIIic",
+          "description": "In a bad mood and easily irritated",
+          "intensity_tiers": {
+            "1_subtle": ["cranky", "testy", "touchy"],
+            "2_mild": ["grumpy", "grouchy", "crabby"],
+            "3_moderate": ["surly", "cantankerous", "curmudgeonly"],
+            "4_strong": ["deeply grouchy", "thoroughly cantankerous", "completely surly"],
+            "5_intense": ["explosively grumpy", "volcanic crankiness", "nuclear surliness"],
+            "6_overwhelming": ["beyond grumpy", "infinite crankiness", "absolute sourness"]
+          }
+        },
+        "frustrated": {
+          "id": "IIIid",
+          "description": "Upset by inability to achieve something",
+          "intensity_tiers": {
+            "1_subtle": ["blocked", "stymied", "hindered"],
+            "2_mild": ["frustrated", "thwarted", "foiled"],
+            "3_moderate": ["deeply frustrated", "thoroughly thwarted", "utterly foiled"],
+            "4_strong": ["completely frustrated", "absolutely blocked", "totally stymied"],
+            "5_intense": ["explosive frustration", "volcanic thwarting", "nuclear blocking"],
+            "6_overwhelming": ["beyond frustration", "infinite blocking", "absolute futility"]
+          }
+        },
+        "agitated": {
+          "id": "IIIie",
+          "description": "Nervously troubled and restless",
+          "intensity_tiers": {
+            "1_subtle": ["unsettled", "disturbed", "ruffled"],
+            "2_mild": ["agitated", "flustered", "perturbed"],
+            "3_moderate": ["deeply agitated", "thoroughly flustered", "utterly perturbed"],
+            "4_strong": ["completely agitated", "absolutely flustered", "totally disturbed"],
+            "5_intense": ["explosive agitation", "volcanic perturbation", "nuclear flustering"],
+            "6_overwhelming": ["beyond agitated", "infinite disturbance", "absolute turmoil"]
+          }
+        },
+        "disgruntled": {
+          "id": "IIIif",
+          "description": "Unhappy and complaining",
+          "intensity_tiers": {
+            "1_subtle": ["dissatisfied", "displeased", "put out"],
+            "2_mild": ["disgruntled", "malcontent", "resentful"],
+            "3_moderate": ["deeply disgruntled", "thoroughly malcontent", "utterly resentful"],
+            "4_strong": ["completely disgruntled", "absolutely dissatisfied", "totally resentful"],
+            "5_intense": ["explosive discontent", "volcanic resentment", "nuclear dissatisfaction"],
+            "6_overwhelming": ["beyond disgruntled", "infinite resentment", "absolute malcontent"]
+          }
+        }
+      }
+    },
+    "HOSTILITY": {
+      "id": "IIIj",
+      "description": "Unfriendly opposition",
+      "arousal_bias": 0.7,
+      "sub_sub_emotions": {
+        "resentful": {
+          "id": "IIIja",
+          "description": "Bitter indignation from unfair treatment",
+          "intensity_tiers": {
+            "1_subtle": ["bothered", "upset", "displeased"],
+            "2_mild": ["resentful", "bitter", "grudging"],
+            "3_moderate": ["deeply resentful", "profoundly bitter", "utterly grudging"],
+            "4_strong": ["completely resentful", "absolutely bitter", "totally consumed by grudge"],
+            "5_intense": ["explosive resentment", "volcanic bitterness", "nuclear grudge"],
+            "6_overwhelming": ["eternal resentment", "infinite bitterness", "absolute animosity"]
+          }
+        },
+        "contemptuous": {
+          "id": "IIIjb",
+          "description": "Looking down with disgust",
+          "intensity_tiers": {
+            "1_subtle": ["dismissive", "disdainful", "scornful"],
+            "2_mild": ["contemptuous", "sneering", "derisive"],
+            "3_moderate": ["deeply contemptuous", "profoundly disdainful", "utterly scornful"],
+            "4_strong": ["completely contemptuous", "absolutely derisive", "totally sneering"],
+            "5_intense": ["explosive contempt", "volcanic disdain", "nuclear scorn"],
+            "6_overwhelming": ["infinite contempt", "eternal disdain", "absolute loathing"]
+          }
+        },
+        "hostile": {
+          "id": "IIIjc",
+          "description": "Unfriendly and opposing",
+          "intensity_tiers": {
+            "1_subtle": ["unfriendly", "cold", "unwelcoming"],
+            "2_mild": ["hostile", "antagonistic", "combative"],
+            "3_moderate": ["deeply hostile", "profoundly antagonistic", "utterly combative"],
+            "4_strong": ["completely hostile", "absolutely antagonistic", "totally aggressive"],
+            "5_intense": ["explosive hostility", "volcanic antagonism", "nuclear aggression"],
+            "6_overwhelming": ["infinite hostility", "eternal antagonism", "absolute warfare"]
+          }
+        },
+        "spiteful": {
+          "id": "IIIjd",
+          "description": "Deliberately hurtful",
+          "intensity_tiers": {
+            "1_subtle": ["petty", "mean", "nasty"],
+            "2_mild": ["spiteful", "malicious", "vindictive"],
+            "3_moderate": ["deeply spiteful", "profoundly malicious", "utterly vindictive"],
+            "4_strong": ["completely spiteful", "absolutely malicious", "totally vindictive"],
+            "5_intense": ["explosive spite", "volcanic malice", "nuclear vindictiveness"],
+            "6_overwhelming": ["infinite spite", "eternal malice", "absolute vengefulness"]
+          }
+        },
+        "defiant": {
+          "id": "IIIje",
+          "description": "Boldly resistant to authority",
+          "intensity_tiers": {
+            "1_subtle": ["resistant", "stubborn", "obstinate"],
+            "2_mild": ["defiant", "rebellious", "insubordinate"],
+            "3_moderate": ["deeply defiant", "profoundly rebellious", "utterly insubordinate"],
+            "4_strong": ["completely defiant", "absolutely rebellious", "totally mutinous"],
+            "5_intense": ["explosive defiance", "volcanic rebellion", "nuclear insubordination"],
+            "6_overwhelming": ["infinite defiance", "eternal rebellion", "absolute revolution"]
+          }
+        },
+        "bitter": {
+          "id": "IIIjf",
+          "description": "Resentful from disappointment",
+          "intensity_tiers": {
+            "1_subtle": ["sour", "acrid", "sharp"],
+            "2_mild": ["bitter", "acrimonious", "caustic"],
+            "3_moderate": ["deeply bitter", "profoundly acrimonious", "utterly caustic"],
+            "4_strong": ["completely bitter", "absolutely acrimonious", "totally caustic"],
+            "5_intense": ["explosive bitterness", "volcanic acrimony", "nuclear causticness"],
+            "6_overwhelming": ["infinite bitterness", "eternal acrimony", "absolute toxicity"]
+          }
+        }
+      }
+    },
+    "RAGE": {
+      "id": "IIIk",
+      "description": "Intense, violent anger",
+      "arousal_bias": 1.0,
+      "sub_sub_emotions": {
+        "furious": {
+          "id": "IIIka",
+          "description": "Extremely angry",
+          "intensity_tiers": {
+            "1_subtle": ["angry", "mad", "upset"],
+            "2_mild": ["furious", "irate", "incensed"],
+            "3_moderate": ["deeply furious", "profoundly irate", "utterly incensed"],
+            "4_strong": ["completely furious", "absolutely livid", "totally enraged"],
+            "5_intense": ["explosive fury", "volcanic rage", "nuclear anger"],
+            "6_overwhelming": ["infinite fury", "cosmic rage", "transcendent wrath"]
+          }
+        },
+        "enraged": {
+          "id": "IIIkb",
+          "description": "Made very angry",
+          "intensity_tiers": {
+            "1_subtle": ["angered", "provoked", "inflamed"],
+            "2_mild": ["enraged", "infuriated", "maddened"],
+            "3_moderate": ["deeply enraged", "profoundly infuriated", "utterly maddened"],
+            "4_strong": ["completely enraged", "absolutely infuriated", "totally berserk"],
+            "5_intense": ["explosive enragement", "volcanic infuriation", "nuclear berserk"],
+            "6_overwhelming": ["infinite enragement", "cosmic infuriation", "transcendent berserking"]
+          }
+        },
+        "seething": {
+          "id": "IIIkc",
+          "description": "Boiling with suppressed anger",
+          "intensity_tiers": {
+            "1_subtle": ["simmering", "smoldering", "brewing"],
+            "2_mild": ["seething", "boiling", "steaming"],
+            "3_moderate": ["deeply seething", "profoundly boiling", "utterly steaming"],
+            "4_strong": ["completely seething", "absolutely boiling over", "totally erupting"],
+            "5_intense": ["explosive seething", "volcanic boiling", "nuclear steaming"],
+            "6_overwhelming": ["infinite seething", "cosmic boiling", "transcendent eruption"]
+          }
+        },
+        "wrathful": {
+          "id": "IIIkd",
+          "description": "Vengeful divine-like anger",
+          "intensity_tiers": {
+            "1_subtle": ["angry", "vengeful", "retributive"],
+            "2_mild": ["wrathful", "avenging", "punishing"],
+            "3_moderate": ["deeply wrathful", "profoundly avenging", "utterly punishing"],
+            "4_strong": ["completely wrathful", "absolutely avenging", "totally annihilating"],
+            "5_intense": ["explosive wrath", "volcanic vengeance", "nuclear retribution"],
+            "6_overwhelming": ["infinite wrath", "cosmic vengeance", "divine retribution"]
+          }
+        },
+        "explosive": {
+          "id": "IIIke",
+          "description": "Sudden violent outburst",
+          "intensity_tiers": {
+            "1_subtle": ["volatile", "unstable", "ready to blow"],
+            "2_mild": ["explosive", "erupting", "detonating"],
+            "3_moderate": ["deeply explosive", "profoundly erupting", "utterly detonating"],
+            "4_strong": ["completely explosive", "absolutely erupting", "totally detonating"],
+            "5_intense": ["supernova explosion", "volcanic cataclysm", "nuclear holocaust"],
+            "6_overwhelming": ["infinite explosion", "cosmic cataclysm", "transcendent annihilation"]
+          }
+        },
+        "murderous": {
+          "id": "IIIkf",
+          "description": "Desire to cause extreme harm",
+          "intensity_tiers": {
+            "1_subtle": ["aggressive", "violent", "harmful"],
+            "2_mild": ["murderous", "homicidal", "destructive"],
+            "3_moderate": ["deeply murderous", "profoundly destructive", "utterly violent"],
+            "4_strong": ["completely murderous", "absolutely homicidal", "totally annihilating"],
+            "5_intense": ["explosive murder", "volcanic destruction", "nuclear annihilation"],
+            "6_overwhelming": ["infinite murder", "cosmic destruction", "transcendent genocide"]
+          }
+        }
+      }
+    },
+    "JEALOUSY": {
+      "id": "IIIl",
+      "description": "Resentment over perceived threats to what one has",
+      "arousal_bias": 0.6,
+      "sub_sub_emotions": {
+        "envious": {
+          "id": "IIIla",
+          "description": "Wanting what others have",
+          "intensity_tiers": {
+            "1_subtle": ["wanting", "desiring", "wishing"],
+            "2_mild": ["envious", "covetous", "yearning"],
+            "3_moderate": ["deeply envious", "profoundly covetous", "utterly yearning"],
+            "4_strong": ["completely envious", "absolutely covetous", "totally consumed"],
+            "5_intense": ["explosive envy", "volcanic covetousness", "nuclear yearning"],
+            "6_overwhelming": ["infinite envy", "cosmic covetousness", "transcendent desire"]
+          }
+        },
+        "possessive": {
+          "id": "IIIlb",
+          "description": "Demanding exclusive ownership",
+          "intensity_tiers": {
+            "1_subtle": ["protective", "guarding", "keeping"],
+            "2_mild": ["possessive", "controlling", "claiming"],
+            "3_moderate": ["deeply possessive", "profoundly controlling", "utterly claiming"],
+            "4_strong": ["completely possessive", "absolutely controlling", "totally dominating"],
+            "5_intense": ["explosive possessiveness", "volcanic control", "nuclear domination"],
+            "6_overwhelming": ["infinite possessiveness", "cosmic control", "transcendent ownership"]
+          }
+        },
+        "jealous": {
+          "id": "IIIlc",
+          "description": "Fear of losing what one has",
+          "intensity_tiers": {
+            "1_subtle": ["protective", "watchful", "guarding"],
+            "2_mild": ["jealous", "suspicious", "wary"],
+            "3_moderate": ["deeply jealous", "profoundly suspicious", "utterly wary"],
+            "4_strong": ["completely jealous", "absolutely suspicious", "totally paranoid"],
+            "5_intense": ["explosive jealousy", "volcanic suspicion", "nuclear paranoia"],
+            "6_overwhelming": ["infinite jealousy", "cosmic suspicion", "transcendent paranoia"]
+          }
+        },
+        "covetous": {
+          "id": "IIIld",
+          "description": "Strongly desiring others' possessions",
+          "intensity_tiers": {
+            "1_subtle": ["wanting", "desiring", "eyeing"],
+            "2_mild": ["covetous", "grasping", "greedy"],
+            "3_moderate": ["deeply covetous", "profoundly grasping", "utterly greedy"],
+            "4_strong": ["completely covetous", "absolutely grasping", "totally consumed"],
+            "5_intense": ["explosive covetousness", "volcanic greed", "nuclear desire"],
+            "6_overwhelming": ["infinite covetousness", "cosmic greed", "transcendent avarice"]
+          }
+        },
+        "insecure": {
+          "id": "IIIle",
+          "description": "Uncertain of one's position",
+          "intensity_tiers": {
+            "1_subtle": ["uncertain", "doubtful", "questioning"],
+            "2_mild": ["insecure", "anxious", "worried"],
+            "3_moderate": ["deeply insecure", "profoundly anxious", "utterly worried"],
+            "4_strong": ["completely insecure", "absolutely anxious", "totally paranoid"],
+            "5_intense": ["explosive insecurity", "volcanic anxiety", "nuclear worry"],
+            "6_overwhelming": ["infinite insecurity", "cosmic anxiety", "transcendent paranoia"]
+          }
+        },
+        "threatened": {
+          "id": "IIIlf",
+          "description": "Sensing danger to one's position",
+          "intensity_tiers": {
+            "1_subtle": ["uneasy", "concerned", "worried"],
+            "2_mild": ["threatened", "endangered", "imperiled"],
+            "3_moderate": ["deeply threatened", "profoundly endangered", "utterly imperiled"],
+            "4_strong": ["completely threatened", "absolutely endangered", "totally besieged"],
+            "5_intense": ["explosive threat", "volcanic danger", "nuclear peril"],
+            "6_overwhelming": ["infinite threat", "cosmic danger", "transcendent peril"]
+          }
+        }
+      }
+    },
+    "INDIGNATION": {
+      "id": "IIIm",
+      "description": "Righteous anger at unfairness",
+      "arousal_bias": 0.7,
+      "sub_sub_emotions": {
+        "outraged": {
+          "id": "IIIma",
+          "description": "Shocked anger at injustice",
+          "intensity_tiers": {
+            "1_subtle": ["upset", "bothered", "disturbed"],
+            "2_mild": ["outraged", "scandalized", "appalled"],
+            "3_moderate": ["deeply outraged", "profoundly scandalized", "utterly appalled"],
+            "4_strong": ["completely outraged", "absolutely scandalized", "totally appalled"],
+            "5_intense": ["explosive outrage", "volcanic scandal", "nuclear appallment"],
+            "6_overwhelming": ["infinite outrage", "cosmic scandal", "transcendent appallment"]
+          }
+        },
+        "offended": {
+          "id": "IIImb",
+          "description": "Resentful from insult",
+          "intensity_tiers": {
+            "1_subtle": ["insulted", "slighted", "affronted"],
+            "2_mild": ["offended", "wounded", "hurt"],
+            "3_moderate": ["deeply offended", "profoundly insulted", "utterly affronted"],
+            "4_strong": ["completely offended", "absolutely insulted", "totally outraged"],
+            "5_intense": ["explosive offense", "volcanic insult", "nuclear affront"],
+            "6_overwhelming": ["infinite offense", "cosmic insult", "transcendent affront"]
+          }
+        },
+        "indignant": {
+          "id": "IIImc",
+          "description": "Self-righteous anger",
+          "intensity_tiers": {
+            "1_subtle": ["bothered", "annoyed", "peeved"],
+            "2_mild": ["indignant", "affronted", "piqued"],
+            "3_moderate": ["deeply indignant", "profoundly affronted", "utterly piqued"],
+            "4_strong": ["completely indignant", "absolutely affronted", "totally incensed"],
+            "5_intense": ["explosive indignation", "volcanic affront", "nuclear pique"],
+            "6_overwhelming": ["infinite indignation", "cosmic affront", "transcendent umbrage"]
+          }
+        },
+        "violated": {
+          "id": "IIImd",
+          "description": "Boundaries crossed",
+          "intensity_tiers": {
+            "1_subtle": ["crossed", "trespassed", "infringed"],
+            "2_mild": ["violated", "transgressed", "invaded"],
+            "3_moderate": ["deeply violated", "profoundly transgressed", "utterly invaded"],
+            "4_strong": ["completely violated", "absolutely transgressed", "totally desecrated"],
+            "5_intense": ["explosive violation", "volcanic transgression", "nuclear desecration"],
+            "6_overwhelming": ["infinite violation", "cosmic transgression", "transcendent desecration"]
+          }
+        },
+        "righteous": {
+          "id": "IIIme",
+          "description": "Morally justified anger",
+          "intensity_tiers": {
+            "1_subtle": ["justified", "warranted", "fair"],
+            "2_mild": ["righteous", "virtuous", "principled"],
+            "3_moderate": ["deeply righteous", "profoundly virtuous", "utterly principled"],
+            "4_strong": ["completely righteous", "absolutely virtuous", "totally just"],
+            "5_intense": ["explosive righteousness", "volcanic virtue", "nuclear justice"],
+            "6_overwhelming": ["infinite righteousness", "cosmic virtue", "divine justice"]
+          }
+        },
+        "morally_disgusted": {
+          "id": "IIImf",
+          "description": "Revulsion at ethical breach",
+          "intensity_tiers": {
+            "1_subtle": ["disapproving", "condemning", "judging"],
+            "2_mild": ["morally disgusted", "ethically repulsed", "righteously revolted"],
+            "3_moderate": ["deeply disgusted", "profoundly repulsed", "utterly revolted"],
+            "4_strong": ["completely disgusted", "absolutely repulsed", "totally sickened"],
+            "5_intense": ["explosive moral disgust", "volcanic repulsion", "nuclear revulsion"],
+            "6_overwhelming": ["infinite moral disgust", "cosmic repulsion", "transcendent revulsion"]
+          }
+        }
+      }
+    },
+    "VENGEANCE": {
+      "id": "IIIn",
+      "description": "Desire for retaliation",
+      "arousal_bias": 0.8,
+      "sub_sub_emotions": {
+        "vengeful": {
+          "id": "IIIna",
+          "description": "Seeking to harm in return",
+          "intensity_tiers": {
+            "1_subtle": ["wanting payback", "seeking return", "looking for revenge"],
+            "2_mild": ["vengeful", "retaliatory", "revengeful"],
+            "3_moderate": ["deeply vengeful", "profoundly retaliatory", "utterly revengeful"],
+            "4_strong": ["completely vengeful", "absolutely retaliatory", "totally consumed"],
+            "5_intense": ["explosive vengeance", "volcanic retaliation", "nuclear revenge"],
+            "6_overwhelming": ["infinite vengeance", "cosmic retaliation", "transcendent revenge"]
+          }
+        },
+        "vindictive": {
+          "id": "IIInb",
+          "description": "Strong desire to punish",
+          "intensity_tiers": {
+            "1_subtle": ["punishing", "retributive", "corrective"],
+            "2_mild": ["vindictive", "spiteful", "vengeful"],
+            "3_moderate": ["deeply vindictive", "profoundly spiteful", "utterly vengeful"],
+            "4_strong": ["completely vindictive", "absolutely spiteful", "totally punishing"],
+            "5_intense": ["explosive vindictiveness", "volcanic spite", "nuclear punishment"],
+            "6_overwhelming": ["infinite vindictiveness", "cosmic spite", "transcendent punishment"]
+          }
+        },
+        "retributive": {
+          "id": "IIInc",
+          "description": "Seeking deserved punishment",
+          "intensity_tiers": {
+            "1_subtle": ["corrective", "punishing", "disciplining"],
+            "2_mild": ["retributive", "penalizing", "chastising"],
+            "3_moderate": ["deeply retributive", "profoundly penalizing", "utterly chastising"],
+            "4_strong": ["completely retributive", "absolutely penalizing", "totally punishing"],
+            "5_intense": ["explosive retribution", "volcanic penalty", "nuclear chastisement"],
+            "6_overwhelming": ["infinite retribution", "cosmic penalty", "divine chastisement"]
+          }
+        },
+        "grudge_holding": {
+          "id": "IIInd",
+          "description": "Persistent resentment",
+          "intensity_tiers": {
+            "1_subtle": ["remembering", "holding onto", "keeping track"],
+            "2_mild": ["grudge-holding", "resentful", "unforgiving"],
+            "3_moderate": ["deeply grudge-holding", "profoundly resentful", "utterly unforgiving"],
+            "4_strong": ["completely grudge-holding", "absolutely resentful", "totally unforgiving"],
+            "5_intense": ["explosive grudge", "volcanic resentment", "nuclear unforgiveness"],
+            "6_overwhelming": ["eternal grudge", "cosmic resentment", "transcendent unforgiveness"]
+          }
+        },
+        "punitive": {
+          "id": "IIIne",
+          "description": "Desiring to inflict penalty",
+          "intensity_tiers": {
+            "1_subtle": ["disciplinary", "corrective", "penalizing"],
+            "2_mild": ["punitive", "castigating", "chastening"],
+            "3_moderate": ["deeply punitive", "profoundly castigating", "utterly chastening"],
+            "4_strong": ["completely punitive", "absolutely castigating", "totally condemning"],
+            "5_intense": ["explosive punitiveness", "volcanic castigation", "nuclear condemnation"],
+            "6_overwhelming": ["infinite punitiveness", "cosmic castigation", "divine condemnation"]
+          }
+        },
+        "score_settling": {
+          "id": "IIInf",
+          "description": "Determined to balance wrongs",
+          "intensity_tiers": {
+            "1_subtle": ["balancing", "evening", "settling"],
+            "2_mild": ["score-settling", "equalizing", "rectifying"],
+            "3_moderate": ["deeply score-settling", "profoundly equalizing", "utterly rectifying"],
+            "4_strong": ["completely score-settling", "absolutely equalizing", "totally rectifying"],
+            "5_intense": ["explosive settling", "volcanic equalization", "nuclear rectification"],
+            "6_overwhelming": ["infinite settling", "cosmic equalization", "transcendent rectification"]
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,483 @@
+{
+  "id": "I",
+  "name": "HAPPY",
+  "description": "Positive emotional states characterized by pleasure, satisfaction, and well-being",
+  "valence": "positive",
+  "arousal_range": [0.3, 0.9],
+  "sub_emotions": {
+    "CONTENTMENT": {
+      "id": "Ii",
+      "description": "Peaceful satisfaction with present circumstances",
+      "arousal_bias": 0.3,
+      "sub_sub_emotions": {
+        "satisfied": {
+          "id": "Iia",
+          "description": "Fulfilled by what one has achieved or received",
+          "intensity_tiers": {
+            "1_subtle": ["pleased", "okay", "fine"],
+            "2_mild": ["content", "appeased", "sated"],
+            "3_moderate": ["satisfied", "fulfilled", "gratified"],
+            "4_strong": ["deeply satisfied", "thoroughly content", "completely fulfilled"],
+            "5_intense": ["profoundly gratified", "utterly satisfied", "supremely content"],
+            "6_overwhelming": ["blissfully satisfied", "transcendently fulfilled", "perfectly complete"]
+          }
+        },
+        "comfortable": {
+          "id": "Iib",
+          "description": "At ease in one's environment or situation",
+          "intensity_tiers": {
+            "1_subtle": ["okay", "alright", "settled"],
+            "2_mild": ["comfortable", "cozy", "snug"],
+            "3_moderate": ["relaxed", "at ease", "secure"],
+            "4_strong": ["deeply comfortable", "thoroughly relaxed", "perfectly at ease"],
+            "5_intense": ["blissfully comfortable", "utterly relaxed", "profoundly secure"],
+            "6_overwhelming": ["sublimely at peace", "transcendently comfortable", "perfectly nestled"]
+          }
+        },
+        "peaceful": {
+          "id": "Iic",
+          "description": "Free from disturbance or conflict",
+          "intensity_tiers": {
+            "1_subtle": ["calm", "quiet", "still"],
+            "2_mild": ["peaceful", "tranquil", "placid"],
+            "3_moderate": ["serene", "harmonious", "undisturbed"],
+            "4_strong": ["deeply peaceful", "profoundly calm", "utterly serene"],
+            "5_intense": ["blissfully tranquil", "sublimely peaceful", "transcendently calm"],
+            "6_overwhelming": ["nirvana-like peace", "absolute serenity", "perfect stillness"]
+          }
+        },
+        "secure": {
+          "id": "Iid",
+          "description": "Protected from threat or worry",
+          "intensity_tiers": {
+            "1_subtle": ["safe", "steady", "stable"],
+            "2_mild": ["secure", "protected", "sheltered"],
+            "3_moderate": ["anchored", "grounded", "assured"],
+            "4_strong": ["deeply secure", "thoroughly protected", "completely safe"],
+            "5_intense": ["unshakably secure", "profoundly grounded", "utterly anchored"],
+            "6_overwhelming": ["invincibly secure", "absolutely protected", "impenetrably safe"]
+          }
+        },
+        "fulfilled": {
+          "id": "Iie",
+          "description": "Achieving meaningful purpose or completion",
+          "intensity_tiers": {
+            "1_subtle": ["accomplished", "complete", "done"],
+            "2_mild": ["fulfilled", "achieved", "realized"],
+            "3_moderate": ["actualized", "completed", "whole"],
+            "4_strong": ["deeply fulfilled", "thoroughly actualized", "completely realized"],
+            "5_intense": ["profoundly fulfilled", "utterly complete", "transcendently whole"],
+            "6_overwhelming": ["perfectly actualized", "supremely fulfilled", "absolutely complete"]
+          }
+        },
+        "grateful": {
+          "id": "Iif",
+          "description": "Appreciative of what one has received",
+          "intensity_tiers": {
+            "1_subtle": ["thankful", "appreciative", "glad"],
+            "2_mild": ["grateful", "obliged", "indebted"],
+            "3_moderate": ["deeply thankful", "truly grateful", "sincerely appreciative"],
+            "4_strong": ["profoundly grateful", "overwhelmingly thankful", "deeply indebted"],
+            "5_intense": ["eternally grateful", "boundlessly thankful", "infinitely appreciative"],
+            "6_overwhelming": ["transcendently grateful", "cosmically thankful", "divinely blessed"]
+          }
+        }
+      }
+    },
+    "JOY": {
+      "id": "Ij",
+      "description": "Intense happiness and delight",
+      "arousal_bias": 0.7,
+      "sub_sub_emotions": {
+        "cheerful": {
+          "id": "Ija",
+          "description": "Noticeably happy and optimistic",
+          "intensity_tiers": {
+            "1_subtle": ["pleasant", "bright", "sunny"],
+            "2_mild": ["cheerful", "chipper", "upbeat"],
+            "3_moderate": ["joyful", "gleeful", "merry"],
+            "4_strong": ["beaming", "radiant", "glowing"],
+            "5_intense": ["effervescent", "bubbling over", "irrepressibly happy"],
+            "6_overwhelming": ["incandescent with joy", "luminously happy", "radiating bliss"]
+          }
+        },
+        "delighted": {
+          "id": "Ijb",
+          "description": "Pleasantly surprised by something wonderful",
+          "intensity_tiers": {
+            "1_subtle": ["pleased", "happy", "glad"],
+            "2_mild": ["delighted", "charmed", "tickled"],
+            "3_moderate": ["thrilled", "overjoyed", "enchanted"],
+            "4_strong": ["beside oneself", "over the moon", "walking on air"],
+            "5_intense": ["transported", "swept away", "utterly enchanted"],
+            "6_overwhelming": ["in raptures", "transcendently delighted", "cosmically pleased"]
+          }
+        },
+        "elated": {
+          "id": "Ijc",
+          "description": "In high spirits from success or good fortune",
+          "intensity_tiers": {
+            "1_subtle": ["happy", "pleased", "uplifted"],
+            "2_mild": ["elated", "buoyant", "high-spirited"],
+            "3_moderate": ["exhilarated", "jubilant", "triumphant"],
+            "4_strong": ["soaring", "flying high", "on cloud nine"],
+            "5_intense": ["euphoric", "in seventh heaven", "floating"],
+            "6_overwhelming": ["transcendently elated", "cosmically uplifted", "beyond bliss"]
+          }
+        },
+        "blissful": {
+          "id": "Ijd",
+          "description": "Perfect happiness and contentment",
+          "intensity_tiers": {
+            "1_subtle": ["happy", "pleased", "content"],
+            "2_mild": ["blissful", "beatific", "serene"],
+            "3_moderate": ["rapturous", "heavenly", "divine"],
+            "4_strong": ["in paradise", "utterly blissful", "perfectly happy"],
+            "5_intense": ["transcendent", "nirvana-like", "sublime"],
+            "6_overwhelming": ["cosmic bliss", "absolute rapture", "perfect ecstasy"]
+          }
+        },
+        "amused": {
+          "id": "Ije",
+          "description": "Finding something entertaining or funny",
+          "intensity_tiers": {
+            "1_subtle": ["entertained", "diverted", "tickled"],
+            "2_mild": ["amused", "mirthful", "playful"],
+            "3_moderate": ["laughing", "giggling", "chuckling"],
+            "4_strong": ["cracking up", "in stitches", "howling"],
+            "5_intense": ["hysterical", "convulsed", "doubled over"],
+            "6_overwhelming": ["helpless with laughter", "tears streaming", "completely undone"]
+          }
+        },
+        "playful": {
+          "id": "Ijf",
+          "description": "In a mood for fun and games",
+          "intensity_tiers": {
+            "1_subtle": ["lighthearted", "whimsical", "sprightly"],
+            "2_mild": ["playful", "frisky", "frolicsome"],
+            "3_moderate": ["impish", "mischievous", "sportive"],
+            "4_strong": ["roguish", "prankish", "antic"],
+            "5_intense": ["wildly playful", "uncontainably frisky", "explosively fun"],
+            "6_overwhelming": ["possessed by play", "pure mischief incarnate", "untameable sprite"]
+          }
+        }
+      }
+    },
+    "EXCITEMENT": {
+      "id": "Ik",
+      "description": "Eager anticipation and high energy",
+      "arousal_bias": 0.9,
+      "sub_sub_emotions": {
+        "eager": {
+          "id": "Ika",
+          "description": "Keen desire to do or have something",
+          "intensity_tiers": {
+            "1_subtle": ["interested", "willing", "ready"],
+            "2_mild": ["eager", "keen", "avid"],
+            "3_moderate": ["enthusiastic", "ardent", "fervent"],
+            "4_strong": ["burning", "itching", "raring"],
+            "5_intense": ["consumed", "all-consuming desire", "white-hot eagerness"],
+            "6_overwhelming": ["possessed by desire", "utterly driven", "single-minded obsession"]
+          }
+        },
+        "enthusiastic": {
+          "id": "Ikb",
+          "description": "Intense enjoyment and interest",
+          "intensity_tiers": {
+            "1_subtle": ["interested", "engaged", "attentive"],
+            "2_mild": ["enthusiastic", "keen", "spirited"],
+            "3_moderate": ["passionate", "zealous", "fervent"],
+            "4_strong": ["fired up", "pumped", "stoked"],
+            "5_intense": ["ablaze", "on fire", "white-hot"],
+            "6_overwhelming": ["consumed by passion", "totally possessed", "burning bright"]
+          }
+        },
+        "thrilled": {
+          "id": "Ikc",
+          "description": "Sudden wave of excited pleasure",
+          "intensity_tiers": {
+            "1_subtle": ["pleased", "excited", "stirred"],
+            "2_mild": ["thrilled", "buzzed", "tingling"],
+            "3_moderate": ["electrified", "galvanized", "charged"],
+            "4_strong": ["supercharged", "amped", "wired"],
+            "5_intense": ["explosive", "volcanic", "nuclear"],
+            "6_overwhelming": ["supernova", "cosmic electricity", "pure lightning"]
+          }
+        },
+        "exhilarated": {
+          "id": "Ikd",
+          "description": "Feeling alive and invigorated",
+          "intensity_tiers": {
+            "1_subtle": ["refreshed", "invigorated", "energized"],
+            "2_mild": ["exhilarated", "stimulated", "animated"],
+            "3_moderate": ["alive", "vital", "vibrant"],
+            "4_strong": ["electrified", "supercharged", "turbo-charged"],
+            "5_intense": ["explosive vitality", "supernaturally alive", "crackling with energy"],
+            "6_overwhelming": ["pure life force", "cosmic energy", "infinite vitality"]
+          }
+        },
+        "anticipating": {
+          "id": "Ike",
+          "description": "Looking forward to something expected",
+          "intensity_tiers": {
+            "1_subtle": ["expecting", "awaiting", "looking forward"],
+            "2_mild": ["anticipating", "hopeful", "expectant"],
+            "3_moderate": ["eager", "impatient", "counting down"],
+            "4_strong": ["burning anticipation", "on tenterhooks", "barely contained"],
+            "5_intense": ["feverish anticipation", "electric waiting", "explosive expectation"],
+            "6_overwhelming": ["all-consuming anticipation", "time-stopping expectation", "unbearable waiting"]
+          }
+        },
+        "adventurous": {
+          "id": "Ikf",
+          "description": "Ready for new experiences and risks",
+          "intensity_tiers": {
+            "1_subtle": ["curious", "open", "willing"],
+            "2_mild": ["adventurous", "bold", "daring"],
+            "3_moderate": ["intrepid", "fearless", "audacious"],
+            "4_strong": ["reckless", "thrill-seeking", "danger-hungry"],
+            "5_intense": ["unstoppable", "wild", "untameable"],
+            "6_overwhelming": ["possessed by wanderlust", "cosmic explorer", "infinite seeker"]
+          }
+        }
+      }
+    },
+    "PRIDE": {
+      "id": "Il",
+      "description": "Satisfaction from achievements or qualities",
+      "arousal_bias": 0.5,
+      "sub_sub_emotions": {
+        "accomplished": {
+          "id": "Ila",
+          "description": "Successful completion of a goal",
+          "intensity_tiers": {
+            "1_subtle": ["done", "finished", "complete"],
+            "2_mild": ["accomplished", "achieved", "successful"],
+            "3_moderate": ["triumphant", "victorious", "winning"],
+            "4_strong": ["conquering", "masterful", "champion"],
+            "5_intense": ["legendary", "historic", "epoch-making"],
+            "6_overwhelming": ["immortal achievement", "transcendent victory", "eternal triumph"]
+          }
+        },
+        "confident": {
+          "id": "Ilb",
+          "description": "Self-assured in one's abilities",
+          "intensity_tiers": {
+            "1_subtle": ["sure", "certain", "steady"],
+            "2_mild": ["confident", "assured", "self-possessed"],
+            "3_moderate": ["self-assured", "poised", "commanding"],
+            "4_strong": ["unshakeable", "rock-solid", "ironclad confidence"],
+            "5_intense": ["bulletproof", "invincible", "supreme confidence"],
+            "6_overwhelming": ["godlike confidence", "absolute certainty", "cosmic self-assurance"]
+          }
+        },
+        "dignified": {
+          "id": "Ilc",
+          "description": "Composed and worthy of respect",
+          "intensity_tiers": {
+            "1_subtle": ["composed", "proper", "respectable"],
+            "2_mild": ["dignified", "stately", "noble"],
+            "3_moderate": ["regal", "majestic", "august"],
+            "4_strong": ["imperial", "sovereign", "lordly"],
+            "5_intense": ["transcendently noble", "divinely dignified", "cosmically regal"],
+            "6_overwhelming": ["godlike dignity", "eternal nobility", "supreme majesty"]
+          }
+        },
+        "worthy": {
+          "id": "Ild",
+          "description": "Deserving of recognition or reward",
+          "intensity_tiers": {
+            "1_subtle": ["deserving", "meriting", "earning"],
+            "2_mild": ["worthy", "meritorious", "commendable"],
+            "3_moderate": ["exemplary", "laudable", "praiseworthy"],
+            "4_strong": ["outstanding", "exceptional", "remarkable"],
+            "5_intense": ["extraordinary", "incomparable", "peerless"],
+            "6_overwhelming": ["transcendent worth", "infinite value", "cosmic significance"]
+          }
+        },
+        "empowered": {
+          "id": "Ile",
+          "description": "Feeling capable and in control",
+          "intensity_tiers": {
+            "1_subtle": ["capable", "able", "competent"],
+            "2_mild": ["empowered", "enabled", "equipped"],
+            "3_moderate": ["powerful", "potent", "mighty"],
+            "4_strong": ["unstoppable", "formidable", "dominant"],
+            "5_intense": ["all-powerful", "supreme", "omnipotent"],
+            "6_overwhelming": ["godlike power", "cosmic force", "infinite capability"]
+          }
+        },
+        "validated": {
+          "id": "Ilf",
+          "description": "Confirmed and recognized by others",
+          "intensity_tiers": {
+            "1_subtle": ["acknowledged", "recognized", "seen"],
+            "2_mild": ["validated", "affirmed", "confirmed"],
+            "3_moderate": ["celebrated", "honored", "esteemed"],
+            "4_strong": ["acclaimed", "revered", "exalted"],
+            "5_intense": ["worshipped", "idolized", "legendary"],
+            "6_overwhelming": ["eternally honored", "immortalized", "cosmically celebrated"]
+          }
+        }
+      }
+    },
+    "LOVE": {
+      "id": "Im",
+      "description": "Deep affection and connection",
+      "arousal_bias": 0.6,
+      "sub_sub_emotions": {
+        "affectionate": {
+          "id": "Ima",
+          "description": "Showing fondness and caring",
+          "intensity_tiers": {
+            "1_subtle": ["fond", "warm", "friendly"],
+            "2_mild": ["affectionate", "tender", "caring"],
+            "3_moderate": ["loving", "devoted", "doting"],
+            "4_strong": ["deeply loving", "profoundly caring", "utterly devoted"],
+            "5_intense": ["consumed by love", "overflowing affection", "boundless devotion"],
+            "6_overwhelming": ["infinite love", "cosmic devotion", "transcendent affection"]
+          }
+        },
+        "adoring": {
+          "id": "Imb",
+          "description": "Intense love and admiration",
+          "intensity_tiers": {
+            "1_subtle": ["admiring", "appreciating", "valuing"],
+            "2_mild": ["adoring", "cherishing", "treasuring"],
+            "3_moderate": ["worshipping", "revering", "idolizing"],
+            "4_strong": ["utterly adoring", "completely devoted", "wholly worshipping"],
+            "5_intense": ["consumed by adoration", "all-encompassing worship", "total reverence"],
+            "6_overwhelming": ["cosmic adoration", "infinite worship", "divine reverence"]
+          }
+        },
+        "compassionate": {
+          "id": "Imc",
+          "description": "Deep awareness of others' suffering with desire to help",
+          "intensity_tiers": {
+            "1_subtle": ["sympathetic", "understanding", "considerate"],
+            "2_mild": ["compassionate", "empathetic", "caring"],
+            "3_moderate": ["deeply caring", "profoundly empathetic", "tenderhearted"],
+            "4_strong": ["overwhelmingly compassionate", "heart-melting empathy", "soul-deep caring"],
+            "5_intense": ["boundless compassion", "infinite empathy", "all-encompassing care"],
+            "6_overwhelming": ["cosmic compassion", "universal love", "transcendent empathy"]
+          }
+        },
+        "romantic": {
+          "id": "Imd",
+          "description": "Passionate love with intimacy",
+          "intensity_tiers": {
+            "1_subtle": ["attracted", "interested", "drawn"],
+            "2_mild": ["romantic", "enamored", "smitten"],
+            "3_moderate": ["passionate", "ardent", "fervent"],
+            "4_strong": ["deeply in love", "head over heels", "utterly smitten"],
+            "5_intense": ["consumed by passion", "all-encompassing desire", "burning love"],
+            "6_overwhelming": ["cosmic passion", "infinite desire", "transcendent romance"]
+          }
+        },
+        "connected": {
+          "id": "Ime",
+          "description": "Bonded and unified with another",
+          "intensity_tiers": {
+            "1_subtle": ["linked", "joined", "attached"],
+            "2_mild": ["connected", "bonded", "united"],
+            "3_moderate": ["deeply connected", "intimately bonded", "profoundly united"],
+            "4_strong": ["inseparable", "fused", "merged"],
+            "5_intense": ["one being", "soul-merged", "completely unified"],
+            "6_overwhelming": ["cosmic unity", "transcendent oneness", "infinite connection"]
+          }
+        },
+        "belonging": {
+          "id": "Imf",
+          "description": "Feeling accepted and part of something",
+          "intensity_tiers": {
+            "1_subtle": ["included", "welcomed", "accepted"],
+            "2_mild": ["belonging", "part of", "at home"],
+            "3_moderate": ["deeply belonging", "truly accepted", "completely included"],
+            "4_strong": ["utterly at home", "profoundly accepted", "fully integrated"],
+            "5_intense": ["one with the group", "inseparable belonging", "total acceptance"],
+            "6_overwhelming": ["cosmic belonging", "universal acceptance", "infinite inclusion"]
+          }
+        }
+      }
+    },
+    "HOPE": {
+      "id": "In",
+      "description": "Optimistic expectation for the future",
+      "arousal_bias": 0.5,
+      "sub_sub_emotions": {
+        "optimistic": {
+          "id": "Ina",
+          "description": "Expecting positive outcomes",
+          "intensity_tiers": {
+            "1_subtle": ["positive", "upbeat", "hopeful"],
+            "2_mild": ["optimistic", "encouraged", "buoyant"],
+            "3_moderate": ["confident", "assured", "certain"],
+            "4_strong": ["unwaveringly optimistic", "rock-solid confidence", "absolute faith"],
+            "5_intense": ["bulletproof optimism", "unshakeable certainty", "supreme confidence"],
+            "6_overwhelming": ["cosmic optimism", "infinite faith", "transcendent certainty"]
+          }
+        },
+        "inspired": {
+          "id": "Inb",
+          "description": "Mentally stimulated to create or act",
+          "intensity_tiers": {
+            "1_subtle": ["interested", "curious", "sparked"],
+            "2_mild": ["inspired", "motivated", "moved"],
+            "3_moderate": ["deeply inspired", "profoundly moved", "galvanized"],
+            "4_strong": ["electrified", "transformed", "awakened"],
+            "5_intense": ["consumed by inspiration", "possessed by vision", "utterly transformed"],
+            "6_overwhelming": ["cosmic inspiration", "divine revelation", "transcendent vision"]
+          }
+        },
+        "determined": {
+          "id": "Inc",
+          "description": "Firmly resolved to achieve a goal",
+          "intensity_tiers": {
+            "1_subtle": ["decided", "resolved", "set"],
+            "2_mild": ["determined", "committed", "dedicated"],
+            "3_moderate": ["driven", "focused", "single-minded"],
+            "4_strong": ["relentless", "unstoppable", "unbreakable"],
+            "5_intense": ["possessed", "obsessed", "all-consuming drive"],
+            "6_overwhelming": ["cosmic determination", "infinite resolve", "transcendent will"]
+          }
+        },
+        "faithful": {
+          "id": "Ind",
+          "description": "Trust in something beyond current evidence",
+          "intensity_tiers": {
+            "1_subtle": ["trusting", "believing", "hoping"],
+            "2_mild": ["faithful", "devoted", "loyal"],
+            "3_moderate": ["steadfast", "unwavering", "constant"],
+            "4_strong": ["unshakeable faith", "absolute trust", "complete devotion"],
+            "5_intense": ["transcendent faith", "cosmic trust", "infinite belief"],
+            "6_overwhelming": ["divine faith", "universal trust", "eternal devotion"]
+          }
+        },
+        "expectant": {
+          "id": "Ine",
+          "description": "Believing something good will happen",
+          "intensity_tiers": {
+            "1_subtle": ["waiting", "watching", "ready"],
+            "2_mild": ["expectant", "hopeful", "anticipating"],
+            "3_moderate": ["eager", "excited", "charged"],
+            "4_strong": ["burning expectation", "electric anticipation", "consuming hope"],
+            "5_intense": ["all-encompassing expectation", "overwhelming anticipation", "explosive hope"],
+            "6_overwhelming": ["cosmic expectation", "infinite anticipation", "transcendent hope"]
+          }
+        },
+        "visionary": {
+          "id": "Inf",
+          "description": "Seeing possibilities beyond the present",
+          "intensity_tiers": {
+            "1_subtle": ["imaginative", "creative", "forward-thinking"],
+            "2_mild": ["visionary", "innovative", "pioneering"],
+            "3_moderate": ["revolutionary", "transformative", "paradigm-shifting"],
+            "4_strong": ["world-changing vision", "epoch-making insight", "history-altering view"],
+            "5_intense": ["cosmic vision", "universal insight", "infinite possibility"],
+            "6_overwhelming": ["divine revelation", "transcendent foresight", "eternal vision"]
+          }
+        }
+      }
+    }
+  }
+}

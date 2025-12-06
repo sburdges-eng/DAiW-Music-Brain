@@ -409,28 +409,36 @@ private:
         
         // Call Python asynchronously
         auto futureResult = PythonBridge::getInstance().call_iMIDI_async(knobs, prompt);
+        auto safeComponent = juce::Component::SafePointer<DreamStateComponent>(this);
         
         // Process result when ready (simplified - real implementation would use proper async handling)
-        std::thread([this, futureResult = std::move(futureResult)]() mutable {
+        std::thread([safeComponent, futureResult = std::move(futureResult)]() mutable {
             auto result = futureResult.get();
             
-            juce::MessageManager::callAsync([this, result]() {
-                if (result.success) {
-                    m_statusLabel.setText("Generated " + juce::String(result.events.size()) + 
-                                          " MIDI events (" + juce::String(result.genre) + ")",
-                                          juce::dontSendNotification);
-                    
-                    // Push MIDI events to ring buffer for audio thread
-                    auto& ringBuffer = MemoryManager::getInstance().getMidiBuffer();
-                    for (const auto& event : result.events) {
-                        ringBuffer.tryPush(event);
-                    }
-                } else {
-                    m_statusLabel.setText("Error: " + juce::String(result.errorMessage),
-                                          juce::dontSendNotification);
-                }
+            juce::MessageManager::callAsync([safeComponent, result = std::move(result)]() mutable {
+                if (auto* component = safeComponent.getComponent())
+                    component->handleMidiGenerationResult(std::move(result));
             });
         }).detach();
+    }
+
+    void handleMidiGenerationResult(MidiBuffer result) {
+        if (result.success) {
+            m_statusLabel.setText("Generated " + juce::String(result.events.size()) +
+                                  " MIDI events (" + juce::String(result.genre) + ")",
+                                  juce::dontSendNotification);
+            
+            // Push MIDI events to ring buffer for audio thread
+            auto& ringBuffer = MemoryManager::getInstance().getMidiBuffer();
+            for (const auto& event : result.events) {
+                ringBuffer.tryPush(event);
+            }
+            
+            return;
+        }
+
+        m_statusLabel.setText("Error: " + juce::String(result.errorMessage),
+                              juce::dontSendNotification);
     }
     
     // LookAndFeel

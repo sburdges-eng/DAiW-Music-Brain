@@ -1,0 +1,15 @@
+# Core dependencies
+mido>=1.2.10          # MIDI file I/O
+numpy>=1.21.0         # Numerical operations
+
+# Optional audio analysis (install with: pip install daiw[audio])
+# librosa>=0.9.0      # Audio analysis
+# soundfile>=0.10.0   # Audio file I/O
+
+# Optional music theory (install with: pip install daiw[theory])
+# music21>=7.0.0      # Advanced music theory
+
+# Development dependencies (install with: pip install daiw[dev])
+# pytest>=7.0.0
+# black>=22.0.0
+# flake8>=4.0.0
