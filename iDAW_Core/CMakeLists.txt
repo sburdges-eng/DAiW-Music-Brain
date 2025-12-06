@@ -225,9 +225,12 @@ if(IDAW_BUILD_BRIDGE AND pybind11_FOUND)
             IDAW_BUILDING_PYTHON_MODULE=1
     )
     
-    # Install the Python module to the music_brain package
+    # Install the Python module - use configurable destination
+    set(IDAW_PYTHON_MODULE_DEST "${CMAKE_CURRENT_SOURCE_DIR}/../music_brain" 
+        CACHE PATH "Installation directory for Python bridge module")
+    
     install(TARGETS idaw_bridge
-        LIBRARY DESTINATION ${CMAKE_SOURCE_DIR}/../music_brain
+        LIBRARY DESTINATION ${IDAW_PYTHON_MODULE_DEST}
     )
 endif()
 

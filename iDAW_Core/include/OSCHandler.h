@@ -461,11 +461,11 @@ public:
     }
     
     /**
-     * Send play command
+     * Send a trigger/bang message (no arguments)
      */
-    bool sendPlay() {
+    bool sendTrigger(std::string_view address) {
         Message msg;
-        msg.setAddress(Address::PLAY);
+        msg.setAddress(address);
         msg.typeTag[0] = ',';
         msg.typeTag[1] = '\0';
         msg.dataSize = 0;
@@ -473,15 +473,17 @@ public:
     }
     
     /**
+     * Send play command
+     */
+    bool sendPlay() {
+        return sendTrigger(Address::PLAY);
+    }
+    
+    /**
      * Send stop command
      */
     bool sendStop() {
-        Message msg;
-        msg.setAddress(Address::STOP);
-        msg.typeTag[0] = ',';
-        msg.typeTag[1] = '\0';
-        msg.dataSize = 0;
-        return queueOutgoing(msg);
+        return sendTrigger(Address::STOP);
     }
     
     /**

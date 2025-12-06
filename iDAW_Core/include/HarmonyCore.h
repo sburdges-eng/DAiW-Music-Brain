@@ -522,11 +522,13 @@ inline RomanNumeralResult getRomanNumeral(const Chord& chord, int keyRoot, Mode 
         }
     }
     
-    // Lowercase for minor chords
+    // Lowercase for minor chords - use explicit lowercase transformation
+    // Note: Only handles ASCII characters which is sufficient for Roman numerals
     if (chord.quality == ChordQuality::Minor || 
         chord.quality == ChordQuality::Minor7 ||
         chord.quality == ChordQuality::Diminished) {
-        std::transform(numeral.begin(), numeral.end(), numeral.begin(), ::tolower);
+        std::transform(numeral.begin(), numeral.end(), numeral.begin(), 
+                       [](unsigned char c) { return static_cast<char>(std::tolower(c)); });
     }
     
     // Add quality suffix

@@ -535,9 +535,11 @@ inline void applyGrooveToEvent(
         uint8_t templateVel = tmpl.velocityCurve[beatIndex];
         
         // Blend original velocity with template velocity
+        // Use std::max/std::min for broader C++ compatibility
         float blendedVel = event.velocity * (1.0f - intensity * 0.5f) + 
                            templateVel * (intensity * 0.5f);
-        event.velocity = static_cast<uint8_t>(std::clamp(blendedVel, 1.0f, 127.0f));
+        float clampedVel = std::max(1.0f, std::min(127.0f, blendedVel));
+        event.velocity = static_cast<uint8_t>(clampedVel);
     }
 }
 

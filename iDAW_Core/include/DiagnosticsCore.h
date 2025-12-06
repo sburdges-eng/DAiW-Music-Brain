@@ -272,29 +272,38 @@ inline ParsedChord parseChordString(std::string_view chordStr) {
     // Parse quality
     std::string_view remainder = mainChord.substr(rootLen);
     
-    // Check for major 7th first (before minor check)
-    if (remainder.size() >= 4 && 
-        (remainder.substr(0, 4) == "maj7" || remainder.substr(0, 4) == "Maj7")) {
+    // Helper to check if remainder starts with a string
+    auto startsWith = [&remainder](std::string_view prefix) {
+        return remainder.size() >= prefix.size() && 
+               remainder.substr(0, prefix.size()) == prefix;
+    };
+    
+    // Check for major 7th first (before minor check, since 'maj' starts with 'm')
+    if (startsWith("maj7") || startsWith("Maj7")) {
         result.quality = Harmony::ChordQuality::Major7;
     }
-    else if (remainder.size() >= 3 && remainder.substr(0, 3) == "maj") {
+    else if (startsWith("maj") || startsWith("Maj")) {
         result.quality = Harmony::ChordQuality::Major;
     }
-    // Minor variations
-    else if (remainder.size() >= 3 && remainder.substr(0, 3) == "min") {
+    // Minor variations - check 'min' prefix first
+    else if (startsWith("min")) {
         result.quality = Harmony::ChordQuality::Minor;
     }
-    else if (!remainder.empty() && remainder[0] == 'm' && 
-             (remainder.size() < 2 || remainder[1] != 'a')) {
-        // 'm' for minor, but not 'maj'
-        if (remainder.size() >= 2 && remainder[1] == '7') {
-            result.quality = Harmony::ChordQuality::Minor7;
-        } else {
-            result.quality = Harmony::ChordQuality::Minor;
+    // Single 'm' for minor - but must NOT be 'maj' (handled above)
+    // Check that 'm' is followed by either nothing, a digit, or a non-'a' character
+    else if (!remainder.empty() && remainder[0] == 'm') {
+        bool isMajorPrefix = remainder.size() >= 2 && remainder[1] == 'a';
+        if (!isMajorPrefix) {
+            // It's a minor chord: 'm', 'm7', 'm9', etc.
+            if (remainder.size() >= 2 && remainder[1] == '7') {
+                result.quality = Harmony::ChordQuality::Minor7;
+            } else {
+                result.quality = Harmony::ChordQuality::Minor;
+            }
         }
     }
     // Diminished
-    else if (remainder.size() >= 3 && remainder.substr(0, 3) == "dim") {
+    else if (startsWith("dim")) {
         result.quality = Harmony::ChordQuality::Diminished;
     }
     else if (!remainder.empty() && (remainder[0] == 'o' || remainder[0] == '\xB0')) {
@@ -304,17 +313,17 @@ inline ParsedChord parseChordString(std::string_view chordStr) {
     else if (!remainder.empty() && remainder[0] == '+') {
         result.quality = Harmony::ChordQuality::Augmented;
     }
-    else if (remainder.size() >= 3 && remainder.substr(0, 3) == "aug") {
+    else if (startsWith("aug")) {
         result.quality = Harmony::ChordQuality::Augmented;
     }
     // Suspended
-    else if (remainder.size() >= 4 && remainder.substr(0, 4) == "sus2") {
+    else if (startsWith("sus2")) {
         result.quality = Harmony::ChordQuality::Sus2;
     }
-    else if (remainder.size() >= 4 && remainder.substr(0, 4) == "sus4") {
+    else if (startsWith("sus4")) {
         result.quality = Harmony::ChordQuality::Sus4;
     }
-    else if (remainder.size() >= 3 && remainder.substr(0, 3) == "sus") {
+    else if (startsWith("sus")) {
         result.quality = Harmony::ChordQuality::Sus4;  // Default sus
     }
     // Dominant 7
