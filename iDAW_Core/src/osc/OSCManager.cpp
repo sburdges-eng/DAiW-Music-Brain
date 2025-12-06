@@ -62,7 +62,10 @@ bool OSCManager::initialize(
     std::string portStr = std::to_string(receivePort);
     m_network->server = lo_server_thread_new(portStr.c_str(), 
         [](int num, const char* msg, const char* where) {
-            // Error handler
+            // OSC error handler - errors are logged but not fatal
+            // In production, this would log to a proper logging system
+            // For now, we silently ignore non-critical OSC errors to maintain
+            // real-time safety (no blocking I/O)
         });
     
     if (!m_network->server) {

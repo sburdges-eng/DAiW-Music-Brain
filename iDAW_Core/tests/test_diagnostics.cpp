@@ -148,10 +148,13 @@ TEST_F(DiagnosticsTest, EmotionalCharacter_Complex) {
     auto character = engine.getEmotionalCharacter(*prog, key);
     
     EXPECT_FALSE(character.empty());
-    // Should indicate complexity
-    EXPECT_TRUE(character.find("complex") != std::string::npos ||
-                character.find("ambiguous") != std::string::npos ||
-                !character.empty());
+    // Should indicate complexity for non-diatonic progression
+    // Valid characters include "complex", "ambiguous", "bittersweet", etc.
+    EXPECT_TRUE(
+        character.find("complex") != std::string::npos ||
+        character.find("ambiguous") != std::string::npos ||
+        character.find("bittersweet") != std::string::npos ||
+        character.find("dark") != std::string::npos);
 }
 
 // ============================================================================

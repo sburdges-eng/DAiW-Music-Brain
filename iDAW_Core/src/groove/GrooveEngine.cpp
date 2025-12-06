@@ -11,6 +11,10 @@
 namespace iDAW {
 namespace groove {
 
+// MIDI velocity constants (per MIDI specification)
+constexpr int MIN_VELOCITY = 1;
+constexpr int MAX_VELOCITY = 127;
+
 // ============================================================================
 // GrooveTemplate Implementation
 // ============================================================================
@@ -456,7 +460,7 @@ void GrooveEngine::humanize(
         // Apply velocity humanization
         float velocityOffset = velocityDist(rng);
         note.velocity += static_cast<int>(velocityOffset);
-        note.velocity = std::clamp(note.velocity, 1, 127);
+        note.velocity = std::clamp(note.velocity, MIN_VELOCITY, MAX_VELOCITY);
     }
 }
 
@@ -559,7 +563,7 @@ void GrooveEngine::applyVelocityCurve(
     float blend = intensity;
     
     note.velocity = static_cast<int>(note.velocity * (1.0f - blend) + targetVelocity * blend);
-    note.velocity = std::clamp(note.velocity, 1, 127);
+    note.velocity = std::clamp(note.velocity, MIN_VELOCITY, MAX_VELOCITY);
 }
 
 // ============================================================================

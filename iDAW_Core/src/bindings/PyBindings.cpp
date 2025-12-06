@@ -10,6 +10,10 @@
 #include <pybind11/functional.h>
 
 #include "harmony/HarmonyEngine.h"
+
+// MIDI constants
+constexpr int DEFAULT_DURATION_TICKS = 480;  // One quarter note at 480 PPQ
+constexpr int DEFAULT_CHANNEL = 0;
 #include "groove/GrooveEngine.h"
 #include "diagnostics/DiagnosticsEngine.h"
 #include "MemoryManager.h"
@@ -133,8 +137,8 @@ PYBIND11_MODULE(idaw_bridge, m) {
             mn.velocity = note["velocity"].cast<int>();
             mn.startTick = note["start_tick"].cast<int>();
             mn.durationTicks = note.contains("duration_ticks") 
-                ? note["duration_ticks"].cast<int>() : 480;
-            mn.channel = note.contains("channel") ? note["channel"].cast<int>() : 0;
+                ? note["duration_ticks"].cast<int>() : DEFAULT_DURATION_TICKS;
+            mn.channel = note.contains("channel") ? note["channel"].cast<int>() : DEFAULT_CHANNEL;
             midiNotes.push_back(mn);
         }
         
@@ -204,8 +208,8 @@ PYBIND11_MODULE(idaw_bridge, m) {
             mn.velocity = note["velocity"].cast<int>();
             mn.startTick = note["start_tick"].cast<int>();
             mn.durationTicks = note.contains("duration_ticks") 
-                ? note["duration_ticks"].cast<int>() : 480;
-            mn.channel = note.contains("channel") ? note["channel"].cast<int>() : 0;
+                ? note["duration_ticks"].cast<int>() : DEFAULT_DURATION_TICKS;
+            mn.channel = note.contains("channel") ? note["channel"].cast<int>() : DEFAULT_CHANNEL;
             midiNotes.push_back(mn);
         }
         
