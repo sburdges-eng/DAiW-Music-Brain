@@ -143,9 +143,9 @@ def test_render_bridge_handles_import_error(mock_plan):
     assert isinstance(output, str)
 
 
-@patch("music_brain.structure.progression.parse_progression_string")
 @patch("music_brain.daw.logic.LogicProject")
-def test_render_bridge_handles_empty_progression(MockLogicProject, mock_parse, mock_plan):
+@patch("music_brain.structure.progression.parse_progression_string")
+def test_render_bridge_handles_empty_progression(mock_parse, MockLogicProject, mock_plan):
     """Empty progression should be handled gracefully."""
     mock_project_instance = MockLogicProject.return_value
     mock_project_instance.export_midi.return_value = "output.mid"

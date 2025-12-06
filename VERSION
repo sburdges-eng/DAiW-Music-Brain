@@ -1,5 +1,32 @@
+1.0.0
+
+# DAiW v1.0.0 Component Versions
+# ==============================
+
+# Core Components
+daiw-music-brain = 1.0.0
+
+# Python Modules
+music_brain = 1.0.0
+mcp_todo = 1.0.0
+mcp_workstation = 1.0.0
+
+# Features Included
+- Groove extraction and application
+- Chord progression analysis with emotional mapping
+- Comprehensive Engine ("Interrogate Before Generate" workflow)
+- Therapy-to-music pipeline
+- AI Orchestrator infrastructure
+- MCP Workstation tools
+- Lyrical fragment generation
+- Drum humanization engine
+- Rule-breaking recipe system
+- Intent schema (3-phase interrogation model)
+
+# Build Information
+release_date = 2025-11-30
+python_requires = >=3.9
 iDAW - Intelligent Digital Audio Workstation
-=============================================
 
 Version: 1.0.0
 Codename: Dual Engine
