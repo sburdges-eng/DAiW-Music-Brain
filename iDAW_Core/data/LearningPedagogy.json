@@ -1,0 +1,123 @@
+{
+  "version": "1.0.0",
+  "description": "AI teaching templates and pedagogy data",
+  "teaching_styles": [
+    "CLASSICAL",
+    "SUZUKI",
+    "KODALY",
+    "CONTEMPORARY",
+    "PROJECT_BASED",
+    "GAMIFIED",
+    "SOCRATIC",
+    "SCAFFOLDED",
+    "MASTERY",
+    "JAZZ_METHOD",
+    "ORFF",
+    "DALCROZE"
+  ],
+  "learning_preferences": [
+    "VISUAL",
+    "AUDITORY",
+    "KINESTHETIC",
+    "READING",
+    "SOCIAL",
+    "SOLITARY"
+  ],
+  "prompt_templates": {
+    "explain": "Explain {topic} for {instrument} at difficulty level {difficulty}/10.\n\nCONTEXT:\n{context}\n\nINSTRUCTIONS:\n1. Start with WHY this topic matters for the student\n2. Explain the concept in simple, clear terms\n3. Use analogies appropriate to their age and experience\n4. Provide step-by-step instructions\n5. Include common mistakes to avoid\n6. End with how this connects to their musical goals\n\nKeep the explanation engaging and practical. Focus on understanding, not just information.",
+    "demonstrate": "Describe how to demonstrate {topic} for {instrument}.\n\nCONTEXT:\n{context}\n\nPROVIDE:\n1. What to show (the physical/auditory demonstration)\n2. Key points to highlight while demonstrating\n3. What to say during the demonstration\n4. How to check student understanding\n5. Follow-up activities for the student to try\n\nMake the demonstration clear and memorable.",
+    "troubleshoot": "Help troubleshoot common problems with {topic} on {instrument}.\n\nCONTEXT:\n{context}\n\nADDRESS:\n1. The most common mistakes students make\n2. Why these mistakes happen\n3. How to identify each problem\n4. Specific corrections for each issue\n5. Exercises to fix each problem\n6. How to prevent the problems in the future\n\nBe specific and practical.",
+    "motivate": "Generate motivational content for a student learning {topic} on {instrument}.\n\nCONTEXT:\n{context}\n\nINCLUDE:\n1. Encouragement appropriate to their level\n2. Examples of what they'll be able to do with this skill\n3. Stories or examples of progression\n4. Reminder of their \"why\"\n5. Practical next steps that feel achievable\n\nBe genuine and avoid empty praise.",
+    "assess": "Create an assessment for {topic} on {instrument} at difficulty level {difficulty}/10.\n\nCONTEXT:\n{context}\n\nDESIGN AN ASSESSMENT THAT:\n1. Tests understanding of the concept\n2. Tests practical execution\n3. Has clear success criteria\n4. Is appropriate for the student's level\n5. Provides useful feedback\n6. Feels encouraging, not stressful\n\nInclude both what to test and how to evaluate it.",
+    "practice_plan": "Create a practice plan for {topic} on {instrument}.\n\nCONTEXT:\n{context}\n\nTHE PLAN SHOULD INCLUDE:\n1. Daily practice routine (specific activities and durations)\n2. Weekly goals\n3. How to track progress\n4. Troubleshooting common issues\n5. When to move on vs. when to keep practicing\n6. How to keep practice interesting\n\nBe specific and realistic.",
+    "song_suggestion": "Suggest songs for practicing {topic} on {instrument} at difficulty level {difficulty}/10.\n\nCONTEXT:\n{context}\n\nFOR EACH SONG, PROVIDE:\n1. Song title and artist\n2. Why it's good for this skill\n3. Specific parts that demonstrate the skill\n4. Difficulty rating\n5. Tips for learning it\n6. What to focus on\n\nSuggest 3-5 songs at varying difficulty within the range."
+  },
+  "teaching_sequences": {
+    "beginner_guitar_chords": [
+      {
+        "action": "explain",
+        "topic": "why chords matter in guitar playing"
+      },
+      {
+        "action": "demonstrate",
+        "topic": "proper finger placement for G chord"
+      },
+      {
+        "action": "practice_plan",
+        "topic": "G chord practice routine"
+      },
+      {
+        "action": "demonstrate",
+        "topic": "proper finger placement for C chord"
+      },
+      {
+        "action": "practice_plan",
+        "topic": "C chord practice routine"
+      },
+      {
+        "action": "explain",
+        "topic": "transitioning between G and C chords"
+      },
+      {
+        "action": "practice_plan",
+        "topic": "chord transition practice"
+      },
+      {
+        "action": "song_suggestion",
+        "topic": "songs using G and C chords"
+      }
+    ],
+    "beginner_piano_scales": [
+      {
+        "action": "explain",
+        "topic": "what scales are and why they matter"
+      },
+      {
+        "action": "demonstrate",
+        "topic": "C major scale with correct fingering"
+      },
+      {
+        "action": "practice_plan",
+        "topic": "C major scale practice routine"
+      },
+      {
+        "action": "troubleshoot",
+        "topic": "common scale fingering mistakes"
+      },
+      {
+        "action": "explain",
+        "topic": "how scales relate to songs you play"
+      },
+      {
+        "action": "practice_plan",
+        "topic": "incorporating scales into daily practice"
+      }
+    ],
+    "beginner_drum_beats": [
+      {
+        "action": "explain",
+        "topic": "basic drum kit orientation"
+      },
+      {
+        "action": "demonstrate",
+        "topic": "basic rock beat"
+      },
+      {
+        "action": "practice_plan",
+        "topic": "rock beat practice with metronome"
+      },
+      {
+        "action": "troubleshoot",
+        "topic": "common timing issues in drum beats"
+      },
+      {
+        "action": "explain",
+        "topic": "adding hi-hat variations"
+      },
+      {
+        "action": "song_suggestion",
+        "topic": "songs with basic rock beats"
+      }
+    ]
+  }
+}

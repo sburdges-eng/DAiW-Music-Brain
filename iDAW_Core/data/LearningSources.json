@@ -1,0 +1,413 @@
+{
+  "version": "1.0.0",
+  "description": "Known educational sources for instrument learning",
+  "resource_types": [
+    "ARTICLE",
+    "VIDEO",
+    "INTERACTIVE",
+    "SHEET_MUSIC",
+    "AUDIO",
+    "EXERCISE",
+    "COURSE",
+    "LESSON_PLAN",
+    "REFERENCE",
+    "TOOL"
+  ],
+  "sources": {
+    "justinguitar": {
+      "name": "JustinGuitar",
+      "base_url": "https://www.justinguitar.com",
+      "instruments": [
+        "guitar",
+        "acoustic_guitar",
+        "electric_guitar"
+      ],
+      "content_types": [
+        "VIDEO",
+        "LESSON_PLAN",
+        "COURSE"
+      ],
+      "difficulty_range": [
+        1,
+        7
+      ],
+      "quality_score": 9,
+      "description": "Free guitar lessons from beginner to advanced",
+      "search_patterns": {
+        "beginner": "/categories/beginner-guitar-lessons",
+        "intermediate": "/categories/intermediate-guitar",
+        "songs": "/categories/songs"
+      }
+    },
+    "guitarlessons": {
+      "name": "GuitarLessons.com",
+      "base_url": "https://www.guitarlessons.com",
+      "instruments": [
+        "guitar"
+      ],
+      "content_types": [
+        "VIDEO",
+        "ARTICLE"
+      ],
+      "difficulty_range": [
+        1,
+        8
+      ],
+      "quality_score": 8,
+      "description": "Structured guitar curriculum"
+    },
+    "ultimate_guitar": {
+      "name": "Ultimate Guitar",
+      "base_url": "https://www.ultimate-guitar.com",
+      "instruments": [
+        "guitar",
+        "bass",
+        "ukulele"
+      ],
+      "content_types": [
+        "SHEET_MUSIC",
+        "REFERENCE"
+      ],
+      "difficulty_range": [
+        1,
+        10
+      ],
+      "quality_score": 7,
+      "description": "Tabs and chords for thousands of songs"
+    },
+    "pianote": {
+      "name": "Pianote",
+      "base_url": "https://www.pianote.com",
+      "instruments": [
+        "piano",
+        "keyboard"
+      ],
+      "content_types": [
+        "VIDEO",
+        "COURSE"
+      ],
+      "difficulty_range": [
+        1,
+        8
+      ],
+      "quality_score": 9,
+      "description": "Modern piano lessons for all levels"
+    },
+    "pianolessons": {
+      "name": "PianoLessons.com",
+      "base_url": "https://www.pianolessons.com",
+      "instruments": [
+        "piano"
+      ],
+      "content_types": [
+        "VIDEO",
+        "ARTICLE"
+      ],
+      "difficulty_range": [
+        1,
+        6
+      ],
+      "quality_score": 7,
+      "description": "Free piano tutorials"
+    },
+    "musictheory_net": {
+      "name": "MusicTheory.net",
+      "base_url": "https://www.musictheory.net",
+      "instruments": [
+        "piano",
+        "theory"
+      ],
+      "content_types": [
+        "INTERACTIVE",
+        "REFERENCE"
+      ],
+      "difficulty_range": [
+        1,
+        7
+      ],
+      "quality_score": 9,
+      "description": "Interactive music theory lessons"
+    },
+    "drumeo": {
+      "name": "Drumeo",
+      "base_url": "https://www.drumeo.com",
+      "instruments": [
+        "drums",
+        "percussion"
+      ],
+      "content_types": [
+        "VIDEO",
+        "COURSE"
+      ],
+      "difficulty_range": [
+        1,
+        10
+      ],
+      "quality_score": 10,
+      "description": "World-class drum education"
+    },
+    "freedrumlessons": {
+      "name": "FreeDrumLessons",
+      "base_url": "https://www.freedrumlessons.com",
+      "instruments": [
+        "drums"
+      ],
+      "content_types": [
+        "VIDEO",
+        "ARTICLE"
+      ],
+      "difficulty_range": [
+        1,
+        7
+      ],
+      "quality_score": 7,
+      "description": "Free drum tutorials and exercises"
+    },
+    "studybass": {
+      "name": "StudyBass",
+      "base_url": "https://www.studybass.com",
+      "instruments": [
+        "bass",
+        "electric_bass"
+      ],
+      "content_types": [
+        "ARTICLE",
+        "INTERACTIVE"
+      ],
+      "difficulty_range": [
+        1,
+        8
+      ],
+      "quality_score": 9,
+      "description": "Comprehensive bass guitar curriculum"
+    },
+    "talkingbass": {
+      "name": "TalkingBass",
+      "base_url": "https://www.talkingbass.net",
+      "instruments": [
+        "bass"
+      ],
+      "content_types": [
+        "VIDEO",
+        "COURSE"
+      ],
+      "difficulty_range": [
+        1,
+        9
+      ],
+      "quality_score": 9,
+      "description": "Professional bass education"
+    },
+    "singwise": {
+      "name": "SingWise",
+      "base_url": "https://www.singwise.com",
+      "instruments": [
+        "voice",
+        "vocals"
+      ],
+      "content_types": [
+        "ARTICLE",
+        "EXERCISE"
+      ],
+      "difficulty_range": [
+        1,
+        10
+      ],
+      "quality_score": 8,
+      "description": "Vocal technique and singing lessons"
+    },
+    "musicradar": {
+      "name": "MusicRadar",
+      "base_url": "https://www.musicradar.com",
+      "instruments": [
+        "guitar",
+        "bass",
+        "drums",
+        "keyboard",
+        "production"
+      ],
+      "content_types": [
+        "ARTICLE",
+        "VIDEO"
+      ],
+      "difficulty_range": [
+        1,
+        8
+      ],
+      "quality_score": 7,
+      "description": "Tutorials for multiple instruments"
+    },
+    "fender_play": {
+      "name": "Fender Play",
+      "base_url": "https://www.fender.com/play",
+      "instruments": [
+        "guitar",
+        "bass",
+        "ukulele"
+      ],
+      "content_types": [
+        "VIDEO",
+        "COURSE"
+      ],
+      "difficulty_range": [
+        1,
+        5
+      ],
+      "quality_score": 8,
+      "description": "Beginner-focused guitar and bass lessons"
+    },
+    "yousician": {
+      "name": "Yousician",
+      "base_url": "https://yousician.com",
+      "instruments": [
+        "guitar",
+        "piano",
+        "bass",
+        "ukulele",
+        "voice"
+      ],
+      "content_types": [
+        "INTERACTIVE",
+        "COURSE"
+      ],
+      "difficulty_range": [
+        1,
+        6
+      ],
+      "quality_score": 8,
+      "description": "Gamified music learning"
+    },
+    "teoria": {
+      "name": "Teoria",
+      "base_url": "https://www.teoria.com",
+      "instruments": [
+        "theory"
+      ],
+      "content_types": [
+        "INTERACTIVE",
+        "REFERENCE"
+      ],
+      "difficulty_range": [
+        1,
+        8
+      ],
+      "quality_score": 8,
+      "description": "Music theory tutorials and exercises"
+    },
+    "tonedear": {
+      "name": "ToneDear",
+      "base_url": "https://tonedear.com",
+      "instruments": [
+        "ear_training"
+      ],
+      "content_types": [
+        "INTERACTIVE",
+        "TOOL"
+      ],
+      "difficulty_range": [
+        1,
+        10
+      ],
+      "quality_score": 8,
+      "description": "Ear training exercises"
+    },
+    "musictheory_net_exercises": {
+      "name": "MusicTheory.net Exercises",
+      "base_url": "https://www.musictheory.net/exercises",
+      "instruments": [
+        "theory",
+        "ear_training"
+      ],
+      "content_types": [
+        "INTERACTIVE"
+      ],
+      "difficulty_range": [
+        1,
+        7
+      ],
+      "quality_score": 9,
+      "description": "Interactive theory and ear training"
+    },
+    "imslp": {
+      "name": "IMSLP",
+      "base_url": "https://imslp.org",
+      "instruments": [
+        "violin",
+        "viola",
+        "cello",
+        "flute",
+        "clarinet",
+        "piano",
+        "orchestra"
+      ],
+      "content_types": [
+        "SHEET_MUSIC"
+      ],
+      "difficulty_range": [
+        3,
+        10
+      ],
+      "quality_score": 10,
+      "description": "Free public domain sheet music"
+    },
+    "8notes": {
+      "name": "8notes",
+      "base_url": "https://www.8notes.com",
+      "instruments": [
+        "violin",
+        "flute",
+        "clarinet",
+        "saxophone",
+        "trumpet",
+        "piano"
+      ],
+      "content_types": [
+        "SHEET_MUSIC",
+        "ARTICLE"
+      ],
+      "difficulty_range": [
+        1,
+        7
+      ],
+      "quality_score": 7,
+      "description": "Free sheet music and lessons"
+    },
+    "soundonsound": {
+      "name": "Sound On Sound",
+      "base_url": "https://www.soundonsound.com",
+      "instruments": [
+        "production",
+        "mixing",
+        "mastering"
+      ],
+      "content_types": [
+        "ARTICLE",
+        "REFERENCE"
+      ],
+      "difficulty_range": [
+        3,
+        10
+      ],
+      "quality_score": 10,
+      "description": "Professional audio production techniques"
+    },
+    "groove3": {
+      "name": "Groove3",
+      "base_url": "https://www.groove3.com",
+      "instruments": [
+        "production",
+        "synthesizer"
+      ],
+      "content_types": [
+        "VIDEO",
+        "COURSE"
+      ],
+      "difficulty_range": [
+        2,
+        9
+      ],
+      "quality_score": 9,
+      "description": "DAW and plugin tutorials"
+    }
+  }
+}
